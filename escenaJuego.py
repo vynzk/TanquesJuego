@@ -7,17 +7,21 @@ class EscenaJuego(plantillaEscena.Escena):
         
         def __init__(self, director): #constructor
             plantillaEscena.Escena.__init__(self, director)
+
         
         #sobreescritura de los metodos de plantilla escena
         def on_update(self):
             pass
         def on_event(self):
-            pass
+            #prueba
+            self.mousex, self.mousey = pygame.mouse.get_pos()
         
-        """Esta función corresponde a lo mostrado en pantalla"""
-        def on_draw(self, screen):
-            #prueba 
-            pygame.draw.line(screen, (2,0,155), [10, 10], [650, 470], 2)
+        """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
+        def on_draw(self, pantalla):
+            #prueba
+            pantalla.fill((0,0,0))#relleno de pantalla importante en el bucle.
+            pygame.draw.rect(pantalla, (0,255,0) , (self.mousex,self.mousey,100,100))
+
 
 #------ pruebas de la escena -----#
 def main():
