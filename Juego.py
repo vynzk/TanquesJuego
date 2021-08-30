@@ -1,5 +1,6 @@
 from Jugador import *
 from Tanque import *
+from Partida import *
 
 class Juego():
     def __init__(self,cantidadJugadores,cantidadPartidas):
@@ -34,6 +35,23 @@ class Juego():
         for i in range(1,self.cantidadJugadores+1):
             self.agregarJugador()
         self.mostrarJugadores()
+
+    # metodo que comienza la partida (luego de la fase de eleccion y compra)
+    def comenzar(self):
+        # se jugará tantas partidas como lo indique cantidadPartidas
+        print("### COMENZÓ JUEGO ###")
+        for i in range(1,self.cantidarPartidas+1):
+            print(">>> PARTIDA "+ str(i))
+            partida=Partida(self.listaJugadores)
+            numeroTurno=1
+
+            # comienzan los turnos
+            for jugador in partida.jugadoresActivos:
+                print("Turno "+str(numeroTurno)+": "+str(jugador.nombre))
+                input("presiona enter para pasar tu turno")
+                numeroTurno+=1
+        print("### FIN DEL JUEGO ###")
+
 
     # metodo debug, para mostrar las caracteristicas de la partida
     def mostrarCaracteristicas(self):
