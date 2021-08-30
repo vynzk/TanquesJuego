@@ -2,9 +2,10 @@ from Jugador import *
 from Tanque import *
 
 class Juego():
-    def __init__(self,cantidadJugadores):
+    def __init__(self,cantidadJugadores,cantidadPartidas):
         self.cantidadJugadores=cantidadJugadores
         self.listaJugadores=[]
+        self.cantidarPartidas=cantidadPartidas
         self.listaTanquesDisponibles=[Tanque] # acá iran los objetos tanques disponibles para elegir inicialmente
 
     # funcion que registra a un jugador seleccionando su nombre y su tanque inicial
@@ -29,11 +30,15 @@ class Juego():
     # metodo que se encargará de llenar la lista de jugadores, registrará tantos jugadores
     # como lo indique la cantidad de jugadores (que debe tener el constructor de esta clase)
     def registroJugadores(self):
+        print("### REGISTRO DE JUGADORES ###")
         for i in range(1,self.cantidadJugadores+1):
             self.agregarJugador()
         self.mostrarJugadores()
 
-# prueba de que funciona
-game=Juego(2)
-print("TANQUES DISPONIBLES EN EL JUEGO:"+str(game.listaTanquesDisponibles)+"+\n")
-game.registroJugadores()
+    # metodo debug, para mostrar las caracteristicas de la partida
+    def mostrarCaracteristicas(self):
+        print("### CARACTERISTICAS DEL JUEGO ####")
+        print("Cantidad jugadores: "+str(self.cantidadJugadores))
+        print("Cantidad partidas: "+str(self.cantidarPartidas))
+        print("Tanques disponibles: "+str(self.listaTanquesDisponibles))
+
