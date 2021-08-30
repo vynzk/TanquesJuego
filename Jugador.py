@@ -6,4 +6,4 @@ class Jugador():
         self.tanque=tanque
 
     def mostrarInformacion(self):
-        print("Nombre: ",self.nombre," ; Tanque: ",self.tanque)
+        print("Nombre: ",self.nombre," ; Tanque: ",self.tanque.mostrarInformacion())

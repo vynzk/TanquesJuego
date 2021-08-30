@@ -1,10 +1,11 @@
 from Jugador import *
+from Tanque import *
 
 class Juego():
     def __init__(self,cantidadJugadores):
         self.cantidadJugadores=cantidadJugadores
         self.listaJugadores=[]
-        self.listaTanquesDisponibles=[] # acá iran los objetos tanques disponibles para elegir inicialmente
+        self.listaTanquesDisponibles=[Tanque] # acá iran los objetos tanques disponibles para elegir inicialmente
 
     # funcion que registra a un jugador seleccionando su nombre y su tanque inicial
     def agregarJugador(self):
@@ -16,10 +17,8 @@ class Juego():
         # SIN EMBARGO, DEBE MOSTRARSE EN PANTALLA Y HACER QUE SE ELIJA, DICHA ELECCION
         # SERÁ UN OBJETO TANQUE EN CONCRETO, QUE DEBE GUARDARSE EN MI VAR "tanque"
         # DE MOMENTO, SÓLO ESTA EL TANQUE DEFAULT
-
-        tanque="default " # esto debe modificarse, debe almacenar un objeto Tanque
-
-        self.listaJugadores.append(Jugador(nombre,tanque))
+        tanque=Tanque("Default") # << indica el nombre del modelo del tanque, en este caso sólo existe uno, el default
+        self.listaJugadores.append(Jugador(nombre,tanque)) # << agrega un nuevo Jugador con su nombre y su tanque
 
     # metodo debug, sin embargo, puede servir para mostrar el tablero
     def mostrarJugadores(self):
@@ -36,4 +35,5 @@ class Juego():
 
 # prueba de que funciona
 game=Juego(2)
+print("TANQUES DISPONIBLES EN EL JUEGO:"+str(game.listaTanquesDisponibles)+"+\n")
 game.registroJugadores()
