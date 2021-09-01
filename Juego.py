@@ -40,16 +40,21 @@ class Juego():
     def comenzar(self):
         # se jugará tantas partidas como lo indique cantidadPartidas
         print("### COMENZÓ JUEGO ###")
+
+        ## comienzan las partidas, de una en una
         for i in range(1,self.cantidarPartidas+1):
             print(">>> PARTIDA "+ str(i))
             partida=Partida(self.listaJugadores)
             numeroTurno=1
 
-            # comienzan los turnos
-            for jugador in partida.jugadoresActivos:
-                print("Turno "+str(numeroTurno)+": "+str(jugador.nombre))
-                input("presiona enter para pasar tu turno")
-                numeroTurno+=1
+            # los turnos dan una vuelta siempre y cuando continue el juego, es decir
+            # siempre que halla más de un jugador
+            while(len(partida.jugadoresActivos)>1):
+                # comienzan los turnos
+                for jugador in partida.jugadoresActivos:
+                    print("Turno "+str(numeroTurno)+": "+str(jugador.nombre))
+                    input("presiona enter para pasar tu turno")
+                    numeroTurno+=1
         print("### FIN DEL JUEGO ###")
 
 
