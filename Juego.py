@@ -31,7 +31,7 @@ class Juego():
     # metodo que se encargará de llenar la lista de jugadores, registrará tantos jugadores
     # como lo indique la cantidad de jugadores (que debe tener el constructor de esta clase)
     def registroJugadores(self):
-        print("### REGISTRO DE JUGADORES ###")
+        print("\n### REGISTRO DE JUGADORES ###")
         for i in range(1,self.cantidadJugadores+1):
             self.agregarJugador()
         self.mostrarJugadores()
@@ -39,11 +39,11 @@ class Juego():
     # metodo que comienza la partida (luego de la fase de eleccion y compra)
     def comenzar(self):
         # se jugará tantas partidas como lo indique cantidadPartidas
-        print("### COMENZÓ JUEGO ###")
+        print("\n### COMENZÓ JUEGO ###")
 
         ## comienzan las partidas, de una en una
         for i in range(1,self.cantidarPartidas+1):
-            print(">>> PARTIDA "+ str(i))
+            print("\n>>> PARTIDA "+ str(i))
             partida=Partida(self.listaJugadores)
             numeroTurno=1
 
@@ -53,14 +53,17 @@ class Juego():
                 # comienzan los turnos
                 for jugador in partida.jugadoresActivos:
                     print("Turno "+str(numeroTurno)+": "+str(jugador.nombre))
+                    partida.eliminarJugador()
                     input("presiona enter para pasar tu turno")
                     numeroTurno+=1
-        print("### FIN DEL JUEGO ###")
+            print("\n !!!Ganador partida: ",partida.jugadoresActivos[0], "!!!")
 
+            del partida ## << se elimina el objeto ya que terminó la partida 
+        print("\n### FIN DEL JUEGO ###")
 
     # metodo debug, para mostrar las caracteristicas de la partida
     def mostrarCaracteristicas(self):
-        print("### CARACTERISTICAS DEL JUEGO ####")
+        print("\n### CARACTERISTICAS DEL JUEGO ####")
         print("Cantidad jugadores: "+str(self.cantidadJugadores))
         print("Cantidad partidas: "+str(self.cantidarPartidas))
         print("Tanques disponibles: "+str(self.listaTanquesDisponibles))
