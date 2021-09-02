@@ -9,7 +9,7 @@ class Director:
     
     def __init__(self): #constructor
         pygame.display.set_caption("prueba GUI")
-        self.pantalla = pygame.display.set_mode((800,600))
+        self.pantalla = pygame.display.set_mode((1280,720))
         self.escena = None
         self.running = True
     
@@ -33,4 +33,5 @@ class Director:
 #---------- funciones ----------#
     def cambiarEscena(self, escenaNueva):
         "cambia la escena actual"
-        self.escena = escenaNueva           
+        self.escena = escenaNueva   
+            
