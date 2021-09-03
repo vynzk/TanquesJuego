@@ -2,69 +2,85 @@ from Jugador import *
 from Tanque import *
 from Partida import *
 
+
 class Juego():
-    def __init__(self,cantidadJugadores,cantidadPartidas):
-        self.cantidadJugadores=cantidadJugadores
-        self.listaJugadores=[]
-        self.cantidarPartidas=cantidadPartidas
-        self.listaTanquesDisponibles=[Tanque] # acá iran los objetos tanques disponibles para elegir inicialmente
+    def __init__(self, cantidadJugadores, cantidadPartidas):
+        self.cantidadJugadores = cantidadJugadores
+        self.listaJugadores = []
+        self.cantidarPartidas = cantidadPartidas
+        self.listaPartidas = []
+        self.listaTanquesDisponibles = [Tanque]  # acá iran los objetos tanques disponibles para elegir inicialmente
 
-    # funcion que registra a un jugador seleccionando su nombre y su tanque inicial
     def agregarJugador(self):
-        # KERNEL: ACÁ DEBE MOSTRARSE LA CAJA DE TEXTO DONDE ALMACENARÁ EL NOMBRE DEL JUGADOR
-        # EL TEXTO QUE CONTENGA ESTE DEBE SER JUGARDADO EN MI VARIABLE "nombre"
-        nombre=str(input("Ingrese su nombre: "))
+        nombre = str(input("Ingrese su nombre: "))
+        tanque = Tanque("Default")
+        self.listaJugadores.append(Jugador(nombre, tanque))  # << agrega un nuevo Jugador con su nombre y su tanque
 
-        # KERNEL: ACÁ DEBE IR LA ELECCION DE TANQUE INICIAL; DE MOMENTO SÓLO ES UNO
-        # SIN EMBARGO, DEBE MOSTRARSE EN PANTALLA Y HACER QUE SE ELIJA, DICHA ELECCION
-        # SERÁ UN OBJETO TANQUE EN CONCRETO, QUE DEBE GUARDARSE EN MI VAR "tanque"
-        # DE MOMENTO, SÓLO ESTA EL TANQUE DEFAULT
-        tanque=Tanque("Default") # << indica el nombre del modelo del tanque, en este caso sólo existe uno, el default
-        self.listaJugadores.append(Jugador(nombre,tanque)) # << agrega un nuevo Jugador con su nombre y su tanque
-
-    # metodo debug, sin embargo, puede servir para mostrar el tablero
-    def mostrarJugadores(self):
-        print("### LISTA JUGADORES ###") # borrar en un futuro
-        for jugador in self.listaJugadores:
-            jugador.mostrarInformacion()
-
-    # metodo que se encargará de llenar la lista de jugadores, registrará tantos jugadores
+    # función que se encargará de llenar la lista de jugadores, registrará tantos jugadores
     # como lo indique la cantidad de jugadores (que debe tener el constructor de esta clase)
     def registroJugadores(self):
         print("\n### REGISTRO DE JUGADORES ###")
-        for i in range(1,self.cantidadJugadores+1):
+        for i in range(1, self.cantidadJugadores + 1):
             self.agregarJugador()
-        self.mostrarJugadores()
 
-    # metodo que comienza la partida (luego de la fase de eleccion y compra)
+    # función que agregará una partida a la lista de partidas, cada partida agregará como jugadores activos a la
+    # totalidad de jugadores que participan en el juego
+    def agregarPartida(self, i):
+        partida = Partida(i)
+        # va agregando los jugadores a la nueva partida
+        for jugador in self.listaJugadores:
+            partida.agregarJugadores(jugador)
+        return partida
+
+    # función que llenara la lista de partidas (atributo) con cada partida creada
+    def registroPartidas(self):
+        for i in range(1, self.cantidarPartidas + 1):
+            self.listaPartidas.append(self.agregarPartida(i))
+
+    # funcion que comienza la partida (luego de la fase de eleccion y compra)
     def comenzar(self):
         # se jugará tantas partidas como lo indique cantidadPartidas
-        print("\n### COMENZÓ JUEGO ###")
+        self.registroJugadores()
+        self.registroPartidas()
 
-        ## comienzan las partidas, de una en una
-        for i in range(1,self.cantidarPartidas+1):
-            print("\n>>> PARTIDA "+ str(i))
-            partida=Partida(self.listaJugadores)
-            numeroTurno=1
+        self.mostrarCaracteristicas()
+        print("\n       I N I C I A         E L             J U E G O")
 
-            # los turnos dan una vuelta siempre y cuando continue el juego, es decir
-            # siempre que halla más de un jugador
-            while(len(partida.jugadoresActivos)>1):
-                # comienzan los turnos
+        # se empieza a jugar cada partida individualmente
+        for partida in self.listaPartidas:
+            print("\n>>Partida " + str(partida.getId()))
+            numeroTurno = 1
+            # mientras exista más de un jugador en pie, se juega
+            while (len(partida.jugadoresActivos) > 1):
+                # comienzan los turnos de los jugadores (vivos)
                 for jugador in partida.jugadoresActivos:
-                    print("Turno "+str(numeroTurno)+": "+str(jugador.nombre))
-                    partida.eliminarJugador()
-                    input("presiona enter para pasar tu turno")
-                    numeroTurno+=1
-            print("\n !!!Ganador partida: ",partida.jugadoresActivos[0], "!!!")
+                    print("------------------------------------------")
+                    print("Turno ", str(numeroTurno), ": ", str(jugador.nombre))
 
-            del partida ## << se elimina el objeto ya que terminó la partida 
+                    # NOTA: esto es un poco enrredado, el metodo eliminar jugador recibe el jugador del turno
+                    # actual, esta información es valiosa para mostrar la acción: jugador actual mata al que sigue
+                    # por ejemplo. EL jugador actual no puede poseer este metodo porque no tiene información de los
+                    # otros jugadores.
+
+                    # que la función reciba a "jugador" no quiere decir precisamente que este muere, sino más bien
+                    # que este tiene la posiblidad de atacar
+                    partida.eliminarJugador(jugador)
+                    input("presiona enter para pasar tu turno")
+                    numeroTurno += 1
+
+            # cuando se rompe el ciclo, es decir sólo queda un jugador en pie
+            partida.terminarPartida()  # << guarda el unico jugador activo como ganador
+
         print("\n### FIN DEL JUEGO ###")
+
+        self.mostrarCaracteristicas()
 
     # metodo debug, para mostrar las caracteristicas de la partida
     def mostrarCaracteristicas(self):
         print("\n### CARACTERISTICAS DEL JUEGO ####")
-        print("Cantidad jugadores: "+str(self.cantidadJugadores))
-        print("Cantidad partidas: "+str(self.cantidarPartidas))
-        print("Tanques disponibles: "+str(self.listaTanquesDisponibles))
-
+        print("Cantidad jugadores: " + str(self.cantidadJugadores))
+        print("Cantidad partidas: " + str(self.cantidarPartidas))
+        print("Tanques disponibles: " + str(self.listaTanquesDisponibles))
+        for partida in self.listaPartidas:
+            partida.mostrarInformacion()
+        print("#######################################")

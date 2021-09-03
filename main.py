@@ -21,6 +21,4 @@ while(True):
         print("ERROR: variable de tipo incorrecto")        
 
 game=Juego(cantidadJugadores,cantidadPartidas)
-game.mostrarCaracteristicas()
-game.registroJugadores()
 game.comenzar()
