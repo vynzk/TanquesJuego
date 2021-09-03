@@ -37,6 +37,11 @@ class Juego():
         for i in range(1, self.cantidarPartidas + 1):
             self.listaPartidas.append(self.agregarPartida(i))
 
+    def mostrarRanking(self):
+        print("\n### R A N K I N G ###")
+        for jugador in self.listaJugadores:
+            jugador.mostrarInformacion()
+
     # funcion que comienza la partida (luego de la fase de eleccion y compra)
     def comenzar(self):
         # se jugará tantas partidas como lo indique cantidadPartidas
@@ -51,7 +56,7 @@ class Juego():
             print("\n>>Partida " + str(partida.getId()))
             numeroTurno = 1
             # mientras exista más de un jugador en pie, se juega
-            while (len(partida.jugadoresActivos) > 1):
+            while len(partida.jugadoresActivos) > 1:
                 # comienzan los turnos de los jugadores (vivos)
                 for jugador in partida.jugadoresActivos:
                     print("------------------------------------------")
@@ -72,8 +77,8 @@ class Juego():
             partida.terminarPartida()  # << guarda el unico jugador activo como ganador
 
         print("\n### FIN DEL JUEGO ###")
-
         self.mostrarCaracteristicas()
+        self.mostrarRanking()
 
     # metodo debug, para mostrar las caracteristicas de la partida
     def mostrarCaracteristicas(self):
