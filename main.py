@@ -1,4 +1,4 @@
-from Juego import *
+from Videojuego.Juego import *
 
 while True:
     try:

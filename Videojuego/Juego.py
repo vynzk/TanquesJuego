@@ -1,7 +1,6 @@
-from Jugador import *
-from Tanque import *
-from Partida import *
-
+from Videojuego.Jugador import *
+from Videojuego.Partida import *
+from Videojuego.Tanque import *
 
 class Juego():
     def __init__(self, cantidadJugadores, cantidadPartidas):
