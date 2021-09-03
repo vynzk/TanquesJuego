@@ -1,6 +1,7 @@
 from Videojuego.Jugador import *
 from Videojuego.Partida import *
 from Videojuego.Tanque import *
+from GUI.director import *
 
 class Juego():
     def __init__(self, cantidadJugadores, cantidadPartidas):
@@ -10,6 +11,7 @@ class Juego():
         self.listaPartidas = []
         self.listaTanquesDisponibles = [Tanque]  # acá iran los objetos tanques disponibles para elegir inicialmente
         self.jugadorGanador = None
+        self.director=Director()
 
     def agregarJugador(self):
         nombre = str(input("Ingrese su nombre: "))
@@ -64,7 +66,6 @@ class Juego():
 
         self.mostrarCaracteristicas()
         print("\n       I N I C I A         E L             J U E G O")
-
         # se empieza a jugar cada partida individualmente
         for partida in self.listaPartidas:
             print("\n>>Partida " + str(partida.getId()))

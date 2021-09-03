@@ -28,13 +28,3 @@ class EscenaJuego(plantillaEscena.Escena):
             self.piso.dibujar() #arreglar: debería usar el atributo x,y...
             self.cuadrado.definir_limite(self.mousex,self.mousey)
             self.cuadrado.dibujar()
-
-            
-
-
-#------ pruebas de la escena -----#
-def main():
-	pass
-
-if __name__ == '__main__':
-	main()
