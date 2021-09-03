@@ -6,7 +6,7 @@ class Partida():
         self.jugadoresActivos = []
 
     # funcion que agrega jugadores a su lista de jugadores activos
-    def agregarJugadores(self,jugador):
+    def agregarJugadores(self, jugador):
         self.jugadoresActivos.append(jugador)
 
     # función debug, muestra los nombres y objetos de los jugadores activos
@@ -28,20 +28,21 @@ class Partida():
 
     # funcion que termina la partida cuando queda sólo un jugador activo dentro de ella
     def terminarPartida(self):
-        self.estado=True
-        self.jugadorGanador=self.jugadoresActivos[0]
+        self.estado = True
+        self.jugadorGanador = self.jugadoresActivos[0]
         self.jugadorGanador.sumarVictoria()
-        print("\n!!!! El/la jugador/a ",self.jugadorGanador.getNombre()," ganó la partida !!!!")
+        print("\n!!!! El/la jugador/a ", self.jugadorGanador.getNombre(), " ganó la partida !!!!")
 
     # funcion que brinda la posibilidad de eliminar jugadores al jugadorAtacante 
-    def eliminarJugador(self,jugadorAtacante):
+    def eliminarJugador(self, jugadorAtacante):
         print("\nELIMINAR JUGADOR [Debug]")
         self.mostrarJugadoresActivos()
         opcionEliminar = int(input("  Ingrese la posicion del jugador que desea eliminar: "))
         try:
             jugadorEliminado = self.jugadoresActivos[opcionEliminar]
             self.jugadoresActivos.pop(opcionEliminar)  # << lo eliminamos
-            print("\n>>ACCION: Jugador/a ", jugadorEliminado.getNombre(), " ha sido eliminado por ", jugadorAtacante.getNombre())
+            print("\n>>ACCION: Jugador/a ", jugadorEliminado.getNombre(), " ha sido eliminado por ",
+                  jugadorAtacante.getNombre())
         except:
             print(" ERROR: fuera de rango")
 

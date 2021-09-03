@@ -4,11 +4,14 @@ class Jugador():
         self.tanque = tanque
         self.victorias = 0
 
-    def getNombre(self):
-        return self.nombre
-
     def sumarVictoria(self):
         self.victorias += 1
 
     def mostrarInformacion(self):
         print("Nombre: ", self.nombre, " ; victorias ", self.victorias)
+
+    def getNombre(self):
+        return self.nombre
+
+    def getVictorias(self):
+        return self.victorias

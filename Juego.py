@@ -7,9 +7,10 @@ class Juego():
     def __init__(self, cantidadJugadores, cantidadPartidas):
         self.cantidadJugadores = cantidadJugadores
         self.listaJugadores = []
-        self.cantidarPartidas = cantidadPartidas
+        self.cantidadPartidas = cantidadPartidas
         self.listaPartidas = []
         self.listaTanquesDisponibles = [Tanque]  # acá iran los objetos tanques disponibles para elegir inicialmente
+        self.jugadorGanador = None
 
     def agregarJugador(self):
         nombre = str(input("Ingrese su nombre: "))
@@ -34,13 +35,27 @@ class Juego():
 
     # función que llenara la lista de partidas (atributo) con cada partida creada
     def registroPartidas(self):
-        for i in range(1, self.cantidarPartidas + 1):
+        for i in range(1, self.cantidadPartidas + 1):
             self.listaPartidas.append(self.agregarPartida(i))
 
     def mostrarRanking(self):
         print("\n### R A N K I N G ###")
         for jugador in self.listaJugadores:
             jugador.mostrarInformacion()
+
+    # TODO: falta definir el empate
+    def definirGanador(self):
+        contador = 0
+        while contador != self.cantidadPartidas:
+            if contador == 0:
+                ganadorAux = self.listaJugadores[contador]
+            else:
+                jugadorActual = self.listaJugadores[contador]
+                if jugadorActual.getVictorias() > ganadorAux.getVictorias():
+                    ganadorAux = jugadorActual
+
+            contador += 1
+        self.jugadorGanador = ganadorAux  # << se guarda en el atributo ganador
 
     # funcion que comienza la partida (luego de la fase de eleccion y compra)
     def comenzar(self):
@@ -77,14 +92,17 @@ class Juego():
             partida.terminarPartida()  # << guarda el unico jugador activo como ganador
 
         print("\n### FIN DEL JUEGO ###")
-        self.mostrarCaracteristicas()
-        self.mostrarRanking()
+        self.mostrarCaracteristicas()  # << muestra las caracteristicas del juego (partidas ya terminadas)
+        self.mostrarRanking()  # << muestra el Ranking de victorias de todos los jugadores
+        self.definirGanador()  # << define el ganador por victorias
+        # >> muestra el ganador ya definido
+        print("\n>> EL GANADOR DEL JUEGO FUEEEEEEEEEEEEEEEEEEEEEEEEEEEEE: ", self.jugadorGanador.getNombre())
 
     # metodo debug, para mostrar las caracteristicas de la partida
     def mostrarCaracteristicas(self):
         print("\n### CARACTERISTICAS DEL JUEGO ####")
         print("Cantidad jugadores: " + str(self.cantidadJugadores))
-        print("Cantidad partidas: " + str(self.cantidarPartidas))
+        print("Cantidad partidas: " + str(self.cantidadPartidas))
         print("Tanques disponibles: " + str(self.listaTanquesDisponibles))
         for partida in self.listaPartidas:
             partida.mostrarInformacion()

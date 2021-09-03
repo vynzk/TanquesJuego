@@ -13,8 +13,8 @@ while True:
 while True:
     try:
         cantidadPartidas = int(input("\nIngrese la cantidad de partidas: "))
-        if (cantidadPartidas >= 1):
-            break;
+        if cantidadPartidas >= 1:
+            break
         else:
             print("ERROR: la cantidad de partidas debe ser mayor o igual a 1, intentalo nuevamente")
     except:
