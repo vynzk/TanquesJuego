@@ -18,10 +18,3 @@ class EscenaHome(plantillaEscena.Escena):
         def on_draw(self, screen):
             #prueba 
             pygame.draw.line(screen, (255,0,0), [10, 10], [650, 470], 2)
-
-#------ pruebas de la escena -----#
-def main():
-	pass
-
-if __name__ == '__main__':
-	main()

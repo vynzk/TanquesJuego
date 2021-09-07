@@ -1,22 +1,24 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+from Videojuego.Juego import *
 
-import pygame
+while True:
+    try:
+        cantidadJugadores = int(input("\nIngrese la cantidad de jugadores: "))
+        if cantidadJugadores > 1:
+            break
+        else:
+            print("ERROR: la cantidad de jugadores debe ser mayor que 2, intentalo nuevamente")
+    except:
+        print("ERROR: variable de tipo incorrecto")
 
-#módulos GUI
-import director
-import escenaHome
-import escenaJuego
-#------------------#
-def main():
-    """Se inicaliza el director y escenas"""
-    dir = director.Director()
-    home = escenaHome.EscenaHome(dir)
-    juego = escenaJuego.EscenaJuego(dir)
-    dir.cambiarEscena(juego) # se define primera escena...
-    
-    dir.gameLoop()
+while True:
+    try:
+        cantidadPartidas = int(input("\nIngrese la cantidad de partidas: "))
+        if cantidadPartidas >= 1:
+            break
+        else:
+            print("ERROR: la cantidad de partidas debe ser mayor o igual a 1, intentalo nuevamente")
+    except:
+        print("ERROR: variable de tipo incorrecto")
 
-if __name__ == '__main__':
-    pygame.init()
-    main()
+game = Juego(cantidadJugadores, cantidadPartidas)
+game.comenzar()
