@@ -1,17 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import pygame
-import plantillaEscena
+from GUI import plantillaEscena
 from GUI import bloque
+
+
 
 
 class EscenaJuego(plantillaEscena.Escena):
         
-        def __init__(self, director): #constructor
+        def __init__(self, director, juego): #constructor
             plantillaEscena.Escena.__init__(self, director)
             self.mousex,self.mousey= 0,0
             self.cuadrado = bloque.Bloque(self.director.pantalla, 100, 100, (222, 34, 221), 0, 0)
             self.piso = bloque.Bloque(self.director.pantalla, 1280, 100, (115, 45, 20), 0, 620)
+            self.juego = juego
 
         
         #sobreescritura de los metodos de plantilla escena
@@ -25,6 +28,8 @@ class EscenaJuego(plantillaEscena.Escena):
         def on_draw(self, pantalla):
             #prueba
             pantalla.fill((0,0,0))#relleno de pantalla importante en el bucle.
-            self.piso.dibujar() #arreglar: debería usar el atributo x,y...
+            self.piso.dibujar()
             self.cuadrado.definir_limite(self.mousex,self.mousey)
             self.cuadrado.dibujar()
+
+
