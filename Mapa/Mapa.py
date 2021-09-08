@@ -1,17 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Sep  8 00:15:42 2021
-
-@author: pc
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Sep  7 22:58:45 2021
-
-@author: toña
-"""
-
 import pygame
 from pygame.locals import *
 
@@ -22,9 +8,10 @@ class Mapa:
     def __init__(self):
         #medidas
         self.ancho = 1280
-        self.alto = 720
-        self.pixel_y = 30
-        self.pixel_x =30
+        self.alto = 730
+        self.pixel_y = 20
+        self.pixel_x = 20
+        self.listaMuros = [] #bloques de la matriz
     
         #colores
         self.blanco=(255, 255, 255)
@@ -36,34 +23,42 @@ class Mapa:
         
         #mapa
         self.mapa = [
-          "                                           ",
-          "                                           ",
-          "                                           ",
-          "                                           ",
-          "                                           ",
-          "                                           ",
-          "                                           ",
-          "                                           ",
-          "                                           ",
-          "         XXXXX                   X         ",
-          "        XXXXXXX                 XXX        ",
-          "       XXXXXXXXX              XXXXXX       ",
-          "     XXXXXXXXXXX             XXXXXXXX      ",
-          "XXXXXXXXXXXXXXXXXXX    XXXXXXXXXXXXXX   XXX",
-          "XXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX  XXXX",
-          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-          "                                           ",
-          "                                           ",
-          "                                           ",
-          "                                           ",
-          "                                           ",
-          "                                           ",
-          "                                           "]
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "                                                               ",
+          "         XXXXX                   X                             ",
+          "        XXXXXXX                 XXX                            ",
+          "       XXXXXXXXX              XXXXXX                           ",
+          "     XXXXXXXXXXX             XXXXXXXX                          ",
+          "XXXXXXXXXXXXXXXXXXX    XXXXXXXXXXXXXX   XXX                    ",
+          "XXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX  XXXX                    ",
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                    ",
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                    ",]
+          
       
 
  
-    def construir_mapa(self):   
+    def construir_mapa(self):   #define la matriz de cuadrados
       muros = []
       x = 0
       y = 0
@@ -83,14 +78,14 @@ class Mapa:
             
     def dibujar_muros(self, superficie, rectangulo):
       pygame.draw.rect(superficie, self.marron, rectangulo)
-      pygame.draw.circle(superficie, self.marron, (125, 390), 50)
-      pygame.draw.circle(superficie, self.marron, (600, 410), 50)
-      pygame.draw.circle(superficie, self.marron, (350, 270), 50)
+      #pygame.draw.circle(superficie, self.marron, (125, 390), 50)
+      #pygame.draw.circle(superficie, self.marron, (600, 410), 50)
+      #pygame.draw.circle(superficie, self.marron, (350, 270), 50)
       
              
             
     def iniciar_construccion(self,pantalla):
-        muros = self.construir_mapa()  
+        muros = self.construir_mapa()  #matriz
         self.dibujar_mapa(pantalla, muros)
           
     
