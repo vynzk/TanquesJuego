@@ -34,20 +34,30 @@ class Mapa:
         
         #mapa
         self.mapa = [
-          "                          ",
-          "                          ",
-          "                          ",
-          "                          ",
-          "                          ",
-          "                 X        ",
-          "    X           XXX       ",
-          "   XXX         XXXXX      ",
-          " XXXXXXXXXXX XXXXXXXXX  XX",
-          "XXXXXXXXXXXXXXXXXXXXXXXXXX",
-          "XXXXXXXXXXXXXXXXXXXXXXXXXX",
-          "                          ",
-          "                          ",
-          "                          ",]
+          "                                           ",
+          "                                           ",
+          "                                           ",
+          "                                           ",
+          "                                           ",
+          "                                           ",
+          "                                           ",
+          "                                           ",
+          "                                           ",
+          "         XXXXX                   X         ",
+          "        XXXXXXX                 XXX        ",
+          "       XXXXXXXXX              XXXXXX       ",
+          "     XXXXXXXXXXX             XXXXXXXX      ",
+          "XXXXXXXXXXXXXXXXXXX    XXXXXXXXXXXXXX   XXX",
+          "XXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX  XXXX",
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "                                           ",
+          "                                           ",
+          "                                           ",
+          "                                           ",
+          "                                           ",
+          "                                           ",
+          "                                           "]
       
 
  
@@ -58,10 +68,10 @@ class Mapa:
       for fila in self.mapa:
           for muro in fila:
               if muro == "X":
-                  muros.append(pygame.Rect(x, y, 50, 50))
-              x += 50
+                  muros.append(pygame.Rect(x, y, 30, 30))
+              x += 30
           x = 0
-          y += 50
+          y += 30
       return muros
     
     def dibujar_mapa(self, superficie, muros):
@@ -70,7 +80,11 @@ class Mapa:
             
             
     def dibujar_muros(self, superficie, rectangulo):
-      pygame.draw.rect(superficie, self.marron, rectangulo)   
+      pygame.draw.rect(superficie, self.marron, rectangulo)
+      pygame.draw.circle(superficie, self.marron, (125, 390), 50)
+      pygame.draw.circle(superficie, self.marron, (600, 410), 50)
+      pygame.draw.circle(superficie, self.marron, (350, 270), 50)
+      
              
             
     def iniciar_construccion(self):
