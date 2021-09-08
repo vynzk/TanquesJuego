@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import pygame
-import plantillaEscena
+from GUI import plantillaEscena
 from GUI import bloque
 
 

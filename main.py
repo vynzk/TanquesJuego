@@ -1,4 +1,5 @@
 from Videojuego.Juego import *
+from GUI import escenaJuego
 
 while True:
     try:
@@ -21,4 +22,6 @@ while True:
         print("ERROR: variable de tipo incorrecto")
 
 game = Juego(cantidadJugadores, cantidadPartidas)
-game.comenzar()
+escena = escenaJuego.EscenaJuego(game.director)
+game.director.cambiarEscena(escena)
+game.director.gameLoop()
