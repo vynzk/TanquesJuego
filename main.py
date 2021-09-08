@@ -20,8 +20,9 @@ while True:
             print("ERROR: la cantidad de partidas debe ser mayor o igual a 1, intentalo nuevamente")
     except:
         print("ERROR: variable de tipo incorrecto")
+game = Juego(cantidadJugadores,cantidadPartidas)
+director = Director()
+escenaJuego = escenaJuego.EscenaJuego(director,game)
+director.cambiarEscena(escenaJuego)
+director.gameLoop()
 
-game = Juego(cantidadJugadores, cantidadPartidas)
-escena = escenaJuego.EscenaJuego(game.director)
-game.director.cambiarEscena(escena)
-game.director.gameLoop()
