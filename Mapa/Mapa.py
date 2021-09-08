@@ -21,8 +21,10 @@ class Mapa:
     
     def __init__(self):
         #medidas
-        self.ancho= 1280
-        self.alto= 720
+        self.ancho = 1280
+        self.alto = 720
+        self.pixel_y = 30
+        self.pixel_x =30
     
         #colores
         self.blanco=(255, 255, 255)
@@ -68,10 +70,10 @@ class Mapa:
       for fila in self.mapa:
           for muro in fila:
               if muro == "X":
-                  muros.append(pygame.Rect(x, y, 30, 30))
-              x += 30
+                  muros.append(pygame.Rect(x, y, self.pixel_x, self.pixel_y))
+              x += self.pixel_x
           x = 0
-          y += 30
+          y += self.pixel_y
       return muros
     
     def dibujar_mapa(self, superficie, muros):
@@ -87,46 +89,9 @@ class Mapa:
       
              
             
-    def iniciar_construccion(self):
-        
-        
-        #Ventana
-        ventana= pygame.display.set_mode((self.ancho, self.alto), pygame.RESIZABLE)
-        reloj = pygame.time.Clock()
-        
-        #DATOS
-        muros = self.construir_mapa()
-        
-        
-        #bucle principal
-        jugando = True
-        while jugando:
-        
-          reloj.tick(60)
-        
-          #evento
-          for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-              jugando = False
-            if event.type == VIDEORESIZE:
-                if not FULLSCREEN:
-                    ventana = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-            if event.type == pygame.KEYDOWN:
-              if event.key == pygame.K_ESCAPE:
-                jugando = False
-        
-          #dibujo
-          ventana.fill(self.negro)
+    def iniciar_construccion(self,pantalla):
+        muros = self.construir_mapa()  
+        self.dibujar_mapa(pantalla, muros)
           
-          self.dibujar_mapa(ventana, muros)
-        
-          pygame.display.update()
-          
-              
-            
-mapa = Mapa()
-mapa.iniciar_construccion()
-
-pygame.quit()
     
     
