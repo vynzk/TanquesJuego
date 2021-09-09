@@ -9,12 +9,12 @@ from Mapa import Mapa
 
 class EscenaJuego(plantillaEscena.Escena):
         
-        def __init__(self, director, juego): #constructor
+        def __init__(self, director): #constructor
             plantillaEscena.Escena.__init__(self, director)
             self.mousex,self.mousey= 0,0
             self.cuadrado = bloque.Bloque(self.director.pantalla, 100, 100, (222, 34, 221), 0, 0)
             self.piso = bloque.Bloque(self.director.pantalla, 1280, 100, (115, 45, 20), 0, 620)
-            self.juego = juego
+            #self.juego = juego
             self.mapa= Mapa.Mapa()
 
         

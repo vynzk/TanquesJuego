@@ -1,7 +1,7 @@
+from GUI.escenaJuego import EscenaJuego
 from Videojuego.Jugador import *
 from Videojuego.Partida import *
-from Videojuego.Tanque import *
-from GUI.director import *
+from Tanque.Tanque import *
 
 class Juego():
     def __init__(self, cantidadJugadores, cantidadPartidas):
@@ -11,7 +11,6 @@ class Juego():
         self.listaPartidas = []
         self.listaTanquesDisponibles = [Tanque]  # acá iran los objetos tanques disponibles para elegir inicialmente
         self.jugadorGanador = None
-        self.director=Director()
 
     def agregarJugador(self):
         nombre = str(input("Ingrese su nombre: "))
@@ -27,17 +26,18 @@ class Juego():
 
     # función que agregará una partida a la lista de partidas, cada partida agregará como jugadores activos a la
     # totalidad de jugadores que participan en el juego
-    def agregarPartida(self, i):
-        partida = Partida(i)
+    def agregarPartida(self, i,director):
+        escenaJuego=EscenaJuego(director)
+        partida = Partida(i,escenaJuego)
         # va agregando los jugadores a la nueva partida
         for jugador in self.listaJugadores:
             partida.agregarJugadores(jugador)
         return partida
 
     # función que llenara la lista de partidas (atributo) con cada partida creada
-    def registroPartidas(self):
+    def registroPartidas(self,director):
         for i in range(1, self.cantidadPartidas + 1):
-            self.listaPartidas.append(self.agregarPartida(i))
+            self.listaPartidas.append(self.agregarPartida(i,director))
 
     def mostrarRanking(self):
         print("\n### R A N K I N G ###")
@@ -60,11 +60,6 @@ class Juego():
 
     # funcion que comienza la partida (luego de la fase de eleccion y compra)
     def comenzar(self):
-        # se jugará tantas partidas como lo indique cantidadPartidas
-        self.registroJugadores()
-        self.registroPartidas()
-
-        self.mostrarCaracteristicas()
         print("\n       I N I C I A         E L             J U E G O")
         # se empieza a jugar cada partida individualmente
         for partida in self.listaPartidas:
@@ -97,6 +92,9 @@ class Juego():
         self.definirGanador()  # << define el ganador por victorias
         # >> muestra el ganador ya definido
         print("\n>> EL GANADOR DEL JUEGO FUEEEEEEEEEEEEEEEEEEEEEEEEEEEEE: ", self.jugadorGanador.getNombre())
+
+    def getListaPartidas(self):
+        return self.listaPartidas
 
     # metodo debug, para mostrar las caracteristicas de la partida
     def mostrarCaracteristicas(self):
