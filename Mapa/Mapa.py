@@ -45,15 +45,15 @@ class Mapa:
           "                                                               ",
           "                                                               ",
           "                                                               ",
-          "                                                               ",
-          "         XXXXX                   X                             ",
-          "        XXXXXXX                 XXX                            ",
-          "       XXXXXXXXX              XXXXXX                           ",
-          "     XXXXXXXXXXX             XXXXXXXX                          ",
-          "XXXXXXXXXXXXXXXXXXX    XXXXXXXXXXXXXX   XXX                    ",
-          "XXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX  XXXX                    ",
-          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                    ",
-          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                    ",]
+          "                                                       XXXXXXXX",
+          "         XXXXX                   X                 XXXXXXXXXXXX",
+          "        XXXXXXX                 XXX              XXXXXXXXXXXXXX",
+          "       XXXXXXXXX              XXXXXX            XXXXXXXXXXXXXXX",
+          "     XXXXXXXXXXX             XXXXXXXX        XXXXXXXXXXXXXXXXXX",
+          "XXXXXXXXXXXXXXXXXXX    XXXXXXXXXXXXXX   XXXXXXXXXXXXXXXXXXXXXXX",
+          "XXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX  XXXXXXXXXXXXXXXXXXXXXXXX",
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",]
           
       
 
@@ -78,10 +78,7 @@ class Mapa:
             
     def dibujar_muros(self, superficie, rectangulo):
       pygame.draw.rect(superficie, self.marron, rectangulo)
-      #pygame.draw.circle(superficie, self.marron, (125, 390), 50)
-      #pygame.draw.circle(superficie, self.marron, (600, 410), 50)
-      #pygame.draw.circle(superficie, self.marron, (350, 270), 50)
-      
+
              
             
     def iniciar_construccion(self,pantalla):
