@@ -4,6 +4,7 @@ import pygame
 from GUI import plantillaEscena
 from GUI import bloque
 from Mapa import Mapa
+from Tanque import Tanque
 
 
 
@@ -16,7 +17,9 @@ class EscenaJuego(plantillaEscena.Escena):
             self.piso = bloque.Bloque(self.director.pantalla, 1280, 100, (115, 45, 20), 0, 620)
             self.juego = juego
             self.mapa= Mapa.Mapa()
-
+            #--MARTIN--esto es provisional, pero lo hice para mostrar los tanques en la pantalla
+            self.tanque = bloque.Bloque(self.director.pantalla, 20, 20, (255, 0, 0), 20, 520)
+            self.tanque2 = bloque.Bloque(self.director.pantalla, 20, 20, (0, 0, 255), 1200, 420) 
         
         #sobreescritura de los metodos de plantilla escena
         def on_update(self):
@@ -33,6 +36,9 @@ class EscenaJuego(plantillaEscena.Escena):
             self.cuadrado.definir_limite(self.mousex,self.mousey)
             self.mapa.iniciar_construccion(self.director.pantalla)
             self.cuadrado.dibujar()
+            #--MARTIN--esto también es provisional 
+            self.tanque.dibujar()
+            self.tanque2.dibujar()
             
 
 
