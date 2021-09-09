@@ -3,7 +3,7 @@
 import pygame
 from GUI import plantillaEscena
 from GUI import bloque
-
+from Mapa import Mapa
 
 
 
@@ -15,6 +15,7 @@ class EscenaJuego(plantillaEscena.Escena):
             self.cuadrado = bloque.Bloque(self.director.pantalla, 100, 100, (222, 34, 221), 0, 0)
             self.piso = bloque.Bloque(self.director.pantalla, 1280, 100, (115, 45, 20), 0, 620)
             self.juego = juego
+            self.mapa= Mapa.Mapa()
 
         
         #sobreescritura de los metodos de plantilla escena
@@ -30,6 +31,9 @@ class EscenaJuego(plantillaEscena.Escena):
             pantalla.fill((0,0,0))#relleno de pantalla importante en el bucle.
             self.piso.dibujar()
             self.cuadrado.definir_limite(self.mousex,self.mousey)
+            self.mapa.iniciar_construccion(self.director.pantalla)
             self.cuadrado.dibujar()
+            
+
 
 
