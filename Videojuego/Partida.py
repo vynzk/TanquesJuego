@@ -29,7 +29,7 @@ class Partida():
         print(" Ganador: " + str(self.jugadorGanador))
 
     # funcion que termina la partida cuando queda sólo un jugador activo dentro de ella
-    def terminarPartida(self):
+    def terminar(self):
         self.estado = True
         self.jugadorGanador = self.jugadoresActivos[0]
         self.jugadorGanador.sumarVictoria()
@@ -58,3 +58,6 @@ class Partida():
     # eliminar tanques, etc (visualmente)
     def getEscena(self):
         return self.escena 
+    
+    def getJugadoresActivos(self):
+        return self.jugadoresActivos

@@ -22,10 +22,21 @@ class Director:
             
             for partida in self.juego.getListaPartidas():
                 self.cambiarEscena(partida.getEscena())
-                print("\nObjeto escena actual: "+str(self.escena))
-                input("saltar de partida")
-            break; # << termina
-        print("terminó el juego")
+                print("------------------------------------------")
+                print("Partida n°" +str(partida.getId()))
+                print("\nObjeto escena actual: "+str(self.escena)) # < debug
+                # dentro de cada partida, se juegan los turnos:
+                numeroTurno=1 
+                while len(partida.getJugadoresActivos())>1: # si hay mas de un jugador en pie
+                    for jugador in partida.getJugadoresActivos():
+                        print("\n>>>Turno ", str(numeroTurno), ": ", str(jugador.nombre))
+                        partida.eliminarJugador(jugador) # << metodo que permite expulsar jugadores,debug
+                        input("presiona enter para pasar tu turno")
+                        numeroTurno += 1
+                partida.terminar() # << como queda sólo un jugador en pie, se termina la partida
+            break; # << terminan todas las partidas
+
+        self.terminoJuego() # << acaba el juego
         
 
     def registroJugadores(self):
@@ -36,7 +47,13 @@ class Director:
         # para tener la pantalla de este.
         self.juego.mostrarCaracteristicas()
 
-
+    def terminoJuego(self):
+        # cambiarEscena(escenaCreditos) algo así
+        self.juego.mostrarRanking()
+        self.juego.definirGanador()
+        print("\n!!!!!!!!!!! El/la ganadora es: ",self.juego.getJugadorGanador().getNombre()," !!!!!!!!!!!!!!")
+        print("terminó el juego")
+        
     def cambiarEscena(self, escenaNueva):
         "cambia la escena actual"
         self.escena = escenaNueva   

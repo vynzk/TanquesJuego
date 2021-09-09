@@ -47,7 +47,7 @@ class Juego():
     # TODO: falta definir el empate
     def definirGanador(self):
         contador = 0
-        while contador != self.cantidadPartidas:
+        while contador < self.cantidadJugadores:
             if contador == 0:
                 ganadorAux = self.listaJugadores[contador]
             else:
@@ -58,43 +58,12 @@ class Juego():
             contador += 1
         self.jugadorGanador = ganadorAux  # << se guarda en el atributo ganador
 
-    # funcion que comienza la partida (luego de la fase de eleccion y compra)
-    def comenzar(self):
-        print("\n       I N I C I A         E L             J U E G O")
-        # se empieza a jugar cada partida individualmente
-        for partida in self.listaPartidas:
-            print("\n>>Partida " + str(partida.getId()))
-            numeroTurno = 1
-            # mientras exista más de un jugador en pie, se juega
-            while len(partida.jugadoresActivos) > 1:
-                # comienzan los turnos de los jugadores (vivos)
-                for jugador in partida.jugadoresActivos:
-                    print("------------------------------------------")
-                    print("Turno ", str(numeroTurno), ": ", str(jugador.nombre))
-
-                    # NOTA: esto es un poco enrredado, el metodo eliminar jugador recibe el jugador del turno
-                    # actual, esta información es valiosa para mostrar la acción: jugador actual mata al que sigue
-                    # por ejemplo. EL jugador actual no puede poseer este metodo porque no tiene información de los
-                    # otros jugadores.
-
-                    # que la función reciba a "jugador" no quiere decir precisamente que este muere, sino más bien
-                    # que este tiene la posiblidad de atacar
-                    partida.eliminarJugador(jugador)
-                    input("presiona enter para pasar tu turno")
-                    numeroTurno += 1
-
-            # cuando se rompe el ciclo, es decir sólo queda un jugador en pie
-            partida.terminarPartida()  # << guarda el unico jugador activo como ganador
-
-        print("\n### FIN DEL JUEGO ###")
-        self.mostrarCaracteristicas()  # << muestra las caracteristicas del juego (partidas ya terminadas)
-        self.mostrarRanking()  # << muestra el Ranking de victorias de todos los jugadores
-        self.definirGanador()  # << define el ganador por victorias
-        # >> muestra el ganador ya definido
-        print("\n>> EL GANADOR DEL JUEGO FUEEEEEEEEEEEEEEEEEEEEEEEEEEEEE: ", self.jugadorGanador.getNombre())
-
+    
     def getListaPartidas(self):
         return self.listaPartidas
+
+    def getJugadorGanador(self):
+        return self.jugadorGanador
 
     # metodo debug, para mostrar las caracteristicas de la partida
     def mostrarCaracteristicas(self):
