@@ -15,8 +15,10 @@ class Bloque:
         self.color= color
         self.pantalla = pantalla
         self.estado=True
+
     def dibujar(self):
         pygame.draw.rect(self.pantalla, self.color , (self.x,self.y,self.ancho,self.alto))
+
     def definir_limite(self, x, y): # importancia: suelo.
         self.x=x
         self.y=y
@@ -24,3 +26,6 @@ class Bloque:
             self.x= self.limiteX
         if self.y >= self.limiteY:
             self.y=self.limiteY
+
+    def setColor(self,color):
+        self.color=color
