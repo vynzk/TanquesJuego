@@ -23,37 +23,37 @@ class Mapa:
         
         #mapa
         self.mapa = [
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "                                                               ",
-          "         XXXXX                   X                             ",
-          "        XXXXXXX                 XXX                            ",
-          "       XXXXXXXXX              XXXXXX                           ",
-          "     XXXXXXXXXXX             XXXXXXXX                          ",
-          "XXXXXXXXXXXXXXXXXXX    XXXXXXXXXXXXXX   XXX                    ",
-          "XXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX  XXXX                    ",
-          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                    ",
-          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                    ",]
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                                ",
+          "                                                       XXXXXXXXX",
+          "         XXXXX                   X                 XXXXXXXXXXXXX",
+          "        XXXXXXX                 XXX              XXXXXXXXXXXXXXX",
+          "       XXXXXXXXX              XXXXXX            XXXXXXXXXXXXXXXX",
+          "     XXXXXXXXXXX             XXXXXXXX        XXXXXXXXXXXXXXXXXXX",
+          "XXXXXXXXXXXXXXXXXXX    XXXXXXXXXXXXXX   XXXXXXXXXXXXXXXXXXXXXXXX",
+          "XXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX  XXXXXXXXXXXXXXXXXXXXXXXXX",
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",]
           
       
 
@@ -78,15 +78,11 @@ class Mapa:
             
     def dibujar_muros(self, superficie, rectangulo):
       pygame.draw.rect(superficie, self.marron, rectangulo)
-      #pygame.draw.circle(superficie, self.marron, (125, 390), 50)
-      #pygame.draw.circle(superficie, self.marron, (600, 410), 50)
-      #pygame.draw.circle(superficie, self.marron, (350, 270), 50)
-      
+
              
             
     def iniciar_construccion(self,pantalla):
         muros = self.construir_mapa()  #matriz
         self.dibujar_mapa(pantalla, muros)
           
-    
     

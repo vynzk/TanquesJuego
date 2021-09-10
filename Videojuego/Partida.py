@@ -1,9 +1,10 @@
 class Partida():
-    def __init__(self, id):
+    def __init__(self, id, escenaJuego):
         self.id = id
         self.estado = False
         self.jugadorGanador = None
         self.jugadoresActivos = []
+        self.escena=escenaJuego
 
     # funcion que agrega jugadores a su lista de jugadores activos
     def agregarJugadores(self, jugador):
@@ -24,10 +25,11 @@ class Partida():
         print("\nPartida " + str(self.id))
         self.mostrarJugadoresActivos()
         print(" Estado: " + str(self.estado))
+        print(" Objeto escena: "+str(self.escena))
         print(" Ganador: " + str(self.jugadorGanador))
 
     # funcion que termina la partida cuando queda sólo un jugador activo dentro de ella
-    def terminarPartida(self):
+    def terminar(self):
         self.estado = True
         self.jugadorGanador = self.jugadoresActivos[0]
         self.jugadorGanador.sumarVictoria()
@@ -42,7 +44,7 @@ class Partida():
             jugadorEliminado = self.jugadoresActivos[opcionEliminar]
             self.jugadoresActivos.pop(opcionEliminar)  # << lo eliminamos
             print("\n>>ACCION: Jugador/a ", jugadorEliminado.getNombre(), " ha sido eliminado por ",
-                  jugadorAtacante.getNombre())
+            jugadorAtacante.getNombre())
         except:
             print(" ERROR: fuera de rango")
 
@@ -51,3 +53,11 @@ class Partida():
 
     def getGanador(self):
         return self.jugadorGanador
+
+    # función que retorna el objeto escena en concreto de esa partida, la cual se modifican al disparar
+    # eliminar tanques, etc (visualmente)
+    def getEscena(self):
+        return self.escena 
+    
+    def getJugadoresActivos(self):
+        return self.jugadoresActivos

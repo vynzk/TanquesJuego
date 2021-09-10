@@ -1,3 +1,4 @@
+"""
 import pygame
 import sys
 import math
@@ -16,8 +17,6 @@ class Proyectil():
 		self.proyectil2_size = 25
 		self.proyectil2_size = [eneemigo_pos[0]-50, enemigo_pos[1]+14]
 
-
-
 	def colisiones(self, enemigo_pos, proyectil_pos):
     		px = proyectil_pos[0]
     		py = proyectil_pos[1]
@@ -28,7 +27,6 @@ class Proyectil():
     	    		if (ey >= py and ey <(py + proyectil_size)) or (py >= ey and py < (ey + enemigo_size)):
     	    		    return True
     	    		return False
-
 
     def disparar(self)	    		
 	    while cero<=constante:
@@ -41,3 +39,4 @@ class Proyectil():
 	        proyectil_pos[0] = x
 	        proyectil_pos[1] = y
 	        cero+=0.25	    		
+"""
