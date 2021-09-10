@@ -69,6 +69,9 @@ class Mapa:
                   cuadrado=Cuadrado(pantalla,self.pixel_x,self.pixel_y,(128,64,0),x,y)
                   self.listaCuadrados.append(cuadrado)
                   cuadrado.dibujar()
+                  # BORRAR: si deseas probar la clase, prueba que claro en la linea superior
+                  # se dibuja y luego se destruye (en la linea inferior), descomenta la siguiente linea
+                  # cuadrado.destruir() # < debug, para ver como se destruyen los tanques
               x += self.pixel_x
           x = 0
           y += self.pixel_y
