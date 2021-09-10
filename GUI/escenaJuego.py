@@ -34,7 +34,7 @@ class EscenaJuego(plantillaEscena.Escena):
             pantalla.fill((0,0,0))#relleno de pantalla importante en el bucle.
             self.piso.dibujar()
             self.cuadrado.definir_limite(self.mousex,self.mousey)
-            self.mapa.iniciar_construccion(self.director.pantalla)
+            self.mapa.dibujar(self.director.pantalla)
             self.cuadrado.dibujar()
             #--MARTIN--esto también es provisional 
             self.tanque.dibujar()
