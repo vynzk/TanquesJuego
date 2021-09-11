@@ -18,6 +18,7 @@ class EscenaRegistro(plantillaEscena.Escena):
             
         
         def on_update(self):
+            pygame.display.set_caption("Registrar jugadores")
             pass
         def on_event(self,evento):
             if evento.type == pygame.MOUSEBUTTONDOWN:
