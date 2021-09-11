@@ -25,6 +25,7 @@ class EscenaJuego(plantillaEscena.Escena):
         
         #sobreescritura de los metodos de plantilla escena
         def on_update(self):
+            pygame.display.set_caption("EL JUEGO DE LOS TANQUES IMPLEMENTADO EN PYTHON SIN NOMBRE AUN")
             pass
         def on_event(self,event):
             #prueba

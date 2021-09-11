@@ -8,7 +8,7 @@ class Director:
         cambiar las escenas y recoger e interpretar los eventos de estas."""
     
     def __init__(self): #constructor
-        pygame.display.set_caption("prueba GUI")
+        
         self.pantalla = pygame.display.set_mode((1280,720))
         self.escena = None
         self.running = True
@@ -19,7 +19,7 @@ class Director:
     
     def gameLoop(self): #bucle del juego
         while self.running:
-            
+            #pygame.display.set_caption("PYTHON TANKS") #si lo activas hay un bug re loco... no lo hagas :-)
             #Evento de salida
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
