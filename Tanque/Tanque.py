@@ -6,10 +6,8 @@ from GUI import bloque
 class Tanque:
 
 
-    def __init__(self,modelo,color,vida):
-        self.vivo = True
+    def __init__(self, modelo):
         self.modelo = "Default"
-        self.color = color
 
 
     def dibujar_tanques(self):
@@ -23,8 +21,4 @@ class Tanque:
         self.tanque2.dibujar()
 
     def mostrarInformacion(self):
-        return "vivo:"+str(self.vivo)+" | modelo: "+str(self.modelo)
-
-
-
-
+        return "modelo: " + str(self.modelo)
