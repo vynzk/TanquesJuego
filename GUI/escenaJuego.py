@@ -21,7 +21,8 @@ class EscenaJuego(plantillaEscena.Escena):
             self.mapa= Mapa.Mapa()
             #--MARTIN--esto es provisional, pero lo hice para mostrar los tanques en la pantalla
             self.tanque = bloque.Bloque(self.director.pantalla, 20, 20, (255, 0, 0), 20, 520)
-            self.tanque2 = bloque.Bloque(self.director.pantalla, 20, 20, (0, 0, 255), 1200, 420) 
+            self.tanque2 = bloque.Bloque(self.director.pantalla, 20, 20, (0, 0, 255), 1200, 420)
+
         
         #sobreescritura de los metodos de plantilla escena
         def on_update(self):
@@ -46,6 +47,8 @@ class EscenaJuego(plantillaEscena.Escena):
             #--MARTIN--esto también es provisional 
             self.tanque.dibujar()
             self.tanque2.dibujar()
+
+            self.tanque.disparar()
             
 
 
