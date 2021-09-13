@@ -2,7 +2,7 @@ import pygame
 import math
 import random
 from GUI.bloque import Bloque
-class Tanque:
+class Tanque(Bloque):
 
     def __init__(self,pantalla,ancho,alto,color,x,y):
         Bloque.__init__(self,pantalla,ancho,alto,color,x,y)
@@ -18,17 +18,17 @@ class Tanque:
 
     def disparar(self, pantalla):
         delta = 0
-        velocidad = 60
+        velocidad = 70
         angulo = 60
 
-        while delta<=100:
-            self.posx = self.posx+50 + delta*velocidad*math.cos(angulo*3.1416/180)
-            self.posy = self.posy+14 - (delta*velocidad*math.sin(angulo*3.1416/180) - (9.81*delta*delta)/2)
-            #self.posx = x
-            #self.posy = y
-            delta+=0.25   
+        while delta<=500:
+            x = self.posx + delta*velocidad*math.cos(angulo*3.1416/180)
+            y = self.posy - (delta*velocidad*math.sin(angulo*3.1416/180) - (9.81*delta*delta)/2)
+            self.posx = x
+            self.posy = y
+            delta+=0.1  
 
-            pygame.draw.rect(pantalla, 10, 10, (255,0,0), self.posx, self.posy)
+            pygame.draw.rect(pantalla, (0,255,0), (self.posx, self.posy, 10, 10))
 
     def mostrarInformacion(self):
         return "modelo: " + str(self.modelo)

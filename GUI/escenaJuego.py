@@ -34,11 +34,11 @@ class EscenaJuego(plantillaEscena.Escena):
         """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
         def on_draw(self, pantalla):
             
-            pantalla.fill((0,0,0)) #relleno de pantalla importante en el bucle.
+            #pantalla.fill((0,0,0)) #relleno de pantalla importante en el bucle.
             self.piso.dibujar()
             #cuadrado de debuggeo: no sacar hasta entrega final
             self.cuadrado.definir_limite(self.mousex,self.mousey)
-            self.cuadrado.dibujar()
+            #self.cuadrado.dibujar()
             
             # ELEMENTOS EN PANTALLA #
             """Aquí puedes hacer tus pruebas de interfaz, cuidado con el código de arriba"""
@@ -46,6 +46,8 @@ class EscenaJuego(plantillaEscena.Escena):
             #--MARTIN--esto también es provisional 
             self.tanque.dibujar()
             self.tanque2.dibujar()
+            
+            self.tanque.disparar(self.director.pantalla)
             
 
 
