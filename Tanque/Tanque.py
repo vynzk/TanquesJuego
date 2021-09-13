@@ -3,6 +3,7 @@ import math
 import random
 from Mapa.cuadrado import Cuadrado
 from Tanque.Proyectil import Proyectil
+import time
 
 class Tanque():
     # cada Tanque, al crearse se le asociará un objeto Cuadrado (el cual lo representará en el mapa)
@@ -28,7 +29,7 @@ class Tanque():
         
         self.bala.activaProyectil((self.x,self.y))
         disparoTrayectoria=[]
-        while delta <= 500:
+        while delta <= 20:
             xDisparo = self.cuadrado.getX() + delta * velocidad * math.cos(angulo * 3.1416 / 180)
             yDisparo = self.cuadrado.getY() - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
             disparoTrayectoria.append((xDisparo,yDisparo))

@@ -3,7 +3,6 @@
 from GUI.escenaJuego import EscenaJuego
 import pygame
 
-
 class Director:
     """El director se encarga de iniciar el juego,
         cambiar las escenas y recoger e interpretar los eventos de estas."""
@@ -53,6 +52,7 @@ class Director:
             self.escena.on_draw(self.pantalla)
             if(self.activadorDisparo==True): #debuggueo
                 self.iterador+=1
+                
 
             pygame.display.update()
             
