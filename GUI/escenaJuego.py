@@ -20,8 +20,8 @@ class EscenaJuego(plantillaEscena.Escena):
             #self.juego = juego #aun no se implementa en GUI
             self.mapa= Mapa.Mapa()
             #--MARTIN--esto es provisional, pero lo hice para mostrar los tanques en la pantalla
-            self.tanque = bloque.Bloque(self.director.pantalla, 20, 20, (255, 0, 0), 20, 520)
-            self.tanque2 = bloque.Bloque(self.director.pantalla, 20, 20, (0, 0, 255), 1200, 420) 
+            self.tanque = Tanque.Tanque(self.director.pantalla, 20, 20, (255, 0, 0), 20, 520)
+            self.tanque2 = Tanque.Tanque(self.director.pantalla, 20, 20, (0, 0, 255), 1200, 420) 
         
         #sobreescritura de los metodos de plantilla escena
         def on_update(self):
