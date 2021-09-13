@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 
+from GUI.escenaJuego import EscenaJuego
 import pygame
 
 
@@ -11,9 +12,11 @@ class Director:
 
         self.pantalla = pygame.display.set_mode((1280, 720))
         self.escena = None
+        self.activadorDisparo= False #por mientras
         self.running = True
         self.listaEscenas = []
         self.mousePos = None
+        self.iterador= 0
         # self.mousex,self.mousey= 0,0 #para movimiento del mouse
         # self.enlistarEscenas() #quizas se implemente en necesidad.
 
@@ -48,13 +51,17 @@ class Director:
             self.escena.on_update()
             # Dibujo escena actual
             self.escena.on_draw(self.pantalla)
-            pygame.display.update()
+            if(self.activadorDisparo==True): #debuggueo
+                self.iterador+=1
 
+            pygame.display.update()
+            
     # ---------- funciones kernel (avisar si la tocan) ----------#
     def cambiarEscena(self, escenaNueva):
         "cambia la escena actual"
         self.escena = escenaNueva
-
+    def EscenaAux(self, EscenaAux): #de debbugueo
+        self.escenaAux= EscenaAux
     def checaBoton(self, mousePos, botonNombre):  # detecta el tocar un boton
         if botonNombre.rect.collidepoint((mousePos)):
             return True

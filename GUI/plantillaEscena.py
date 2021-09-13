@@ -4,7 +4,8 @@ class Escena:
     """Clase abstracta para construir las escenas del video juego"""
 
     def __init__(self, director):
-        self.director = director #quien es su director
+        self.director = director 
+        self.iterador= self.director.iterador
     
     def on_update(self): #no se para que es
         "Actualización lógica que se llama automáticamente desde el director."
