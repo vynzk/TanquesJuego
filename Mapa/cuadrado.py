@@ -13,20 +13,3 @@ class Cuadrado(Bloque):
         self.setColor((0,0,0)) 
         self.dibujar()
 
-    def colision(self,xColision,yColision):
-        # (x,y)------------| x+delta
-        #  |               |
-        #  |   colision    | 
-        #  |               |   
-        # __ y+delta __(x+delta, y+delta)       
-        delta=20 # tamaño del pixel del cuadrado
-        xMax=self.getX()+delta # limite horizontal del cuadrado
-        yMax=self.getY()+delta # limite vertical del cuadrado
-
-        # si se encuentra dentro del limite horizontal del cuadrado
-        if(self.getX()<=xColision and xColision <= xMax):
-            # si se encuentra dentro del limite vertical del cuadrado
-            if(self.getY()<=yColision and yColision <= yMax):
-                return True # colision
-                    
-        return False # no se encuentra  dentro del rango de colisión
