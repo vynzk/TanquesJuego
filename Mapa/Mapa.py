@@ -21,7 +21,8 @@ class Mapa:
         self.verde=(0, 255, 0)
         self.azul=(0, 0, 255)
         self.marron=(150, 70, 10)
-        
+        self.azulClaro=(101,113,135)
+        self.azulOscuro=(18,32,36)
         #mapa
         self.mapa = [
           "                                                                ",
@@ -66,7 +67,7 @@ class Mapa:
       for fila in self.mapa:
           for muro in fila:
               if muro == "X":
-                  cuadrado=Cuadrado(pantalla,self.pixel_x,self.pixel_y,(128,64,0),x,y)
+                  cuadrado=Cuadrado(pantalla,self.pixel_x,self.pixel_y,(18,25,53),x,y)
                   self.listaCuadrados.append(cuadrado)
                   cuadrado.dibujar()
                   # BORRAR: si deseas probar la clase, prueba que claro en la linea superior

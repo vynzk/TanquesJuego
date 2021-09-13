@@ -11,11 +11,12 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
+        self.fondo = pygame.image.load("GUI/imagenes/fondo.jpg")
         self.mousex, self.mousey = 0, 0  # para movimiento del mouse
 
         # ELEMENTOS DE LA ESCENA #
         self.cuadrado = bloque.Bloque(self.director.pantalla, 100, 100, (222, 34, 221), 0, 0)  # cuadrado rosa movible
-        self.piso = bloque.Bloque(self.director.pantalla, 1280, 100, (115, 45, 20), 0, 620)  # piso de limite
+        self.piso = bloque.Bloque(self.director.pantalla, 1280, 100, (9,15,38), 0, 620)  # piso de limite
         # self.juego = juego #aun no se implementa en GUI
         self.mapa = Mapa.Mapa()
         # --MARTIN--esto es provisional, pero lo hice para mostrar los tanques en la pantalla
@@ -35,7 +36,8 @@ class EscenaJuego(plantillaEscena.Escena):
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
-        # pantalla.fill((0,0,0)) #relleno de pantalla importante en el bucle.
+        #pantalla.fill((0,0,0)) #relleno de pantalla importante en el bucle.
+        pantalla.blit(self.fondo,(0,0))
         self.piso.dibujar()
         # cuadrado de debuggeo: no sacar hasta entrega final
         self.cuadrado.definir_limite(self.mousex, self.mousey)
