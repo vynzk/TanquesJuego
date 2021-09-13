@@ -34,7 +34,8 @@ class Tanque():
             yDisparo = self.cuadrado.getY() - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
             disparoTrayectoria.append((xDisparo,yDisparo))
             delta += 0.01
-            pygame.draw.circle(pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
+            #descomentar si quieren debuguear la trayectoria
+            #pygame.draw.circle(pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
         return disparoTrayectoria
     def mostrarInformacion(self):
         return "modelo: " + str(self.modelo)
