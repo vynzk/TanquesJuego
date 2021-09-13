@@ -12,3 +12,4 @@ class Cuadrado(Bloque):
         # si nos piden un fondo, encontrar una función que encuentre que se borre y quede invisible
         self.setColor((0,0,0)) 
         self.dibujar()
+

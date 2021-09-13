@@ -29,3 +29,9 @@ class Bloque:
 
     def setColor(self,color):
         self.color=color
+
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
