@@ -42,11 +42,12 @@ class Partida():
             angulo=int(input("Ingrese angulo: "))
             velocidad=int(input("Ingrese la velocidad: "))
             if(angulo==0 and velocidad==0): # para parar las pruebas
-                break
+                return False # pasa el turno, no chocó con nada
             while delta <= 500:
-                xDisparo = self.cuadrado.getX() + delta * velocidad * math.cos(angulo * 3.1416 / 180)
-                yDisparo = self.cuadrado.getY() - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
-                comprobarImpactoTanques(xDisparo,yDisparo) # comprueba si le llegó a un tanque
+                xDisparo = TanqueAtacante.getCuadrado().x + delta * velocidad * math.cos(angulo * 3.1416 / 180)
+                yDisparo = TanqueAtacante.getCuadrado().y - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
+                if(comprobarImpactoTanques(xDisparo,yDisparo)== True):
+                    return True # comprueba si le llegó a un tanque, si llega, pasa de turno
                 delta += 0.01
                 pygame.draw.circle(pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
 
@@ -57,8 +58,10 @@ class Partida():
             cuadradoTanque=jugador.getTank().getCuadrado()
             if(cuadradoTanque.colision(xDisparo,yDisparo)==True):
                 print("impactado")
+                return True
             else:
                 print("no impactado")
+                return False
 
     # funcion que brinda la posibilidad de eliminar jugadores al jugadorAtacante 
     def eliminarJugador(self, jugadorAtacante):

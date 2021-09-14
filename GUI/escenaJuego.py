@@ -32,6 +32,10 @@ class EscenaJuego(plantillaEscena.Escena):
     def on_event(self, event):
         # prueba
         self.mousex, self.mousey = pygame.mouse.get_pos()  # capta el movimiento del mouse
+        # <-- --> configurar angulo
+        # subir : subir potencia
+        # bajar : bajar potencia
+        # espacio: efectuar disparo 
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 

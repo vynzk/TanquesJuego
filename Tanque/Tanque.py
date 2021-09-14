@@ -1,13 +1,13 @@
 import pygame
 import math
 import random
-from Mapa.cuadrado import Cuadrado
+from GUI import bloque
 
 
 class Tanque():
     # cada Tanque, al crearse se le asociará un objeto Cuadrado (el cual lo representará en el mapa)
     def __init__(self, pantalla, ancho, alto, color, x, y):
-        self.cuadrado = Cuadrado(pantalla, ancho, alto, color, x, y)
+        self.bloque = Bloque(pantalla, ancho, alto, color, x, y)
         self.modelo = "Default"
 
     # def dibujar_tanques(self, pantalla):
@@ -29,8 +29,8 @@ class Tanque():
             pygame.draw.circle(pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
     """
 
-    def getCuadrado(self):
-        return getCuadrado()
+    def getBloque(self):
+        return self.bloque
         
     def mostrarInformacion(self):
         return "modelo: " + str(self.modelo)
