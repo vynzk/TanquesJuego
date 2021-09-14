@@ -14,7 +14,7 @@ class Bloque:
         self.y=y
         self.color= color
         self.pantalla = pantalla
-        self.estado=True
+        self.vivo=True
 
     def dibujar(self):
         pygame.draw.rect(self.pantalla, self.color , (self.x,self.y,self.ancho,self.alto))

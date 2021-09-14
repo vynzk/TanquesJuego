@@ -14,7 +14,7 @@ class EscenaRegistro(plantillaEscena.Escena):
             plantillaEscena.Escena.__init__(self, director)
             #self.mousex,self.mousey= 0,0 #para movimiento del mouse
             self.boton_registrar= None #botón para cambiar a escenaJuego en la versión final
-            self.cambioEscenaJuego()
+            #self.cambioEscenaJuego() #borrar esto atte:keke
             
         
         def on_update(self):
@@ -37,3 +37,4 @@ class EscenaRegistro(plantillaEscena.Escena):
             
         def cambioEscenaJuego(self):
             self.director.cambiarEscena(EscenaJuego(self.director)) #proximamente... la escena juego tendrá sus atributos personalizables. 
+            self.director.activadorDisparo = True #debug no sacar! atte: keke

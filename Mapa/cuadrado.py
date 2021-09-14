@@ -3,7 +3,7 @@ from GUI.bloque import Bloque
 class Cuadrado(Bloque):
     def __init__(self,pantalla,ancho,alto,color,x,y):
         Bloque.__init__(self,pantalla,ancho,alto,color,x,y)
-        self.vivo=True
+        # self.vivo lo moví dentro de bloque :) atte: keke
 
     # función que destruye un cuadrado, esto es dado que le impacta un proyectil
     def destruir(self):

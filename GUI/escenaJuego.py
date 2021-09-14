@@ -13,7 +13,7 @@ class EscenaJuego(plantillaEscena.Escena):
         plantillaEscena.Escena.__init__(self, director)
         self.fondo = pygame.image.load("GUI/imagenes/fondo.jpg")
         self.mousex, self.mousey = 0, 0  # para movimiento del mouse
-
+        self.iterador = (director.iterador)^10 #aumenta la velocidad del iterador
         # ELEMENTOS DE LA ESCENA #
         self.cuadrado = bloque.Bloque(self.director.pantalla, 100, 100, (222, 34, 221), 0, 0)  # cuadrado rosa movible
         self.piso = bloque.Bloque(self.director.pantalla, 1280, 100, (9,15,38), 0, 620)  # piso de limite
@@ -40,7 +40,7 @@ class EscenaJuego(plantillaEscena.Escena):
         pantalla.blit(self.fondo,(0,0))
         self.piso.dibujar()
         # cuadrado de debuggeo: no sacar hasta entrega final
-        self.cuadrado.definir_limite(self.mousex, self.mousey)
+        #self.cuadrado.definir_limite(self.mousex, self.mousey)
         # self.cuadrado.dibujar()
 
         # ELEMENTOS EN PANTALLA #
@@ -49,4 +49,6 @@ class EscenaJuego(plantillaEscena.Escena):
         # --MARTIN--esto también es provisional
         self.tanque.cuadrado.dibujar()
         self.tanque2.cuadrado.dibujar()
-        self.tanque.disparar(self.director.pantalla)
+        trayectoria=self.tanque.disparar(self.director.pantalla)
+        CoordenadaTrayectoriaActual=trayectoria[(self.director.iterador*10)]
+        self.tanque.bala.sigueTrayectoria(CoordenadaTrayectoriaActual)
