@@ -7,6 +7,9 @@ class Jugador():
     def sumarVictoria(self):
         self.victorias += 1
 
+    def getTank(self):
+        return self.tanque
+
     def mostrarInformacion(self):
         print("Nombre: ", self.nombre, " ; victorias ", self.victorias)
 

@@ -35,6 +35,31 @@ class Partida():
         self.jugadorGanador.sumarVictoria()
         print("\n!!!! El/la jugador/a ", self.jugadorGanador.getNombre(), " ganó la partida !!!!")
 
+    # funcion que permite al tanque de un jugador realizar un disparo
+    def efectuarDisparo(self,TanqueAtacante):
+        while True: # se realiza este while para probar multiples veces
+            delta = 0
+            angulo=int(input("Ingrese angulo: "))
+            velocidad=int(input("Ingrese la velocidad: "))
+            if(angulo==0 and velocidad==0): # para parar las pruebas
+                break
+            while delta <= 500:
+                xDisparo = self.cuadrado.getX() + delta * velocidad * math.cos(angulo * 3.1416 / 180)
+                yDisparo = self.cuadrado.getY() - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
+                comprobarImpactoTanques(xDisparo,yDisparo) # comprueba si le llegó a un tanque
+                delta += 0.01
+                pygame.draw.circle(pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
+
+    # comprueba si los jugadores son impactados
+    def comprobarImpactoTanques(self,xDisparo,yDisparo):
+        for jugador in self.jugadoresActivos:
+            #cuadrado del tanque
+            cuadradoTanque=jugador.getTank().getCuadrado()
+            if(cuadradoTanque.colision(xDisparo,yDisparo)==True):
+                print("impactado")
+            else:
+                print("no impactado")
+
     # funcion que brinda la posibilidad de eliminar jugadores al jugadorAtacante 
     def eliminarJugador(self, jugadorAtacante):
         print("\nELIMINAR JUGADOR [Debug]")
