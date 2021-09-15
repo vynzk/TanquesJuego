@@ -16,7 +16,7 @@ class EscenaHome(plantillaEscena.Escena):
 
     def on_update(self):
         pygame.display.set_caption("Home")  # no cambies esto aun... es para debuggueo
-        pass
+        
 
     def on_event(self, evento):
         if evento.type == pygame.MOUSEBUTTONDOWN:

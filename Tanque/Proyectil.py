@@ -18,7 +18,7 @@ class Proyectil(Bloque):
 		objeto... se puede crear una función que determine cuando colisona
 		con la coordenada de otro (como el cuadrado rosa con la interfaz)
 		"""
-        if self.vivo:
+        if (self.vivo==True):
             self.pantalla.blit(self.balaImagen, coordenadasXY)
 
     def redimensionaBala(self):
