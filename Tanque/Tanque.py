@@ -1,7 +1,7 @@
 import pygame
 import math
 import random
-from Mapa.cuadrado import Cuadrado
+from GUI.bloque import Bloque
 from Tanque.Proyectil import Proyectil
 import time
 
@@ -10,8 +10,9 @@ class Tanque():
     def __init__(self, pantalla, ancho, alto, color, x, y):
         self.x=x
         self.y=y
-        self.cuadrado = Cuadrado(pantalla, ancho, alto, color, self.x, self.y)
+        self.bloque = Bloque(pantalla, ancho, alto, color, self.x, self.y)
         self.modelo = "Default"
+        self.color=color
         self.disparoTrayectoria = []
         self.bala= Proyectil(pantalla,2,2,(225,0,0),x,y)
 
@@ -30,12 +31,13 @@ class Tanque():
         self.bala.activaProyectil((self.x,self.y))
         disparoTrayectoria=[]
         while delta <= 20:
-            xDisparo = self.cuadrado.getX() + delta * velocidad * math.cos(angulo * 3.1416 / 180)
-            yDisparo = self.cuadrado.getY() - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
+            xDisparo = self.bloque.x + delta * velocidad * math.cos(angulo * 3.1416 / 180)
+            yDisparo = self.bloque.y - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
             disparoTrayectoria.append((xDisparo,yDisparo))
             delta += 0.01
             #descomentar si quieren debuguear la trayectoria
-            #pygame.draw.circle(pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
+            pygame.draw.circle(pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
         return disparoTrayectoria
+        
     def mostrarInformacion(self):
         return "modelo: " + str(self.modelo)

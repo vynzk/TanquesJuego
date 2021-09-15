@@ -7,7 +7,7 @@ class Director:
     """El director se encarga de iniciar el juego,
         cambiar las escenas y recoger e interpretar los eventos de estas."""
 
-    def __init__(self):  # constructor
+    def __init__(self,game):  # constructor
 
         self.pantalla = pygame.display.set_mode((1280, 720))
         self.escena = None
@@ -16,6 +16,7 @@ class Director:
         self.listaEscenas = []
         self.mousePos = None
         self.iterador= 0
+        self.game=game
         # self.mousex,self.mousey= 0,0 #para movimiento del mouse
         # self.enlistarEscenas() #quizas se implemente en necesidad.
 
@@ -29,23 +30,6 @@ class Director:
                     self.running = False
                 self.escena.on_event(event)  # no mover
 
-            """ # for partida de Luis
-                for partida in self.juego.getListaPartidas():
-                    self.cambiarEscena(partida.getEscena())
-                    print("------------------------------------------")
-                    print("Partida n°" +str(partida.getId()))
-                    print("\nObjeto escena actual: "+str(self.escena)) # < debug
-                    # dentro de cada partida, se juegan los turnos:
-                    numeroTurno=1 
-                    while len(partida.getJugadoresActivos())>1: # si hay mas de un jugador en pie
-                        for jugador in partida.getJugadoresActivos():
-                            print("\n>>>Turno ", str(numeroTurno), ": ", str(jugador.nombre))
-                            partida.eliminarJugador(jugador) # << metodo que permite expulsar jugadores,debug
-                            input("presiona enter para pasar tu turno")
-                            numeroTurno += 1
-                    partida.terminar() # << como queda sólo un jugador en pie, se termina la partida
-                break; # << terminan todas las partidas
-            """
             # Actualizado de escena
             self.escena.on_update()
             # Dibujo escena actual

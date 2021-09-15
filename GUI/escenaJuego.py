@@ -13,19 +13,19 @@ class EscenaJuego(plantillaEscena.Escena):
         plantillaEscena.Escena.__init__(self, director)
         self.fondo = pygame.image.load("GUI/imagenes/fondo.jpg")
         self.mousex, self.mousey = 0, 0  # para movimiento del mouse
-        self.iterador = (director.iterador)^10 #aumenta la velocidad del iterador
+        self.partidas = self.director.game.listaPartidas
         # ELEMENTOS DE LA ESCENA #
         self.cuadrado = bloque.Bloque(self.director.pantalla, 100, 100, (222, 34, 221), 0, 0)  # cuadrado rosa movible
         self.piso = bloque.Bloque(self.director.pantalla, 1280, 100, (9,15,38), 0, 620)  # piso de limite
         # self.juego = juego #aun no se implementa en GUI
         self.mapa = Mapa.Mapa()
         # --MARTIN--esto es provisional, pero lo hice para mostrar los tanques en la pantalla
-        self.tanque = Tanque.Tanque(self.director.pantalla, 20, 20, (255, 0, 0), 20, 520)
-        self.tanque2 = Tanque.Tanque(self.director.pantalla, 20, 20, (0, 0, 255), 1200, 420)
+        self.tanque = Tanque.Tanque(self.director.pantalla, 20, 20, (255, 0, 0), 20, 520) # temporal
+        self.tanque2 = Tanque.Tanque(self.director.pantalla, 20, 20, (0, 0, 255), 1200, 420) # temporal
 
         # sobreescritura de los metodos de plantilla escena
 
-    def on_update(self):
+    def on_update(self): # <<<<<<<<<<<<<<<<<<<<< ACA QUEDA LA CAGÁ
         pygame.display.set_caption("EL JUEGO DE LOS TANQUES IMPLEMENTADO EN PYTHON SIN NOMBRE AUN")
         pass
 
@@ -34,9 +34,10 @@ class EscenaJuego(plantillaEscena.Escena):
         self.mousex, self.mousey = pygame.mouse.get_pos()  # capta el movimiento del mouse
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
-
+    
     def on_draw(self, pantalla):
         #pantalla.fill((0,0,0)) #relleno de pantalla importante en el bucle.
+        iteradorBala=(self.director.iterador)*10 # fijo, no sacar
         pantalla.blit(self.fondo,(0,0))
         self.piso.dibujar()
         # cuadrado de debuggeo: no sacar hasta entrega final
@@ -47,8 +48,17 @@ class EscenaJuego(plantillaEscena.Escena):
         """Aquí puedes hacer tus pruebas de interfaz, cuidado con el código de arriba"""
         self.mapa.dibujar(self.director.pantalla)
         # --MARTIN--esto también es provisional
-        self.tanque.cuadrado.dibujar()
-        self.tanque2.cuadrado.dibujar()
+        self.tanque.bloque.dibujar() # temporal
+        self.tanque2.bloque.dibujar() # temporal
         trayectoria=self.tanque.disparar(self.director.pantalla)
-        CoordenadaTrayectoriaActual=trayectoria[(self.director.iterador*10)]
+        CoordenadaTrayectoriaActual=trayectoria[iteradorBala] #
         self.tanque.bala.sigueTrayectoria(CoordenadaTrayectoriaActual)
+
+
+# --- metodos propios de escena juego ----#
+
+    # dibujar los tanques de los jugadores en la pantalla
+    def dibujarTanques(self):
+        # for jugador in listaJugadores activos
+            #jugador.tanque.cuadrado.dibujar()
+        pass

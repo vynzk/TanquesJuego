@@ -24,12 +24,23 @@ class EscenaRegistro(plantillaEscena.Escena):
             if evento.type == pygame.MOUSEBUTTONDOWN:
                 self.director.mousePos= pygame.mouse.get_pos() #arreglar: usar una sola funcion de coordenadas mouse... CUIDADO
                 if (self.director.checaBoton(self.director.mousePos,self.boton_registrar)) == True:
-                    print("miau")
-                    self.cambioEscenaJuego()
-                    
-                    
+                    """
+                    if self.registrar():
+                        self.cambioEscenaJuego()
+                    print("salta a escena juego")
+                    """
+                    self.cambioEscenaJuego() # de momento esto funciona
+                     
+        def registrar(self):
+            # se registran los jugadores
+            if self.director.game.registroJugadores(self.director):
+                # se registran las partidas
+                if self.director.game.registroPartidas(self.director):
+                    self.director.game.mostrarJugadoresMatriz()
+                    return True # el registro de ambos funcionó con exito
 
-        
+            return False # ocurrió un error
+
         """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
         def on_draw(self, pantalla):
             self.boton_registrar= Boton(pantalla,"comenzar")

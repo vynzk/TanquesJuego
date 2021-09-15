@@ -26,8 +26,7 @@ while True:
 """
 def main():
     game = Juego(2,1) #(cantidadJugadores,cantidadPartidas) #se automatizó para debuguear lo escencial
-
-    director = Director()
+    director = Director(game)
     home= EscenaHome(director) #por ahora no toquen esto <3 será la escena predeterminada hasta presentar
     director.cambiarEscena(home)
 

@@ -1,3 +1,4 @@
+"""
 from GUI.bloque import Bloque
 
 class Cuadrado(Bloque):
@@ -13,3 +14,4 @@ class Cuadrado(Bloque):
         self.setColor((0,0,0)) 
         self.dibujar()
 
+"""

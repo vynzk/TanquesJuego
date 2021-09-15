@@ -1,4 +1,3 @@
-from GUI.escenaJuego import EscenaJuego
 from Videojuego.Jugador import *
 from Videojuego.Partida import *
 from Tanque.Tanque import *
@@ -12,23 +11,28 @@ class Juego():
         self.listaTanquesDisponibles = [Tanque]  # acá iran los objetos tanques disponibles para elegir inicialmente
         self.jugadorGanador = None
 
-    def agregarJugador(self):
+    def agregarJugador(self,i,pantalla):
+        # colores de los tanques
+        colores=[(255,0,0),(0,0,255)]
         nombre = str(input("Ingrese su nombre: "))
-        tanque = Tanque("Default")
+        posiciones=[(20,520),(1200,420)]
+        # debe tener Tanque(self.director.pantalla, 20,20, (color), x,y)
+        # >> el x,y debe ser random
+        tanque=Tanque(pantalla,20,20,colores[i-1],posiciones[i-1][0],posiciones[i-1][1])
         self.listaJugadores.append(Jugador(nombre, tanque))  # << agrega un nuevo Jugador con su nombre y su tanque
 
     # función que se encargará de llenar la lista de jugadores, registrará tantos jugadores
     # como lo indique la cantidad de jugadores (que debe tener el constructor de esta clase)
-    def registroJugadores(self):
+    def registroJugadores(self, director):
         print("\n### REGISTRO DE JUGADORES ###")
         for i in range(1, self.cantidadJugadores + 1):
-            self.agregarJugador()
+            self.agregarJugador(i, director.pantalla)
+        return True # termina con exito el registro
 
     # función que agregará una partida a la lista de partidas, cada partida agregará como jugadores activos a la
     # totalidad de jugadores que participan en el juego
     def agregarPartida(self, i,director):
-        escenaJuego=EscenaJuego(director)
-        partida = Partida(i,escenaJuego)
+        partida = Partida(i)
         # va agregando los jugadores a la nueva partida
         for jugador in self.listaJugadores:
             partida.agregarJugadores(jugador)
@@ -38,6 +42,7 @@ class Juego():
     def registroPartidas(self,director):
         for i in range(1, self.cantidadPartidas + 1):
             self.listaPartidas.append(self.agregarPartida(i,director))
+        return True # termina con exito el registro
 
     def mostrarRanking(self):
         print("\n### R A N K I N G ###")
@@ -64,6 +69,10 @@ class Juego():
 
     def getJugadorGanador(self):
         return self.jugadorGanador
+
+    def mostrarJugadoresMatriz(self):
+        for partida in self.listaPartidas:
+            partida.mostrarJugadoresPos()
 
     # metodo debug, para mostrar las caracteristicas de la partida
     def mostrarCaracteristicas(self):

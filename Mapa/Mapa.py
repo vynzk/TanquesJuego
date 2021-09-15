@@ -1,4 +1,3 @@
-from Mapa.cuadrado import Cuadrado
 from GUI.bloque import Bloque
 import pygame
 from pygame.locals import *
@@ -12,7 +11,7 @@ class Mapa:
         self.alto = 730
         self.pixel_y = 20
         self.pixel_x = 20
-        self.listaCuadrados=[]
+        self.listaBloques=[]
     
         #colores
         self.blanco=(255, 255, 255)
@@ -61,21 +60,20 @@ class Mapa:
 
  
     def dibujar(self,pantalla):   #define la matriz de cuadrados
-      muros = []
       x = 0
       y = 0
       for fila in self.mapa:
           for muro in fila:
               if muro == "X":
-                  cuadrado=Cuadrado(pantalla,self.pixel_x,self.pixel_y,(18,25,53),x,y)
-                  self.listaCuadrados.append(cuadrado)
-                  cuadrado.dibujar()
+                  # los bloques de tierra tienen estado vivo de fabrica
+                  bloque=Bloque(pantalla,self.pixel_x,self.pixel_y,(18,25,53),x,y)
+                  self.listaBloques.append(bloque)
+                  bloque.dibujar()
                   # BORRAR: si deseas probar la clase, prueba que claro en la linea superior
                   # se dibuja y luego se destruye (en la linea inferior), descomenta la siguiente linea
                   # cuadrado.destruir() # < debug, para ver como se destruyen los tanques
               x += self.pixel_x
           x = 0
           y += self.pixel_y
-      return muros
     
     
