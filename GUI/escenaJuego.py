@@ -47,20 +47,28 @@ class EscenaJuego(plantillaEscena.Escena):
         velocidad = int(input("Ingrese su potencia: "))
         cuadradoJugador = self.jugadorActual.tanque.bloque
         while True:
-            xDisparo = cuadradoJugador.x + delta * velocidad * math.cos(angulo * 3.1416 / 180)
-            yDisparo = cuadradoJugador.y - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
-            delta += 0.01
+            # el +10 en xDisparo es para que parta desde la mitad de la parte superior del tanque
+            xDisparo = cuadradoJugador.x+10 + delta * velocidad * math.cos(angulo * 3.1416 / 180)
+            # el -1 es para que no impacte el primer disparo del cañon con si mismo (la bala sale de este), si lo quitas
+            # la parabola no se dibuja ya que interpreta que se tocó a si mismo (cuando sale la bala)
+            yDisparo = cuadradoJugador.y-1 - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
+            delta += 0.01 # si quieres que hayan más puntitos en la parabola, modifica esto
             # hay que transformarlos a int
             xDisparo = int(xDisparo)
             yDisparo = int(yDisparo)
             print("debería dibujar una pelota en: (", xDisparo, ",", yDisparo, ")")  # debug
             pygame.draw.circle(self.director.pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
+            #----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             if(self.colisionTierra(xDisparo,yDisparo)): # si impacta un bloque de tierra, se detiene la parabola (bala)
                 print("toqué tierra")
                 break;
             elif(self.saleLimites(xDisparo,yDisparo)): # si impacta con un borde, se detiene la parabola (bala)
                 print("salí rango")
                 break;
+            elif(self.colisionTanque(xDisparo,yDisparo)): # si impacta con un tanque, se detiene la parabola (bala)
+                print("toqué un tanque")
+                break;
+            #--------------------------------------------------------------------------------------------------------
         self.cambiarJugador() # cambia de jugadorActual al otro jugador
 
     # permite el cambio de turno entre los dos jugadores (no para n jugadores, sólo sirve para la entrega)
@@ -84,6 +92,15 @@ class EscenaJuego(plantillaEscena.Escena):
         if(xDisparo>=1280 or yDisparo>=730 or xDisparo<=0 or yDisparo<=0):
             return True #sale del rango
         return False #dentro del rango
+
+    # verifica si un tanque fue impactado, retorna true si lo fue, en caso contrario false (aun no elimina al tanque)
+    # ni menos lo saca del juego, sólo detecta el impacto
+    def colisionTanque(self,xDisparo,yDisparo):
+        for jugador in self.partidaActual.jugadoresActivos:
+            bloqueTanque=jugador.tanque.bloque
+            if(bloqueTanque.colision(xDisparo,yDisparo)):
+                return True # si el tanque fue impactado
+        return False # si ningun tanque de un jugador fue impactado
 
     def dibujarTanques(self):
         for jugador in self.partidas[0].jugadoresActivos:
