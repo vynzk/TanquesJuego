@@ -55,6 +55,15 @@ class EscenaJuego(plantillaEscena.Escena):
             yDisparo = int(yDisparo)
             pygame.draw.circle(self.director.pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
             print("debería dibujar una pelota en: (", xDisparo, ",", yDisparo, ")")  # debug
+        self.cambiarJugador() # cambia de jugadorActual al otro jugador
+
+    # permite el cambio de turno entre los dos jugadores (no para n jugadores, sólo sirve para la entrega)
+    def cambiarJugador(self):
+        listaJugadoresActuales=self.partidaActual.jugadoresActivos
+        if(self.jugadorActual==listaJugadoresActuales[0]):
+            self.jugadorActual=listaJugadoresActuales[1]
+        else:
+            self.jugadorActual=listaJugadoresActuales[0]
 
     def dibujarTanques(self):
         for jugador in self.partidas[0].jugadoresActivos:
