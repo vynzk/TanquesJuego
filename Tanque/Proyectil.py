@@ -20,7 +20,7 @@ class Proyectil(Bloque):
 		"""
         if (self.vivo==True):
             self.pantalla.blit(self.balaImagen, coordenadasXY)
-        self.definir_limite()
+        self.definir_limite(coordenadasXY[0],coordenadasXY[1])
 
     def redimensionaBala(self):
         self.balaImagen = pygame.transform.scale(self.balaImagen, (30, 30))
