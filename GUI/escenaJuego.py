@@ -46,15 +46,21 @@ class EscenaJuego(plantillaEscena.Escena):
         angulo = int(input("Ingrese su angulo: "))
         velocidad = int(input("Ingrese su potencia: "))
         cuadradoJugador = self.jugadorActual.tanque.bloque
-        while delta <= 20:
+        while True:
             xDisparo = cuadradoJugador.x + delta * velocidad * math.cos(angulo * 3.1416 / 180)
             yDisparo = cuadradoJugador.y - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
             delta += 0.01
             # hay que transformarlos a int
             xDisparo = int(xDisparo)
             yDisparo = int(yDisparo)
-            pygame.draw.circle(self.director.pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
             print("debería dibujar una pelota en: (", xDisparo, ",", yDisparo, ")")  # debug
+            pygame.draw.circle(self.director.pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
+            if(self.colisionTierra(xDisparo,yDisparo)): # si impacta un bloque de tierra, se detiene la parabola (bala)
+                print("toqué tierra")
+                break;
+            elif(self.saleLimites(xDisparo,yDisparo)): # si impacta con un borde, se detiene la parabola (bala)
+                print("salí rango")
+                break;
         self.cambiarJugador() # cambia de jugadorActual al otro jugador
 
     # permite el cambio de turno entre los dos jugadores (no para n jugadores, sólo sirve para la entrega)
@@ -64,6 +70,20 @@ class EscenaJuego(plantillaEscena.Escena):
             self.jugadorActual=listaJugadoresActuales[1]
         else:
             self.jugadorActual=listaJugadoresActuales[0]
+
+    # verifica si un bloque de tierra fue impactado, si lo fue retorna true, en caso contrario false
+    def colisionTierra(self,xDisparo,yDisparo):
+        bloquesTierra=self.mapa.listaBloques
+        for bloque in bloquesTierra:
+            if(bloque.colision(xDisparo,yDisparo)):
+                return True # toca tierra y para el impacto
+        return False # permanece en el rango correcto
+
+    # verifica si un borde del mapa fue impactado, si lo fue retorna true, en caso contrario false
+    def saleLimites(self,xDisparo,yDisparo):
+        if(xDisparo>=1280 or yDisparo>=730 or xDisparo<=0 or yDisparo<=0):
+            return True #sale del rango
+        return False #dentro del rango
 
     def dibujarTanques(self):
         for jugador in self.partidas[0].jugadoresActivos:
