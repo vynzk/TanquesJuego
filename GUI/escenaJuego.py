@@ -87,8 +87,8 @@ class EscenaJuego(plantillaEscena.Escena):
 
         if (self.final):
             self.mensajeFinal()
-            
-            time.sleep(1)
+            pygame.display.update()
+            time.sleep(3)
             self.director.running=False
 
 
