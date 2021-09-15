@@ -120,12 +120,13 @@ class EscenaJuego(plantillaEscena.Escena):
         jugadorImpactado=self.colisionTanque(xDisparo,yDisparo)
         if(jugadorImpactado!=None): # si impacta con un tanque, se detiene la parabola (bala)
             print("proyectil: toqué un tanque")
-            print("El tanque de ",self.jugadorImpactado.nombre," ha destruido al tanque de ",self.jugadorActual.nombre) #debug
+            print("El tanque de ",jugadorImpactado.nombre," ha destruido al tanque de ",self.jugadorActual.nombre) #debug
             self.partidaActual.eliminarJugador(jugadorImpactado)
             self.partidaActual.terminar()
             self.director.game.mostrarRanking()
             self.director.game.definirGanador()
             self.flag=False  
+            self.final=True # << finaliza el juego y cierra la ventana
             #break;
         #--------------------------------------------------------------------------------------------------------
     def efectuarDisparo(self,ang,vel):
