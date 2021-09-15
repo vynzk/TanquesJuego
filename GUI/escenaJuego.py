@@ -85,6 +85,7 @@ class EscenaJuego(plantillaEscena.Escena):
     def efectuarDisparo(self,ang,vel):
         print("---------------------------------------------------------------")
         print("Turno jugador: ",self.jugadorActual.nombre)
+        self.flag=False
         delta = 0
         angulo = ang#int(input("Ingrese su angulo: "))
         velocidad = vel#int(input("Ingrese su potencia: "))
@@ -112,16 +113,19 @@ class EscenaJuego(plantillaEscena.Escena):
             #----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             if(self.colisionTierra(xDisparo,yDisparo)): # si impacta un bloque de tierra, se detiene la parabola (bala)
                 print("toqué tierra")
+                return trayectoria
                 break;
             elif(self.saleLimites(xDisparo,yDisparo)): # si impacta con un borde, se detiene la parabola (bala)
                 print("salí rango")
+                return trayectoria
                 break;
             elif(self.colisionTanque(xDisparo,yDisparo)): # si impacta con un tanque, se detiene la parabola (bala)
                 print("toqué un tanque")
+                return trayectoria
                 break;
             #--------------------------------------------------------------------------------------------------------
         return trayectoria
-        self.cambiarJugador() # cambia de jugadorActual al otro jugador
+         # cambia de jugadorActual al otro jugador
     
     
     def dispara(self): #dispara el jugador actual y muestra trayectoria
