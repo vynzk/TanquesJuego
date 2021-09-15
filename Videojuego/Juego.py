@@ -32,7 +32,7 @@ class Juego():
     # función que agregará una partida a la lista de partidas, cada partida agregará como jugadores activos a la
     # totalidad de jugadores que participan en el juego
     def agregarPartida(self, i,director):
-        partida = Partida(i)
+        partida = Partida(i,director)
         # va agregando los jugadores a la nueva partida
         for jugador in self.listaJugadores:
             partida.agregarJugadores(jugador)

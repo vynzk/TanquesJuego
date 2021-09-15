@@ -1,19 +1,21 @@
 import pygame
 import math
-class Turno:
-    def __init__(self):
-        self.partidaActual=None
-        self.jugadorActual=None
-        self.trayectoria = [] #temporal
-        self.contadorJugador=0 # cuenta en que posicion vendra el jugador del turno actual
 
-    def PasarTurno(self): #i ingresado debe ser igual a 0
-        self.partida.asignarTurno(self.partidaActual.jugadoresActivos[self.i])
-        if self.contadorJugador < len(self.partidaActual.listaJugadoresActivos):
-            self.contadorJugador+=1 # le toca al jugador
-        else:
-            self.contadorJugador=0 # da la vuelta 
-    
+class AdministradorTurnos:
+    def __init__(self,pantalla,partidas):
+        self.listaPartidas=partidas
+        self.jugadorActual=None # asigna 
+        self.trayectoria = [] #temporal
+        self.pantalla=pantalla
+        self.efectuarDisparo(self.pantalla) # dispara el primer jugador
+        self.comenzarPrimeraPartida()
+
+    def comenzarPrimeraPartida(self):
+        print("Partidas:",str(self.listaPartidas))
+        print("Jug part1:",str(self.listaPartidas[0].jugadoresActivos))
+        # aca sucede la designacion de que el primer jugador de la partida 1 dispara
+        pass
+
     # funcion que permite al tanque de un jugador realizar un disparo
     def efectuarDisparo(self,pantalla):
         while True: # se realiza este while para probar multiples veces

@@ -1,16 +1,28 @@
 # en el momento que sólo queda un jugador activo en la partida, se invoca el metodo terminar y pasa a la otra partida
 #partida debe ir eliminando a los jugadoras activos cuyo tanque es alcanzado
 #partida debe llamar la función "pasarTurno" del jugadorActual (otrogrado por el TurnoActual) al momento de que un proyectil colisione (con un tanque o con el piso)
+from Videojuego.AdministradorTurnos import AdministradorTurnos
+
 class Partida():
     def __init__(self, id,pantalla):
         self.id = id
         self.estado = False
+        self.pantalla=pantalla # pantalla que le pasa el director)
         self.jugadorGanador = None
         self.jugadoresActivos = []
-        self.turnoActual=None
-        self.jugadorActual= None
-        self.pantalla=pantalla # pantalla que le pasa el director
+        self.contadorJugador=0 
 
+    """
+    def asignarTurno(self): #i ingresado debe ser igual a 0
+        #self.partida.asignarTurno(self.partidaActual.jugadoresActivos[self.i])
+        print("Le toca al jugador: ",self.turnoActual.jugadorActual) #debug
+        if self.contadorJugador < len(self.jugadoresActivos):
+            self.contadorJugador+=1 # le toca al jugador
+        else:
+            self.contadorJugador=0 # da la vuelta 
+        # cambia de jugador
+        self.turnoActual.jugadorActual=self.jugadoresActivos[self.contadorJugador]#self.contadorJugador
+    """
 
     # funcion que agrega jugadores a su lista de jugadores activos
     def agregarJugadores(self, jugador):
@@ -68,11 +80,14 @@ class Partida():
     def getJugadoresActivos(self):
         return self.jugadoresActivos
 
+    """
+    def setTurno(self,turno):
+        self.turnoActual=turno
+
     def PasarTurno(self):
         # mientras haya un jugador activo
         if( len(self.jugadoresActivos) > 1):
-            self.turnoActual.PasarTurno() #entonces automaticamente self.turnoactual.jugadoractual cambia.
-            self.jugadorActual= self.turnoActual.jugadorActual
+            self.asignarTurno() #entonces automaticamente self.turnoactual.jugadoractual cambia.
             return True
         else:
             self.terminar()
@@ -81,12 +96,14 @@ class Partida():
             # llamar escenaFinal() <---- quieres ir a home o otra partida?? o que pase automaticamente 
             # invocar a cambiarPartida <<<<<<<<<<<<<
         # si no entra al while, automaticamente invoca a partida.terminar()
+        
     def disparaJugadorActual(self, angulo, potencia):
         self.turnoActual.efectuarDisparo(angulo,potencia)
         self.PasarTurno() #luego de que dispara se llama a pasrturno de clase partida
 
-
-    """"
+    """
+    
+    """
      # funcion que permite al tanque de un jugador realizar un disparo
     def efectuarDisparo(self,TanqueAtacante):
         while True: # se realiza este while para probar multiples veces

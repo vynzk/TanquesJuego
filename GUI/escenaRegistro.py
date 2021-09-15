@@ -4,8 +4,7 @@ import pygame
 from GUI import plantillaEscena
 from GUI.Boton import Boton
 from GUI.escenaJuego import EscenaJuego
-
-
+from Videojuego.AdministradorTurnos import AdministradorTurnos
 
 
 class EscenaRegistro(plantillaEscena.Escena):
@@ -24,12 +23,10 @@ class EscenaRegistro(plantillaEscena.Escena):
             if evento.type == pygame.MOUSEBUTTONDOWN:
                 self.director.mousePos= pygame.mouse.get_pos() #arreglar: usar una sola funcion de coordenadas mouse... CUIDADO
                 if (self.director.checaBoton(self.director.mousePos,self.boton_registrar)) == True:
-                    """
                     if self.registrar():
                         self.cambioEscenaJuego()
                     print("salta a escena juego")
-                    """
-                    self.cambioEscenaJuego() # de momento esto funciona
+                    #self.cambioEscenaJuego() # de momento esto funciona
                      
         def registrar(self):
             # se registran los jugadores
@@ -47,5 +44,11 @@ class EscenaRegistro(plantillaEscena.Escena):
             self.boton_registrar.dibujaBoton()
             
         def cambioEscenaJuego(self):
-            self.director.cambiarEscena(EscenaJuego(self.director)) #proximamente... la escena juego tendrá sus atributos personalizables. 
-            self.director.activadorDisparo = True #debug no sacar! atte: keke
+            # la partida ya estaba creada, solo accedo a ella
+            #partida1=self.director.game.listaPartidas[0]
+            # pero, la partida no tiene un turno actual, por tanto lo seteo
+            # para crear un objeto turno, debo pasarle el primer jugador de dicha partida
+            Adm=AdministradorTurnos(self.director.pantalla,self.director.game.listaPartidas)
+            self.director.cambiarEscena(EscenaJuego(self.director,Adm)) #proximamente... la escena juego tendrá sus atributos personalizables. 
+            
+            # self.director.activadorDisparo = True #debug no sacar! atte: keke
