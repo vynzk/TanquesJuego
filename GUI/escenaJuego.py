@@ -69,26 +69,18 @@ class EscenaJuego(plantillaEscena.Escena):
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
-        # pantalla.fill((0,0,0)) #relleno de pantalla importante en el bucle.
         iteradorBala = self.director.iterador * 10  # fijo, no sacar
         if(self.flag==False):
-            x , y = 1,1
-            coordActual=(x,y)
+            jugadorPos= self.jugadorActual.tanque.bloque
+            coordActual=(jugadorPos.x+21,jugadorPos.y+1)
         if (self.flag == True):
-            trayectoria=self.efectuarDisparo(self.angulo,self.velocidad)
-            if (len(trayectoria)<iteradorBala):
-                print("iterador bala muy grande se vuelve falso")
-                self.director.activadorDisparo = False
-                self.director.iterador = 0
-                print(self.director.iterador)
-            #print("coordenada actual que deberia llevar la bala",coordActual)            
+            trayectoria=self.efectuarDisparo(self.angulo,self.velocidad)  
             coordActual=trayectoria[(iteradorBala)]
 
-          #deberia pedir pantalla pero no pa no la quiere #además de efectuar disparo deja su trayectoria (no borrar)
+          
         self.verificaColisionBala(coordActual[0],coordActual[1])
         self.jugadorActual.tanque.bala.activaProyectil()
         self.jugadorActual.tanque.bala.sigueTrayectoria(coordActual)
-        #print(trayectoria) #debug
         
 
 
@@ -132,44 +124,6 @@ class EscenaJuego(plantillaEscena.Escena):
         
         delta = 0
         cuadrado = self.jugadorActual.tanque.bloque
-        """
-        #tanquePos= (self.jugadorActual.tanque.x,self.jugadorActual.tanque.y) #posición del tanque del jugador actual
-        self.jugadorActual.tanque.bala.activaProyectil() #activa el OBJETO proyectil
-        trayectoria=[] #coordenadas para el lanzamiento de la clase proyectil (no borrar)
-        while self.flag:
-            # el +10 en xDisparo es para que parta desde la mitad de la parte superior del tanque
-            xDisparo = cuadradoJugador.x+10 + delta * velocidad * math.cos(angulo * 3.1416 / 180)
-            # el -1 es para que no impacte el primer disparo del cañon con si mismo (la bala sale de este), si lo quitas
-            # la parabola no se dibuja ya que interpreta que se tocó a si mismo (cuando sale la bala)
-            yDisparo = cuadradoJugador.y-1 - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
-            delta += 0.01 # si quieres que hayan más puntitos en la parabola, modifica esto
-            # hay que transformarlos a int
-            #xDisparo = int(xDisparo)
-            #yDisparo = int(yDisparo)
-            
-            trayectoria.append((xDisparo,yDisparo)) #coordenadas para el lanzamiento del proyectil (no borrar)
-            
-            print("debería dibujar una pelota en: (", xDisparo, ",", yDisparo, ")")  # debug
-            pygame.draw.circle(self.director.pantalla, (0, 255, 0), (xDisparo, yDisparo),1) #comentable
-            
-            #----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
-            if(self.colisionTierra(xDisparo,yDisparo)): # si impacta un bloque de tierra, se detiene la parabola (bala)
-                print("toqué tierra")
-                self.flag=False
-                return trayectoria
-                break;
-            elif(self.saleLimites(xDisparo,yDisparo)): # si impacta con un borde, se detiene la parabola (bala)
-                print("salí rango")
-                self.flag=False
-                return trayectoria
-                break;
-            elif(self.colisionTanque(xDisparo,yDisparo)): # si impacta con un tanque, se detiene la parabola (bala)
-                print("toqué un tanque")
-                self.flag=False
-                return trayectoria
-                break;
-            #--------------------------------------------------------------------------------------------------------
-        """
         self.jugadorActual.tanque.bala.activaProyectil() 
         disparoTrayectoria=[] 
         while delta <= 20: 
