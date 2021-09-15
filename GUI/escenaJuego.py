@@ -24,6 +24,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def on_event(self, event):
         self.mousex, self.mousey = pygame.mouse.get_pos()  # capta el movimiento del mouse
+
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
@@ -34,22 +35,26 @@ class EscenaJuego(plantillaEscena.Escena):
         self.mapa.dibujar(self.director.pantalla)
         self.dibujarTanques()
         self.efectuarDisparo()
-        enter=str(input("Apreta enter para continuar"))
+        enter = str(input("Apreta enter para pasar de turno y refrescar pantalla"))
 
     # de luis para kekes: sabes que dispara peeeeeeeeero no se muestra en la pantalla, me sigue preguntando el
     # angulo y potencia pero no logro ver la trayectoria
     def efectuarDisparo(self):
+        print("---------------------------------------------------------------")
+        print("Turno jugador: ",self.jugadorActual.nombre)
         delta = 0
         angulo = int(input("Ingrese su angulo: "))
         velocidad = int(input("Ingrese su potencia: "))
         cuadradoJugador = self.jugadorActual.tanque.bloque
         while delta <= 20:
-            xDisparo = cuadradoJugador.x+10, + delta * velocidad * math.cos(angulo * 3.1416 / 180)
-            yDisparo = cuadradoJugador.y - (
-                        delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
+            xDisparo = cuadradoJugador.x + delta * velocidad * math.cos(angulo * 3.1416 / 180)
+            yDisparo = cuadradoJugador.y - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
             delta += 0.01
-            pygame.draw.circle(self.director.pantalla, (0, 255, 0), (int(xDisparo), int(yDisparo)), 1)
-            print("debería dibujar una pelota en: (",xDisparo,",",yDisparo,")") #debug
+            # hay que transformarlos a int
+            xDisparo = int(xDisparo)
+            yDisparo = int(yDisparo)
+            pygame.draw.circle(self.director.pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
+            print("debería dibujar una pelota en: (", xDisparo, ",", yDisparo, ")")  # debug
 
     def dibujarTanques(self):
         for jugador in self.partidas[0].jugadoresActivos:
