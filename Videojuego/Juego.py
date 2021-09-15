@@ -48,7 +48,7 @@ class Juego:
     def mostrarRanking(self):
         print("\n### R A N K I N G ###")
         for jugador in self.listaJugadores:
-            jugador.mostrarInformacion()
+            print(jugador.nombre," ha ganado ",jugador.victorias," partidas")
 
     # TODO: falta definir el empate
     def definirGanador(self):
@@ -58,8 +58,9 @@ class Juego:
                 ganadorAux = self.listaJugadores[contador]
             else:
                 jugadorActual = self.listaJugadores[contador]
-                if jugadorActual.getVictorias() > ganadorAux.getVictorias():
+                if jugadorActual.victorias > ganadorAux.victorias:
                     ganadorAux = jugadorActual
 
             contador += 1
         self.jugadorGanador = ganadorAux  # << se guarda en el atributo ganador
+        print("\n>>>El ganador del juego fue: ",self.jugadorGanador.nombre)

@@ -23,7 +23,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.angulo , self.velocidad = 40 , 114 #no tocar aun... angulos por defecto.
         self.flag = False #confirma si el jugador actual puede disparar
         self.final = False
-    def on_update(self):  # <<<<<<<<<<<<<<<<<<<<< ACA QUEDA LA CAGÁ
+    def on_update(self): 
         pygame.display.set_caption("EL JUEGO DE LOS TANQUES IMPLEMENTADO EN PYTHON SIN NOMBRE AUN")
         #pygame.display.update()
         #prueba de eventos
@@ -105,21 +105,27 @@ class EscenaJuego(plantillaEscena.Escena):
     # respuesta de keke: es probable que sea porque no estamos implementando los eventos y es por consola... revisré.
     #   no muestra disparo porque eliminaste la lista que guarda las trayectorias CUIDADO CON ELIMINAR COSAS! pero lo implementaré denuevo.
     def verificaColisionBala(self, xDisparo,yDisparo):
+        colisionTierra=self.colisionTierra(xDisparo,yDisparo)
         #----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
         if(self.colisionTierra(xDisparo,yDisparo)): # si impacta un bloque de tierra, se detiene la parabola (bala)
-            print("toqué tierra")
+            print("proyectil: toqué tierra")
             self.flag=False
             
             #break;
         elif(self.saleLimites(xDisparo,yDisparo)): # si impacta con un borde, se detiene la parabola (bala)
-            print("salí rango")
+            print("proyectil: salí rango")
             self.flag=False
             
             #break;
-        elif(self.colisionTanque(xDisparo,yDisparo)): # si impacta con un tanque, se detiene la parabola (bala)
-            print("toqué un tanque")
-            self.flag=False
-            
+        jugadorImpactado=self.colisionTanque(xDisparo,yDisparo)
+        if(jugadorImpactado!=None): # si impacta con un tanque, se detiene la parabola (bala)
+            print("proyectil: toqué un tanque")
+            print("El tanque de ",self.jugadorImpactado.nombre," ha destruido al tanque de ",self.jugadorActual.nombre) #debug
+            self.partidaActual.eliminarJugador(jugadorImpactado)
+            self.partidaActual.terminar()
+            self.director.game.mostrarRanking()
+            self.director.game.definirGanador()
+            self.flag=False  
             #break;
         #--------------------------------------------------------------------------------------------------------
     def efectuarDisparo(self,ang,vel):
@@ -185,8 +191,8 @@ class EscenaJuego(plantillaEscena.Escena):
             bloqueTanque=jugador.tanque.bloque
             if(bloqueTanque.colision(xDisparo,yDisparo)):
                 self.final=True
-                return True # si el tanque fue impactado
-        return False # si ningun tanque de un jugador fue impactado
+                return jugador # si el tanque fue impactado
+        return None # si ningun tanque de un jugador fue impactado
 
     def dibujarTanques(self):
         for jugador in self.partidas[0].jugadoresActivos:
