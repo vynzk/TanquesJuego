@@ -19,8 +19,9 @@ class EscenaJuego(plantillaEscena.Escena):
         self.jugadorActual = self.director.game.listaPartidas[0].jugadoresActivos[0]
         self.partidaActual = self.director.game.listaPartidas[0]
         self.disparoTrayectoria=[]
-        self.angulo , self.velocidad = 65 , 80 #no tocar aun... angulos por defecto.
+        self.angulo , self.velocidad = 40 , 114 #no tocar aun... angulos por defecto.
         self.flag = False #confirma si el jugador actual puede disparar
+        self.final = False
     def on_update(self):  # <<<<<<<<<<<<<<<<<<<<< ACA QUEDA LA CAGÁ
         pygame.display.set_caption("EL JUEGO DE LOS TANQUES IMPLEMENTADO EN PYTHON SIN NOMBRE AUN")
         #pygame.display.update()
@@ -83,7 +84,8 @@ class EscenaJuego(plantillaEscena.Escena):
         self.jugadorActual.tanque.bala.sigueTrayectoria(coordActual)
         
 
-
+        if (self.final):
+            self.mensajeFinal()
 
 
 
@@ -178,6 +180,7 @@ class EscenaJuego(plantillaEscena.Escena):
         for jugador in self.partidaActual.jugadoresActivos:
             bloqueTanque=jugador.tanque.bloque
             if(bloqueTanque.colision(xDisparo,yDisparo)):
+                self.final=True
                 return True # si el tanque fue impactado
         return False # si ningun tanque de un jugador fue impactado
 
@@ -188,6 +191,11 @@ class EscenaJuego(plantillaEscena.Escena):
 # ----- keke metodos -----#
     def muestreoVelocidadAngulo(self):
         fuente = pygame.font.SysFont("arial", 20)
-        text = "angulo: %d °   velocidad: %d (m/s)" % (self.angulo, self.velocidad) #primer %3d
+        text = "angulo: %d °   velocidad: %d (m/s)" % (self.angulo, self.velocidad) 
         mensaje = fuente.render(text, 1, (255, 255, 255))
         self.director.pantalla.blit(mensaje, (15, 5))
+    def mensajeFinal(self):
+        fuente = pygame.font.SysFont("arial", 30)
+        text = "FIN DEL JUEGO"
+        mensaje = fuente.render(text, 1, (255, 0, 0))
+        self.director.pantalla.blit(mensaje, (500, 300))
