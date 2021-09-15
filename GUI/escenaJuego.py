@@ -19,13 +19,17 @@ class EscenaJuego(plantillaEscena.Escena):
         self.jugadorActual = self.director.game.listaPartidas[0].jugadoresActivos[0]
         self.partidaActual = self.director.game.listaPartidas[0]
         self.disparoTrayectoria=[]
-        self.angulo , self.velocidad = 35 , 5 #no tocar
+        self.angulo , self.velocidad = 65 , 80 #no tocar aun... angulos por defecto.
         self.flag = False #confirma si el jugador actual puede disparar
     def on_update(self):  # <<<<<<<<<<<<<<<<<<<<< ACA QUEDA LA CAGÁ
         pygame.display.set_caption("EL JUEGO DE LOS TANQUES IMPLEMENTADO EN PYTHON SIN NOMBRE AUN")
         #pygame.display.update()
         #prueba de eventos
-        
+        self.director.pantalla.blit(self.fondo, (0, 0))
+        self.muestreoVelocidadAngulo() #dibuja la velocidad y el angulo elegido por el usuario
+        self.piso.dibujar()
+        self.mapa.dibujar(self.director.pantalla)
+        self.dibujarTanques()
        
 
 
@@ -47,26 +51,46 @@ class EscenaJuego(plantillaEscena.Escena):
                 print("down: angulo --")
             if event.key == pygame.K_SPACE:
                 print("space: dispara")
-                print("flag: true")
-                self.flag= True
+                
+                if (self.flag==False):
+                    print("flag: true")
+                    self.flag= True #flag es para efectuar el disparo
+                    self.director.activadorDisparo = True #activa el iterador de disparo en director
+                else:
+                    print("cambia de TURNOa antes!")
+                
             if event.key == pygame.K_TAB:
                 print("tab: cambia de turno")
                 print("flag: false")
                 self.cambioDeTurno()
+                self.director.iterador = 0
                 self.flag = False
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
         # pantalla.fill((0,0,0)) #relleno de pantalla importante en el bucle.
-        
-        self.director.pantalla.blit(self.fondo, (0, 0))
-        self.muestreoVelocidadAngulo() #dibuja la velocidad y el angulo elegido por el usuario
-        self.piso.dibujar()
-        self.mapa.dibujar(self.director.pantalla)
-        self.dibujarTanques()
+        iteradorBala = self.director.iterador * 10  # fijo, no sacar
+        if(self.flag==False):
+            x , y = 1,1
+            coordActual=(x,y)
         if (self.flag == True):
-            self.dispara()
+            trayectoria=self.efectuarDisparo(self.angulo,self.velocidad)
+            if (len(trayectoria)<iteradorBala):
+                print("iterador bala muy grande se vuelve falso")
+                self.director.activadorDisparo = False
+                self.director.iterador = 0
+                print(self.director.iterador)
+            #print("coordenada actual que deberia llevar la bala",coordActual)            
+            coordActual=trayectoria[(iteradorBala)]
+
+          #deberia pedir pantalla pero no pa no la quiere #además de efectuar disparo deja su trayectoria (no borrar)
+        self.verificaColisionBala(coordActual[0],coordActual[1])
+        self.jugadorActual.tanque.bala.activaProyectil()
+        self.jugadorActual.tanque.bala.sigueTrayectoria(coordActual)
+        #print(trayectoria) #debug
+        
+
 
 
 
@@ -82,19 +106,37 @@ class EscenaJuego(plantillaEscena.Escena):
     # angulo y potencia pero no logro ver la trayectoria
     # respuesta de keke: es probable que sea porque no estamos implementando los eventos y es por consola... revisré.
     #   no muestra disparo porque eliminaste la lista que guarda las trayectorias CUIDADO CON ELIMINAR COSAS! pero lo implementaré denuevo.
+    def verificaColisionBala(self, xDisparo,yDisparo):
+        #----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
+        if(self.colisionTierra(xDisparo,yDisparo)): # si impacta un bloque de tierra, se detiene la parabola (bala)
+            print("toqué tierra")
+            self.flag=False
+            
+            #break;
+        elif(self.saleLimites(xDisparo,yDisparo)): # si impacta con un borde, se detiene la parabola (bala)
+            print("salí rango")
+            self.flag=False
+            
+            #break;
+        elif(self.colisionTanque(xDisparo,yDisparo)): # si impacta con un tanque, se detiene la parabola (bala)
+            print("toqué un tanque")
+            self.flag=False
+            
+            #break;
+        #--------------------------------------------------------------------------------------------------------
     def efectuarDisparo(self,ang,vel):
-        print("---------------------------------------------------------------")
-        print("Turno jugador: ",self.jugadorActual.nombre)
-        self.flag=False
-        delta = 0
+        #print("---------------------------------------------------------------")
+        #print("Turno jugador: ",self.jugadorActual.nombre)
         angulo = ang#int(input("Ingrese su angulo: "))
         velocidad = vel#int(input("Ingrese su potencia: "))
-        cuadradoJugador = self.jugadorActual.tanque.bloque
-
-        tanquePos= (self.jugadorActual.tanque.x,self.jugadorActual.tanque.y) #posición del tanque del jugador actual (no borrar)
-        self.jugadorActual.tanque.bala.activaProyectil(tanquePos) #activa el OBJETO proyectil
+        
+        delta = 0
+        cuadrado = self.jugadorActual.tanque.bloque
+        """
+        #tanquePos= (self.jugadorActual.tanque.x,self.jugadorActual.tanque.y) #posición del tanque del jugador actual
+        self.jugadorActual.tanque.bala.activaProyectil() #activa el OBJETO proyectil
         trayectoria=[] #coordenadas para el lanzamiento de la clase proyectil (no borrar)
-        while True:
+        while self.flag:
             # el +10 en xDisparo es para que parta desde la mitad de la parte superior del tanque
             xDisparo = cuadradoJugador.x+10 + delta * velocidad * math.cos(angulo * 3.1416 / 180)
             # el -1 es para que no impacte el primer disparo del cañon con si mismo (la bala sale de este), si lo quitas
@@ -102,37 +144,54 @@ class EscenaJuego(plantillaEscena.Escena):
             yDisparo = cuadradoJugador.y-1 - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
             delta += 0.01 # si quieres que hayan más puntitos en la parabola, modifica esto
             # hay que transformarlos a int
-            xDisparo = int(xDisparo)
-            yDisparo = int(yDisparo)
+            #xDisparo = int(xDisparo)
+            #yDisparo = int(yDisparo)
             
             trayectoria.append((xDisparo,yDisparo)) #coordenadas para el lanzamiento del proyectil (no borrar)
             
             print("debería dibujar una pelota en: (", xDisparo, ",", yDisparo, ")")  # debug
             pygame.draw.circle(self.director.pantalla, (0, 255, 0), (xDisparo, yDisparo),1) #comentable
-
+            
             #----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             if(self.colisionTierra(xDisparo,yDisparo)): # si impacta un bloque de tierra, se detiene la parabola (bala)
                 print("toqué tierra")
+                self.flag=False
                 return trayectoria
                 break;
             elif(self.saleLimites(xDisparo,yDisparo)): # si impacta con un borde, se detiene la parabola (bala)
                 print("salí rango")
+                self.flag=False
                 return trayectoria
                 break;
             elif(self.colisionTanque(xDisparo,yDisparo)): # si impacta con un tanque, se detiene la parabola (bala)
                 print("toqué un tanque")
+                self.flag=False
                 return trayectoria
                 break;
             #--------------------------------------------------------------------------------------------------------
-        return trayectoria
+        """
+        self.jugadorActual.tanque.bala.activaProyectil() 
+        disparoTrayectoria=[] 
+        while delta <= 20: 
+            #los "+21 y +1" evitan que el proyectil toque su propio tanque NO TOCAR"
+            xDisparo = cuadrado.x+21 + delta * velocidad * math.cos(angulo * 3.1416 / 180) 
+            yDisparo = cuadrado.y+1 - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2) 
+            disparoTrayectoria.append((xDisparo,yDisparo)) 
+            delta += 0.05 
+            #descomentar si quieren debuguear la trayectoria 
+            #pygame.draw.circle(self.director.pantalla, (0, 255, 0), (xDisparo, yDisparo),1) 
+        return disparoTrayectoria
          # cambia de jugadorActual al otro jugador
     
     
-    def dispara(self): #dispara el jugador actual y muestra trayectoria
+    def dispara(self): #dispara el jugador actual y muestra trayectoria #copiada en on_draw (sacar)
         iteradorBala = self.director.iterador * 10  # fijo, no sacar
         trayectoria=self.efectuarDisparo(self.angulo,self.velocidad) #deberia pedir pantalla pero no pa no la quiere #además de efectuar disparo deja su trayectoria (no borrar)
+        #print(trayectoria) #debug
         CoordenadaTrayectoriaActual=trayectoria[(iteradorBala)] 
-        self.jugadorActual.tanque.bala.sigueTrayectoria(CoordenadaTrayectoriaActual) 
+        self.jugadorActual.tanque.bala.activaProyectil()
+        self.jugadorActual.tanque.bala.sigueTrayectoria(CoordenadaTrayectoriaActual)
+
     def cambioDeTurno(self):
         self.cambiarJugador()
     # permite el cambio de turno entre los dos jugadores (no para n jugadores, sólo sirve para la entrega)

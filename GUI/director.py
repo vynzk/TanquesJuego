@@ -34,7 +34,6 @@ class Director:
             self.escena.on_draw(self.pantalla)
             if (self.activadorDisparo == True):  # debuggueo
                 self.iterador += 1
-
             pygame.display.update()
 
     # ---------- funciones kernel (avisar si la tocan) ----------#

@@ -9,7 +9,7 @@ class Proyectil(Bloque):
         self.balaImagen = pygame.image.load("GUI/imagenes/bomb.png").convert_alpha()
         self.redimensionaBala()
 
-    def activaProyectil(self, coordenadasXY):
+    def activaProyectil(self):
         self.vivo = True
 
     def sigueTrayectoria(self, coordenadasXY):  # para que siga la trayectoria de disparo
