@@ -5,6 +5,7 @@ import math
 from GUI import plantillaEscena
 from GUI import bloque
 from Mapa import Mapa
+import time
 
 
 class EscenaJuego(plantillaEscena.Escena):
@@ -86,6 +87,9 @@ class EscenaJuego(plantillaEscena.Escena):
 
         if (self.final):
             self.mensajeFinal()
+            
+            time.sleep(1)
+            self.director.running=False
 
 
 
@@ -198,4 +202,4 @@ class EscenaJuego(plantillaEscena.Escena):
         fuente = pygame.font.SysFont("arial", 30)
         text = "FIN DEL JUEGO"
         mensaje = fuente.render(text, 1, (255, 0, 0))
-        self.director.pantalla.blit(mensaje, (500, 300))
+        self.director.pantalla.blit(mensaje, (450, 300))
