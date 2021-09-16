@@ -5,7 +5,7 @@ import math
 from GUI import plantillaEscena
 from GUI import bloque
 from Mapa import Mapa
-
+import time
 
 class EscenaJuego(plantillaEscena.Escena):
 
@@ -19,13 +19,32 @@ class EscenaJuego(plantillaEscena.Escena):
         self.jugadorActual = self.director.game.listaPartidas[0].jugadoresActivos[0]
         self.partidaActual = self.director.game.listaPartidas[0]
         self.trayectoria=[]
+        self.angulo=40
+        self.potencia=124
         self.contador=0
+        self.flag=False
 
     def on_update(self):  # <<<<<<<<<<<<<<<<<<<<< ACA QUEDA LA CAGÁ
         pygame.display.set_caption("EL JUEGO DE LOS TANQUES IMPLEMENTADO EN PYTHON SIN NOMBRE AUN")
 
     def on_event(self, event):
-        self.mousex, self.mousey = pygame.mouse.get_pos()  # capta el movimiento del mouse
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                self.potencia -=1
+                print("potencia: ",self.potencia,"; left: potencia --")
+            if event.key == pygame.K_RIGHT:
+                self.potencia +=1
+                print("potencia: ",self.potencia,"; right: potencia ++")
+            if event.key == pygame.K_UP:
+                self.angulo +=1
+                print("angulo: ",self.angulo,"; up: angulo ++")
+            if event.key == pygame.K_DOWN:
+                self.angulo -=1
+                print("angulo: ",self.angulo,"; down: angulo --")
+            if event.key == pygame.K_SPACE:
+                self.flag=True
+                print("space: dispara")
+        #self.mousex, self.mousey = pygame.mouse.get_pos()  # capta el movimiento del mouse
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
@@ -36,19 +55,23 @@ class EscenaJuego(plantillaEscena.Escena):
         self.piso.dibujar()
         self.mapa.dibujar(self.director.pantalla)
         self.dibujarTanques()
-        if(self.trayectoria==[]):
-            self.efectuarDisparo()
-        else:
-            if(self.contador<len(self.trayectoria)):
-                coord=self.trayectoria[self.contador]
-                pygame.draw.circle(self.director.pantalla, (0, 255, 0), (coord[0],coord[1]),1)
-                self.contador+=1
-                pygame.time.wait(125)
+        if(self.flag):
+            if(self.trayectoria==[]):
+                self.efectuarDisparo()
             else:
-                self.contador=0 # << el contador debe estar limpio para un nuevo jugador
-                self.trayectoria=[] # << la trayectoria debe estar limpio para un nuevo jugador
-                self.cambiarJugador()
-                enter = str(input("Apreta enter para pasar de turno y refrescar pantalla"))
+                if(self.contador<len(self.trayectoria)):
+                    coord=self.trayectoria[self.contador]
+                    pygame.draw.circle(self.director.pantalla, (0, 255, 0), (coord[0],coord[1]),3)
+                    self.contador+=1
+                    pygame.time.wait(125)
+                else:
+                    self.contador=0 # << el contador debe estar limpio para un nuevo jugador
+                    self.trayectoria=[] # << la trayectoria debe estar limpio para un nuevo jugador
+                    self.angulo=40 # << angulo default
+                    self.potencia=124  # << potencia default
+                    self.flag=False # << debe apretar enter nuevamente el jugador para disparar
+                    self.cambiarJugador()
+                    self.mensajeTurno()
 
         #enter = str(input("Apreta enter para pasar de turno y refrescar pantalla"))
 
@@ -58,17 +81,15 @@ class EscenaJuego(plantillaEscena.Escena):
         print("---------------------------------------------------------------")
         print("Turno jugador: ",self.jugadorActual.nombre)
         delta = 0
-        angulo = int(input("Ingrese su angulo: "))
-        velocidad = int(input("Ingrese su potencia: "))
         cuadradoJugador = self.jugadorActual.tanque.bloque
         while True:
             print("el tanque del jugador ",self.jugadorActual," disparó")
             # el +10 en xDisparo es para que parta desde la mitad de la parte superior del tanque
-            xDisparo = cuadradoJugador.x+10 + delta * velocidad * math.cos(angulo * 3.1416 / 180)
+            xDisparo = cuadradoJugador.x+10 + delta * self.potencia * math.cos(self.angulo * 3.1416 / 180)
             # el -1 es para que no impacte el primer disparo del cañon con si mismo (la bala sale de este), si lo quitas
             # la parabola no se dibuja ya que interpreta que se tocó a si mismo (cuando sale la bala)
-            yDisparo = cuadradoJugador.y-1 - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
-            delta += 0.25 # si quieres que hayan más puntitos en la parabola, modifica esto
+            yDisparo = cuadradoJugador.y-1 - (delta * self.potencia * math.sin(self.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
+            delta += 0.5 # si quieres que hayan más puntitos en la parabola, modifica esto
             # hay que transformarlos a int
             xDisparo = int(xDisparo)
             yDisparo = int(yDisparo)
@@ -123,3 +144,12 @@ class EscenaJuego(plantillaEscena.Escena):
     def dibujarTanques(self):
         for jugador in self.partidas[0].jugadoresActivos:
             jugador.tanque.bloque.dibujar()
+
+    def mensajeTurno(self):
+        fuente = pygame.font.SysFont("arial", 30)
+        text = "TURNO: "+str.upper(self.jugadorActual.nombre)
+        colorTanque=self.jugadorActual.tanque.bloque.color
+        mensaje = fuente.render(text, 1,colorTanque)
+        self.director.pantalla.blit(mensaje, (450, 300))
+        pygame.display.update()
+        time.sleep(2)
