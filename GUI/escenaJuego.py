@@ -18,6 +18,8 @@ class EscenaJuego(plantillaEscena.Escena):
         self.mapa = Mapa.Mapa()  # se ponen los bloques de tierra en el mapa
         self.jugadorActual = self.director.game.listaPartidas[0].jugadoresActivos[0]
         self.partidaActual = self.director.game.listaPartidas[0]
+        self.trayectoria=[]
+        self.contador=0
 
     def on_update(self):  # <<<<<<<<<<<<<<<<<<<<< ACA QUEDA LA CAGÁ
         pygame.display.set_caption("EL JUEGO DE LOS TANQUES IMPLEMENTADO EN PYTHON SIN NOMBRE AUN")
@@ -34,8 +36,21 @@ class EscenaJuego(plantillaEscena.Escena):
         self.piso.dibujar()
         self.mapa.dibujar(self.director.pantalla)
         self.dibujarTanques()
-        self.efectuarDisparo()
-        enter = str(input("Apreta enter para pasar de turno y refrescar pantalla"))
+        if(self.trayectoria==[]):
+            self.efectuarDisparo()
+        else:
+            if(self.contador<len(self.trayectoria)):
+                coord=self.trayectoria[self.contador]
+                print("dibuja")
+                pygame.draw.circle(self.director.pantalla, (0, 255, 0), (coord[0],coord[1]),1)
+                self.contador+=1
+            else:
+                self.contador=0 # << el contador debe estar limpio para un nuevo jugador
+                self.trayectoria=[] # << la trayectoria debe estar limpio para un nuevo jugador
+                self.cambiarJugador()
+                enter = str(input("Apreta enter para pasar de turno y refrescar pantalla"))
+
+        #enter = str(input("Apreta enter para pasar de turno y refrescar pantalla"))
 
     # de luis para kekes: sabes que dispara peeeeeeeeero no se muestra en la pantalla, me sigue preguntando el
     # angulo y potencia pero no logro ver la trayectoria
@@ -47,6 +62,7 @@ class EscenaJuego(plantillaEscena.Escena):
         velocidad = int(input("Ingrese su potencia: "))
         cuadradoJugador = self.jugadorActual.tanque.bloque
         while True:
+            print("el tanque del jugador ",self.jugadorActual," disparó")
             # el +10 en xDisparo es para que parta desde la mitad de la parte superior del tanque
             xDisparo = cuadradoJugador.x+10 + delta * velocidad * math.cos(angulo * 3.1416 / 180)
             # el -1 es para que no impacte el primer disparo del cañon con si mismo (la bala sale de este), si lo quitas
@@ -56,21 +72,23 @@ class EscenaJuego(plantillaEscena.Escena):
             # hay que transformarlos a int
             xDisparo = int(xDisparo)
             yDisparo = int(yDisparo)
-            print("debería dibujar una pelota en: (", xDisparo, ",", yDisparo, ")")  # debug
-            pygame.draw.circle(self.director.pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
+            #print("debería dibujar una pelota en: (", xDisparo, ",", yDisparo, ")")  # debug
+            self.trayectoria.append((xDisparo,yDisparo))
+            print("T:",str(self.trayectoria))
+            #pygame.draw.circle(self.director.pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
             #----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             if(self.colisionTierra(xDisparo,yDisparo)): # si impacta un bloque de tierra, se detiene la parabola (bala)
                 print("toqué tierra")
-                break;
+                break
             elif(self.saleLimites(xDisparo,yDisparo)): # si impacta con un borde, se detiene la parabola (bala)
                 print("salí rango")
-                break;
+                break
             elif(self.colisionTanque(xDisparo,yDisparo)): # si impacta con un tanque, se detiene la parabola (bala)
                 print("toqué un tanque")
-                break;
+                break
             #--------------------------------------------------------------------------------------------------------
-        self.cambiarJugador() # cambia de jugadorActual al otro jugador
-
+        #self.cambiarJugador() # cambia de jugadorActual al otro jugador
+        
     # permite el cambio de turno entre los dos jugadores (no para n jugadores, sólo sirve para la entrega)
     def cambiarJugador(self):
         listaJugadoresActuales=self.partidaActual.jugadoresActivos
