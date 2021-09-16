@@ -49,30 +49,34 @@ class EscenaJuego(plantillaEscena.Escena):
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
-        # pantalla.fill((0,0,0)) #relleno de pantalla importante en el bucle.
-        iteradorBala = self.director.iterador * 10  # fijo, no sacar
-        pantalla.blit(self.fondo, (0, 0))
-        self.piso.dibujar()
-        self.mapa.dibujar(self.director.pantalla)
-        self.dibujarTanques()
-        if(self.flag):
-            if(self.trayectoria==[]):
-                self.efectuarDisparo()
-            else:
-                if(self.contador<len(self.trayectoria)):
-                    coord=self.trayectoria[self.contador]
-                    pygame.draw.circle(self.director.pantalla, (0, 255, 0), (coord[0],coord[1]),3)
-                    self.contador+=1
-                    pygame.time.wait(125)
+        # si tiene más de un jugador activo la partida, sigue la partida jugandose
+        if(len(self.partidaActual.jugadoresActivos)>1):
+            # pantalla.fill((0,0,0)) #relleno de pantalla importante en el bucle.
+            iteradorBala = self.director.iterador * 10  # fijo, no sacar
+            pantalla.blit(self.fondo, (0, 0))
+            self.piso.dibujar()
+            self.mapa.dibujar(self.director.pantalla)
+            self.dibujarTanques()
+            if(self.flag):
+                if(self.trayectoria==[]):
+                    self.efectuarDisparo()
                 else:
-                    self.contador=0 # << el contador debe estar limpio para un nuevo jugador
-                    self.trayectoria=[] # << la trayectoria debe estar limpio para un nuevo jugador
-                    self.angulo=40 # << angulo default
-                    self.potencia=124  # << potencia default
-                    self.flag=False # << debe apretar enter nuevamente el jugador para disparar
-                    self.cambiarJugador()
-                    self.mensajeTurno()
-
+                    if(self.contador<len(self.trayectoria)):
+                        coord=self.trayectoria[self.contador]
+                        pygame.draw.circle(self.director.pantalla, (0, 255, 0), (coord[0],coord[1]),3)
+                        self.contador+=1
+                        pygame.time.wait(125)
+                    else:
+                        self.contador=0 # << el contador debe estar limpio para un nuevo jugador
+                        self.trayectoria=[] # << la trayectoria debe estar limpio para un nuevo jugador
+                        self.angulo=40 # << angulo default
+                        self.potencia=124  # << potencia default
+                        self.flag=False # << debe apretar enter nuevamente el jugador para disparar
+                        self.cambiarJugador()
+                        self.mensajeTurno()
+        else:
+            self.mensajeFinPartida()
+            self.running=False # rompe el gameloop para terminar el juego
         #enter = str(input("Apreta enter para pasar de turno y refrescar pantalla"))
 
     # de luis para kekes: sabes que dispara peeeeeeeeero no se muestra en la pantalla, me sigue preguntando el
@@ -83,7 +87,7 @@ class EscenaJuego(plantillaEscena.Escena):
         delta = 0
         cuadradoJugador = self.jugadorActual.tanque.bloque
         while True:
-            print("el tanque del jugador ",self.jugadorActual," disparó")
+            #print("el tanque del jugador ",self.jugadorActual," disparó")
             # el +10 en xDisparo es para que parta desde la mitad de la parte superior del tanque
             xDisparo = cuadradoJugador.x+10 + delta * self.potencia * math.cos(self.angulo * 3.1416 / 180)
             # el -1 es para que no impacte el primer disparo del cañon con si mismo (la bala sale de este), si lo quitas
@@ -153,3 +157,11 @@ class EscenaJuego(plantillaEscena.Escena):
         self.director.pantalla.blit(mensaje, (450, 300))
         pygame.display.update()
         time.sleep(2)
+
+    def mensajeFinPartida(self):
+        fuente = pygame.font.SysFont("arial", 30)
+        text = "FIN DEL JUEGO"
+        mensaje = fuente.render(text, 1, (255, 0, 0))
+        self.director.pantalla.blit(mensaje, (450, 300))
+        pygame.display.update()
+        time.sleep(3)
