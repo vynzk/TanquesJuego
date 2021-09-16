@@ -41,9 +41,9 @@ class EscenaJuego(plantillaEscena.Escena):
         else:
             if(self.contador<len(self.trayectoria)):
                 coord=self.trayectoria[self.contador]
-                print("dibuja")
                 pygame.draw.circle(self.director.pantalla, (0, 255, 0), (coord[0],coord[1]),1)
                 self.contador+=1
+                pygame.time.wait(125)
             else:
                 self.contador=0 # << el contador debe estar limpio para un nuevo jugador
                 self.trayectoria=[] # << la trayectoria debe estar limpio para un nuevo jugador
@@ -68,13 +68,13 @@ class EscenaJuego(plantillaEscena.Escena):
             # el -1 es para que no impacte el primer disparo del cañon con si mismo (la bala sale de este), si lo quitas
             # la parabola no se dibuja ya que interpreta que se tocó a si mismo (cuando sale la bala)
             yDisparo = cuadradoJugador.y-1 - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
-            delta += 0.01 # si quieres que hayan más puntitos en la parabola, modifica esto
+            delta += 0.25 # si quieres que hayan más puntitos en la parabola, modifica esto
             # hay que transformarlos a int
             xDisparo = int(xDisparo)
             yDisparo = int(yDisparo)
             #print("debería dibujar una pelota en: (", xDisparo, ",", yDisparo, ")")  # debug
             self.trayectoria.append((xDisparo,yDisparo))
-            print("T:",str(self.trayectoria))
+            #print("T:",str(self.trayectoria))
             #pygame.draw.circle(self.director.pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
             #----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             if(self.colisionTierra(xDisparo,yDisparo)): # si impacta un bloque de tierra, se detiene la parabola (bala)
