@@ -11,6 +11,7 @@ class Juego:
         self.listaPartidas = []
         self.listaTanquesDisponibles = [Tanque]  # acá iran los objetos tanques disponibles para elegir inicialmente
         self.jugadorGanador = None
+        self.juegoTerminado=False
 
     def agregarJugador(self, i, pantalla):
         # colores de los tanques
@@ -45,12 +46,7 @@ class Juego:
             self.listaPartidas.append(self.agregarPartida(i, director))
         return True  # termina con exito el registro
 
-    def mostrarRanking(self):
-        print("\n### R A N K I N G ###")
-        for jugador in self.listaJugadores:
-            jugador.mostrarInformacion()
-
-    # TODO: falta definir el empate
+     # TODO: falta definir el empate
     def definirGanador(self):
         contador = 0
         while contador < self.cantidadJugadores:
@@ -58,8 +54,9 @@ class Juego:
                 ganadorAux = self.listaJugadores[contador]
             else:
                 jugadorActual = self.listaJugadores[contador]
-                if jugadorActual.getVictorias() > ganadorAux.getVictorias():
+                if jugadorActual.victorias > ganadorAux.victorias:
                     ganadorAux = jugadorActual
 
             contador += 1
         self.jugadorGanador = ganadorAux  # << se guarda en el atributo ganador
+        self.juegoTerminado=True

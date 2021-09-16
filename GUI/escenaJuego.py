@@ -20,7 +20,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.partidaActual = self.director.game.listaPartidas[0]
         self.trayectoria=[]
         self.angulo=40
-        self.potencia=124
+        self.potencia=114
         self.contador=0
         self.flag=False
 
@@ -49,35 +49,51 @@ class EscenaJuego(plantillaEscena.Escena):
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
-        # si tiene más de un jugador activo la partida, sigue la partida jugandose
-        if(len(self.partidaActual.jugadoresActivos)>1):
-            # pantalla.fill((0,0,0)) #relleno de pantalla importante en el bucle.
-            iteradorBala = self.director.iterador * 10  # fijo, no sacar
-            pantalla.blit(self.fondo, (0, 0))
-            self.piso.dibujar()
-            self.mapa.dibujar(self.director.pantalla)
-            self.dibujarTanques()
-            if(self.flag):
-                if(self.trayectoria==[]):
-                    self.efectuarDisparo()
-                else:
-                    if(self.contador<len(self.trayectoria)):
-                        coord=self.trayectoria[self.contador]
-                        pygame.draw.circle(self.director.pantalla, (0, 255, 0), (coord[0],coord[1]),3)
-                        self.contador+=1
-                        pygame.time.wait(125)
+        if(self.director.game.juegoTerminado != True):
+            # si tiene más de un jugador activo la partida, sigue la partida jugandose
+            if(len(self.partidaActual.jugadoresActivos)>1):
+                # pantalla.fill((0,0,0)) #relleno de pantalla importante en el bucle.
+                iteradorBala = self.director.iterador * 10  # fijo, no sacar
+                pantalla.blit(self.fondo, (0, 0))
+                self.piso.dibujar()
+                self.mapa.dibujar(self.director.pantalla)
+                self.dibujarTanques()
+                if(self.flag):
+                    if(self.trayectoria==[]):
+                        self.efectuarDisparo()
                     else:
-                        self.contador=0 # << el contador debe estar limpio para un nuevo jugador
-                        self.trayectoria=[] # << la trayectoria debe estar limpio para un nuevo jugador
-                        self.angulo=40 # << angulo default
-                        self.potencia=124  # << potencia default
-                        self.flag=False # << debe apretar enter nuevamente el jugador para disparar
-                        self.cambiarJugador()
-                        self.mensajeTurno()
+                        if(self.contador<len(self.trayectoria)):
+                            self.dibujarBala()
+                        else:
+                            self.contador=0 # << el contador debe estar limpio para un nuevo jugador
+                            self.trayectoria=[] # << la trayectoria debe estar limpio para un nuevo jugador
+                            self.angulo=40 # << angulo default
+                            self.potencia=114  # << potencia default
+                            self.flag=False # << debe apretar enter nuevamente el jugador para disparar
+                            self.cambiarJugador()
+                            self.mensajeTurno()
+            else:
+                if(self.contador<len(self.trayectoria)):
+                    self.dibujarBala()
+                else:
+                # << dibuja la bala de la trayectoria ganadora
+                    self.partidaActual.terminar() 
+                    self.mensajeFinPartida()
+                    #print("Jugador ganador del juego: ",self.director.game.jugadorGanador)
+                    #print("Estado juego:",self.director.game.juegoTerminado)
+                    self.director.game.definirGanador() # << invocamos que defina un ganador del juego
+                    # el metodo anterior cambia el estado de juegoTerminado a True 
+                    # Nota: como es una partida de momento, si gana la partida gana el juego
         else:
-            self.mensajeFinPartida()
-            self.running=False # rompe el gameloop para terminar el juego
-        #enter = str(input("Apreta enter para pasar de turno y refrescar pantalla"))
+
+            self.mensajeFinJuego()
+            self.director.running=False # rompe el gameloop para terminar el juego
+
+    def dibujarBala(self):
+        coord=self.trayectoria[self.contador]
+        pygame.draw.circle(self.director.pantalla, (0, 255, 0), (coord[0],coord[1]),3)
+        self.contador+=1
+        pygame.time.wait(125)
 
     # de luis para kekes: sabes que dispara peeeeeeeeero no se muestra en la pantalla, me sigue preguntando el
     # angulo y potencia pero no logro ver la trayectoria
@@ -105,11 +121,15 @@ class EscenaJuego(plantillaEscena.Escena):
             if(self.colisionTierra(xDisparo,yDisparo)): # si impacta un bloque de tierra, se detiene la parabola (bala)
                 print("toqué tierra")
                 break
-            elif(self.saleLimites(xDisparo,yDisparo)): # si impacta con un borde, se detiene la parabola (bala)
+
+            if(self.saleLimites(xDisparo,yDisparo)): # si impacta con un borde, se detiene la parabola (bala)
                 print("salí rango")
                 break
-            elif(self.colisionTanque(xDisparo,yDisparo)): # si impacta con un tanque, se detiene la parabola (bala)
+
+            jugadorImpactado=self.colisionTanque(xDisparo,yDisparo)
+            if(jugadorImpactado!=None): # si impacta con un tanque, se detiene la parabola (bala)
                 print("toqué un tanque")
+                self.partidaActual.eliminarJugador(jugadorImpactado)
                 break
             #--------------------------------------------------------------------------------------------------------
         #self.cambiarJugador() # cambia de jugadorActual al otro jugador
@@ -142,8 +162,8 @@ class EscenaJuego(plantillaEscena.Escena):
         for jugador in self.partidaActual.jugadoresActivos:
             bloqueTanque=jugador.tanque.bloque
             if(bloqueTanque.colision(xDisparo,yDisparo)):
-                return True # si el tanque fue impactado
-        return False # si ningun tanque de un jugador fue impactado
+                return jugador # si el tanque fue impactado
+        return None # si ningun tanque de un jugador fue impactado
 
     def dibujarTanques(self):
         for jugador in self.partidas[0].jugadoresActivos:
@@ -152,7 +172,7 @@ class EscenaJuego(plantillaEscena.Escena):
     def mensajeTurno(self):
         fuente = pygame.font.SysFont("arial", 30)
         text = "TURNO: "+str.upper(self.jugadorActual.nombre)
-        colorTanque=self.jugadorActual.tanque.bloque.color
+        colorTanque=self.jugadorActual.tanque.color
         mensaje = fuente.render(text, 1,colorTanque)
         self.director.pantalla.blit(mensaje, (450, 300))
         pygame.display.update()
@@ -160,8 +180,22 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def mensajeFinPartida(self):
         fuente = pygame.font.SysFont("arial", 30)
-        text = "FIN DEL JUEGO"
-        mensaje = fuente.render(text, 1, (255, 0, 0))
-        self.director.pantalla.blit(mensaje, (450, 300))
+        jugadorGanador=self.partidaActual.jugadorGanador
+        colorTanque=jugadorGanador.tanque.color
+
+        text = "FIN DE PARTIDA ; GANADOR:"+str.upper(jugadorGanador.nombre) 
+        mensaje = fuente.render(text, 1,colorTanque)
+        self.director.pantalla.blit(mensaje, (450,300))
+        pygame.display.update()
+        time.sleep(1)
+
+    def mensajeFinJuego(self):
+        fuente = pygame.font.SysFont("arial", 30)
+        jugadorGanador=self.director.game.jugadorGanador
+        colorTanque=jugadorGanador.tanque.color
+
+        text = "FIN DEL JUEGO ; GANADOR:"+str.upper(jugadorGanador.nombre) 
+        mensaje = fuente.render(text, 1,colorTanque)
+        self.director.pantalla.blit(mensaje, (450,400))
         pygame.display.update()
         time.sleep(3)

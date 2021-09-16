@@ -36,6 +36,7 @@ class Director:
                 self.iterador += 1
 
             pygame.display.update()
+        print("FIN DEL JUEGO")
 
     # ---------- funciones kernel (avisar si la tocan) ----------#
     def cambiarEscena(self, escenaNueva):

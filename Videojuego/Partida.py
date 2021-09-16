@@ -20,18 +20,7 @@ class Partida:
         self.estado = True
         self.jugadorGanador = self.jugadoresActivos[0]
         self.jugadorGanador.sumarVictoria()
-        print("\n!!!! El/la jugador/a ", self.jugadorGanador.getNombre(), " ganó la partida !!!!")
 
     # funcion que brinda la posibilidad de eliminar jugadores al jugadorAtacante 
-    def eliminarJugador(self, jugadorAtacante):
-        print("\nELIMINAR JUGADOR [Debug]")
-        self.mostrarJugadoresActivos()
-        opcionEliminar = int(input("  Ingrese la posicion del jugador que desea eliminar: "))
-        try:
-            jugadorEliminado = self.jugadoresActivos[opcionEliminar]
-            self.jugadoresActivos.pop(opcionEliminar)  # << lo eliminamos
-            print("\n>>ACCION: Jugador/a ", jugadorEliminado.getNombre(), " ha sido eliminado por ",
-                  jugadorAtacante.getNombre())
-            # partida.PasarTurno |  aca pasariamos de turno <<<<<<<<<<<<<<<<<<<<
-        except:
-            print(" ERROR: fuera de rango")
+    def eliminarJugador(self,jugadorEliminado):
+        self.jugadoresActivos.remove(jugadorEliminado)
