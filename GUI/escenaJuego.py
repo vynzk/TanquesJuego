@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from Videojuego.Partida import Partida
 import pygame
 import math
 from GUI import plantillaEscena
@@ -23,9 +24,14 @@ class EscenaJuego(plantillaEscena.Escena):
         self.potencia=114
         self.contador=0
         self.flag=False
+        self.jugadorEliminadoTurno=None
 
     def on_update(self):  # <<<<<<<<<<<<<<<<<<<<< ACA QUEDA LA CAGÁ
         pygame.display.set_caption("EL JUEGO DE LOS TANQUES IMPLEMENTADO EN PYTHON SIN NOMBRE AUN")
+        self.director.pantalla.blit(self.fondo, (0, 0))
+        self.piso.dibujar()
+        self.mapa.dibujar(self.director.pantalla)
+        self.dibujarTanques()
 
     def on_event(self, event):
         if event.type == pygame.KEYDOWN:
@@ -53,11 +59,6 @@ class EscenaJuego(plantillaEscena.Escena):
             # si tiene más de un jugador activo la partida, sigue la partida jugandose
             if(len(self.partidaActual.jugadoresActivos)>1):
                 # pantalla.fill((0,0,0)) #relleno de pantalla importante en el bucle.
-                iteradorBala = self.director.iterador * 10  # fijo, no sacar
-                pantalla.blit(self.fondo, (0, 0))
-                self.piso.dibujar()
-                self.mapa.dibujar(self.director.pantalla)
-                self.dibujarTanques()
                 if(self.flag):
                     if(self.trayectoria==[]):
                         self.efectuarDisparo()
@@ -65,6 +66,7 @@ class EscenaJuego(plantillaEscena.Escena):
                         if(self.contador<len(self.trayectoria)):
                             self.dibujarBala()
                         else:
+                            self.jugadorEliminadoTurno=None #<< se limpia
                             self.contador=0 # << el contador debe estar limpio para un nuevo jugador
                             self.trayectoria=[] # << la trayectoria debe estar limpio para un nuevo jugador
                             self.angulo=40 # << angulo default
@@ -73,9 +75,6 @@ class EscenaJuego(plantillaEscena.Escena):
                             self.cambiarJugador()
                             self.mensajeTurno()
             else:
-                if(self.contador<len(self.trayectoria)):
-                    self.dibujarBala()
-                else:
                 # << dibuja la bala de la trayectoria ganadora
                     self.partidaActual.terminar() 
                     self.mensajeFinPartida()
@@ -85,7 +84,6 @@ class EscenaJuego(plantillaEscena.Escena):
                     # el metodo anterior cambia el estado de juegoTerminado a True 
                     # Nota: como es una partida de momento, si gana la partida gana el juego
         else:
-
             self.mensajeFinJuego()
             self.director.running=False # rompe el gameloop para terminar el juego
 
@@ -93,6 +91,9 @@ class EscenaJuego(plantillaEscena.Escena):
         coord=self.trayectoria[self.contador]
         pygame.draw.circle(self.director.pantalla, (0, 255, 0), (coord[0],coord[1]),3)
         self.contador+=1
+        if(self.contador==len(self.trayectoria)):
+            if(self.jugadorEliminadoTurno!=None):
+                self.partidaActual.eliminarJugador(self.jugadorEliminadoTurno) #elimina al jugador
         pygame.time.wait(125)
 
     # de luis para kekes: sabes que dispara peeeeeeeeero no se muestra en la pantalla, me sigue preguntando el
@@ -129,7 +130,7 @@ class EscenaJuego(plantillaEscena.Escena):
             jugadorImpactado=self.colisionTanque(xDisparo,yDisparo)
             if(jugadorImpactado!=None): # si impacta con un tanque, se detiene la parabola (bala)
                 print("toqué un tanque")
-                self.partidaActual.eliminarJugador(jugadorImpactado)
+                self.jugadorEliminadoTurno=jugadorImpactado
                 break
             #--------------------------------------------------------------------------------------------------------
         #self.cambiarJugador() # cambia de jugadorActual al otro jugador
@@ -183,7 +184,7 @@ class EscenaJuego(plantillaEscena.Escena):
         jugadorGanador=self.partidaActual.jugadorGanador
         colorTanque=jugadorGanador.tanque.color
 
-        text = "FIN DE PARTIDA ; GANADOR:"+str.upper(jugadorGanador.nombre) 
+        text = "FIN DE PARTIDA ; GANADOR: "+str.upper(jugadorGanador.nombre) 
         mensaje = fuente.render(text, 1,colorTanque)
         self.director.pantalla.blit(mensaje, (450,300))
         pygame.display.update()
@@ -194,7 +195,7 @@ class EscenaJuego(plantillaEscena.Escena):
         jugadorGanador=self.director.game.jugadorGanador
         colorTanque=jugadorGanador.tanque.color
 
-        text = "FIN DEL JUEGO ; GANADOR:"+str.upper(jugadorGanador.nombre) 
+        text = "FIN DEL JUEGO ; GANADOR: "+str.upper(jugadorGanador.nombre) 
         mensaje = fuente.render(text, 1,colorTanque)
         self.director.pantalla.blit(mensaje, (450,400))
         pygame.display.update()

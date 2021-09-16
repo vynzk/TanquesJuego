@@ -19,7 +19,7 @@ class Bloque:
     def dibujar(self):
         pygame.draw.rect(self.pantalla, self.color, (self.x, self.y, self.ancho, self.alto))
 
-
+    
     def destruir(self):
         self.vivo = False
         # se desdibuja/borra, fijando el color del fondo, en este caso negro
