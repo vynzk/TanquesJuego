@@ -29,6 +29,7 @@ class EscenaJuego(plantillaEscena.Escena):
     def on_update(self):  # <<<<<<<<<<<<<<<<<<<<< ACA QUEDA LA CAGÁ
         pygame.display.set_caption("EL JUEGO DE LOS TANQUES IMPLEMENTADO EN PYTHON SIN NOMBRE AUN")
         self.director.pantalla.blit(self.fondo, (0, 0))
+        self.muestreoTurnoVelocidadAngulo()
         self.piso.dibujar()
         self.mapa.dibujar(self.director.pantalla)
         self.dibujarTanques()
@@ -200,3 +201,9 @@ class EscenaJuego(plantillaEscena.Escena):
         self.director.pantalla.blit(mensaje, (450,400))
         pygame.display.update()
         time.sleep(3)
+
+    def muestreoTurnoVelocidadAngulo(self):
+        fuente = pygame.font.SysFont("arial", 20)
+        text = "Turno: %s ; angulo: %d ° ; velocidad: %d (m/s)" % (self.jugadorActual.nombre,self.angulo, self.potencia) 
+        mensaje = fuente.render(text, 1, (255, 255, 255))
+        self.director.pantalla.blit(mensaje, (15, 5))
