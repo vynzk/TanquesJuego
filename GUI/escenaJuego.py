@@ -103,30 +103,30 @@ class EscenaJuego(plantillaEscena.Escena):
         print("---------------------------------------------------------------")
         print("Turno jugador: ",self.jugadorActual.nombre)
         delta = 0
-        cuadradoJugador = self.jugadorActual.tanque.bloque
+        xJugador= self.jugadorActual.tanque.bloque.x
+        yJugador= self.jugadorActual.tanque.bloque.y
         while True:
             # el +10 en xDisparo es para que parta desde la mitad de la parte superior del tanque
-            xDisparo = cuadradoJugador.x+10 + delta * self.potencia * math.cos(self.angulo * 3.1416 / 180)
+            xDisparo = xJugador+10 + delta * self.potencia * math.cos(self.angulo * 3.1416 / 180)
             # el -1 es para que no impacte el primer disparo del cañon con si mismo (la bala sale de este), si lo quitas
-            yDisparo = cuadradoJugador.y-1 - (delta * self.potencia * math.sin(self.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
+            yDisparo = yJugador-1 - (delta * self.potencia * math.sin(self.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
             delta += 1 # si quieres que hayan más puntitos en la parabola, modifica esto
             self.trayectoria.append((xDisparo,yDisparo))
             #----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
-            if(self.colisionTierra(xDisparo,yDisparo)): # si impacta un bloque de tierra, se detiene la parabola (bala)
+            jugadorImpactado=self.colisionTanque(xDisparo,yDisparo)
+            if(jugadorImpactado!=None): # si impacta con un tanque, se detiene la parabola (bala)
+                print("toqué un tanque")
+                self.jugadorEliminadoTurno=jugadorImpactado
+                break
+
+            elif(self.colisionTierra(xDisparo,yDisparo)): # si impacta un bloque de tierra, se detiene la parabola (bala)
                 print("toqué tierra")
                 break
 
             elif(self.saleLimites(xDisparo,yDisparo)): # si impacta con un borde, se detiene la parabola (bala)
                 print("salí rango")
                 break
-
-            jugadorImpactado=self.colisionTanque(xDisparo,yDisparo)
-            if(jugadorImpactado!=None): # si impacta con un tanque, se detiene la parabola (bala)
-                print("toqué un tanque")
-                self.jugadorEliminadoTurno=jugadorImpactado
-                break
             #--------------------------------------------------------------------------------------------------------
-        #self.cambiarJugador() # cambia de jugadorActual al otro jugador
         
     # permite el cambio de turno entre los dos jugadores (no para n jugadores, sólo sirve para la entrega)
     def cambiarJugador(self):
