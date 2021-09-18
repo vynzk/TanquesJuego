@@ -43,17 +43,6 @@ class Director:
         "cambia la escena actual"
         self.escena = escenaNueva
 
-    def EscenaAux(self, EscenaAux):  # de debbugueo
-        self.escenaAux = EscenaAux
-
     def checaBoton(self, mousePos, botonNombre):  # detecta el tocar un boton
         if botonNombre.rect.collidepoint((mousePos)):
             return True
-
-    # ---- funciones de luis ---
-    def terminoJuego(self):
-        # cambiarEscena(escenaCreditos) algo así
-        self.juego.mostrarRanking()
-        self.juego.definirGanador()
-        print("\n!!!!!!!!!!! El/la ganadora es: ", self.juego.getJugadorGanador().getNombre(), " !!!!!!!!!!!!!!")
-        print("terminó el juego")

@@ -17,5 +17,4 @@ class EscenaHome(plantillaEscena.Escena):
         pass
 
     def on_draw(self, screen):
-        # prueba
         pygame.draw.line(screen, (255, 0, 0), [10, 10], [650, 470], 2)

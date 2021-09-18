@@ -105,26 +105,18 @@ class EscenaJuego(plantillaEscena.Escena):
         delta = 0
         cuadradoJugador = self.jugadorActual.tanque.bloque
         while True:
-            #print("el tanque del jugador ",self.jugadorActual," disparó")
             # el +10 en xDisparo es para que parta desde la mitad de la parte superior del tanque
             xDisparo = cuadradoJugador.x+10 + delta * self.potencia * math.cos(self.angulo * 3.1416 / 180)
             # el -1 es para que no impacte el primer disparo del cañon con si mismo (la bala sale de este), si lo quitas
-            # la parabola no se dibuja ya que interpreta que se tocó a si mismo (cuando sale la bala)
             yDisparo = cuadradoJugador.y-1 - (delta * self.potencia * math.sin(self.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
-            delta += 0.5 # si quieres que hayan más puntitos en la parabola, modifica esto
-            # hay que transformarlos a int
-            xDisparo = int(xDisparo)
-            yDisparo = int(yDisparo)
-            #print("debería dibujar una pelota en: (", xDisparo, ",", yDisparo, ")")  # debug
+            delta += 1 # si quieres que hayan más puntitos en la parabola, modifica esto
             self.trayectoria.append((xDisparo,yDisparo))
-            #print("T:",str(self.trayectoria))
-            #pygame.draw.circle(self.director.pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
             #----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             if(self.colisionTierra(xDisparo,yDisparo)): # si impacta un bloque de tierra, se detiene la parabola (bala)
                 print("toqué tierra")
                 break
 
-            if(self.saleLimites(xDisparo,yDisparo)): # si impacta con un borde, se detiene la parabola (bala)
+            elif(self.saleLimites(xDisparo,yDisparo)): # si impacta con un borde, se detiene la parabola (bala)
                 print("salí rango")
                 break
 

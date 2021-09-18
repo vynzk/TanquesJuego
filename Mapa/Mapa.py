@@ -63,13 +63,9 @@ class Mapa:
         for fila in self.mapa:
             for muro in fila:
                 if muro == "X":
-                    # los bloques de tierra tienen estado vivo de fabrica
                     bloque = Bloque(pantalla, self.pixel_x, self.pixel_y, (18, 25, 53), x, y)
                     self.listaBloques.append(bloque)
                     bloque.dibujar()
-                    # BORRAR: si deseas probar la clase, prueba que claro en la linea superior
-                    # se dibuja y luego se destruye (en la linea inferior), descomenta la siguiente linea
-                    # cuadrado.destruir() # < debug, para ver como se destruyen los tanques
                 x += self.pixel_x
             x = 0
             y += self.pixel_y

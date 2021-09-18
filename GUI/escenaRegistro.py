@@ -12,7 +12,6 @@ class EscenaRegistro(plantillaEscena.Escena):
         plantillaEscena.Escena.__init__(self, director)
         # self.mousex,self.mousey= 0,0 #para movimiento del mouse
         self.boton_registrar = None  # botón para cambiar a escenaJuego en la versión final
-        # self.cambioEscenaJuego() #borrar esto atte:keke
 
     def on_update(self):
         pygame.display.set_caption("Registrar jugadores")
@@ -25,7 +24,6 @@ class EscenaRegistro(plantillaEscena.Escena):
                 if self.registrar():
                     self.cambioEscenaJuego()
                 print("salta a escena juego")
-                # self.cambioEscenaJuego() # de momento esto funciona
 
     def registrar(self):
         # se registran los jugadores
@@ -33,7 +31,6 @@ class EscenaRegistro(plantillaEscena.Escena):
             # se registran las partidas
             if self.director.game.registroPartidas(self.director):
                 return True  # el registro de ambos funcionó con exito
-
         return False  # ocurrió un error
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
@@ -43,5 +40,4 @@ class EscenaRegistro(plantillaEscena.Escena):
         self.boton_registrar.dibujaBoton()
 
     def cambioEscenaJuego(self):
-        self.director.cambiarEscena(EscenaJuego(self.director))  # proximamente... la escena juego tendrá sus atributos personalizables.
-        # self.director.activadorDisparo = True #debug no sacar! atte: keke
+        self.director.cambiarEscena(EscenaJuego(self.director))

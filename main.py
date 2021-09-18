@@ -29,9 +29,6 @@ def main():
     director = Director(game)
     home = EscenaHome(director)  # por ahora no toquen esto <3 será la escena predeterminada hasta presentar
     director.cambiarEscena(home)
-
-    # director.registroJugadores() #generan BUG, no descomentar hasta solucionar
-    # director.registroPartidas()
     director.gameLoop()
 
 

@@ -3,6 +3,3 @@ class Jugador:
         self.nombre = nombre
         self.tanque = tanque
         self.victorias = 0
-
-    def sumarVictoria(self):
-        self.victorias += 1

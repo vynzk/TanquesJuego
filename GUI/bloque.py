@@ -23,7 +23,6 @@ class Bloque:
     def destruir(self):
         self.vivo = False
         # se desdibuja/borra, fijando el color del fondo, en este caso negro
-        # si nos piden un fondo, encontrar una función que encuentre que se borre y quede invisible
         self.setColor((0, 0, 0))
         self.dibujar()
 
@@ -34,22 +33,16 @@ class Bloque:
         #  |               |   
         # __ y+delta __(x+delta, y+delta)       
         delta = 20  # tamaño del pixel del cuadrado
-        xMax = self.getX() + delta  # limite horizontal del cuadrado
-        yMax = self.getY() + delta  # limite vertical del cuadrado
+        xMax = self.x + delta  # limite horizontal del cuadrado
+        yMax = self.y + delta  # limite vertical del cuadrado
 
         # si se encuentra dentro del limite horizontal del cuadrado
-        if self.getX() <= xColision <= xMax:
+        if self.x <= xColision <= xMax:
             # si se encuentra dentro del limite vertical del cuadrado
-            if self.getY() <= yColision <= yMax:
+            if self.y <= yColision <= yMax:
                 return True  # colision
-
         return False  # no se encuentra  dentro del rango de colisión
 
     def setColor(self, color):
         self.color = color
 
-    def getX(self):
-        return self.x
-
-    def getY(self):
-        return self.y
