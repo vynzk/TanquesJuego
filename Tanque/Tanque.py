@@ -1,7 +1,7 @@
 import pygame
 import math
 from GUI import bloque
-from Tanque.Proyectil import Proyectil
+
 
 
 
@@ -14,7 +14,7 @@ class Tanque:
         self.modelo = "Default"
         self.color = color
         self.disparoTrayectoria = []
-        self.bala = Proyectil(pantalla, 2, 2, (225, 0, 0), x, y)
+
 
     # al disparar se usan las coordenadas que representa el cuadrado del tanque en el mapa como inicio del disparo
     def disparar(self, pantalla):  # retorna trayectoria
@@ -22,7 +22,7 @@ class Tanque:
         velocidad = 70
         angulo = 60
 
-        self.bala.activaProyectil((self.x, self.y))
+
         disparoTrayectoria = []
         while delta <= 20:
             xDisparo = self.bloque.x + delta * velocidad * math.cos(angulo * 3.1416 / 180)
