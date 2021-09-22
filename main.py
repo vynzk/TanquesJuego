@@ -1,6 +1,4 @@
-from GUI.plantillaEscena import Escena
 from Videojuego.Juego import *
-from GUI.escenaJuego import EscenaJuego
 from GUI.escenaHome import EscenaHome
 from GUI.director import *
 
@@ -24,20 +22,17 @@ while True:
     except:
         print("ERROR: variable de tipo incorrecto")
 """
+
+
 def main():
-    game = Juego(2,1) #(cantidadJugadores,cantidadPartidas) #se automatizó para debuguear lo escencial
-
-    director = Director()
-    partida1= EscenaJuego(director)
-    home= EscenaHome(director) #por ahora no toquen esto <3 será la escena predeterminada hasta presentar
+    game = Juego(2, 1)  # (cantidadJugadores,cantidadPartidas) #se automatizó para debuguear lo escencial
+    director = Director(game)
+    home = EscenaHome(director)  # por ahora no toquen esto <3 será la escena predeterminada hasta presentar
     director.cambiarEscena(home)
-
-    #director.registroJugadores() #generan BUG, no descomentar hasta solucionar
-    #director.registroPartidas()
     director.gameLoop()
+
 
 ###
 if __name__ == '__main__':
     pygame.init()
     main()
-
