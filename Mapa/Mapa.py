@@ -57,6 +57,7 @@ class Mapa:
             "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
             "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", ]
 
+
     def dibujar(self, pantalla):  # define la matriz de cuadrados
         x = 0
         y = 0

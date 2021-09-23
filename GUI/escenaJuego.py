@@ -72,8 +72,6 @@ class EscenaJuego(plantillaEscena.Escena):
                             self.jugadorEliminadoTurno=None #<< se limpia
                             self.contador=0 # << el contador debe estar limpio para un nuevo jugador
                             self.trayectoria=[] # << la trayectoria debe estar limpio para un nuevo jugador
-                            self.angulo=40 # << angulo default
-                            self.potencia=114  # << potencia default
                             self.flag=False # << debe apretar enter nuevamente el jugador para disparar
                             self.cambiarJugador()
                             self.mensajeTurno()
@@ -92,7 +90,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def dibujarBala(self):
         coord=self.trayectoria[self.contador]
-        pygame.draw.circle(self.director.pantalla, (0, 255, 0), (coord[0],coord[1]),3)
+        pygame.draw.circle(self.director.pantalla, (0, 255, 0), (int(coord[0]),int(coord[1])),3)
         self.contador+=1
         if(self.contador==len(self.trayectoria)):
             if(self.jugadorEliminadoTurno!=None):
@@ -128,12 +126,7 @@ class EscenaJuego(plantillaEscena.Escena):
             self.final=True # << finaliza el juego y cierra la ventana
             #break;
         #--------------------------------------------------------------------------------------------------------
-    def efectuarDisparo(self,ang,vel):
-        #print("---------------------------------------------------------------")
-        #print("Turno jugador: ",self.jugadorActual.nombre)
-        angulo = ang#int(input("Ingrese su angulo: "))
-        velocidad = vel#int(input("Ingrese su potencia: "))
-        
+    def efectuarDisparo(self):
         delta = 0
         xJugador= self.jugadorActual.tanque.bloque.x
         yJugador= self.jugadorActual.tanque.bloque.y
@@ -142,7 +135,7 @@ class EscenaJuego(plantillaEscena.Escena):
             xDisparo = xJugador+10 + delta * self.potencia * math.cos(self.angulo * 3.1416 / 180)
             # el -1 es para que no impacte el primer disparo del cañon con si mismo (la bala sale de este), si lo quitas
             yDisparo = yJugador-1 - (delta * self.potencia * math.sin(self.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
-            delta += 1 # si quieres que hayan más puntitos en la parabola, modifica esto
+            delta += 0.5 # si quieres que hayan más puntitos en la parabola, modifica esto
             self.trayectoria.append((xDisparo,yDisparo))
             #----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             jugadorImpactado=self.colisionTanque(xDisparo,yDisparo)
@@ -166,8 +159,12 @@ class EscenaJuego(plantillaEscena.Escena):
     def cambiarJugador(self):
         listaJugadoresActuales=self.partidaActual.jugadoresActivos
         if(self.jugadorActual==listaJugadoresActuales[0]):
+            self.angulo=140
+            self.potencia=103
             self.jugadorActual=listaJugadoresActuales[1]
         else:
+            self.angulo=40 
+            self.potencia=114
             self.jugadorActual=listaJugadoresActuales[0]
 
     # verifica si un bloque de tierra fue impactado, si lo fue retorna true, en caso contrario false
