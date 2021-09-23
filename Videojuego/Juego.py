@@ -9,16 +9,14 @@ class Juego:
         self.listaJugadores = []
         self.cantidadPartidas = cantidadPartidas
         self.listaPartidas = []
-        self.listaTanquesDisponibles = [Tanque]  # acá iran los objetos tanques disponibles para elegir inicialmente
         self.jugadorGanador = None
+        self.juegoTerminado=False
 
     def agregarJugador(self, i, pantalla):
         # colores de los tanques
         colores = [(255, 0, 0), (0, 0, 255)]
-        nombre = str(input("Ingrese su nombre: "))
         posiciones = [(20, 520), (1200, 420)]
-        # debe tener Tanque(self.director.pantalla, 20,20, (color), x,y)
-        # >> el x,y debe ser random
+        nombre = str(input("Ingrese su nombre: "))
         tanque = Tanque(pantalla, 20, 20, colores[i - 1], posiciones[i - 1][0], posiciones[i - 1][1])
         self.listaJugadores.append(Jugador(nombre, tanque))  # << agrega un nuevo Jugador con su nombre y su tanque
 
@@ -45,12 +43,7 @@ class Juego:
             self.listaPartidas.append(self.agregarPartida(i, director))
         return True  # termina con exito el registro
 
-    def mostrarRanking(self):
-        print("\n### R A N K I N G ###")
-        for jugador in self.listaJugadores:
-            print(jugador.nombre," ha ganado ",jugador.victorias," partidas")
-
-    # TODO: falta definir el empate
+     # TODO: falta definir el empate
     def definirGanador(self):
         contador = 0
         while contador < self.cantidadJugadores:
@@ -63,4 +56,4 @@ class Juego:
 
             contador += 1
         self.jugadorGanador = ganadorAux  # << se guarda en el atributo ganador
-        print("\n>>>El ganador del juego fue: ",self.jugadorGanador.nombre)
+        self.juegoTerminado=True

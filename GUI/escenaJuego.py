@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from Videojuego.Partida import Partida
 import pygame
 import math
 from GUI import plantillaEscena
 from GUI import bloque
 from Mapa import Mapa
 import time
-
 
 class EscenaJuego(plantillaEscena.Escena):
 
@@ -19,87 +19,86 @@ class EscenaJuego(plantillaEscena.Escena):
         self.mapa = Mapa.Mapa()  # se ponen los bloques de tierra en el mapa
         self.jugadorActual = self.director.game.listaPartidas[0].jugadoresActivos[0]
         self.partidaActual = self.director.game.listaPartidas[0]
-        self.disparoTrayectoria=[]
-        self.angulo , self.velocidad = 40 , 114 #no tocar aun... angulos por defecto.
-        self.flag = False #confirma si el jugador actual puede disparar
-        self.final = False
-    def on_update(self): 
+        self.trayectoria=[]
+        self.angulo=40
+        self.potencia=114
+        self.contador=0
+        self.flag=False
+        self.jugadorEliminadoTurno=None
+
+    def on_update(self):  # <<<<<<<<<<<<<<<<<<<<< ACA QUEDA LA CAGÁ
         pygame.display.set_caption("EL JUEGO DE LOS TANQUES IMPLEMENTADO EN PYTHON SIN NOMBRE AUN")
-        #pygame.display.update()
-        #prueba de eventos
         self.director.pantalla.blit(self.fondo, (0, 0))
-        self.muestreoVelocidadAngulo() #dibuja la velocidad y el angulo elegido por el usuario
+        self.muestreoTurnoVelocidadAngulo()
         self.piso.dibujar()
         self.mapa.dibujar(self.director.pantalla)
         self.dibujarTanques()
-       
 
 
 
     def on_event(self, event):
-        #self.mousex, self.mousey = pygame.mouse.get_pos()  # capta el movimiento del mouse (no sacar por debuggueos)
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                self.velocidad +=1
-                print("left: velocidad --")
+                self.potencia -=1
+                print("potencia: ",self.potencia,"; left: potencia --")
             if event.key == pygame.K_RIGHT:
-                self.velocidad -=1
-                print("right: velocidad ++")
+                self.potencia +=1
+                print("potencia: ",self.potencia,"; right: potencia ++")
             if event.key == pygame.K_UP:
                 self.angulo +=1
-                print("up: angulo ++")
+                print("angulo: ",self.angulo,"; up: angulo ++")
             if event.key == pygame.K_DOWN:
                 self.angulo -=1
-                print("down: angulo --")
+                print("angulo: ",self.angulo,"; down: angulo --")
             if event.key == pygame.K_SPACE:
+                self.flag=True
                 print("space: dispara")
-                
-                if (self.flag==False):
-                    print("flag: true")
-                    self.flag= True #flag es para efectuar el disparo
-                    self.director.activadorDisparo = True #activa el iterador de disparo en director
-                else:
-                    print("cambia de TURNOa antes!")
-                
-            if event.key == pygame.K_TAB:
-                print("tab: cambia de turno")
-                print("flag: false")
-                self.cambioDeTurno()
-                self.director.iterador = 0
-                self.flag = False
+        #self.mousex, self.mousey = pygame.mouse.get_pos()  # capta el movimiento del mouse
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
-        iteradorBala = self.director.iterador * 10  # fijo, no sacar
-        if(self.flag==False):
-            jugadorPos= self.jugadorActual.tanque.bloque
-            coordActual=(jugadorPos.x+21,jugadorPos.y+1)
-        if (self.flag == True):
-            trayectoria=self.efectuarDisparo(self.angulo,self.velocidad)  
-            coordActual=trayectoria[(iteradorBala)]
+        if(self.director.game.juegoTerminado != True):
+            # si tiene más de un jugador activo la partida, sigue la partida jugandose
+            if(len(self.partidaActual.jugadoresActivos)>1):
+                # pantalla.fill((0,0,0)) #relleno de pantalla importante en el bucle.
+                if(self.flag):
+                    if(self.trayectoria==[]):
+                        self.efectuarDisparo()
+                    else:
+                        if(self.contador<len(self.trayectoria)):
+                            self.dibujarBala()
+                        else:
+                            self.jugadorEliminadoTurno=None #<< se limpia
+                            self.contador=0 # << el contador debe estar limpio para un nuevo jugador
+                            self.trayectoria=[] # << la trayectoria debe estar limpio para un nuevo jugador
+                            self.angulo=40 # << angulo default
+                            self.potencia=114  # << potencia default
+                            self.flag=False # << debe apretar enter nuevamente el jugador para disparar
+                            self.cambiarJugador()
+                            self.mensajeTurno()
+            else:
+                # << dibuja la bala de la trayectoria ganadora
+                    self.partidaActual.terminar() 
+                    self.mensajeFinPartida()
+                    #print("Jugador ganador del juego: ",self.director.game.jugadorGanador)
+                    #print("Estado juego:",self.director.game.juegoTerminado)
+                    self.director.game.definirGanador() # << invocamos que defina un ganador del juego
+                    # el metodo anterior cambia el estado de juegoTerminado a True 
+                    # Nota: como es una partida de momento, si gana la partida gana el juego
+        else:
+            self.mensajeFinJuego()
+            self.director.running=False # rompe el gameloop para terminar el juego
 
-          
-        self.verificaColisionBala(coordActual[0],coordActual[1])
-        self.jugadorActual.tanque.bala.activaProyectil()
-        self.jugadorActual.tanque.bala.sigueTrayectoria(coordActual)
-        
+    def dibujarBala(self):
+        coord=self.trayectoria[self.contador]
+        pygame.draw.circle(self.director.pantalla, (0, 255, 0), (coord[0],coord[1]),3)
+        self.contador+=1
+        if(self.contador==len(self.trayectoria)):
+            if(self.jugadorEliminadoTurno!=None):
+                self.partidaActual.eliminarJugador(self.jugadorEliminadoTurno) #elimina al jugador
+        pygame.time.wait(125)
 
-        if (self.final):
-            self.mensajeFinal()
-            pygame.display.update()
-            time.sleep(3)
-            self.director.running=False
-
-
-
-        #creación del dibujo de la trayectora y el movimiento del objeto proyectil
-        """
-        trayectoria=self.efectuarDisparo() #deberia pedir pantalla pero no pa no la quiere #además de efectuar disparo deja su trayectoria (no borrar)
-        CoordenadaTrayectoriaActual=trayectoria[(iteradorBala)] 
-        self.jugadorActual.tanque.bala.sigueTrayectoria(CoordenadaTrayectoriaActual) 
-        enter = str(input("Apreta enter para pasar de turno y refrescar pantalla"))
-        """
     # de luis para kekes: sabes que dispara peeeeeeeeero no se muestra en la pantalla, me sigue preguntando el
     # angulo y potencia pero no logro ver la trayectoria
     # respuesta de keke: es probable que sea porque no estamos implementando los eventos y es por consola... revisré.
@@ -136,31 +135,31 @@ class EscenaJuego(plantillaEscena.Escena):
         velocidad = vel#int(input("Ingrese su potencia: "))
         
         delta = 0
-        cuadrado = self.jugadorActual.tanque.bloque
-        self.jugadorActual.tanque.bala.activaProyectil() 
-        disparoTrayectoria=[] 
-        while delta <= 20: 
-            #los "+21 y +1" evitan que el proyectil toque su propio tanque NO TOCAR"
-            xDisparo = cuadrado.x+21 + delta * velocidad * math.cos(angulo * 3.1416 / 180) 
-            yDisparo = cuadrado.y+1 - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2) 
-            disparoTrayectoria.append((xDisparo,yDisparo)) 
-            delta += 0.05 
-            #descomentar si quieren debuguear la trayectoria 
-            #pygame.draw.circle(self.director.pantalla, (0, 255, 0), (xDisparo, yDisparo),1) 
-        return disparoTrayectoria
-         # cambia de jugadorActual al otro jugador
-    
-    
-    def dispara(self): #dispara el jugador actual y muestra trayectoria #copiada en on_draw (sacar)
-        iteradorBala = self.director.iterador * 10  # fijo, no sacar
-        trayectoria=self.efectuarDisparo(self.angulo,self.velocidad) #deberia pedir pantalla pero no pa no la quiere #además de efectuar disparo deja su trayectoria (no borrar)
-        #print(trayectoria) #debug
-        CoordenadaTrayectoriaActual=trayectoria[(iteradorBala)] 
-        self.jugadorActual.tanque.bala.activaProyectil()
-        self.jugadorActual.tanque.bala.sigueTrayectoria(CoordenadaTrayectoriaActual)
+        xJugador= self.jugadorActual.tanque.bloque.x
+        yJugador= self.jugadorActual.tanque.bloque.y
+        while True:
+            # el +10 en xDisparo es para que parta desde la mitad de la parte superior del tanque
+            xDisparo = xJugador+10 + delta * self.potencia * math.cos(self.angulo * 3.1416 / 180)
+            # el -1 es para que no impacte el primer disparo del cañon con si mismo (la bala sale de este), si lo quitas
+            yDisparo = yJugador-1 - (delta * self.potencia * math.sin(self.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
+            delta += 1 # si quieres que hayan más puntitos en la parabola, modifica esto
+            self.trayectoria.append((xDisparo,yDisparo))
+            #----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
+            jugadorImpactado=self.colisionTanque(xDisparo,yDisparo)
+            if(jugadorImpactado!=None): # si impacta con un tanque, se detiene la parabola (bala)
+                print("toqué un tanque")
+                self.jugadorEliminadoTurno=jugadorImpactado
+                break
 
-    def cambioDeTurno(self):
-        self.cambiarJugador()
+            elif(self.colisionTierra(xDisparo,yDisparo)): # si impacta un bloque de tierra, se detiene la parabola (bala)
+                print("toqué tierra")
+                break
+
+            elif(self.saleLimites(xDisparo,yDisparo)): # si impacta con un borde, se detiene la parabola (bala)
+                print("salí rango")
+                break
+            #--------------------------------------------------------------------------------------------------------
+        
     # permite el cambio de turno entre los dos jugadores (no para n jugadores, sólo sirve para la entrega)
     
     
@@ -191,7 +190,6 @@ class EscenaJuego(plantillaEscena.Escena):
         for jugador in self.partidaActual.jugadoresActivos:
             bloqueTanque=jugador.tanque.bloque
             if(bloqueTanque.colision(xDisparo,yDisparo)):
-                self.final=True
                 return jugador # si el tanque fue impactado
         return None # si ningun tanque de un jugador fue impactado
 
@@ -199,14 +197,39 @@ class EscenaJuego(plantillaEscena.Escena):
         for jugador in self.partidas[0].jugadoresActivos:
             jugador.tanque.bloque.dibujar()
 
-# ----- keke metodos -----#
-    def muestreoVelocidadAngulo(self):
+    def mensajeTurno(self):
+        fuente = pygame.font.SysFont("arial", 30)
+        text = "TURNO: "+str.upper(self.jugadorActual.nombre)
+        colorTanque=self.jugadorActual.tanque.color
+        mensaje = fuente.render(text, 1,colorTanque)
+        self.director.pantalla.blit(mensaje, (450, 300))
+        pygame.display.update()
+        time.sleep(2)
+
+    def mensajeFinPartida(self):
+        fuente = pygame.font.SysFont("arial", 30)
+        jugadorGanador=self.partidaActual.jugadorGanador
+        colorTanque=jugadorGanador.tanque.color
+
+        text = "FIN DE PARTIDA ; GANADOR: "+str.upper(jugadorGanador.nombre) 
+        mensaje = fuente.render(text, 1,colorTanque)
+        self.director.pantalla.blit(mensaje, (450,300))
+        pygame.display.update()
+        time.sleep(1)
+
+    def mensajeFinJuego(self):
+        fuente = pygame.font.SysFont("arial", 30)
+        jugadorGanador=self.director.game.jugadorGanador
+        colorTanque=jugadorGanador.tanque.color
+
+        text = "FIN DEL JUEGO ; GANADOR: "+str.upper(jugadorGanador.nombre) 
+        mensaje = fuente.render(text, 1,colorTanque)
+        self.director.pantalla.blit(mensaje, (450,400))
+        pygame.display.update()
+        time.sleep(3)
+
+    def muestreoTurnoVelocidadAngulo(self):
         fuente = pygame.font.SysFont("arial", 20)
-        text = "angulo: %d °   velocidad: %d (m/s)" % (self.angulo, self.velocidad) 
+        text = "Turno: %s ; angulo: %d ° ; velocidad: %d (m/s)" % (self.jugadorActual.nombre,self.angulo, self.potencia) 
         mensaje = fuente.render(text, 1, (255, 255, 255))
         self.director.pantalla.blit(mensaje, (15, 5))
-    def mensajeFinal(self):
-        fuente = pygame.font.SysFont("arial", 30)
-        text = "FIN DEL JUEGO"
-        mensaje = fuente.render(text, 1, (255, 0, 0))
-        self.director.pantalla.blit(mensaje, (450, 300))

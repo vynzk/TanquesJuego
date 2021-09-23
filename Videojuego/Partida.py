@@ -19,9 +19,8 @@ class Partida:
     def terminar(self):
         self.estado = True
         self.jugadorGanador = self.jugadoresActivos[0]
-        self.jugadorGanador.sumarVictoria()
-        print("\n!!!! El/la jugador/a ", self.jugadorGanador.nombre, " ganó la partida !!!!")
+        self.jugadorGanador.victorias += 1
 
     # funcion que brinda la posibilidad de eliminar jugadores al jugadorAtacante 
-    def eliminarJugador(self,jugadorEliminado):
-        self.jugadoresActivos.remove(jugadorEliminado)  # << lo eliminamos
+    def eliminarJugador(self, jugadorEliminado):
+        self.jugadoresActivos.remove(jugadorEliminado)
