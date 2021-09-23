@@ -1,6 +1,9 @@
 @startuml
 
-Proyectil <|-- Bloque
+EscenaRegistro <|-- Escena
+EscenaMenu1 <|-- Escena
+EscenaJuego <|-- Escena
+EscenaHome <|-- Escena
 Main o-- Director
 Main o-- EscenaHome
 Main o-- Juego
@@ -9,19 +12,13 @@ Juego o-- Jugador
 Juego o-- Partida
 Juego o-- Tanque
 Tanque o-- Bloque
-Tanque o-- Proyectil
-Proyectil o-- Bloque
 Mapa o-- Bloque
-EscenaRegistro o-- Escena
 EscenaRegistro o-- Boton
 EscenaRegistro o-- EscenaJuego
-EscenaMenu1 o-- Escena
 EscenaJuego o-- Partida
-EscenaJuego o-- plantillaEscena
 EscenaJuego o-- Bloque
 EscenaJuego o-- Mapa
 EscenaHome o-- EscenaRegistro
-EscenaHome o-- Escena
 EscenaHome o-- Boton
 
 
@@ -45,7 +42,6 @@ class Jugador{
 +nombre
 +tanque
 +victorias
-+sumarVictoria()
 }
 
 class Juego{
@@ -53,7 +49,6 @@ class Juego{
 +ArrayList<listaJugadores>
 +cantidadPartidas
 +ArrayList<listaPartidas>
-+ArrayList<listaTanquesDisponibles>
 +jugadorGanador
 +juegoTerminado
 +agregarJugador(i, pantalla)
@@ -63,14 +58,6 @@ class Juego{
 +definirGanador()
 }
 
-Class Proyectil{
-+vivo
-+balaImagen
-+activaProyectil(coordenadasXY)
-+sigueTrayectoria(coordenadasXY)
-+redimensionaBala()
-}
-
 class Tanque{
 +int x
 +int y
@@ -78,9 +65,6 @@ class Tanque{
 +modelo
 +color
 +ArrayList<disparoTrayectoria>
-+bala
-+disparar(pantalla)
-+mostrarInformacion()
 }
 
 class Mapa{
@@ -149,6 +133,7 @@ class EscenaJuego{
 +mensajeFinPartida()
 +mensajeFinJuego()
 +muestreoVelocidadAngulo()
++muestreoTurnoVelocidadAngulo()
 }
 
 class EscenaHome{
@@ -169,9 +154,7 @@ class Director{
 +game
 +gameLoop()
 +cambiarEscena(escenaNueva)
-+EscenaAux(EscenaAux)
 +checaBoton(mousePos, botonNombre)
-+terminoJuego()
 }
 
 class Boton{
@@ -203,8 +186,6 @@ class Bloque{
 +destruir()
 +colision(xColision, yColision)
 +setColor(color)
-+getX()
-+getY()
 }
 
 
