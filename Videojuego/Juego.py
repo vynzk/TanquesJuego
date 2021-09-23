@@ -1,6 +1,7 @@
 from Videojuego.Jugador import *
 from Videojuego.Partida import *
 from Tanque.Tanque import *
+import random
 
 
 class Juego:
@@ -15,22 +16,28 @@ class Juego:
     def agregarJugador(self, i, pantalla):
         # colores de los tanques
 
+        # posiciones posibles del primer tanque 
         posiciones1 = [(0, 520), (20, 520), (40, 520), (60, 520), (80, 520), (100, 520), 
         (120, 500), (140, 500), (160, 480), (180, 460), (200, 440), (220, 440), (240, 440),
-        (260, 440), (280, 440), (300, 460), (320, 480), (340, 520), (360, 520), (380, 520),
-        (400, 540), (420, 560), (440, 540), (460, 540), (480, 520), (500, 520), (520, 520),
-        (540, 520), (560, 520), (580, 520), (600, 500), (620, 480), (640, 480)]
+        (260, 440), (280, 440), (300, 460), (320, 480), (340, 520), (360, 520), (380, 520)]
 
+        # posiciones posibles del segundo tanque
         posiciones2 = [(660, 460), (680, 440), (700, 460), (720, 480), (740, 500), (760, 560), 
         (780, 560),(800, 540), (820, 520), (840, 520), (860, 520), (880, 520), (900, 520), (920, 500),
-        (940, 500), (960, 500), (980, 480), (1000, 460), (1020, 460), (1040, 440), (1060, 440),
-        (1080, 440), (1100, 440), (1120, 420), (1140, 420), (1160, 420), (1180, 420), (1200, 420),
-        (1220, 420), (1240, 420), (1260, 420), (1280, 420)]
+        (940, 500), (960, 500), (980, 480), (1000, 460), (1020, 460), (1040, 440)]
+
+        # randomizado por separado de la posicion de los tanques
+        delta = random.randint(1, 20)
+
+        if i == 1:
+            posiciones = posiciones1[delta-1]
+        if i == 2:
+            posiciones = posiciones2[delta-1]
 
         colores = [(255, 0, 0), (0, 0, 255)]
         posiciones = [(20, 520), (1200, 420)]
         nombre = str(input("Ingrese su nombre: "))
-        tanque = Tanque(pantalla, 20, 20, colores[i - 1], posiciones[i - 1][0], posiciones[i - 1][1])
+        tanque = Tanque(pantalla, 20, 20, colores[i - 1], posiciones[0], posiciones[1])
         self.listaJugadores.append(Jugador(nombre, tanque))  # << agrega un nuevo Jugador con su nombre y su tanque
 
     # función que se encargará de llenar la lista de jugadores, registrará tantos jugadores
