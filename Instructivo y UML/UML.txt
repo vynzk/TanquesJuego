@@ -1,21 +1,25 @@
-@startuml
+ @startuml
 
-EscenaRegistro <|-- Escena
-EscenaMenu1 <|-- Escena
-EscenaJuego <|-- Escena
-EscenaHome <|-- Escena
-Main o-- Director
-Main o-- EscenaHome
-Main o-- Juego
-Main o-- EscenaJuego
-Juego o-- Jugador
-Juego o-- Partida
-Juego o-- Tanque
+EscenaRegistro <|-- EscenaPlantilla
+EscenaMenu1 <|-- EscenaPlantilla
+EscenaJuego <|-- EscenaPlantilla
+EscenaHome <|-- EscenaPlantilla
+Main *-- Director
+Main *-- EscenaHome
+Main *-- Juego
+Main *-- EscenaJuego
+Juego *-- Jugador
+Juego *-- Partida
+Juego *-- Tanque
 Tanque o-- Bloque
 Mapa o-- Bloque
+Partida o-- Jugador
+Jugador o-- Tanque
+Director *-- Juego
 EscenaRegistro o-- Boton
 EscenaRegistro o-- EscenaJuego
 EscenaJuego o-- Partida
+EscenaJuego o-- Jugador
 EscenaJuego o-- Bloque
 EscenaJuego o-- Mapa
 EscenaHome o-- EscenaRegistro
@@ -62,9 +66,7 @@ class Tanque{
 +int x
 +int y
 +bloque
-+modelo
 +color
-+ArrayList<disparoTrayectoria>
 }
 
 class Mapa{
@@ -85,7 +87,7 @@ class Mapa{
 +dibujar(pantalla)
 }
 
-class Escena{
+class EscenaPlantilla{
 +on_update()
 +on_event(event)
 +on_draw(screen)
@@ -107,10 +109,7 @@ class EscenaMenu1{
 
 class EscenaJuego{
 +fondo
-+mousex
 +partidas
-+piso
-+mapa
 +jugadorActual
 +partidaActual
 +ArrayList<trayectoria>
@@ -119,9 +118,12 @@ class EscenaJuego{
 +contador
 +flag
 +jugadorEliminadoTurno
++xMaxDiasparo
++yMax disparo
 +on_update()
 +on_event(event)
-+n_draw(pantalla)
++on_draw(pantalla)
++rastreoBala(xDisparo, yDisparo)
 +dibujarBala()
 +efectuarDisparo(ang, vel)
 +cambiarJugador()
@@ -132,8 +134,8 @@ class EscenaJuego{
 +mensajeTurno()
 +mensajeFinPartida()
 +mensajeFinJuego()
-+muestreoVelocidadAngulo()
 +muestreoTurnoVelocidadAngulo()
++muestreoRastreoBala()
 }
 
 class EscenaHome{
