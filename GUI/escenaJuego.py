@@ -107,6 +107,8 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def efectuarDisparo(self):
         delta = 0
+        self.xMaxDisparo = 0
+        self.yMaxDisparo = 0
         xJugador = self.jugadorActual.tanque.bloque.x
         yJugador = self.jugadorActual.tanque.bloque.y
         while True:
