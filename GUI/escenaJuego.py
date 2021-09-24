@@ -25,11 +25,14 @@ class EscenaJuego(plantillaEscena.Escena):
         self.contador=0
         self.flag=False
         self.jugadorEliminadoTurno=None
+        self.xMaxDisparo = 0
+        self.yMaxDisparo = 0
 
-    def on_update(self):  # <<<<<<<<<<<<<<<<<<<<< ACA QUEDA LA CAGÁ
+    def on_update(self):  
         pygame.display.set_caption("EL JUEGO DE LOS TANQUES IMPLEMENTADO EN PYTHON SIN NOMBRE AUN")
         self.director.pantalla.blit(self.fondo, (0, 0))
         self.muestreoTurnoVelocidadAngulo()
+        self.muestreoRastreoBala()
         self.piso.dibujar()
         self.mapa.dibujar(self.director.pantalla)
         self.dibujarTanques()
@@ -96,14 +99,32 @@ class EscenaJuego(plantillaEscena.Escena):
             if(self.jugadorEliminadoTurno!=None):
                 self.partidaActual.eliminarJugador(self.jugadorEliminadoTurno) #elimina al jugador
         pygame.time.wait(125)
+    
+    #Toma las posiciones de la bala y va viendo los posibles escenarios para buscar los valores maximos.
+    def rastreoBala(self, xDisparo, yDisparo):
+        if(self.xMaxDisparo>xDisparo and self.yMaxDisparo>yDisparo):
+            return {self.xMaxDisparo, self.yMaxDisparo}
+        elif(self.xMaxDisparo>xDisparo and self.yMaxDisparo<yDisparo):
+            self.yMaxDisparo = yDisparo
+            return {self.xMaxDisparo, self.yMaxDisparo}
+        elif(self.xMaxDisparo<xDisparo and self.yMaxDisparo>yDisparo):
+            self.xMaxDisparo = xDisparo
+            return {self.xMaxDisparo, self.yMaxDisparo}
+        else:
+            self.xMaxDisparo = xDisparo
+            self.yMaxDisparo = yDisparo
+            return {self.xMaxDisparo, self.yMaxDisparo}
 
-    # de luis para kekes: sabes que dispara peeeeeeeeero no se muestra en la pantalla, me sigue preguntando el
-    # angulo y potencia pero no logro ver la trayectoria
-    # respuesta de keke: es probable que sea porque no estamos implementando los eventos y es por consola... revisré.
-    #   no muestra disparo porque eliminaste la lista que guarda las trayectorias CUIDADO CON ELIMINAR COSAS! pero lo implementaré denuevo.
+    #Define el mensaje a mostrar en pantalla junto a sus caracteristicas.
+    def muestreoRastreoBala(self):
+        fuente = pygame.font.SysFont("arial", 20)
+        text = "Distancia Maxima: %d[m] ; Altura Maxima: %d[m]" % (self.xMaxDisparo, self.yMaxDisparo) 
+        mensaje = fuente.render(text, 1, (255, 255, 255))
+        self.director.pantalla.blit(mensaje, (15, 30))
+
     def verificaColisionBala(self, xDisparo,yDisparo):
+
         colisionTierra=self.colisionTierra(xDisparo,yDisparo)
-        #----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
         if(self.colisionTierra(xDisparo,yDisparo)): # si impacta un bloque de tierra, se detiene la parabola (bala)
             print("proyectil: toqué tierra")
             self.flag=False
@@ -115,6 +136,7 @@ class EscenaJuego(plantillaEscena.Escena):
             
             #break;
         jugadorImpactado=self.colisionTanque(xDisparo,yDisparo)
+        
         if(jugadorImpactado!=None): # si impacta con un tanque, se detiene la parabola (bala)
             print("proyectil: toqué un tanque")
             print("El tanque de ",jugadorImpactado.nombre," ha destruido al tanque de ",self.jugadorActual.nombre) #debug
@@ -128,6 +150,8 @@ class EscenaJuego(plantillaEscena.Escena):
         #--------------------------------------------------------------------------------------------------------
     def efectuarDisparo(self):
         delta = 0
+        self.xMaxDisparo = 0
+        self.yMaxDisparo = 0
         xJugador= self.jugadorActual.tanque.bloque.x
         yJugador= self.jugadorActual.tanque.bloque.y
         while True:
@@ -137,7 +161,7 @@ class EscenaJuego(plantillaEscena.Escena):
             yDisparo = yJugador-1 - (delta * self.potencia * math.sin(self.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
             delta += 0.5 # si quieres que hayan más puntitos en la parabola, modifica esto
             self.trayectoria.append((xDisparo,yDisparo))
-            #----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
+            self.rastreoBala(xDisparo, yDisparo)
             jugadorImpactado=self.colisionTanque(xDisparo,yDisparo)
             if(jugadorImpactado!=None): # si impacta con un tanque, se detiene la parabola (bala)
                 print("toqué un tanque")
@@ -152,7 +176,7 @@ class EscenaJuego(plantillaEscena.Escena):
                 print("salí rango")
                 break
             #--------------------------------------------------------------------------------------------------------
-        
+            
     # permite el cambio de turno entre los dos jugadores (no para n jugadores, sólo sirve para la entrega)
     
     
@@ -230,3 +254,5 @@ class EscenaJuego(plantillaEscena.Escena):
         text = "Turno: %s ; angulo: %d ° ; velocidad: %d (m/s)" % (self.jugadorActual.nombre,self.angulo, self.potencia) 
         mensaje = fuente.render(text, 1, (255, 255, 255))
         self.director.pantalla.blit(mensaje, (15, 5))
+
+    
