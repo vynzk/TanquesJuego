@@ -8,6 +8,8 @@ from GUI import bloque
 from Mapa import Mapa
 from Mapa.listaMapas import *
 import time
+from GUI.colores import *
+
 
 
 class EscenaJuego(plantillaEscena.Escena):
@@ -34,7 +36,7 @@ class EscenaJuego(plantillaEscena.Escena):
         pygame.display.set_caption("EL JUEGO DE LOS TANQUES IMPLEMENTADO EN PYTHON SIN NOMBRE AUN")
         self.director.pantalla.blit(self.fondo, (0, 0))
         self.muestreoTurnoVelocidadAngulo()
-        pygame.draw.rect(self.director.pantalla, (9, 15, 38), (0, 620, 1280, 100))  # bloque inferior
+        pygame.draw.rect(self.director.pantalla, COLOR_BINFERIOR, (0, 620, 1280, 100))  # bloque inferior
         self.partidaActual.mapa.dibujarMapa(self.director.pantalla)
         self.muestreoRastreoBala()
         self.dibujarTanques()
@@ -171,7 +173,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def dibujarBala(self):
         coord = self.trayectoria[self.contador]
-        pygame.draw.circle(self.director.pantalla, (0, 255, 0), (int(coord[0]), int(coord[1])), 3)
+        pygame.draw.circle(self.director.pantalla, VERDE, (int(coord[0]), int(coord[1])), 3)
         self.contador += 1
         if self.contador == len(self.trayectoria):
             if self.jugadorEliminadoTurno is not None:
@@ -194,7 +196,6 @@ class EscenaJuego(plantillaEscena.Escena):
         fuente = pygame.font.SysFont("arial", 30)
         jugadorGanador = self.partidaActual.jugadorGanador
         colorTanque = jugadorGanador.tanque.color
-
         text = "FIN DE PARTIDA ; GANADOR: " + str.upper(jugadorGanador.nombre)
         mensaje = fuente.render(text, 1, colorTanque)
         self.director.pantalla.blit(mensaje, (450, 300))
@@ -205,7 +206,6 @@ class EscenaJuego(plantillaEscena.Escena):
         fuente = pygame.font.SysFont("arial", 30)
         jugadorGanador = self.director.game.jugadorGanador
         colorTanque = jugadorGanador.tanque.color
-
         text = "FIN DEL JUEGO ; GANADOR: " + str.upper(jugadorGanador.nombre)
         mensaje = fuente.render(text, 1, colorTanque)
         self.director.pantalla.blit(mensaje, (450, 400))
@@ -216,13 +216,14 @@ class EscenaJuego(plantillaEscena.Escena):
         fuente = pygame.font.SysFont("arial", 20)
         text = "Turno: %s ; angulo: %d ° ; velocidad: %d (m/s)" % (
             self.jugadorActual.nombre, self.angulo, self.potencia)
-        mensaje = fuente.render(text, 1, (255, 255, 255))
+        mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (15, 5))
 
     #Define el mensaje a mostrar en pantalla junto a sus caracteristicas.
     def muestreoRastreoBala(self):
         fuente = pygame.font.SysFont("arial", 20)
         # se pasan a int ya que son numeros decimales y luego ello se pasa a str para concatenar en un sólo string
-        text = "Estado disparo: "+str(self.flag)+"; Distancia máxima: "+str(int(self.xMaxDisparo))+" [px] ; Altura máxima: "+str(int(self.yMaxDisparo))
-        mensaje = fuente.render(text, 1, (255, 255, 255))
+        text = "Estado disparo: "+str(self.flag)+"; Distancia máxima: "+str(int(self.xMaxDisparo))\
+               +" [px] ; Altura máxima: "+str(int(self.yMaxDisparo))
+        mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (15, 30))

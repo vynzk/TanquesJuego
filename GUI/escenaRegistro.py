@@ -10,7 +10,6 @@ class EscenaRegistro(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
-        # self.mousex,self.mousey= 0,0 #para movimiento del mouse
         self.boton_registrar = None  # botón para cambiar a escenaJuego en la versión final
 
     def on_update(self):

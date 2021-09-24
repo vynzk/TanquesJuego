@@ -3,6 +3,7 @@ from Videojuego.Partida import *
 from Tanque.Tanque import *
 from Mapa.Mapa import *
 from Mapa.listaMapas import *
+from GUI.colores import *
 import random
 
 
@@ -35,7 +36,7 @@ class Juego:
             
     def agregarJugador(self, i, pantalla):
         # colores de los tanques
-        colores = [(255, 0, 0), (0, 0, 255)]
+        colores = (ROJO,AZUL)
         posicion=self.posicionesRandom(i)
         nombre = str(input("Ingrese su nombre: "))
         tanque = Tanque(pantalla, 20, 20, colores[i - 1], posicion[0], posicion[1])

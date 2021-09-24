@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import pygame
 import plantillaEscena
-
+from GUI.colores import *
 
 class EscenaHome(plantillaEscena.Escena):
 
@@ -17,4 +17,4 @@ class EscenaHome(plantillaEscena.Escena):
         pass
 
     def on_draw(self, screen):
-        pygame.draw.line(screen, (255, 0, 0), [10, 10], [650, 470], 2)
+        pygame.draw.line(screen, ROJO, [10, 10], [650, 470], 2)

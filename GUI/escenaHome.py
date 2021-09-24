@@ -10,7 +10,6 @@ class EscenaHome(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
-        # self.mousex,self.mousey= 0,0 #para movimiento del mouse
         self.boton_play = None
         self.cambiaDePartida()
 

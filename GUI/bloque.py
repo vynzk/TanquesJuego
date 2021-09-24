@@ -25,7 +25,6 @@ class Bloque:
         self.dibujar()
     """
 
-
     def colision(self, xColision, yColision):
         # (x,y)------------| x+delta
         #  |               |

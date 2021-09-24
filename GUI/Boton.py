@@ -1,13 +1,14 @@
 import pygame
 import pygame.font
+from GUI.colores import *
 
 class Boton:
     def __init__(self, pantalla, texto):
         self.pantalla = pantalla
         self.pantalla_rect = self.pantalla.get_rect()
         self.x, self.y = 200, 50
-        self.color = (255, 0, 0)
-        self.textoColor = (255, 255, 255)
+        self.color = ROJO
+        self.textoColor = COLOR_TEXTO
         self.fuente = pygame.font.SysFont("arial", 30)
         self.rect = pygame.Rect(0, 0, self.x, self.y)
         self.rect.center = self.pantalla_rect.center

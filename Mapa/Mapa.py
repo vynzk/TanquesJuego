@@ -1,6 +1,6 @@
 from GUI.bloque import Bloque
 import pygame
-
+from GUI.colores import *
 pygame.init()
 
 
@@ -24,7 +24,7 @@ class Mapa:
         for fila in self.mapa:
             for caracter in fila:
                 if caracter == "X":
-                    bloque = Bloque(pantalla, self.pixel_x, self.pixel_y, (18, 25, 53), x, y)
+                    bloque = Bloque(pantalla, self.pixel_x, self.pixel_y, COLOR_TIERRA, x, y)
                     self.listaBloques.append(bloque)
                 x += self.pixel_x
             x = 0
