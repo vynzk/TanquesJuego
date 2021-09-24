@@ -1,10 +1,5 @@
 import pygame
 
-"""esta clase corresponde a la clase padre de los elementos que se interrelacionan
-    dentro del juego. 
-    
-    importancia: recalca en las coordenadas de posición y tamaño del objeto dentro de la pantalla"""
-
 
 class Bloque:
     def __init__(self, pantalla, ancho, alto, color, x, y):
@@ -14,17 +9,21 @@ class Bloque:
         self.y = y
         self.color = color
         self.pantalla = pantalla
-        self.vivo = True
+        # self.vivo=True
 
     def dibujar(self):
         pygame.draw.rect(self.pantalla, self.color, (self.x, self.y, self.ancho, self.alto))
 
+    """ esto es innecesario, ya que cuando un bloque es sacado de una lista, se deja de dibujar, un ejemplo es el
+    del mapa con su lista de bloques, en un futuro cuando se destruya un bloque, si se saca de esta lista ya no se
+    dibujará más. Por tanto, se optará por quitar el atributo vivo/muerto
     
     def destruir(self):
         self.vivo = False
         # se desdibuja/borra, fijando el color del fondo, en este caso negro
-        self.setColor((0, 0, 0))
+        self.color((0, 0, 0))
         self.dibujar()
+    """
 
     def colision(self, xColision, yColision):
         # (x,y)------------| x+delta
@@ -42,7 +41,3 @@ class Bloque:
             if self.y <= yColision <= yMax:
                 return True  # colision
         return False  # no se encuentra  dentro del rango de colisión
-
-    def setColor(self, color):
-        self.color = color
-

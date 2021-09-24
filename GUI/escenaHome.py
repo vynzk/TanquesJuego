@@ -10,13 +10,12 @@ class EscenaHome(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
-        # self.mousex,self.mousey= 0,0 #para movimiento del mouse
         self.boton_play = None
         self.cambiaDePartida()
 
     def on_update(self):
-        pygame.display.set_caption("Home")
-        pass
+        pygame.display.set_caption("Home")  # no cambies esto aun... es para debuggueo
+        
 
     def on_event(self, evento):
         if evento.type == pygame.MOUSEBUTTONDOWN:
