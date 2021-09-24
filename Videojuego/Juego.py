@@ -25,16 +25,16 @@ class Juego:
         # posiciones posibles del segundo tanque
         posPosiblesJ2 = [(940, 500), (960, 500), (980, 480), (1000, 460), 
         (1020, 460), (1040, 440), (1060, 440), (1080, 440), (1100, 440), (1120, 420), (1140, 420), 
-        (1160, 420), (1180, 420), (1200, 420), (1220, 420), (1240, 420), (1260, 420), (1280, 420)]
+        (1160, 420), (1180, 420), (1200, 420), (1220, 420), (1240, 420), (1260, 420)]
 
-        numRandom=random.randint(0,17)
+        numRandom=random.randint(0,16)
         # retorna el par ordenado posible para cada jugador
         if i==1:
             return posPosiblesJ1[numRandom]
         else:
             return posPosiblesJ2[numRandom]
             
-    def agregarJugador(self, i, pantalla):
+    def agregarJugador(self, i, pantalla):  
         # colores de los tanques
         colores = (ROJO,AZUL)
         posicion=self.posicionesRandom(i)
