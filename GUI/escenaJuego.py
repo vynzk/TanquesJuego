@@ -33,7 +33,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.yMaxDisparo = 0
 
     def on_update(self):
-        pygame.display.set_caption("EL JUEGO DE LOS TANQUES IMPLEMENTADO EN PYTHON SIN NOMBRE AUN")
+        pygame.display.set_caption("NORTH KOREA WARS SIMULATOR")
         self.director.pantalla.blit(self.fondo, (0, 0))
         self.muestreoTurnoVelocidadAngulo()
         pygame.draw.rect(self.director.pantalla, COLOR_BINFERIOR, (0, 620, 1280, 100))  # bloque inferior
