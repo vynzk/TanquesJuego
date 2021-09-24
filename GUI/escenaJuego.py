@@ -24,8 +24,8 @@ class EscenaJuego(plantillaEscena.Escena):
         # como tambien, el jugador inicial será el primer jugador activo de la primera partida
         self.jugadorActual = self.partidaActual.jugadoresActivos[0]
         self.trayectoria = []
-        self.angulo = 45
-        self.potencia = 100
+        self.angulo = 40
+        self.potencia = 114
         self.contador = 0
         self.flag = False
         self.jugadorEliminadoTurno = None
@@ -33,7 +33,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.yMaxDisparo = 0
 
     def on_update(self):
-        pygame.display.set_caption("NORTH KOREA WARS SIMULATOR")
+        pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
         self.director.pantalla.blit(self.fondo, (0, 0))
         self.muestreoTurnoVelocidadAngulo()
         pygame.draw.rect(self.director.pantalla, COLOR_BINFERIOR, (0, 620, 1280, 100))  # bloque inferior
@@ -136,12 +136,12 @@ class EscenaJuego(plantillaEscena.Escena):
     def cambiarJugador(self):
         listaJugadoresActuales = self.partidaActual.jugadoresActivos
         if self.jugadorActual == listaJugadoresActuales[0]:
-            self.angulo = 135
-            self.potencia = 100
+            self.angulo = 140
+            self.potencia = 103
             self.jugadorActual = listaJugadoresActuales[1]
         else:
-            self.angulo = 45
-            self.potencia = 100
+            self.angulo = 40
+            self.potencia = 114
             self.jugadorActual = listaJugadoresActuales[0]
 
     # ----------------------------------FUNCIONES QUE VERIFICAN COLISIÓN---------------------------------------------
