@@ -3,13 +3,14 @@
 # partida debe llamar la función "pasarTurno" del jugadorActual (otrogrado por el TurnoActual) al momento de que un proyectil colisione (con un tanque o con el piso)
 
 class Partida:
-    def __init__(self, id, pantalla):
+    def __init__(self, id, pantalla, mapa):
         self.id = id
         self.estado = False
         self.pantalla = pantalla  # pantalla que le pasa el director)
         self.jugadorGanador = None
         self.jugadoresActivos = []
         self.contadorJugador = 0
+        self.mapa = mapa
 
     # funcion que agrega jugadores a su lista de jugadores activos
     def agregarJugadores(self, jugador):

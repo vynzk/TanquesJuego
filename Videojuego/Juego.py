@@ -1,6 +1,9 @@
 from Videojuego.Jugador import *
 from Videojuego.Partida import *
 from Tanque.Tanque import *
+from Mapa.Mapa import *
+from Mapa.listaMapas import *
+from GUI.colores import *
 import random
 
 
@@ -11,7 +14,7 @@ class Juego:
         self.cantidadPartidas = cantidadPartidas
         self.listaPartidas = []
         self.jugadorGanador = None
-        self.juegoTerminado=False
+        self.juegoTerminado = False
 
     def posicionesRandom(self,i):
         # posiciones posibles para el primer tanque
@@ -33,7 +36,7 @@ class Juego:
             
     def agregarJugador(self, i, pantalla):
         # colores de los tanques
-        colores = [(255, 0, 0), (0, 0, 255)]
+        colores = (ROJO,AZUL)
         posicion=self.posicionesRandom(i)
         nombre = str(input("Ingrese su nombre: "))
         tanque = Tanque(pantalla, 20, 20, colores[i - 1], posicion[0], posicion[1])
@@ -50,7 +53,9 @@ class Juego:
     # función que agregará una partida a la lista de partidas, cada partida agregará como jugadores activos a la
     # totalidad de jugadores que participan en el juego
     def agregarPartida(self, i, director):
-        partida = Partida(i, director)
+        mapa = Mapa(mapa1)
+        mapa.generarMatriz(director.pantalla)
+        partida = Partida(i, director, mapa)
         # va agregando los jugadores a la nueva partida
         for jugador in self.listaJugadores:
             partida.agregarJugadores(jugador)
@@ -62,7 +67,7 @@ class Juego:
             self.listaPartidas.append(self.agregarPartida(i, director))
         return True  # termina con exito el registro
 
-     # TODO: falta definir el empate
+    # TODO: falta definir el empate
     def definirGanador(self):
         contador = 0
         while contador < self.cantidadJugadores:
@@ -75,4 +80,4 @@ class Juego:
 
             contador += 1
         self.jugadorGanador = ganadorAux  # << se guarda en el atributo ganador
-        self.juegoTerminado=True
+        self.juegoTerminado = True
