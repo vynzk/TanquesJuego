@@ -19,11 +19,11 @@ class EscenaRegistro(plantillaEscena.Escena):
 
     def on_event(self, evento):
         if evento.type == pygame.MOUSEBUTTONDOWN:
-            self.director.mousePos = pygame.mouse.get_pos()  # arreglar: usar una sola funcion de coordenadas, mouse... CUIDADO
+            self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_registrar):
                 if self.registrar():
                     self.cambioEscenaJuego()
-                print("salta a escena juego")
+                # print("salta a escena juego") # debug
 
     def registrar(self):
         # se registran los jugadores
