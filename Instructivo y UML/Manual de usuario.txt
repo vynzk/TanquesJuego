@@ -16,7 +16,7 @@ las teclas de control como se indicará a continuación.
 Estas flechas le darán el ángulo a la bala. ← → 
 
 Estas flechas le darán la potencia a la bala. ↑ ↓
-La potencia y el ángulo se indicarán por pantalla.
+La potencia y el ángulo se indicarán por pantalla, al igual que la altura y la distancia máxima.
                                                                  _________
 Para poder lanzar la bala se debe apretar la tecla de espacio.  |_________|
                                                                 
