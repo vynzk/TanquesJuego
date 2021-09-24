@@ -74,6 +74,8 @@ class EscenaJuego(plantillaEscena.Escena):
                             self.contador = 0  # << el contador debe estar limpio para un nuevo jugador
                             self.trayectoria = []  # << la trayectoria debe estar limpio para un nuevo jugador
                             self.flag = False  # << debe apretar enter nuevamente el jugador para disparar
+                            self.xMaxDisparo = 0
+                            self.yMaxDisparo = 0
                             self.cambiarJugador()
                             self.mensajeTurno()
             else:
@@ -94,19 +96,13 @@ class EscenaJuego(plantillaEscena.Escena):
         elif(self.xMaxDisparo>xDisparo and self.yMaxDisparo<yDisparo):
             self.yMaxDisparo = yDisparo
         elif(self.xMaxDisparo<xDisparo and self.yMaxDisparo>yDisparo):
-            return {self.xMaxDisparo, self.yMaxDisparo}
             self.xMaxDisparo = xDisparo
             return {self.xMaxDisparo, self.yMaxDisparo}
         else:
             self.xMaxDisparo = xDisparo
             self.yMaxDisparo = yDisparo
             return {self.xMaxDisparo, self.yMaxDisparo}
-    #Define el mensaje a mostrar en pantalla junto a sus caracteristicas.
-    def muestreoRastreoBala(self):
-        fuente = pygame.font.SysFont("arial", 20)
-        text = "Distancia Maxima: %d[m] ; Altura Maxima: %d[m]" % (self.xMaxDisparo, self.yMaxDisparo) 
-        mensaje = fuente.render(text, 1, (255, 255, 255))
-        self.director.pantalla.blit(mensaje, (15, 30))
+
     def efectuarDisparo(self):
         delta = 0
         xJugador = self.jugadorActual.tanque.bloque.x
@@ -116,13 +112,13 @@ class EscenaJuego(plantillaEscena.Escena):
             yDisparo = yJugador - 1 - (
                     delta * self.potencia * math.sin(self.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
             delta += 0.5  # si quieres que hayan más puntitos en la parabola, modifica esto
+            self.rastreoBala(xDisparo, yDisparo)
             self.trayectoria.append((xDisparo, yDisparo))
             # ----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             jugadorImpactado = self.colisionTanque(xDisparo, yDisparo)
             if jugadorImpactado is not None:  # si impacta con un tanque, se detiene la parabola (bala)
                 # print("toqué un tanque") # debug
                 self.jugadorEliminadoTurno = jugadorImpactado
-            self.rastreoBala(xDisparo, yDisparo)
                 break
 
             elif self.colisionTierra(xDisparo, yDisparo):
@@ -222,3 +218,11 @@ class EscenaJuego(plantillaEscena.Escena):
             self.jugadorActual.nombre, self.angulo, self.potencia)
         mensaje = fuente.render(text, 1, (255, 255, 255))
         self.director.pantalla.blit(mensaje, (15, 5))
+
+    #Define el mensaje a mostrar en pantalla junto a sus caracteristicas.
+    def muestreoRastreoBala(self):
+        fuente = pygame.font.SysFont("arial", 20)
+        # se pasan a int ya que son numeros decimales y luego ello se pasa a str para concatenar en un sólo string
+        text = "Estado disparo: "+str(self.flag)+"; Distancia máxima: "+str(int(self.xMaxDisparo))+" [px] ; Altura máxima: "+str(int(self.yMaxDisparo))
+        mensaje = fuente.render(text, 1, (255, 255, 255))
+        self.director.pantalla.blit(mensaje, (15, 30))

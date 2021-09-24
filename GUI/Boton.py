@@ -1,11 +1,6 @@
 import pygame
 import pygame.font
 
-FONDO = (32, 30, 32)
-BLANCO = (255, 255, 255)
-COLOR_TEXTO = (50, 60, 80)
-
-
 class Boton:
     def __init__(self, pantalla, texto):
         self.pantalla = pantalla
