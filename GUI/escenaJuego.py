@@ -24,8 +24,8 @@ class EscenaJuego(plantillaEscena.Escena):
         # como tambien, el jugador inicial será el primer jugador activo de la primera partida
         self.jugadorActual = self.partidaActual.jugadoresActivos[0]
         self.trayectoria = []
-        self.angulo = 40
-        self.potencia = 114
+        self.angulo = 45
+        self.potencia = 100
         self.contador = 0
         self.flag = False
         self.jugadorEliminadoTurno = None
@@ -107,6 +107,8 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def efectuarDisparo(self):
         delta = 0
+        self.xMaxDisparo = 0
+        self.yMaxDisparo = 0
         xJugador = self.jugadorActual.tanque.bloque.x
         yJugador = self.jugadorActual.tanque.bloque.y
         while True:
@@ -134,12 +136,12 @@ class EscenaJuego(plantillaEscena.Escena):
     def cambiarJugador(self):
         listaJugadoresActuales = self.partidaActual.jugadoresActivos
         if self.jugadorActual == listaJugadoresActuales[0]:
-            self.angulo = 140
-            self.potencia = 103
+            self.angulo = 135
+            self.potencia = 100
             self.jugadorActual = listaJugadoresActuales[1]
         else:
-            self.angulo = 40
-            self.potencia = 114
+            self.angulo = 45
+            self.potencia = 100
             self.jugadorActual = listaJugadoresActuales[0]
 
     # ----------------------------------FUNCIONES QUE VERIFICAN COLISIÓN---------------------------------------------

@@ -1,4 +1,4 @@
-@startuml
+ @startuml
 
 EscenaRegistro <|-- Escena
 EscenaMenu1 <|-- Escena
@@ -107,10 +107,7 @@ class EscenaMenu1{
 
 class EscenaJuego{
 +fondo
-+mousex
 +partidas
-+piso
-+mapa
 +jugadorActual
 +partidaActual
 +ArrayList<trayectoria>
@@ -119,9 +116,12 @@ class EscenaJuego{
 +contador
 +flag
 +jugadorEliminadoTurno
++xMaxDiasparo
++yMax disparo
 +on_update()
 +on_event(event)
-+n_draw(pantalla)
++on_draw(pantalla)
++rastreoBala(xDisparo, yDisparo)
 +dibujarBala()
 +efectuarDisparo(ang, vel)
 +cambiarJugador()
@@ -132,8 +132,8 @@ class EscenaJuego{
 +mensajeTurno()
 +mensajeFinPartida()
 +mensajeFinJuego()
-+muestreoVelocidadAngulo()
 +muestreoTurnoVelocidadAngulo()
++muestreoRastreoBala()
 }
 
 class EscenaHome{
@@ -189,4 +189,4 @@ class Bloque{
 }
 
 
-@enduml
+@enduml0))

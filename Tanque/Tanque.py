@@ -11,6 +11,4 @@ class Tanque:
         self.x = x
         self.y = y
         self.bloque = bloque.Bloque(pantalla, ancho, alto, color, self.x, self.y)
-        self.modelo = "Default"
         self.color = color
-        self.disparoTrayectoria = []
