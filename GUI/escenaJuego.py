@@ -27,6 +27,8 @@ class EscenaJuego(plantillaEscena.Escena):
         self.contador = 0
         self.flag = False
         self.jugadorEliminadoTurno = None
+        self.xMaxDisparo = 0
+        self.yMaxDisparo = 0
 
     def on_update(self):
         pygame.display.set_caption("EL JUEGO DE LOS TANQUES IMPLEMENTADO EN PYTHON SIN NOMBRE AUN")
@@ -34,6 +36,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.muestreoTurnoVelocidadAngulo()
         pygame.draw.rect(self.director.pantalla, (9, 15, 38), (0, 620, 1280, 100))  # bloque inferior
         self.partidaActual.mapa.dibujarMapa(self.director.pantalla)
+        self.muestreoRastreoBala()
         self.dibujarTanques()
 
     def on_event(self, event):
@@ -84,6 +87,26 @@ class EscenaJuego(plantillaEscena.Escena):
             self.director.running = False  # rompe el gameloop para terminar el juego
 
     # ------------------------------FUNCIONES QUE REPRESENTAN ACCIONES DENTRO DEL JUEGO-----------------------------
+    #Toma las posiciones de la bala y va viendo los posibles escenarios para buscar los valores maximos.
+    def rastreoBala(self, xDisparo, yDisparo):
+        if(self.xMaxDisparo>xDisparo and self.yMaxDisparo>yDisparo):
+            return {self.xMaxDisparo, self.yMaxDisparo}
+        elif(self.xMaxDisparo>xDisparo and self.yMaxDisparo<yDisparo):
+            self.yMaxDisparo = yDisparo
+        elif(self.xMaxDisparo<xDisparo and self.yMaxDisparo>yDisparo):
+            return {self.xMaxDisparo, self.yMaxDisparo}
+            self.xMaxDisparo = xDisparo
+            return {self.xMaxDisparo, self.yMaxDisparo}
+        else:
+            self.xMaxDisparo = xDisparo
+            self.yMaxDisparo = yDisparo
+            return {self.xMaxDisparo, self.yMaxDisparo}
+    #Define el mensaje a mostrar en pantalla junto a sus caracteristicas.
+    def muestreoRastreoBala(self):
+        fuente = pygame.font.SysFont("arial", 20)
+        text = "Distancia Maxima: %d[m] ; Altura Maxima: %d[m]" % (self.xMaxDisparo, self.yMaxDisparo) 
+        mensaje = fuente.render(text, 1, (255, 255, 255))
+        self.director.pantalla.blit(mensaje, (15, 30))
     def efectuarDisparo(self):
         delta = 0
         xJugador = self.jugadorActual.tanque.bloque.x
@@ -99,6 +122,7 @@ class EscenaJuego(plantillaEscena.Escena):
             if jugadorImpactado is not None:  # si impacta con un tanque, se detiene la parabola (bala)
                 # print("toqué un tanque") # debug
                 self.jugadorEliminadoTurno = jugadorImpactado
+            self.rastreoBala(xDisparo, yDisparo)
                 break
 
             elif self.colisionTierra(xDisparo, yDisparo):
