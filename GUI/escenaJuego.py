@@ -35,7 +35,7 @@ class EscenaJuego(plantillaEscena.Escena):
         pygame.draw.rect(self.director.pantalla, COLOR_BINFERIOR, (0, 600, 1280, 120))  # bloque inferior
         self.partidaActual.mapa.dibujarMapa(self.director.pantalla)
         self.muestreoRastreoBala()
-        #self.dibujarTanques()
+        self.dibujarTanques()
 
     def on_event(self, event):
         if event.type == pygame.KEYDOWN:

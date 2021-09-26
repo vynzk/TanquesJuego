@@ -1,6 +1,6 @@
-# en el momento que sólo queda un jugador activo en la partida, se invoca el metodo terminar y pasa a la otra partida
-# partida debe ir eliminando a los jugadoras activos cuyo tanque es alcanzado
-# partida debe llamar la función "pasarTurno" del jugadorActual (otrogrado por el TurnoActual) al momento de que un proyectil colisione (con un tanque o con el piso)
+import random
+from GUI.colores import *
+
 
 class Partida:
     def __init__(self, id, pantalla, mapa):
@@ -27,11 +27,21 @@ class Partida:
         self.jugadoresActivos.remove(jugadorEliminado)
 
     def generarPosicionesJug(self):
+        listaColores = colores = [ROJO, VERDE, ORO, AZUL]
         cantidadJug = len(self.jugadoresActivos)
+        cantEspacios=cantidadJug-1
         espacio = int(len(self.mapa.posPosiblesJug) / (2 * cantidadJug - 1))
-        # --------debug: los ubica independiente de la cant de jugadores espaciandolos-----------
-        print("espacio:", espacio)
         contador = 0
+
+        print(f'DEBUG: cant jug: {cantidadJug}, cant espacios: {cantEspacios}, cant posibles espacios: {len(self.mapa.posPosiblesJug)}, rango espacios: {espacio}')
         for jugador in self.jugadoresActivos:
-            print("jugador:", jugador.nombre, "posibles pos:", contador, " hasta ", contador + espacio)
+            # ---- parametros aleatorios------------------------------
+            numAle = random.randint(contador, contador + espacio)
+            ubicacionRandom = self.mapa.posPosiblesJug[numAle]
+            colorRandom = random.choice(listaColores)
+            listaColores.remove(colorRandom)  # para no repetir el color
+            # debug:
+            print(f'DEBUG: >>jugador: {jugador.nombre}, rango aleatorio ({contador},{contador+espacio}), numAleatorio: {numAle} , posRandom: {ubicacionRandom}, color: {colorRandom}')
+            # se ubica el tanque y se crea su bloque
+            jugador.tanque.construirBloques(ubicacionRandom[0], ubicacionRandom[1], colorRandom)
             contador += 2 * espacio

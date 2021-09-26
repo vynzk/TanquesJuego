@@ -3,7 +3,6 @@ from Videojuego.Partida import *
 from Tanque.Tanque import *
 from Mapa.Mapa import *
 from Mapa.listaMapas import *
-from GUI.colores import *
 
 class Juego:
     def __init__(self, cantidadJugadores, cantidadPartidas):
@@ -17,9 +16,9 @@ class Juego:
             
     def agregarJugador(self, i, pantalla):
         # colores de los tanques
-        colores = (ROJO,AZUL,BLANCO)
+        #colores = (ROJO,AZUL,BLANCO)
         nombre = str(input("Ingrese su nombre: "))
-        tanque = Tanque(pantalla, 20, 20, colores[i - 1])
+        tanque = Tanque(pantalla)
         self.listaJugadores.append(Jugador(nombre, tanque))  # << agrega un nuevo Jugador con su nombre y su tanque
 
     # función que se encargará de llenar la lista de jugadores, registrará tantos jugadores
