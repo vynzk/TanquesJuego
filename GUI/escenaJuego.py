@@ -20,8 +20,6 @@ class EscenaJuego(plantillaEscena.Escena):
         # como tambien, el jugador inicial será el primer jugador activo de la primera partida
         self.jugadorActual = self.partidaActual.jugadoresActivos[0]
         self.trayectoria = []
-        self.angulo = 40
-        self.potencia = 114
         self.contador = 0
         self.flag = False
         self.jugadorEliminadoTurno = None
@@ -40,17 +38,17 @@ class EscenaJuego(plantillaEscena.Escena):
     def on_event(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                self.potencia -= 1
-                # print("potencia: ", self.potencia, "; left: potencia --") # debug
+                self.jugadorActual.tanque.velocidad -= 1
+                # print("potencia: ", self.jugadorActual.tanque.potencia, "; left: potencia --") # debug
             if event.key == pygame.K_RIGHT:
-                self.potencia += 1
-                # print("potencia: ", self.potencia, "; right: potencia ++") # debug
+                self.jugadorActual.tanque.velocidad += 1
+                # print("potencia: ", self.jugadorActual.tanque.potencia, "; right: potencia ++") # debug
             if event.key == pygame.K_UP:
-                self.angulo += 1
-                # print("angulo: ", self.angulo, "; up: angulo ++") # debug
+                self.jugadorActual.tanque.angulo += 1
+                # print("angulo: ", self.jugadorActual.tanque.angulo, "; up: angulo ++") # debug
             if event.key == pygame.K_DOWN:
-                self.angulo -= 1
-                # print("angulo: ", self.angulo, "; down: angulo --") # debug
+                self.jugadorActual.tanque.angulo -= 1
+                # print("angulo: ", self.jugadorActual.tanque.angulo, "; down: angulo --") # debug
             if event.key == pygame.K_SPACE:
                 self.flag = True
                 print("\n>>> jugador/a ", self.jugadorActual.nombre, " disparó")
@@ -108,9 +106,9 @@ class EscenaJuego(plantillaEscena.Escena):
         xJugador = self.jugadorActual.tanque.bloque.x
         yJugador = self.jugadorActual.tanque.bloque.y
         while True:
-            xDisparo = xJugador + 10 + delta * self.potencia * math.cos(self.angulo * 3.1416 / 180)
+            xDisparo = xJugador + 10 + delta * self.jugadorActual.tanque.velocidad * math.cos(self.jugadorActual.tanque.angulo * 3.1416 / 180)
             yDisparo = yJugador - 1 - (
-                    delta * self.potencia * math.sin(self.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
+                    delta * self.jugadorActual.tanque.velocidad * math.sin(self.jugadorActual.tanque.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
             delta += 0.5  # si quieres que hayan más puntitos en la parabola, modifica esto
             self.rastreoBala(xDisparo, yDisparo)
             self.trayectoria.append((xDisparo, yDisparo))
@@ -132,12 +130,8 @@ class EscenaJuego(plantillaEscena.Escena):
     def cambiarJugador(self):
         listaJugadoresActuales = self.partidaActual.jugadoresActivos
         if self.jugadorActual == listaJugadoresActuales[0]:
-            self.angulo = 140
-            self.potencia = 103
             self.jugadorActual = listaJugadoresActuales[1]
         else:
-            self.angulo = 40
-            self.potencia = 114
             self.jugadorActual = listaJugadoresActuales[0]
 
     # ----------------------------------FUNCIONES QUE VERIFICAN COLISIÓN---------------------------------------------
@@ -213,7 +207,7 @@ class EscenaJuego(plantillaEscena.Escena):
     def muestreoTurnoVelocidadAngulo(self):
         fuente = pygame.font.SysFont("arial", 20)
         text = "Turno: %s ; angulo: %d ° ; velocidad: %d (m/s)" % (
-            self.jugadorActual.nombre, self.angulo, self.potencia)
+            self.jugadorActual.nombre, self.jugadorActual.tanque.angulo, self.jugadorActual.tanque.velocidad)
         mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (15, 5))
 

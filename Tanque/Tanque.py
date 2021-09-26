@@ -9,10 +9,16 @@ class Tanque:
         self.y = None
         self.bloque = None
         self.color = None
+        self.velocidad = 100
+        self.angulo = 100
 
     # funcion que definirá las posiciones x e y del tanque y construirá su bloque
-    def construirBloques(self, x, y,color):
+    def construirBloques(self, x, y, color):
         self.x = x
         self.y = y
-        self.color=color
+        self.color = color
         self.bloque = Bloque(self.pantalla, 40, 40, self.color, self.x, self.y)
+
+    def restablecerVelAng(self):
+        self.velocidad = 100
+        self.angulo = 100
