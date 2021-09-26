@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from Videojuego.Partida import Partida
 import pygame
 import math
 from GUI import plantillaEscena
-from GUI import bloque
-from Mapa import Mapa
-from Mapa.listaMapas import *
 import time
 from GUI.colores import *
 
@@ -36,10 +32,10 @@ class EscenaJuego(plantillaEscena.Escena):
         pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
         self.director.pantalla.blit(self.fondo, (0, 0))
         self.muestreoTurnoVelocidadAngulo()
-        pygame.draw.rect(self.director.pantalla, COLOR_BINFERIOR, (0, 620, 1280, 100))  # bloque inferior
+        pygame.draw.rect(self.director.pantalla, COLOR_BINFERIOR, (0, 600, 1280, 120))  # bloque inferior
         self.partidaActual.mapa.dibujarMapa(self.director.pantalla)
         self.muestreoRastreoBala()
-        self.dibujarTanques()
+        #self.dibujarTanques()
 
     def on_event(self, event):
         if event.type == pygame.KEYDOWN:
