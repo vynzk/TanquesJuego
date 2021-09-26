@@ -34,6 +34,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.partidaActual.mapa.dibujarMapa(self.director.pantalla)
         self.muestreoRastreoBala()
         self.dibujarTanques()
+        self.mostrarCañon()
 
     def on_event(self, event):
         if event.type == pygame.KEYDOWN:
@@ -106,7 +107,7 @@ class EscenaJuego(plantillaEscena.Escena):
         xJugador = self.jugadorActual.tanque.bloque.x
         yJugador = self.jugadorActual.tanque.bloque.y
         while True:
-            xDisparo = xJugador + 10 + delta * self.jugadorActual.tanque.velocidad * math.cos(self.jugadorActual.tanque.angulo * 3.1416 / 180)
+            xDisparo = xJugador + 20 + delta * self.jugadorActual.tanque.velocidad * math.cos(self.jugadorActual.tanque.angulo * 3.1416 / 180)
             yDisparo = yJugador - 1 - (
                     delta * self.jugadorActual.tanque.velocidad * math.sin(self.jugadorActual.tanque.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
             delta += 0.5  # si quieres que hayan más puntitos en la parabola, modifica esto
@@ -219,3 +220,11 @@ class EscenaJuego(plantillaEscena.Escena):
                +" [px] ; Altura máxima: "+str(int(self.yMaxDisparo))
         mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (15, 30))
+
+    # Se muestra el cañon para dar una aproximación del angulo a la hora de efectuar el disparo
+    def mostrarCañon(self):
+        tanque=self.jugadorActual.tanque
+        angulo=tanque.angulo * 3.1416 / -180
+        x=tanque.bloque.x+20
+        y=tanque.bloque.y
+        pygame.draw.line(self.director.pantalla,tanque.color,[x,y],[x+50*math.cos(angulo),y+50*math.sin(angulo)],2)
