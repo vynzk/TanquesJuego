@@ -7,7 +7,6 @@ import time
 from GUI.colores import *
 
 
-
 class EscenaJuego(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
@@ -45,10 +44,12 @@ class EscenaJuego(plantillaEscena.Escena):
                 self.jugadorActual.tanque.velocidad += 1
                 # print("potencia: ", self.jugadorActual.tanque.potencia, "; right: potencia ++") # debug
             if event.key == pygame.K_UP:
-                self.jugadorActual.tanque.angulo += 1
+                if self.jugadorActual.tanque.angulo + 1 < 180:  # si no verificamos, cualquier angulo fuera de este, el proyectil impacta con el propio tanque
+                    self.jugadorActual.tanque.angulo += 1
                 # print("angulo: ", self.jugadorActual.tanque.angulo, "; up: angulo ++") # debug
             if event.key == pygame.K_DOWN:
-                self.jugadorActual.tanque.angulo -= 1
+                if self.jugadorActual.tanque.angulo - 1 > 0:
+                    self.jugadorActual.tanque.angulo -= 1
                 # print("angulo: ", self.jugadorActual.tanque.angulo, "; down: angulo --") # debug
             if event.key == pygame.K_SPACE:
                 self.flag = True
@@ -86,13 +87,13 @@ class EscenaJuego(plantillaEscena.Escena):
             self.director.running = False  # rompe el gameloop para terminar el juego
 
     # ------------------------------FUNCIONES QUE REPRESENTAN ACCIONES DENTRO DEL JUEGO-----------------------------
-    #Toma las posiciones de la bala y va viendo los posibles escenarios para buscar los valores maximos.
+    # Toma las posiciones de la bala y va viendo los posibles escenarios para buscar los valores maximos.
     def rastreoBala(self, xDisparo, yDisparo):
-        if(self.xMaxDisparo>xDisparo and self.yMaxDisparo>yDisparo):
+        if (self.xMaxDisparo > xDisparo and self.yMaxDisparo > yDisparo):
             return {self.xMaxDisparo, self.yMaxDisparo}
-        elif(self.xMaxDisparo>xDisparo and self.yMaxDisparo<yDisparo):
+        elif (self.xMaxDisparo > xDisparo and self.yMaxDisparo < yDisparo):
             self.yMaxDisparo = yDisparo
-        elif(self.xMaxDisparo<xDisparo and self.yMaxDisparo>yDisparo):
+        elif (self.xMaxDisparo < xDisparo and self.yMaxDisparo > yDisparo):
             self.xMaxDisparo = xDisparo
             return {self.xMaxDisparo, self.yMaxDisparo}
         else:
@@ -107,9 +108,11 @@ class EscenaJuego(plantillaEscena.Escena):
         xJugador = self.jugadorActual.tanque.bloque.x
         yJugador = self.jugadorActual.tanque.bloque.y
         while True:
-            xDisparo = xJugador + 20 + delta * self.jugadorActual.tanque.velocidad * math.cos(self.jugadorActual.tanque.angulo * 3.1416 / 180)
+            xDisparo = xJugador + 20 + delta * self.jugadorActual.tanque.velocidad * math.cos(
+                self.jugadorActual.tanque.angulo * 3.1416 / 180)
             yDisparo = yJugador - 1 - (
-                    delta * self.jugadorActual.tanque.velocidad * math.sin(self.jugadorActual.tanque.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
+                    delta * self.jugadorActual.tanque.velocidad * math.sin(
+                self.jugadorActual.tanque.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
             delta += 0.5  # si quieres que hayan más puntitos en la parabola, modifica esto
             self.rastreoBala(xDisparo, yDisparo)
             self.trayectoria.append((xDisparo, yDisparo))
@@ -212,19 +215,20 @@ class EscenaJuego(plantillaEscena.Escena):
         mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (15, 5))
 
-    #Define el mensaje a mostrar en pantalla junto a sus caracteristicas.
+    # Define el mensaje a mostrar en pantalla junto a sus caracteristicas.
     def muestreoRastreoBala(self):
         fuente = pygame.font.SysFont("arial", 20)
         # se pasan a int ya que son numeros decimales y luego ello se pasa a str para concatenar en un sólo string
-        text = "Estado disparo: "+str(self.flag)+"; Distancia máxima: "+str(int(self.xMaxDisparo))\
-               +" [px] ; Altura máxima: "+str(int(self.yMaxDisparo))
+        text = "Estado disparo: " + str(self.flag) + "; Distancia máxima: " + str(int(self.xMaxDisparo)) \
+               + " [px] ; Altura máxima: " + str(int(self.yMaxDisparo))
         mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (15, 30))
 
     # Se muestra el cañon para dar una aproximación del angulo a la hora de efectuar el disparo
     def mostrarCañon(self):
-        tanque=self.jugadorActual.tanque
-        angulo=tanque.angulo * 3.1416 / -180
-        x=tanque.bloque.x+20
-        y=tanque.bloque.y
-        pygame.draw.line(self.director.pantalla,tanque.color,[x,y],[x+50*math.cos(angulo),y+50*math.sin(angulo)],2)
+        tanque = self.jugadorActual.tanque
+        angulo = tanque.angulo * 3.1416 / -180
+        x = tanque.bloque.x + 20
+        y = tanque.bloque.y
+        pygame.draw.line(self.director.pantalla, tanque.color, [x, y],
+                         [x + 50 * math.cos(angulo), y + 50 * math.sin(angulo)], 2)
