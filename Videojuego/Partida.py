@@ -25,3 +25,13 @@ class Partida:
     # funcion que brinda la posibilidad de eliminar jugadores al jugadorAtacante 
     def eliminarJugador(self, jugadorEliminado):
         self.jugadoresActivos.remove(jugadorEliminado)
+
+    def generarPosicionesJug(self):
+        cantidadJug = len(self.jugadoresActivos)
+        espacio = int(len(self.mapa.posPosiblesJug) / (2 * cantidadJug - 1))
+        # --------debug: los ubica independiente de la cant de jugadores espaciandolos-----------
+        print("espacio:", espacio)
+        contador = 0
+        for jugador in self.jugadoresActivos:
+            print("jugador:", jugador.nombre, "posibles pos:", contador, " hasta ", contador + espacio)
+            contador += 2 * espacio
