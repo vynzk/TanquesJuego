@@ -119,16 +119,16 @@ class EscenaJuego(plantillaEscena.Escena):
             # ----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             jugadorImpactado = self.colisionTanque(xDisparo, yDisparo)
             if jugadorImpactado is not None:  # si impacta con un tanque, se detiene la parabola (bala)
-                # print("toqué un tanque") # debug
+                print("proyectil: toqué un tanque") # debug
                 self.jugadorEliminadoTurno = jugadorImpactado
                 break
 
             elif self.colisionTierra(xDisparo, yDisparo):
-                # print("toqué tierra") # debug
+                print("proyectil: toqué tierra") # debug
                 break
 
             elif self.saleLimites(xDisparo, yDisparo):  # si impacta con un borde, se detiene la parabola (bala)
-                # print("salí rango") # debug
+                print("proyectil: salí rango") # debug
                 break
 
     def cambiarJugador(self):
