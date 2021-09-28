@@ -39,4 +39,7 @@ class EscenaRegistro(plantillaEscena.Escena):
         self.boton_registrar.dibujaBoton()
 
     def cambioEscenaJuego(self):
+        # define las posiciones aleatorias de los jugadores dentro de cada partida
+        for partida in self.director.game.listaPartidas:
+            partida.generarPosicionesJug()
         self.director.cambiarEscena(EscenaJuego(self.director))
