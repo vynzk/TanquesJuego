@@ -108,11 +108,11 @@ class EscenaJuego(plantillaEscena.Escena):
         xJugador = self.jugadorActual.tanque.bloque.x
         yJugador = self.jugadorActual.tanque.bloque.y
         while True:
-            xDisparo = xJugador + 20 + delta * self.jugadorActual.tanque.velocidad * math.cos(
-                self.jugadorActual.tanque.angulo * 3.1416 / 180)
-            yDisparo = yJugador - 1 - (
+            xDisparo =int( xJugador + 20 + delta * self.jugadorActual.tanque.velocidad * math.cos(
+                self.jugadorActual.tanque.angulo * 3.1416 / 180))
+            yDisparo =int( yJugador - 1 - (
                     delta * self.jugadorActual.tanque.velocidad * math.sin(
-                self.jugadorActual.tanque.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
+                self.jugadorActual.tanque.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2))
             delta += 0.5  # si quieres que hayan más puntitos en la parabola, modifica esto
             self.rastreoBala(xDisparo, yDisparo)
             self.trayectoria.append((xDisparo, yDisparo))
@@ -169,9 +169,10 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def dibujarBala(self):
         coord = self.trayectoria[self.contador]
-        pygame.draw.circle(self.director.pantalla, VERDE, (int(coord[0]), int(coord[1])), 3)
+        pygame.draw.circle(self.director.pantalla, VERDE, (coord[0], coord[1]), 3)
         self.contador += 1
         if self.contador == len(self.trayectoria):
+            print(f' DEBUG: (xDisparo,yDisparo) = ({coord[0]},{coord[1]})')
             if self.jugadorEliminadoTurno is not None:
                 print("<<< el jugador/a ", self.jugadorEliminadoTurno.nombre, " ha sido impactado por ",
                       self.jugadorActual.nombre)
