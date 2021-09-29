@@ -30,8 +30,8 @@ class Tanque:
         print("###### MOCHILA DE ARMAS ####")
         for proyectil in self.listaProyectiles:
             print(
-                f'Arma: {proyectil.__class__.name}; balas restantes: {proyectil.stock} ; daño: {proyectil.daño}')  # debug
-            decision = int("Ingresa 1 si deseas cambiar, en caso contrario ingresa cualquier otro número: ")
+                f'Arma: {proyectil.__class__}; balas restantes: {proyectil.stock} ; daño: {proyectil.daño}')  # debug
+            decision = int(input("Ingresa 1 si deseas cambiar, en caso contrario ingresa cualquier otro número: "))
             if decision == 1:
-                print(f'Tu arma {self.proyectilActual} se cambiará por {proyectil.__class__.name}')  # debug
+                print(f'Tu arma {self.proyectilActual.__class__} se cambiará por {proyectil.__class__}')  # debug
                 self.proyectilActual = proyectil

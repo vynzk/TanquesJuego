@@ -52,6 +52,8 @@ class EscenaJuego(plantillaEscena.Escena):
                 if self.jugadorActual.tanque.angulo - 1 > 0:
                     self.jugadorActual.tanque.angulo -= 1
                 # print("angulo: ", self.jugadorActual.tanque.angulo, "; down: angulo --") # debug
+            if event.key == pygame.K_c:
+                self.jugadorActual.tanque.cambiarProyectil()
             if event.key == pygame.K_SPACE:
                 if self.jugadorActual.tanque.proyectilActual.stock > 0: # posee balas suficientes
                     self.flag = True

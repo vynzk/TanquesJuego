@@ -1,6 +1,7 @@
 import random
 from GUI.colores import *
 from Tanque.Proyectil105 import *
+from Tanque.ProyectilPerforante import *
 
 
 class Partida:
@@ -52,5 +53,7 @@ class Partida:
     def equiparArmasIniciales(self):
         for jugador in self.jugadoresActivos:
             proyectil105 = Proyectil105(50, 3)
+            proyectilPerforante = ProyectilPerforante(40,10)
             jugador.tanque.listaProyectiles.append(proyectil105)
+            jugador.tanque.listaProyectiles.append(proyectilPerforante)
             jugador.tanque.proyectilActual = jugador.tanque.listaProyectiles[0]  # << la primera arma se equipa

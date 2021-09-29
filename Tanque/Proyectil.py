@@ -1,7 +1,7 @@
 class Proyectil:
-    def __init__(self, daño, numeroBalas):
+    def __init__(self, daño, stock):
         self.daño = daño
-        self.stock = numeroBalas
+        self.stock = stock
 
     def efectoDestructivo(self):
         pass
