@@ -3,9 +3,6 @@ from Videojuego.Partida import *
 from Tanque.Tanque import *
 from Mapa.Mapa import *
 from Mapa.listaMapas import *
-from GUI.colores import *
-import random
-
 
 class Juego:
     def __init__(self, cantidadJugadores, cantidadPartidas):
@@ -16,29 +13,12 @@ class Juego:
         self.jugadorGanador = None
         self.juegoTerminado = False
 
-    def posicionesRandom(self,i):
-        # posiciones posibles para el primer tanque
-        posPosiblesJ1 = [(0, 520), (20, 520), (40, 520), (60, 520), (80, 520), (100, 500), 
-        (120, 500), (140, 480), (160, 460), (180, 440), (200, 440), (220, 440), (240, 440),
-        (260, 440), (280, 460), (300, 480), (320, 520), (340, 520)]
-        # posiciones posibles del segundo tanque
-        posPosiblesJ2 = [(940, 500), (960, 480), (980, 460), (1000, 460), 
-        (1020, 440), (1040, 440), (1060, 440), (1080, 440), (1100, 420), (1120, 420), (1140, 420), 
-        (1160, 420), (1180, 420), (1200, 420), (1220, 420), (1240, 420), (1260, 420)]
-
-        numRandom=random.randint(0,16)
-        # retorna el par ordenado posible para cada jugador
-        if i==1:
-            return posPosiblesJ1[numRandom]
-        else:
-            return posPosiblesJ2[numRandom]
             
     def agregarJugador(self, i, pantalla):  
         # colores de los tanques
-        colores = (ROJO,AZUL)
-        posicion=self.posicionesRandom(i)
+        #colores = (ROJO,AZUL,BLANCO)
         nombre = str(input("Ingrese su nombre: "))
-        tanque = Tanque(pantalla, 20, 20, colores[i - 1], posicion[0], posicion[1])
+        tanque = Tanque(pantalla)
         self.listaJugadores.append(Jugador(nombre, tanque))  # << agrega un nuevo Jugador con su nombre y su tanque
 
     # función que se encargará de llenar la lista de jugadores, registrará tantos jugadores
