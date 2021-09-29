@@ -1,5 +1,6 @@
 import random
 from GUI.colores import *
+from Tanque.Proyectil105 import *
 
 
 class Partida:
@@ -29,11 +30,12 @@ class Partida:
     def generarPosicionesJug(self):
         listaColores = colores = [ROJO, VERDE, ORO, AZUL]
         cantidadJug = len(self.jugadoresActivos)
-        cantEspacios=cantidadJug-1
+        cantEspacios = cantidadJug - 1
         espacio = int(len(self.mapa.posPosiblesJug) / (2 * cantidadJug - 1))
         contador = 0
 
-        print(f'DEBUG: cant jug: {cantidadJug}, cant espacios: {cantEspacios}, cant posibles espacios: {len(self.mapa.posPosiblesJug)}, rango espacios: {espacio}')
+        print(
+            f'DEBUG: cant jug: {cantidadJug}, cant espacios: {cantEspacios}, cant posibles espacios: {len(self.mapa.posPosiblesJug)}, rango espacios: {espacio}')
         for jugador in self.jugadoresActivos:
             # ---- parametros aleatorios------------------------------
             numAle = random.randint(contador, contador + espacio)
@@ -41,7 +43,14 @@ class Partida:
             colorRandom = random.choice(listaColores)
             listaColores.remove(colorRandom)  # para no repetir el color
             # debug:
-            print(f'DEBUG: >>jugador: {jugador.nombre}, rango aleatorio ({contador},{contador+espacio}), numAleatorio: {numAle} , posRandom: {ubicacionRandom}, color: {colorRandom}')
+            print(
+                f'DEBUG: >>jugador: {jugador.nombre}, rango aleatorio ({contador},{contador + espacio}), numAleatorio: {numAle} , posRandom: {ubicacionRandom}, color: {colorRandom}')
             # se ubica el tanque y se crea su bloque
             jugador.tanque.construirBloques(ubicacionRandom[0], ubicacionRandom[1], colorRandom)
             contador += 2 * espacio
+
+    def equiparArmasIniciales(self):
+        for jugador in self.jugadoresActivos:
+            proyectil105 = Proyectil105(50, 3)
+            jugador.tanque.listaProyectiles.append(proyectil105)
+            jugador.tanque.proyectilActual = jugador.tanque.listaProyectiles[0]  # << la primera arma se equipa
