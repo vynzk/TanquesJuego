@@ -35,7 +35,7 @@ class EscenaRegistro(plantillaEscena.Escena):
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
-        self.boton_registrar = Boton(pantalla, "comenzar")
+        self.boton_registrar = Boton(pantalla, "comenzar", 540, 320)
         self.boton_registrar.dibujaBoton()
 
     def cambioEscenaJuego(self):
