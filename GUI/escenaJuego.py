@@ -113,7 +113,9 @@ class EscenaJuego(plantillaEscena.Escena):
             yDisparo =int( yJugador - 1 - (
                     delta * self.jugadorActual.tanque.velocidad * math.sin(
                 self.jugadorActual.tanque.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2))
-            delta += 0.5  # si quieres que hayan más puntitos en la parabola, modifica esto
+            delta += 1 # si quieres que hayan más puntitos en la parabola, modifica esto
+            xDisparo=int(xDisparo)
+            yDisparo=int(yDisparo)
             self.rastreoBala(xDisparo, yDisparo)
             self.trayectoria.append((xDisparo, yDisparo))
             # ----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
