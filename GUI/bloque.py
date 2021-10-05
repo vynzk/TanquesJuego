@@ -31,7 +31,7 @@ class Bloque:
         #  |   colision    | 
         #  |               |   
         # __ y+delta __(x+delta, y+delta)       
-        delta = 20  # tamaño del pixel del cuadrado
+        delta = 40  # tamaño del pixel del cuadrado
         xMax = self.x + delta  # limite horizontal del cuadrado
         yMax = self.y + delta  # limite vertical del cuadrado
 
