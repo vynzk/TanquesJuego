@@ -1,8 +1,10 @@
+import random
 from Videojuego.Jugador import *
 from Videojuego.Partida import *
 from Tanque.Tanque import *
 from Mapa.Mapa import *
 from Mapa.listaMapas import *
+
 
 class Juego:
     def __init__(self, cantidadJugadores, cantidadPartidas):
@@ -32,7 +34,11 @@ class Juego:
     # función que agregará una partida a la lista de partidas, cada partida agregará como jugadores activos a la
     # totalidad de jugadores que participan en el juego
     def agregarPartida(self, i, director):
-        mapa = Mapa(mapa1)
+        listaMapas = (mapa1, mapa2, mapa3)
+        numeroRandom=random.randint(0, len(listaMapas)-1)
+        mapaRandom=listaMapas[numeroRandom] 
+        mapa = Mapa(mapaRandom)
+        #mapa = Mapa(mapa1)
         mapa.generarMatriz(director.pantalla)
         partida = Partida(i, director, mapa)
         # va agregando los jugadores a la nueva partida
