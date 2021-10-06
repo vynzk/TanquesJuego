@@ -62,7 +62,7 @@ class EscenaJuego(plantillaEscena.Escena):
                     print(f'Balas antes del arma actual: {self.jugadorActual.tanque.proyectilActual.stock}') # debug
                     print(">>> jugador/a ", self.jugadorActual.nombre, " disparó")
                     self.jugadorActual.tanque.proyectilActual.stock -=1 # se le resta una bala ya que disparó
-                    print(f'Balas despué del arma actual: {self.jugadorActual.tanque.proyectilActual.stock}') # debug
+                    print(f'Balas después del arma actual: {self.jugadorActual.tanque.proyectilActual.stock}') # debug
                 else:
                     self.mensajeSinBalas()
                     print(f'Tu proyectil actual no tiene suficientes balas')
@@ -124,23 +124,23 @@ class EscenaJuego(plantillaEscena.Escena):
                 self.jugadorActual.tanque.angulo * 3.1416 / 180))
             yDisparo =int( yJugador - 1 - (
                     delta * self.jugadorActual.tanque.velocidad * math.sin(
-                self.jugadorActual.tanque.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
+                self.jugadorActual.tanque.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2))
             delta += 0.1  # si quieres que hayan más puntitos en la parabola, modifica esto
             self.rastreoBala(xDisparo, yDisparo)
             self.trayectoria.append((xDisparo, yDisparo))
             # ----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             jugadorImpactado = self.colisionTanque(xDisparo, yDisparo)
             if jugadorImpactado is not None:  # si impacta con un tanque, se detiene la parabola (bala)
-                print("Proyectil: toqué un tanque") # debug
+                print("proyectil: toqué un tanque") # debug
                 self.jugadorImpactado = jugadorImpactado
                 break
 
             elif self.colisionTierra(xDisparo, yDisparo):
-                print("Proyectil: toqué tierra") # debug
+                print("proyectil: toqué tierra") # debug
                 break
 
             elif self.saleLimites(xDisparo, yDisparo):  # si impacta con un borde, se detiene la parabola (bala)
-                print("Proyectil: salí rango") # debug
+                print("proyectil: salí rango") # debug
                 break
 
     def cambiarJugador(self):
