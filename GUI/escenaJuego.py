@@ -5,6 +5,7 @@ import math
 from GUI import plantillaEscena
 import time
 from GUI.colores import *
+from GUI.Boton import Boton
 
 
 class EscenaJuego(plantillaEscena.Escena):
@@ -24,6 +25,8 @@ class EscenaJuego(plantillaEscena.Escena):
         self.jugadorImpactado = None
         self.xMaxDisparo = 0
         self.yMaxDisparo = 0
+        self.boton_salir = None
+        self.boton_reiniciar = None
 
     def on_update(self):
         pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
@@ -38,6 +41,10 @@ class EscenaJuego(plantillaEscena.Escena):
         self.muestreoProyectilActual()
 
     def on_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            self.director.mousePos = pygame.mouse.get_pos()
+            if self.director.checaBoton(self.director.mousePos, self.boton_salir):
+                pygame.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 self.jugadorActual.tanque.velocidad -= 1
@@ -71,6 +78,10 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def on_draw(self, pantalla):
         if self.director.game.juegoTerminado is not True:
+            self.boton_salir = Boton(pantalla, "salir", 1160, 0)
+            self.boton_salir.dibujaBoton()
+            self.boton_reiniciar = Boton(pantalla, "restaurar", 1030, 0)
+            self.boton_reiniciar.dibujaBoton()
             # si tiene más de un jugador activo la partida, sigue la partida jugandose
             if len(self.partidaActual.jugadoresActivos) > 1:
                 if self.flag:
