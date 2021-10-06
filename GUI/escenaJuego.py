@@ -35,6 +35,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.dibujarTanques()
         self.mostrarCañon()
         self.muestreoVidaTanques()
+        self.muestreoProyectilActual()
 
     def on_event(self, event):
         if event.type == pygame.KEYDOWN:
@@ -57,12 +58,13 @@ class EscenaJuego(plantillaEscena.Escena):
             if event.key == pygame.K_SPACE:
                 if self.jugadorActual.tanque.proyectilActual.stock > 0: # posee balas suficientes
                     self.flag = True
-                    print("-----------------------------------------------------------------")
+                    print("\n--------------ACCION TURNO-------------------------")
                     print(f'Balas antes del arma actual: {self.jugadorActual.tanque.proyectilActual.stock}') # debug
                     print(">>> jugador/a ", self.jugadorActual.nombre, " disparó")
                     self.jugadorActual.tanque.proyectilActual.stock -=1 # se le resta una bala ya que disparó
                     print(f'Balas despué del arma actual: {self.jugadorActual.tanque.proyectilActual.stock}') # debug
                 else:
+                    self.mensajeSinBalas()
                     print(f'Tu proyectil actual no tiene suficientes balas')
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
@@ -123,22 +125,22 @@ class EscenaJuego(plantillaEscena.Escena):
             yDisparo = yJugador - 1 - (
                     delta * self.jugadorActual.tanque.velocidad * math.sin(
                 self.jugadorActual.tanque.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
-            delta += 0.5  # si quieres que hayan más puntitos en la parabola, modifica esto
+            delta += 0.1  # si quieres que hayan más puntitos en la parabola, modifica esto
             self.rastreoBala(xDisparo, yDisparo)
             self.trayectoria.append((xDisparo, yDisparo))
             # ----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             jugadorImpactado = self.colisionTanque(xDisparo, yDisparo)
             if jugadorImpactado is not None:  # si impacta con un tanque, se detiene la parabola (bala)
-                # print("toqué un tanque") # debug
+                print("Proyectil: toqué un tanque") # debug
                 self.jugadorImpactado = jugadorImpactado
                 break
 
             elif self.colisionTierra(xDisparo, yDisparo):
-                # print("toqué tierra") # debug
+                print("Proyectil: toqué tierra") # debug
                 break
 
             elif self.saleLimites(xDisparo, yDisparo):  # si impacta con un borde, se detiene la parabola (bala)
-                # print("salí rango") # debug
+                print("Proyectil: salí rango") # debug
                 break
 
     def cambiarJugador(self):
@@ -179,18 +181,19 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def dibujarBala(self):
         coord = self.trayectoria[self.contador]
-        pygame.draw.circle(self.director.pantalla, VERDE, (int(coord[0]), int(coord[1])), 3)
+        pygame.draw.circle(self.director.pantalla, VERDE, (coord[0], coord[1]), 3)
         self.contador += 1
         if self.contador == len(self.trayectoria):
             if self.jugadorImpactado is not None:
-                if self.jugadorActual.tanque.proyectilActual.daño >= self.jugadorImpactado.tanque.vida:
+                dañoEfectuado=self.jugadorActual.tanque.proyectilActual.daño
+                if dañoEfectuado >= self.jugadorImpactado.tanque.vida:
                     print(f'<<< el jugador/a {self.jugadorImpactado.nombre} ha sido eliminado por {self.jugadorActual.nombre}')
                     self.partidaActual.eliminarJugador(self.jugadorImpactado)  # elimina al jugador
                 else:
-                    print(f'<<< el jugador/a {self.jugadorImpactado.nombre} ha sido impactado por {self.jugadorActual.nombre}')
+                    print(f'<<< el jugador/a {self.jugadorImpactado.nombre} ha sido impactado por {self.jugadorActual.nombre}, le ha quitado {dañoEfectuado} vida')
                     # se le resta la vida del arma del jugador contrario
-                    self.jugadorImpactado.tanque.vida -= self.jugadorActual.tanque.proyectilActual.daño
-        pygame.time.wait(125)
+                    self.jugadorImpactado.tanque.vida -= dañoEfectuado
+        pygame.time.wait(25)
 
     # ----------------------------------METODOS QUE MUESTRAN TEXTO-------------------------------------------------
     def mensajeTurno(self):
@@ -211,6 +214,15 @@ class EscenaJuego(plantillaEscena.Escena):
         self.director.pantalla.blit(mensaje, (450, 300))
         pygame.display.update()
         time.sleep(1)
+
+    def mensajeSinBalas(self):
+        fuente = pygame.font.SysFont("arial", 30)
+        text = "NO TIENES BALAS SUFICIENTES, CAMBIA DE ARMA"
+        colorTanque = self.jugadorActual.tanque.color
+        mensaje = fuente.render(text, 1, colorTanque)
+        self.director.pantalla.blit(mensaje, (450, 300))
+        pygame.display.update()
+        time.sleep(2)
 
     def mensajeFinJuego(self):
         fuente = pygame.font.SysFont("arial", 30)
@@ -255,3 +267,10 @@ class EscenaJuego(plantillaEscena.Escena):
             mensaje = fuente.render(text, 1, BLANCO)
             self.director.pantalla.blit(mensaje, (jugador.tanque.x+5, jugador.tanque.y+10))
 
+    def muestreoProyectilActual(self):
+        fuente = pygame.font.SysFont("arial", 20)
+        # se pasan a int ya que son numeros decimales y luego ello se pasa a str para concatenar en un sólo string
+        proyectilJugActual=self.jugadorActual.tanque.proyectilActual
+        text = "Arma actual: "+str(proyectilJugActual.__class__)+"; balas: "+str(proyectilJugActual.stock)+"; daño: "+str(proyectilJugActual.daño)
+        mensaje = fuente.render(text, 1, BLANCO)
+        self.director.pantalla.blit(mensaje, (15, 55))
