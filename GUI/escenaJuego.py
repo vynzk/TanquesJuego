@@ -27,6 +27,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.yMaxDisparo = 0
         self.boton_salir = None
         self.boton_reiniciar = None
+        self.boton_cambioArmas = None
 
     def on_update(self):
         pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
@@ -82,6 +83,8 @@ class EscenaJuego(plantillaEscena.Escena):
             self.boton_salir.dibujaBoton()
             self.boton_reiniciar = Boton(pantalla, "restaurar", 1030, 0)
             self.boton_reiniciar.dibujaBoton()
+            self.boton_cambioArmas = Boton(pantalla, "Armas", 1150, 660)
+            self.boton_cambioArmas.dibujaBoton()            
             # si tiene más de un jugador activo la partida, sigue la partida jugandose
             if len(self.partidaActual.jugadoresActivos) > 1:
                 if self.flag:
