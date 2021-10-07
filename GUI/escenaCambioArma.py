@@ -10,6 +10,8 @@ class EscenaCambioArma(plantillaEscena.Escena):
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
         self.botonVolver = None
+        self.panel= pygame.image.load("GUI/imagenes/panelArmas.png")
+        self.redimensionarPanel(500,500)
         
 
     def on_update(self):
@@ -26,7 +28,10 @@ class EscenaCambioArma(plantillaEscena.Escena):
 
     def on_draw(self, pantalla):
         #self.boton_play = Boton(pantalla, "play", 540, 320)
-        pantalla.fill((0,0,0))
+        pantalla.fill((0,225,0))
+        pantalla.blit(self.panel, (390, 100))
+    def redimensionarPanel(self, x,y):
+        self.panel= pygame.transform.scale(self.panel, (x,y) )
         
         
 
