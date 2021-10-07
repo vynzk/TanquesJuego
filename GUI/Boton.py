@@ -7,6 +7,7 @@ class Boton:
         self.pantalla = pantalla
         self.pantalla_rect = self.pantalla.get_rect()
         self.imagenBase= pygame.image.load("GUI/imagenes/botones/botonVacio.png") #debe volverse atributo de entrada
+        
         self.x, self.y = 120, 40
         self.posX = posX
         self.posY = posY
@@ -14,6 +15,7 @@ class Boton:
         self.rect = pygame.Rect(self.posX, self.posY, self.x, self.y)
         
         self.color = ROJO
+        self.redimensionarBoton()
         #self.textoColor = COLOR_TEXTO
         #self.fuente = pygame.font.SysFont("arial", 30)
         
@@ -26,9 +28,9 @@ class Boton:
         #self.texto_image_rect.center = self.rect.center
     """
     def dibujaBoton(self):
-        self.pantalla.fill(self.color, self.rect)
+        #self.pantalla.fill(self.color, self.rect)
         #self.pantalla.blit(self.texto_image, self.texto_image_rect)
-        
         self.pantalla.blit(self.imagenBase, self.rect)
-
+    def redimensionarBoton(self):
+        self.imagenBase=pygame.transform.scale(self.imagenBase, (self.x,self.y))
 
