@@ -46,6 +46,8 @@ class EscenaJuego(plantillaEscena.Escena):
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_salir):
                 pygame.exit()
+            if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
+                print("funciona boton armas")
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 self.jugadorActual.tanque.velocidad -= 1
