@@ -11,7 +11,7 @@ def main():
     
     prueba= EscenaCambioArma(director) #provisional
 
-    director.cambiarEscena(prueba) #debe ir home
+    director.cambiarEscena(home) #debe ir home
     director.gameLoop()
 
 
