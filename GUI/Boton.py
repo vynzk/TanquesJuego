@@ -6,12 +6,12 @@ class Boton:
     def __init__(self, pantalla, texto, posX, posY):
         self.pantalla = pantalla
         self.pantalla_rect = self.pantalla.get_rect()
-        #self.imagenBase= pygame.image.load(ruta_imagen)
+        self.imagenBase= pygame.image.load("GUI/imagenes/botones/botonVacio.png") #debe volverse atributo de entrada
         self.x, self.y = 120, 40
         self.posX = posX
         self.posY = posY
         #self.rect = imagen.get_rect()
-        self.rect = pygame.Rect(posX, posY, self.x, self.y)
+        self.rect = pygame.Rect(self.posX, self.posY, self.x, self.y)
         
         self.color = ROJO
         #self.textoColor = COLOR_TEXTO
@@ -28,5 +28,7 @@ class Boton:
     def dibujaBoton(self):
         self.pantalla.fill(self.color, self.rect)
         #self.pantalla.blit(self.texto_image, self.texto_image_rect)
+        
+        self.pantalla.blit(self.imagenBase, self.rect)
 
 
