@@ -10,11 +10,13 @@ class EscenaCambioArma(plantillaEscena.Escena):
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
         self.botonVolver = None
+        self.botonAplicar = None
+        
         # -- imagenes -- #
         self.fondo= pygame.image.load("GUI/imagenes/fondo.jpg") #por ahora
         self.panel= pygame.image.load("GUI/imagenes/panelArmas.png")
         self.redimensionarPanel(500,500)
-        
+        #---------------- #
 
     def on_update(self):
         pygame.display.set_caption("Cambio de armas")  # no cambies esto aun... es para debuggueo
@@ -23,21 +25,22 @@ class EscenaCambioArma(plantillaEscena.Escena):
     def on_event(self, evento):
         if evento.type == pygame.MOUSEBUTTONDOWN:
             self.director.mousePos = pygame.mouse.get_pos()
-            #if self.director.checaBoton(self.director.mousePos, self.boton_play):
-                #self.cambiaDePartida()
+            if self.director.checaBoton(self.director.mousePos, self.botonVolver):
+                print("funciona boton de volver")
+            if self.director.checaBoton(self.director.mousePos, self.botonAplicar):
+                print("funciona boton de aplicar")
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
-        #self.boton_play = Boton(pantalla, "play", 540, 320)
-        #pantalla.fill((0,225,0))
         pantalla.blit(self.fondo, (0,0))
         pantalla.blit(self.panel, (390, 100))
-        #boton volver
-        self.botonVolver = Boton(pantalla, "volver", 570,650)
+        self.botonVolver = Boton(pantalla, "volver", 750,650)
         self.botonVolver.dibujaBoton()
+        self.botonAplicar = Boton(pantalla, "aplicar", 400,650)
+        self.botonAplicar.dibujaBoton()
     def redimensionarPanel(self, x,y):
         self.panel= pygame.transform.scale(self.panel, (x,y) )
         
-        
+    
 
