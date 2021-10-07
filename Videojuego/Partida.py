@@ -1,63 +1,61 @@
-class Partida():
-    def __init__(self, id, escenaJuego):
+import random
+from GUI.colores import *
+from Tanque.Proyectil105 import *
+from Tanque.ProyectilPerforante import *
+from Tanque.Proyectil60 import *
+
+class Partida:
+    def __init__(self, id, pantalla, mapa):
         self.id = id
         self.estado = False
+        self.pantalla = pantalla  # pantalla que le pasa el director)
         self.jugadorGanador = None
         self.jugadoresActivos = []
-        self.escena=escenaJuego
+        self.contadorJugador = 0
+        self.mapa = mapa
 
     # funcion que agrega jugadores a su lista de jugadores activos
     def agregarJugadores(self, jugador):
         self.jugadoresActivos.append(jugador)
 
-    # función debug, muestra los nombres y objetos de los jugadores activos
-    def mostrarJugadoresActivos(self):
-        listaNombresActivos = []
-        for jugador in self.jugadoresActivos:
-            listaNombresActivos.append(jugador.nombre)
-
-        print(" JUGADORES ACTIVOS")
-        print("     Nombres: " + str(listaNombresActivos))
-        print("     Objetos: " + str(self.jugadoresActivos))
-
-    # funcion debug, que muestra toda la información de la partida
-    def mostrarInformacion(self):
-        print("\nPartida " + str(self.id))
-        self.mostrarJugadoresActivos()
-        print(" Estado: " + str(self.estado))
-        print(" Objeto escena: "+str(self.escena))
-        print(" Ganador: " + str(self.jugadorGanador))
-
     # funcion que termina la partida cuando queda sólo un jugador activo dentro de ella
     def terminar(self):
         self.estado = True
         self.jugadorGanador = self.jugadoresActivos[0]
-        self.jugadorGanador.sumarVictoria()
-        print("\n!!!! El/la jugador/a ", self.jugadorGanador.getNombre(), " ganó la partida !!!!")
+        self.jugadorGanador.victorias += 1
 
     # funcion que brinda la posibilidad de eliminar jugadores al jugadorAtacante 
-    def eliminarJugador(self, jugadorAtacante):
-        print("\nELIMINAR JUGADOR [Debug]")
-        self.mostrarJugadoresActivos()
-        opcionEliminar = int(input("  Ingrese la posicion del jugador que desea eliminar: "))
-        try:
-            jugadorEliminado = self.jugadoresActivos[opcionEliminar]
-            self.jugadoresActivos.pop(opcionEliminar)  # << lo eliminamos
-            print("\n>>ACCION: Jugador/a ", jugadorEliminado.getNombre(), " ha sido eliminado por ",
-            jugadorAtacante.getNombre())
-        except:
-            print(" ERROR: fuera de rango")
+    def eliminarJugador(self, jugadorEliminado):
+        self.jugadoresActivos.remove(jugadorEliminado)
 
-    def getId(self):
-        return self.id
+    def generarPosicionesJug(self):
+        listaColores = colores = [ROJO, VERDE, ORO, AZUL]
+        cantidadJug = len(self.jugadoresActivos)
+        cantEspacios = cantidadJug - 1
+        espacio = int(len(self.mapa.posPosiblesJug) / (2 * cantidadJug - 1))
+        contador = 0
 
-    def getGanador(self):
-        return self.jugadorGanador
+        print(
+            f'DEBUG: cant jug: {cantidadJug}, cant espacios: {cantEspacios}, cant posibles espacios: {len(self.mapa.posPosiblesJug)}, rango espacios: {espacio}')
+        for jugador in self.jugadoresActivos:
+            # ---- parametros aleatorios------------------------------
+            numAle = random.randint(contador, contador + espacio)
+            ubicacionRandom = self.mapa.posPosiblesJug[numAle]
+            colorRandom = random.choice(listaColores)
+            listaColores.remove(colorRandom)  # para no repetir el color
+            # debug:
+            print(
+                f'DEBUG: >>jugador: {jugador.nombre}, rango aleatorio ({contador},{contador + espacio}), numAleatorio: {numAle} , posRandom: {ubicacionRandom}, color: {colorRandom}')
+            # se ubica el tanque y se crea su bloque
+            jugador.tanque.construirBloques(ubicacionRandom[0], ubicacionRandom[1], colorRandom)
+            contador += 2 * espacio
 
-    # función que retorna el objeto escena en concreto de esa partida, la cual se modifican al disparar
-    # eliminar tanques, etc (visualmente)
-    def getEscena(self):
-        return self.escena 
-    
-    def getJugadoresActivos(self):
-        return self.jugadoresActivos
+    def equiparArmasIniciales(self):
+        for jugador in self.jugadoresActivos:
+            proyectil105 = Proyectil105(50, 3)
+            proyectilPerforante = ProyectilPerforante(40,10)
+            proyectil60 = Proyectil60(30,3)
+            jugador.tanque.listaProyectiles.append(proyectil105)
+            jugador.tanque.listaProyectiles.append(proyectilPerforante)
+            jugador.tanque.listaProyectiles.append(proyectil60)
+            jugador.tanque.proyectilActual = jugador.tanque.listaProyectiles[0]  # << la primera arma se equipa

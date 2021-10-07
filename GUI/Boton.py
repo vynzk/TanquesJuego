@@ -1,34 +1,28 @@
-import pygame,sys
-from pygame.locals import *
+import pygame
 import pygame.font
-
-FONDO = (32, 30, 32)
-BLANCO = (255, 255, 255)
-COLOR_TEXTO = (50, 60, 80)
+from GUI.colores import *
 
 class Boton:
-    def __init__(self, pantalla,texto):
+    def __init__(self, pantalla, texto, posX, posY):
         self.pantalla = pantalla
-        self.pantalla_rect= self.pantalla.get_rect()
-        self.x, self.y = 200, 50
-        self.color = (255,0,0)
-        self.textoColor=(255,255,255)
+        self.pantalla_rect = self.pantalla.get_rect()
+        self.x, self.y = 120, 40
+        self.posX = posX
+        self.posY = posY
+        self.color = ROJO
+        self.textoColor = COLOR_TEXTO
+        self.fuente = pygame.font.SysFont("arial", 30)
+        self.rect = pygame.Rect(posX, posY, self.x, self.y)
+        #self.rect.center = self.pantalla_rect.center
+        self.preparaTexto(texto, posX, posY)
 
-        self.fuente= pygame.font.SysFont("arial",30)
+    def preparaTexto(self, texto, posX, posY):
+        self.texto_image = self.fuente.render(texto, True, self.textoColor, self.color)
+        self.texto_image_rect = posX, posY
+        #self.texto_image_rect.center = self.rect.center
 
-        self.rect= pygame.Rect(0,0 ,self.x,self.y)
-        self.rect.center= self.pantalla_rect.center
-
-        self.preparaTexto(texto)
-
-    def preparaTexto(self, texto):
-        self.texto_image= self.fuente.render(texto,True, self.textoColor, self.color)
-        self.texto_image_rect = self.texto_image.get_rect()
-        self.texto_image_rect.center= self.rect.center
     def dibujaBoton(self):
-        self.pantalla.fill(self.color,self.rect)
-        self.pantalla.blit(self.texto_image,self.texto_image_rect)
+        self.pantalla.fill(self.color, self.rect)
+        self.pantalla.blit(self.texto_image, self.texto_image_rect)
 
 
-
-#demostración: no borrar metodo por debug...

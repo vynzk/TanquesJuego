@@ -1,41 +1,39 @@
-import pygame
-import math
-import random
-from Mapa.cuadrado import Cuadrado
-from Tanque.Proyectil import Proyectil
-import time
+from GUI.bloque import Bloque
 
-class Tanque():
+
+class Tanque:
     # cada Tanque, al crearse se le asociará un objeto Cuadrado (el cual lo representará en el mapa)
-    def __init__(self, pantalla, ancho, alto, color, x, y):
-        self.x=x
-        self.y=y
-        self.cuadrado = Cuadrado(pantalla, ancho, alto, color, self.x, self.y)
-        self.modelo = "Default"
-        self.disparoTrayectoria = []
-        self.bala= Proyectil(pantalla,2,2,(225,0,0),x,y)
+    def __init__(self, pantalla):
+        self.pantalla = pantalla
+        self.x = None
+        self.y = None
+        self.bloque = None
+        self.color = None
+        self.velocidad = 100
+        self.angulo = 100
+        self.vida = 100
+        self.proyectilActual = None
+        self.listaProyectiles = []
 
+    # funcion que definirá las posiciones x e y del tanque y construirá su bloque
+    def construirBloques(self, x, y, color):
+        self.x = x
+        self.y = y
+        self.color = color
+        self.bloque = Bloque(self.pantalla, 40, 40, self.color, self.x, self.y)
 
-    # def dibujar_tanques(self, pantalla):
-    # self.tanque = bloque.Bloque(pantalla, 20, 20, (0, 255, 0), self.posx, self.posy)
-    # def dibujar(self):
-    # pygame.draw.rect(self.pantalla, self.color , (self.x,self.y),(self.ancho,self.alto))
+    def restablecerVelAng(self):
+        self.velocidad = 100
+        self.angulo = 100
 
-    # al disparar se usan las coordenadas que representa el cuadrado del tanque en el mapa como inicio del disparo
-    def disparar(self, pantalla): #retorna trayectoria
-        delta = 0
-        velocidad = 70
-        angulo = 60
-        
-        self.bala.activaProyectil((self.x,self.y))
-        disparoTrayectoria=[]
-        while delta <= 20:
-            xDisparo = self.cuadrado.getX() + delta * velocidad * math.cos(angulo * 3.1416 / 180)
-            yDisparo = self.cuadrado.getY() - (delta * velocidad * math.sin(angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
-            disparoTrayectoria.append((xDisparo,yDisparo))
-            delta += 0.01
-            #descomentar si quieren debuguear la trayectoria
-            #pygame.draw.circle(pantalla, (0, 255, 0), (xDisparo, yDisparo),1)
-        return disparoTrayectoria
-    def mostrarInformacion(self):
-        return "modelo: " + str(self.modelo)
+    def cambiarProyectil(self):
+        print("\n###### MOCHILA DE ARMAS ####")
+        for proyectil in self.listaProyectiles:
+            # para que no nos pregunte si queremos cambiar al mismo proyectil
+            if(proyectil.__class__ != self.proyectilActual.__class__): 
+                print(f'\n Arma: {proyectil.__class__}; balas restantes: {proyectil.stock} ; daño: {proyectil.daño}')  # debug
+                decision = int(input("Ingresa 1 si deseas cambiar, en caso contrario ingresa cualquier otro número: "))
+                if decision == 1:
+                    print(f'Tu arma {self.proyectilActual.__class__} se cambiará por {proyectil.__class__}')  # debug
+                    self.proyectilActual = proyectil
+                    break;

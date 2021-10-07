@@ -1,81 +1,38 @@
-from Mapa.cuadrado import Cuadrado
 from GUI.bloque import Bloque
 import pygame
-from pygame.locals import *
+from GUI.colores import *
+
 pygame.init()
 
+
 class Mapa:
-    
-    def __init__(self):
-        #medidas
+    def __init__(self, mapa):
+        # medidas
         self.ancho = 1280
         self.alto = 730
-        self.pixel_y = 20
-        self.pixel_x = 20
-        self.listaCuadrados=[]
-    
-        #colores
-        self.blanco=(255, 255, 255)
-        self.negro=(0, 0, 0)
-        self.rojo=(255, 0, 0)
-        self.verde=(0, 255, 0)
-        self.azul=(0, 0, 255)
-        self.marron=(150, 70, 10)
-        self.azulClaro=(101,113,135)
-        self.azulOscuro=(18,32,36)
-        #mapa
-        self.mapa = [
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                                ",
-          "                                                       XXXXXXXXX",
-          "         XXXXX                   X                 XXXXXXXXXXXXX",
-          "        XXXXXXX                 XXX              XXXXXXXXXXXXXXX",
-          "       XXXXXXXXX              XXXXXX            XXXXXXXXXXXXXXXX",
-          "     XXXXXXXXXXX             XXXXXXXX        XXXXXXXXXXXXXXXXXXX",
-          "XXXXXXXXXXXXXXXXXXX    XXXXXXXXXXXXXX   XXXXXXXXXXXXXXXXXXXXXXXX",
-          "XXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX  XXXXXXXXXXXXXXXXXXXXXXXXX",
-          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-          "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",]
-          
-      
+        self.pixel_y = 40
+        self.pixel_x = 40
+        self.listaBloques = []
+        self.posPosiblesJug = []
+        self.bloquePos = []
+        self.mapa = mapa
 
- 
-    def dibujar(self,pantalla):   #define la matriz de cuadrados
-      muros = []
-      x = 0
-      y = 0
-      for fila in self.mapa:
-          for muro in fila:
-              if muro == "X":
-                  cuadrado=Cuadrado(pantalla,self.pixel_x,self.pixel_y,(18,25,53),x,y)
-                  self.listaCuadrados.append(cuadrado)
-                  cuadrado.dibujar()
-                  # BORRAR: si deseas probar la clase, prueba que claro en la linea superior
-                  # se dibuja y luego se destruye (en la linea inferior), descomenta la siguiente linea
-                  # cuadrado.destruir() # < debug, para ver como se destruyen los tanques
-              x += self.pixel_x
-          x = 0
-          y += self.pixel_y
-      return muros
-    
-    
+    def dibujarMapa(self, pantalla):
+        for bloque in self.listaBloques:
+            bloque.dibujar()
+
+    def generarMatriz(self, pantalla):  # define la matriz de bloques, mirar listaMapas.py
+        i = 0
+        largFila = len(self.mapa[0]) # se escoque self.mapa[0] ya que todas las filas tienen la misma cant filas
+        # se recorre la matriz tantas veces como columnas existan
+        while i < largFila:
+            j = 0
+            while j < len(self.mapa):  # se recoorren todas las filas
+                if self.mapa[j][i] == 1:
+                    bloque = Bloque(pantalla, self.pixel_x, self.pixel_y, BLANCO, i * self.pixel_x, j * self.pixel_y)
+                    self.listaBloques.append(bloque)
+                elif self.mapa[j][i] == 2:
+                    self.posPosiblesJug.append([i * self.pixel_x, j * self.pixel_y])
+                j += 1
+            i += 1
+
