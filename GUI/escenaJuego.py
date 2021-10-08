@@ -13,7 +13,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
-        self.fondo = pygame.image.load("GUI/imagenes/fondo.jpg")  # se asigna un fondo a la escena juego
+        self.fondo = pygame.image.load("GUI/imagenes/fondoNublado.png")  # se asigna un fondo a la escena juego
         self.partidas = self.director.game.listaPartidas
         # para esta entrega hay solo una partida y 2 jugadores, por tanto:
         # la partida inicial será la primera partida (De momento es la única)
@@ -34,7 +34,7 @@ class EscenaJuego(plantillaEscena.Escena):
         pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
         self.director.pantalla.blit(self.fondo, (0, 0))
         self.muestreoTurnoVelocidadAngulo()
-        pygame.draw.rect(self.director.pantalla, COLOR_BINFERIOR, (0, 600, 1280, 120))  # bloque inferior
+        pygame.draw.rect(self.director.pantalla, NEGRO, (0, 600, 1280, 120))  # bloque inferior
         self.partidaActual.mapa.dibujarMapa(self.director.pantalla)
         self.muestreoRastreoBala()
         self.dibujarTanques()
@@ -46,7 +46,8 @@ class EscenaJuego(plantillaEscena.Escena):
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_salir):
-                pygame.exit()
+                print(f'Presionaste el boton salir')
+                self.director.running=False; # rompe el ciclo gameLoop y sale del juego
             if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
                 print("funciona boton armas")
 

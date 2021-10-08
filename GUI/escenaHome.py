@@ -11,6 +11,7 @@ class EscenaHome(plantillaEscena.Escena):
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
         self.boton_play = None
+        self.fondo= pygame.image.load("GUI/imagenes/fondoHome.png")
         self.cambiaDePartida()
 
     def on_update(self):
@@ -26,6 +27,7 @@ class EscenaHome(plantillaEscena.Escena):
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
+        pantalla.blit(self.fondo, (0,0))
         self.boton_play = Boton(pantalla, "play", 540, 320)
         self.boton_play.dibujaBoton()
 

@@ -12,7 +12,7 @@ class EscenaCambioArma(plantillaEscena.Escena):
         self.botonAplicar = None
         
         # -- imagenes -- #
-        self.fondo= pygame.image.load("GUI/imagenes/fondo.jpg") #por ahora
+        self.fondo= pygame.image.load("GUI/imagenes/fondoNublado.png") #por ahora
         self.panel= pygame.image.load("GUI/imagenes/panelArmas.png")
         self.redimensionarPanel(500,500)
         #---------------- #
