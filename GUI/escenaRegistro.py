@@ -42,4 +42,7 @@ class EscenaRegistro(plantillaEscena.Escena):
         # define las posiciones aleatorias de los jugadores dentro de cada partida
         for partida in self.director.game.listaPartidas:
             partida.generarPosicionesJug()
-        self.director.cambiarEscena(EscenaJuego(self.director))
+            partida.equiparArmasIniciales()
+        juegoEscena = EscenaJuego(self.director)
+        self.director.guardarEscena(juegoEscena)
+        self.director.cambiarEscena(juegoEscena)

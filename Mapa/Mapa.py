@@ -20,6 +20,7 @@ class Mapa:
     def dibujarMapa(self, pantalla):
         for bloque in self.listaBloques:
             bloque.dibujar()
+
     def generarMatriz(self, pantalla):  # define la matriz de bloques, mirar listaMapas.py
         i = 0
         largFila = len(self.mapa[0]) # se escoque self.mapa[0] ya que todas las filas tienen la misma cant filas
