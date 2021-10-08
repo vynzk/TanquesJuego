@@ -254,7 +254,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def muestreoTurnoVelocidadAngulo(self):
         fuente = pygame.font.SysFont("arial", 20)
-        text = "Turno: %s ; angulo: %d ° ; velocidad: %d (m/s)" % (
+        text = "Jugador actual: %s ; angulo: %d ° ; velocidad: %d (m/s)" % (
             self.jugadorActual.nombre, self.jugadorActual.tanque.angulo, self.jugadorActual.tanque.velocidad)
         mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (15, 5))
@@ -270,12 +270,13 @@ class EscenaJuego(plantillaEscena.Escena):
 
     # Se muestra el cañon para dar una aproximación del angulo a la hora de efectuar el disparo
     def mostrarCañon(self):
-        tanque = self.jugadorActual.tanque
-        angulo = tanque.angulo * 3.1416 / -180
-        x = tanque.bloque.x + 20
-        y = tanque.bloque.y
-        pygame.draw.line(self.director.pantalla, NEGRO , [x, y],
-                         [x + 50 * math.cos(angulo), y + 50 * math.sin(angulo)], 5)
+        for jugador in self.partidaActual.jugadoresActivos:
+            tanque = jugador.tanque
+            angulo = tanque.angulo * 3.1416 / -180
+            x = tanque.bloque.x + 20
+            y = tanque.bloque.y
+            pygame.draw.line(self.director.pantalla, NEGRO , [x, y],
+                             [x + 50 * math.cos(angulo), y + 50 * math.sin(angulo)], 5)
 
     def muestreoVidaTanques(self):
         for jugador in self.partidaActual.jugadoresActivos:
