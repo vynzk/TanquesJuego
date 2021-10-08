@@ -13,7 +13,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
-        self.fondo = pygame.image.load("GUI/imagenes/fondoNublado.png")  # se asigna un fondo a la escena juego
+        self.fondo = pygame.image.load("GUI/imagenes/fondoDespejado.png")  # se asigna un fondo a la escena juego
         self.partidas = self.director.game.listaPartidas
         # para esta entrega hay solo una partida y 2 jugadores, por tanto:
         # la partida inicial será la primera partida (De momento es la única)
@@ -221,8 +221,7 @@ class EscenaJuego(plantillaEscena.Escena):
     def mensajeTurno(self):
         fuente = pygame.font.SysFont("arial", 30)
         text = "TURNO: " + str.upper(self.jugadorActual.nombre)
-        colorTanque = self.jugadorActual.tanque.color
-        mensaje = fuente.render(text, 1, colorTanque)
+        mensaje = fuente.render(text, 1, NEGRO)
         self.director.pantalla.blit(mensaje, (450, 300))
         pygame.display.update()
         time.sleep(2)
@@ -230,9 +229,8 @@ class EscenaJuego(plantillaEscena.Escena):
     def mensajeFinPartida(self):
         fuente = pygame.font.SysFont("arial", 30)
         jugadorGanador = self.partidaActual.jugadorGanador
-        colorTanque = jugadorGanador.tanque.color
         text = "FIN DE PARTIDA ; GANADOR: " + str.upper(jugadorGanador.nombre)
-        mensaje = fuente.render(text, 1, colorTanque)
+        mensaje = fuente.render(text, 1, NEGRO)
         self.director.pantalla.blit(mensaje, (450, 300))
         pygame.display.update()
         time.sleep(1)
@@ -240,8 +238,7 @@ class EscenaJuego(plantillaEscena.Escena):
     def mensajeSinBalas(self):
         fuente = pygame.font.SysFont("arial", 30)
         text = "NO TIENES BALAS SUFICIENTES, CAMBIA DE ARMA"
-        colorTanque = self.jugadorActual.tanque.color
-        mensaje = fuente.render(text, 1, colorTanque)
+        mensaje = fuente.render(text, 1, NEGRO)
         self.director.pantalla.blit(mensaje, (450, 300))
         pygame.display.update()
         time.sleep(2)
@@ -249,9 +246,8 @@ class EscenaJuego(plantillaEscena.Escena):
     def mensajeFinJuego(self):
         fuente = pygame.font.SysFont("arial", 30)
         jugadorGanador = self.director.game.jugadorGanador
-        colorTanque = jugadorGanador.tanque.color
         text = "FIN DEL JUEGO ; GANADOR: " + str.upper(jugadorGanador.nombre)
-        mensaje = fuente.render(text, 1, colorTanque)
+        mensaje = fuente.render(text, 1, NEGRO)
         self.director.pantalla.blit(mensaje, (450, 400))
         pygame.display.update()
         time.sleep(3)
@@ -278,16 +274,16 @@ class EscenaJuego(plantillaEscena.Escena):
         angulo = tanque.angulo * 3.1416 / -180
         x = tanque.bloque.x + 20
         y = tanque.bloque.y
-        pygame.draw.line(self.director.pantalla, tanque.color, [x, y],
-                         [x + 50 * math.cos(angulo), y + 50 * math.sin(angulo)], 2)
+        pygame.draw.line(self.director.pantalla, NEGRO , [x, y],
+                         [x + 50 * math.cos(angulo), y + 50 * math.sin(angulo)], 5)
 
     def muestreoVidaTanques(self):
         for jugador in self.partidaActual.jugadoresActivos:
-            fuente = pygame.font.SysFont("arial", 20)
+            fuente = pygame.font.SysFont("arial", 15)
             # se pasan a int ya que son numeros decimales y luego ello se pasa a str para concatenar en un sólo string
-            text = str(f'{jugador.tanque.vida}')
+            text = str(f'HP: {jugador.tanque.vida}')
             mensaje = fuente.render(text, 1, BLANCO)
-            self.director.pantalla.blit(mensaje, (jugador.tanque.x+5, jugador.tanque.y+10))
+            self.director.pantalla.blit(mensaje, (jugador.tanque.x+5, jugador.tanque.y+40))
 
     def muestreoProyectilActual(self):
         fuente = pygame.font.SysFont("arial", 20)
