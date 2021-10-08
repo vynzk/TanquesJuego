@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#from GUI.escenaRegistro import EscenaRegistro
 import pygame
 import math
 from GUI import plantillaEscena
 import time
 from GUI.colores import *
-
+from GUI.Boton import Boton
+from GUI.escenaCambioArma import EscenaCambioArma
 
 class EscenaJuego(plantillaEscena.Escena):
 
@@ -24,6 +26,9 @@ class EscenaJuego(plantillaEscena.Escena):
         self.jugadorImpactado = None
         self.xMaxDisparo = 0
         self.yMaxDisparo = 0
+        self.boton_salir = None
+        self.boton_reiniciar = None
+        self.boton_cambioArmas = None
 
     def on_update(self):
         pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
@@ -38,6 +43,16 @@ class EscenaJuego(plantillaEscena.Escena):
         self.muestreoProyectilActual()
 
     def on_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            self.director.mousePos = pygame.mouse.get_pos()
+            if self.director.checaBoton(self.director.mousePos, self.boton_salir):
+                pygame.exit()
+            if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
+                print("funciona boton armas")
+
+                # ---- NUEVO CODIGO ----# #ES PROBABLE QUE FALLEN LOS BOTONES EN ESCENA JUEGO POR LA INTERACCION DE OTROS EVENTOS
+                self.ventanaArmas()
+        
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 self.jugadorActual.tanque.velocidad -= 1
@@ -62,7 +77,7 @@ class EscenaJuego(plantillaEscena.Escena):
                     print(f'Balas antes del arma actual: {self.jugadorActual.tanque.proyectilActual.stock}') # debug
                     print(">>> jugador/a ", self.jugadorActual.nombre, " disparó")
                     self.jugadorActual.tanque.proyectilActual.stock -=1 # se le resta una bala ya que disparó
-                    print(f'Balas despué del arma actual: {self.jugadorActual.tanque.proyectilActual.stock}') # debug
+                    print(f'Balas después del arma actual: {self.jugadorActual.tanque.proyectilActual.stock}') # debug
                 else:
                     self.mensajeSinBalas()
                     print(f'Tu proyectil actual no tiene suficientes balas')
@@ -71,6 +86,12 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def on_draw(self, pantalla):
         if self.director.game.juegoTerminado is not True:
+            self.boton_salir = Boton(pantalla, "salir", 1160, 0)
+            self.boton_salir.dibujaBoton()
+            self.boton_reiniciar = Boton(pantalla, "restaurar", 1030, 0)
+            self.boton_reiniciar.dibujaBoton()
+            self.boton_cambioArmas = Boton(pantalla, "Armas", 1150, 660)
+            self.boton_cambioArmas.dibujaBoton()            
             # si tiene más de un jugador activo la partida, sigue la partida jugandose
             if len(self.partidaActual.jugadoresActivos) > 1:
                 if self.flag:
@@ -120,27 +141,27 @@ class EscenaJuego(plantillaEscena.Escena):
         xJugador = self.jugadorActual.tanque.bloque.x
         yJugador = self.jugadorActual.tanque.bloque.y
         while True:
-            xDisparo = xJugador + 20 + delta * self.jugadorActual.tanque.velocidad * math.cos(
-                self.jugadorActual.tanque.angulo * 3.1416 / 180)
-            yDisparo = yJugador - 1 - (
+            xDisparo =int( xJugador + 20 + delta * self.jugadorActual.tanque.velocidad * math.cos(
+                self.jugadorActual.tanque.angulo * 3.1416 / 180))
+            yDisparo =int( yJugador - 1 - (
                     delta * self.jugadorActual.tanque.velocidad * math.sin(
-                self.jugadorActual.tanque.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2)
+                self.jugadorActual.tanque.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2))
             delta += 0.1  # si quieres que hayan más puntitos en la parabola, modifica esto
             self.rastreoBala(xDisparo, yDisparo)
             self.trayectoria.append((xDisparo, yDisparo))
             # ----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             jugadorImpactado = self.colisionTanque(xDisparo, yDisparo)
             if jugadorImpactado is not None:  # si impacta con un tanque, se detiene la parabola (bala)
-                print("Proyectil: toqué un tanque") # debug
+                print("proyectil: toqué un tanque") # debug
                 self.jugadorImpactado = jugadorImpactado
                 break
 
             elif self.colisionTierra(xDisparo, yDisparo):
-                print("Proyectil: toqué tierra") # debug
+                print("proyectil: toqué tierra") # debug
                 break
 
             elif self.saleLimites(xDisparo, yDisparo):  # si impacta con un borde, se detiene la parabola (bala)
-                print("Proyectil: salí rango") # debug
+                print("proyectil: salí rango") # debug
                 break
 
     def cambiarJugador(self):
@@ -274,3 +295,6 @@ class EscenaJuego(plantillaEscena.Escena):
         text = "Arma actual: "+str(proyectilJugActual.__class__)+"; balas: "+str(proyectilJugActual.stock)+"; daño: "+str(proyectilJugActual.daño)
         mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (15, 55))
+    # ----------------------------------METODOS BOTONES-----------------------------------------------------------
+    def ventanaArmas(self):
+        self.director.cambiarEscena(EscenaCambioArma(self.director))

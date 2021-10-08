@@ -35,7 +35,7 @@ class EscenaRegistro(plantillaEscena.Escena):
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
-        self.boton_registrar = Boton(pantalla, "comenzar")
+        self.boton_registrar = Boton(pantalla, "comenzar", 540, 320)
         self.boton_registrar.dibujaBoton()
 
     def cambioEscenaJuego(self):
@@ -43,4 +43,6 @@ class EscenaRegistro(plantillaEscena.Escena):
         for partida in self.director.game.listaPartidas:
             partida.generarPosicionesJug()
             partida.equiparArmasIniciales()
-        self.director.cambiarEscena(EscenaJuego(self.director))
+        juegoEscena = EscenaJuego(self.director)
+        self.director.guardarEscena(juegoEscena)
+        self.director.cambiarEscena(juegoEscena)

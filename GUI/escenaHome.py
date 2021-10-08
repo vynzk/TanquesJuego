@@ -26,8 +26,9 @@ class EscenaHome(plantillaEscena.Escena):
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
-        self.boton_play = Boton(pantalla, "play")
+        self.boton_play = Boton(pantalla, "play", 540, 320)
         self.boton_play.dibujaBoton()
 
     def cambiaDePartida(self):
+        #self.director.cambiarEscena(EscenaRegistro(self.director))
         self.director.cambiarEscena(EscenaRegistro(self.director))
