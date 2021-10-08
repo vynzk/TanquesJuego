@@ -30,4 +30,5 @@ class EscenaHome(plantillaEscena.Escena):
         self.boton_play.dibujaBoton()
 
     def cambiaDePartida(self):
+        #self.director.cambiarEscena(EscenaRegistro(self.director))
         self.director.cambiarEscena(EscenaRegistro(self.director))

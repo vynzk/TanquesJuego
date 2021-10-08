@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#from GUI.escenaRegistro import EscenaRegistro
 import pygame
 import math
 from GUI import plantillaEscena
 import time
 from GUI.colores import *
 from GUI.Boton import Boton
-
+from GUI.escenaCambioArma import EscenaCambioArma
 
 class EscenaJuego(plantillaEscena.Escena):
 
@@ -27,6 +28,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.yMaxDisparo = 0
         self.boton_salir = None
         self.boton_reiniciar = None
+        self.boton_cambioArmas = None
 
     def on_update(self):
         pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
@@ -45,6 +47,12 @@ class EscenaJuego(plantillaEscena.Escena):
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_salir):
                 pygame.exit()
+            if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
+                print("funciona boton armas")
+
+                # ---- NUEVO CODIGO ----# #ES PROBABLE QUE FALLEN LOS BOTONES EN ESCENA JUEGO POR LA INTERACCION DE OTROS EVENTOS
+                self.ventanaArmas()
+        
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 self.jugadorActual.tanque.velocidad -= 1
@@ -82,6 +90,8 @@ class EscenaJuego(plantillaEscena.Escena):
             self.boton_salir.dibujaBoton()
             self.boton_reiniciar = Boton(pantalla, "restaurar", 1030, 0)
             self.boton_reiniciar.dibujaBoton()
+            self.boton_cambioArmas = Boton(pantalla, "Armas", 1150, 660)
+            self.boton_cambioArmas.dibujaBoton()            
             # si tiene más de un jugador activo la partida, sigue la partida jugandose
             if len(self.partidaActual.jugadoresActivos) > 1:
                 if self.flag:
@@ -285,3 +295,6 @@ class EscenaJuego(plantillaEscena.Escena):
         text = "Arma actual: "+str(proyectilJugActual.__class__)+"; balas: "+str(proyectilJugActual.stock)+"; daño: "+str(proyectilJugActual.daño)
         mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (15, 55))
+    # ----------------------------------METODOS BOTONES-----------------------------------------------------------
+    def ventanaArmas(self):
+        self.director.cambiarEscena(EscenaCambioArma(self.director))
