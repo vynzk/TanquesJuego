@@ -215,11 +215,11 @@ class EscenaJuego(plantillaEscena.Escena):
                     print(f'<<< el jugador/a {self.jugadorImpactado.nombre} ha sido impactado por {self.jugadorActual.nombre}, le ha quitado {dañoEfectuado} vida')
                     # se le resta la vida del arma del jugador contrario
                     self.jugadorImpactado.tanque.vida -= dañoEfectuado
-        pygame.time.wait(25)
+        pygame.time.wait(0)
 
     # ----------------------------------METODOS QUE MUESTRAN TEXTO-------------------------------------------------
     def mensajeTurno(self):
-        fuente = pygame.font.SysFont("arial", 30)
+        fuente = pygame.font.SysFont("arial", 30, bold=True)
         text = "TURNO: " + str.upper(self.jugadorActual.nombre)
         mensaje = fuente.render(text, 1, NEGRO)
         self.director.pantalla.blit(mensaje, (450, 300))
@@ -227,7 +227,7 @@ class EscenaJuego(plantillaEscena.Escena):
         time.sleep(2)
 
     def mensajeFinPartida(self):
-        fuente = pygame.font.SysFont("arial", 30)
+        fuente = pygame.font.SysFont("arial", 30, bold=True)
         jugadorGanador = self.partidaActual.jugadorGanador
         text = "FIN DE PARTIDA ; GANADOR: " + str.upper(jugadorGanador.nombre)
         mensaje = fuente.render(text, 1, NEGRO)
@@ -236,7 +236,7 @@ class EscenaJuego(plantillaEscena.Escena):
         time.sleep(1)
 
     def mensajeSinBalas(self):
-        fuente = pygame.font.SysFont("arial", 30)
+        fuente = pygame.font.SysFont("arial", 30, bold=True)
         text = "NO TIENES BALAS SUFICIENTES, CAMBIA DE ARMA"
         mensaje = fuente.render(text, 1, NEGRO)
         self.director.pantalla.blit(mensaje, (450, 300))
@@ -244,7 +244,7 @@ class EscenaJuego(plantillaEscena.Escena):
         time.sleep(2)
 
     def mensajeFinJuego(self):
-        fuente = pygame.font.SysFont("arial", 30)
+        fuente = pygame.font.SysFont("arial", 30, bold=True)
         jugadorGanador = self.director.game.jugadorGanador
         text = "FIN DEL JUEGO ; GANADOR: " + str.upper(jugadorGanador.nombre)
         mensaje = fuente.render(text, 1, NEGRO)
@@ -253,18 +253,19 @@ class EscenaJuego(plantillaEscena.Escena):
         time.sleep(3)
 
     def muestreoTurnoVelocidadAngulo(self):
-        fuente = pygame.font.SysFont("arial", 20)
+        fuente = pygame.font.SysFont("arial", 20, bold=True)
         text = "Jugador actual: %s ; angulo: %d ° ; velocidad: %d (m/s)" % (
             self.jugadorActual.nombre, self.jugadorActual.tanque.angulo, self.jugadorActual.tanque.velocidad)
         mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (15, 5))
 
     # Define el mensaje a mostrar en pantalla junto a sus caracteristicas.
-    def muestreoRastreoBala(self):
-        fuente = pygame.font.SysFont("arial", 20)
-        # se pasan a int ya que son numeros decimales y luego ello se pasa a str para concatenar en un sólo string
-        text = "Estado disparo: " + str(self.flag) + "; Distancia máxima: " + str(int(self.xMaxDisparo)) \
-               + " [px] ; Altura máxima: " + str(int(self.yMaxDisparo))
+    def muestreoRastreoBala(self, bold=True):
+        fuente = pygame.font.SysFont("arial", 20, bold=True)
+
+        conversionPxCm=265/10000 # Conversion de pixel a cm ;1 px --> 0,0265 cm
+
+        text = f'Estado disparo {self.flag} ; Desplazamiento: {int(self.xMaxDisparo*conversionPxCm)} [cm] ; Altura maxima: {int(self.yMaxDisparo*conversionPxCm)} [cm]'
         mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (15, 30))
 
@@ -280,14 +281,14 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def muestreoVidaTanques(self):
         for jugador in self.partidaActual.jugadoresActivos:
-            fuente = pygame.font.SysFont("arial", 15)
+            fuente = pygame.font.SysFont("arial", 15, bold=True)
             # se pasan a int ya que son numeros decimales y luego ello se pasa a str para concatenar en un sólo string
             text = str(f'HP: {jugador.tanque.vida}')
-            mensaje = fuente.render(text, 1, BLANCO)
-            self.director.pantalla.blit(mensaje, (jugador.tanque.x+5, jugador.tanque.y+40))
+            mensaje = fuente.render(text, 1, NEGRO)
+            self.director.pantalla.blit(mensaje, (jugador.tanque.x, jugador.tanque.y+40))
 
     def muestreoProyectilActual(self):
-        fuente = pygame.font.SysFont("arial", 20)
+        fuente = pygame.font.SysFont("arial", 20, True)
         # se pasan a int ya que son numeros decimales y luego ello se pasa a str para concatenar en un sólo string
         proyectilJugActual=self.jugadorActual.tanque.proyectilActual
         text = "Arma actual: "+str(proyectilJugActual.__class__)+"; balas: "+str(proyectilJugActual.stock)+"; daño: "+str(proyectilJugActual.daño)
