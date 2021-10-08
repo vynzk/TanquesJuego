@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#from GUI.escenaRegistro import EscenaRegistro
 import pygame
 import math
 from GUI import plantillaEscena
 import time
 from GUI.colores import *
 from GUI.Boton import Boton
-
+from GUI.escenaCambioArma import EscenaCambioArma
 
 class EscenaJuego(plantillaEscena.Escena):
 
@@ -48,6 +49,10 @@ class EscenaJuego(plantillaEscena.Escena):
                 pygame.exit()
             if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
                 print("funciona boton armas")
+
+                # ---- NUEVO CODIGO ----# #ES PROBABLE QUE FALLEN LOS BOTONES EN ESCENA JUEGO POR LA INTERACCION DE OTROS EVENTOS
+                self.ventanaArmas()
+        
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 self.jugadorActual.tanque.velocidad -= 1
@@ -290,3 +295,6 @@ class EscenaJuego(plantillaEscena.Escena):
         text = "Arma actual: "+str(proyectilJugActual.__class__)+"; balas: "+str(proyectilJugActual.stock)+"; daño: "+str(proyectilJugActual.daño)
         mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (15, 55))
+    # ----------------------------------METODOS BOTONES-----------------------------------------------------------
+    def ventanaArmas(self):
+        self.director.cambiarEscena(EscenaCambioArma(self.director))

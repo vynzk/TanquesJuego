@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from GUI.escenaRegistro import EscenaRegistro
 import pygame
 from GUI import plantillaEscena
 from GUI.Boton import Boton
@@ -27,6 +26,7 @@ class EscenaCambioArma(plantillaEscena.Escena):
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.botonVolver):
                 print("funciona boton de volver")
+                self.vuelveJuego()
             if self.director.checaBoton(self.director.mousePos, self.botonAplicar):
                 print("funciona boton de aplicar")
 
@@ -41,6 +41,10 @@ class EscenaCambioArma(plantillaEscena.Escena):
         self.botonAplicar.dibujaBoton()
     def redimensionarPanel(self, x,y):
         self.panel= pygame.transform.scale(self.panel, (x,y) )
+    def vuelveJuego(self):
+        juegoActual= self.director.listaEscenas[0]
+        self.director.cambiarEscena(juegoActual)
+
         
     
 

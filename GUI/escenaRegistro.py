@@ -43,4 +43,6 @@ class EscenaRegistro(plantillaEscena.Escena):
         for partida in self.director.game.listaPartidas:
             partida.generarPosicionesJug()
             partida.equiparArmasIniciales()
-        self.director.cambiarEscena(EscenaJuego(self.director))
+        juegoEscena = EscenaJuego(self.director)
+        self.director.guardarEscena(juegoEscena)
+        self.director.cambiarEscena(juegoEscena)

@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 import pygame
-
+from GUI.escenaCambioArma import EscenaCambioArma
 class Director:
     """El director se encarga de iniciar el juego,
         cambiar las escenas y recoger e interpretar los eventos de estas."""
@@ -10,6 +10,8 @@ class Director:
         self.escena = None
         self.running = True
         self.game = game
+        self.listaEscenas = []
+        
 
     def gameLoop(self):  # bucle del juego
         while self.running:
@@ -35,3 +37,6 @@ class Director:
     def checaBoton(self, mousePos, botonNombre):  # detecta el tocar un boton
         if botonNombre.rect.collidepoint((mousePos)):
             return True
+    def guardarEscena(self,escena):
+        self.listaEscenas.append(escena)
+        print(self.listaEscenas)
