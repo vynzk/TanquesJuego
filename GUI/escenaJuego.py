@@ -104,7 +104,7 @@ class EscenaJuego(plantillaEscena.Escena):
                             self.dibujarBala()
                         else:
                             self.jugadorImpactado = None  # << se limpia
-                            self.bloqueImpactado = -1
+                            self.bloqueImpactado = None
                             self.contador = 0  # << el contador debe estar limpio para un nuevo jugador
                             self.trayectoria = []  # << la trayectoria debe estar limpio para un nuevo jugador
                             self.flag = False  # << debe apretar enter nuevamente el jugador para disparar
@@ -193,7 +193,7 @@ class EscenaJuego(plantillaEscena.Escena):
     
     # verifica si un borde del mapa fue impactado, si lo fue retorna true, en caso contrario false
     def saleLimites(self, xDisparo, yDisparo):
-        if xDisparo >= 1280 or yDisparo >= 730 or xDisparo <= 0 or yDisparo <= 0:
+        if xDisparo >= 1280 or yDisparo >= 600 or xDisparo <= 0 or yDisparo <= 0:
             return True  # sale del rango
         return False  # dentro del rango
 
@@ -225,7 +225,7 @@ class EscenaJuego(plantillaEscena.Escena):
                     print(f'<<< el jugador/a {self.jugadorImpactado.nombre} ha sido impactado por {self.jugadorActual.nombre}, le ha quitado {dañoEfectuado} vida')
                     # se le resta la vida del arma del jugador contrario
                     self.jugadorImpactado.tanque.vida -= dañoEfectuado
-            if self.bloqueImpactado >= 0:
+            elif self.bloqueImpactado is not None:
                 self.partidaActual.mapa.listaBloques.pop(self.bloqueImpactado)
 
 
