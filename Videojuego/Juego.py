@@ -5,7 +5,6 @@ from Tanque.Tanque import *
 from Mapa.Mapa import *
 from Mapa.listaMapas import *
 
-
 class Juego:
     def __init__(self, cantidadJugadores, cantidadPartidas):
         self.cantidadJugadores = cantidadJugadores
@@ -40,10 +39,9 @@ class Juego:
         listaMapas = (mapa1, mapa2, mapa3)
         numeroRandom = random.randint(0, len(listaMapas) - 1)
         mapaRandom = listaMapas[numeroRandom]
-        mapa = Mapa(mapaRandom)
-        # mapa = Mapa(mapa1)
-        mapa.generarMatriz(director.pantalla)
-        partida = Partida(i, director, mapa)
+        self.mapa = Mapa(mapaRandom)
+        self.mapa.generarMatriz(director.pantalla)
+        partida = Partida(i, director, self.mapa)
         # va agregando los jugadores a la nueva partida
         for jugador in self.listaJugadores:
             partida.agregarJugadores(jugador)

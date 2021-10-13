@@ -24,6 +24,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.contador = 0
         self.flag = False
         self.jugadorImpactado = None
+        self.bloqueImpactado = None
         self.xMaxDisparo = 0
         self.yMaxDisparo = 0
         self.boton_salir = None
@@ -87,9 +88,9 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def on_draw(self, pantalla):
         if self.director.game.juegoTerminado is not True:
-            self.boton_salir = Boton(pantalla, "salir", 1160, 0)
+            self.boton_salir = Boton(pantalla, "Salir", 1160, 0)
             self.boton_salir.dibujaBoton()
-            self.boton_reiniciar = Boton(pantalla, "restaurar", 1030, 0)
+            self.boton_reiniciar = Boton(pantalla, "Restaurar", 1030, 0)
             self.boton_reiniciar.dibujaBoton()
             self.boton_cambioArmas = Boton(pantalla, "Armas", 1150, 660)
             self.boton_cambioArmas.dibujaBoton()            
@@ -103,6 +104,7 @@ class EscenaJuego(plantillaEscena.Escena):
                             self.dibujarBala()
                         else:
                             self.jugadorImpactado = None  # << se limpia
+                            self.bloqueImpactado = -1
                             self.contador = 0  # << el contador debe estar limpio para un nuevo jugador
                             self.trayectoria = []  # << la trayectoria debe estar limpio para un nuevo jugador
                             self.flag = False  # << debe apretar enter nuevamente el jugador para disparar
@@ -110,6 +112,7 @@ class EscenaJuego(plantillaEscena.Escena):
                             self.yMaxDisparo = 0
                             self.cambiarJugador()
                             self.mensajeTurno()
+                            
             else:
                 self.partidaActual.terminar()
                 self.mensajeFinPartida()  # como es una partida de momento, si gana la partida gana el juego
@@ -119,6 +122,7 @@ class EscenaJuego(plantillaEscena.Escena):
         else:
             self.mensajeFinJuego()
             self.director.running = False  # rompe el gameloop para terminar el juego
+
 
     # ------------------------------FUNCIONES QUE REPRESENTAN ACCIONES DENTRO DEL JUEGO-----------------------------
     # Toma las posiciones de la bala y va viendo los posibles escenarios para buscar los valores maximos.
@@ -152,18 +156,23 @@ class EscenaJuego(plantillaEscena.Escena):
             self.trayectoria.append((xDisparo, yDisparo))
             # ----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             jugadorImpactado = self.colisionTanque(xDisparo, yDisparo)
+            bloqueImpactado = self.colisionTierra(xDisparo, yDisparo)
+
             if jugadorImpactado is not None:  # si impacta con un tanque, se detiene la parabola (bala)
                 print("proyectil: toqué un tanque") # debug
                 self.jugadorImpactado = jugadorImpactado
                 break
 
-            elif self.colisionTierra(xDisparo, yDisparo):
+            elif bloqueImpactado >= 0:
                 print("proyectil: toqué tierra") # debug
+                self.bloqueImpactado = bloqueImpactado
+                #self.partidaActual.mapa.listaBloques.pop(bloqueImpactado)
                 break
 
             elif self.saleLimites(xDisparo, yDisparo):  # si impacta con un borde, se detiene la parabola (bala)
                 print("proyectil: salí rango") # debug
                 break
+    
 
     def cambiarJugador(self):
         listaJugadoresActuales = self.partidaActual.jugadoresActivos
@@ -176,11 +185,12 @@ class EscenaJuego(plantillaEscena.Escena):
     # verifica si un bloque de tierra fue impactado, si lo fue retorna true, en caso contrario false
     def colisionTierra(self, xDisparo, yDisparo):
         bloquesTierra = self.partidaActual.mapa.listaBloques
-        for bloque in bloquesTierra:
-            if bloque.colision(xDisparo, yDisparo):
-                return True  # toca tierra y para el impacto
-        return False  # permanece en el rango correcto
+        for i in range (len(bloquesTierra)):
+            if bloquesTierra[i].colision(xDisparo, yDisparo):
+                return i  # toca tierra y para el impacto
+        return -1  # permanece en el rango correcto
 
+    
     # verifica si un borde del mapa fue impactado, si lo fue retorna true, en caso contrario false
     def saleLimites(self, xDisparo, yDisparo):
         if xDisparo >= 1280 or yDisparo >= 730 or xDisparo <= 0 or yDisparo <= 0:
@@ -215,8 +225,13 @@ class EscenaJuego(plantillaEscena.Escena):
                     print(f'<<< el jugador/a {self.jugadorImpactado.nombre} ha sido impactado por {self.jugadorActual.nombre}, le ha quitado {dañoEfectuado} vida')
                     # se le resta la vida del arma del jugador contrario
                     self.jugadorImpactado.tanque.vida -= dañoEfectuado
-        pygame.time.wait(0)
+            if self.bloqueImpactado >= 0:
+                self.partidaActual.mapa.listaBloques.pop(self.bloqueImpactado)
 
+
+        pygame.time.wait(0)
+        
+        
     # ----------------------------------METODOS QUE MUESTRAN TEXTO-------------------------------------------------
     def mensajeTurno(self):
         fuente = pygame.font.SysFont("arial", 30, bold=True)
