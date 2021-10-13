@@ -8,6 +8,7 @@ import time
 from GUI.colores import *
 from GUI.Boton import Boton
 from GUI.escenaCambioArma import EscenaCambioArma
+from GUI.escenaSeguro import EscenaSeguro
 
 class EscenaJuego(plantillaEscena.Escena):
 
@@ -47,6 +48,8 @@ class EscenaJuego(plantillaEscena.Escena):
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_salir):
                 pygame.exit()
+            if self.director.checaBoton(self.director.mousePos, self.boton_reiniciar):
+                self.escenaSeguro()
             if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
                 print("funciona boton armas")
 
@@ -298,3 +301,6 @@ class EscenaJuego(plantillaEscena.Escena):
     # ----------------------------------METODOS BOTONES-----------------------------------------------------------
     def ventanaArmas(self):
         self.director.cambiarEscena(EscenaCambioArma(self.director))
+
+    def escenaSeguro(self):
+        self.director.cambiarEscena(EscenaSeguro(self.director))
