@@ -8,6 +8,11 @@ import time
 from GUI.colores import *
 from GUI.Boton import Boton
 from GUI.escenaCambioArma import EscenaCambioArma
+from Tanque.Proyectil105 import Proyectil105
+from Tanque.Proyectil60 import Proyectil60
+from Tanque.ProyectilPerforante import ProyectilPerforante
+from Tanque.Tanque import *
+import random
 
 
 class EscenaJuego(plantillaEscena.Escena):
@@ -25,6 +30,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.contador = 0
         self.flag = False
         self.jugadorImpactado = None
+        self.bloqueImpactado = None
         self.xMaxDisparo = 0
         self.yMaxDisparo = 0
         self.boton_salir = None
@@ -47,8 +53,9 @@ class EscenaJuego(plantillaEscena.Escena):
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_salir):
-                print(f'Presionaste el boton salir')
                 self.director.running = False;  # rompe el ciclo gameLoop y sale del juego
+            if self.director.checaBoton(self.director.mousePos, self.boton_reiniciar):
+                self.reiniciarPartida()
             if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
                 print("funciona boton armas")
 
@@ -103,12 +110,7 @@ class EscenaJuego(plantillaEscena.Escena):
                         if self.contador < len(self.trayectoria):
                             self.dibujarBala()
                         else:
-                            self.jugadorImpactado = None  # << se limpia
-                            self.contador = 0  # << el contador debe estar limpio para un nuevo jugador
-                            self.trayectoria = []  # << la trayectoria debe estar limpio para un nuevo jugador
-                            self.flag = False  # << debe apretar enter nuevamente el jugador para disparar
-                            self.xMaxDisparo = 0
-                            self.yMaxDisparo = 0
+                            self.limpiarTurno()  # se limpian las estadisticas
                             self.cambiarJugador()
                             self.mensajeTurno()
             else:
@@ -153,6 +155,8 @@ class EscenaJuego(plantillaEscena.Escena):
             self.trayectoria.append((xDisparo, yDisparo))
             # ----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             jugadorImpactado = self.colisionTanque(xDisparo, yDisparo)
+            bloqueImpactado = self.colisionTierra(xDisparo, yDisparo)
+
             if jugadorImpactado is not None:  # si impacta con un tanque, se detiene la parabola (bala)
                 print("proyectil: toqué un tanque")  # debug
                 self.jugadorImpactado = jugadorImpactado
@@ -160,6 +164,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
             elif self.colisionTierra(xDisparo, yDisparo):
                 print("proyectil: toqué tierra")  # debug
+                self.bloqueImpactado = bloqueImpactado
                 break
 
             elif self.saleLimites(xDisparo, yDisparo):  # si impacta con un borde, se detiene la parabola (bala)
@@ -179,12 +184,12 @@ class EscenaJuego(plantillaEscena.Escena):
         bloquesTierra = self.partidaActual.mapa.listaBloques
         for bloque in bloquesTierra:
             if bloque.colision(xDisparo, yDisparo):
-                return True  # toca tierra y para el impacto
-        return False  # permanece en el rango correcto
+                return bloque
+        return None
 
     # verifica si un borde del mapa fue impactado, si lo fue retorna true, en caso contrario false
     def saleLimites(self, xDisparo, yDisparo):
-        if xDisparo >= 1280 or yDisparo >= 730 or xDisparo <= 0 or yDisparo <= 0:
+        if xDisparo >= 1280 or yDisparo >= 600 or xDisparo <= 0 or yDisparo <= 0:
             return True  # sale del rango
         return False  # dentro del rango
 
@@ -220,6 +225,11 @@ class EscenaJuego(plantillaEscena.Escena):
                         f'<<< el jugador/a {self.jugadorImpactado.nombre} ha sido impactado por {self.jugadorActual.nombre}, le ha quitado {dañoEfectuado} vida')
                     # se le resta la vida del arma del jugador contrario
                     self.jugadorImpactado.tanque.vida -= dañoEfectuado
+            if self.bloqueImpactado is not None:
+                # destruirá el bloque actual y la zona según el daño del proyectil
+                self.partidaActual.mapa.destruirZonaImpacto(self.bloqueImpactado,
+                                                            self.jugadorActual.tanque.proyectilActual.daño)
+
         pygame.time.wait(0)
 
     # ----------------------------------METODOS QUE MUESTRAN TEXTO-------------------------------------------------
@@ -304,3 +314,56 @@ class EscenaJuego(plantillaEscena.Escena):
     # ----------------------------------METODOS BOTONES-----------------------------------------------------------
     def ventanaArmas(self):
         self.director.cambiarEscena(EscenaCambioArma(self.director))
+
+    """
+    def escenaSeguro(self):
+        reiniciarPartida();
+        #self.director.cambiarEscena(EscenaSeguro(self.director,self.partidaActual))
+    """
+
+    def limpiarTurno(self):
+        self.jugadorImpactado = None  # << se limpia
+        self.bloqueImpactado = None
+        self.contador = 0  # << el contador debe estar limpio para un nuevo jugador
+        self.trayectoria = []  # << la trayectoria debe estar limpio para un nuevo jugador
+        self.flag = False  # << debe apretar enter nuevamente el jugador para disparar
+        self.xMaxDisparo = 0
+        self.yMaxDisparo = 0
+
+    # cuando se cambia de partida o se crea una nueva, el jugador no puede tener el mismo tanque de la partida
+    # anterior, por tanto, deben crearse nuevos
+    def asignarNuevosTanques(self):
+        listaImagenesTanque = ["GUI/imagenes/bloque/tanqueGris.png", "GUI/imagenes/bloque/tanqueAmarillo.png",
+                               "GUI/imagenes/bloque/tanqueCeleste.png", "GUI/imagenes/bloque/tanqueRojo.png",
+                               "GUI/imagenes/bloque/tanqueVerde.png"]
+
+        for jugador in self.partidaActual.jugadoresActivos:
+            numAleatorio = random.randint(0, len(listaImagenesTanque) - 1)
+            imagenTanqueAleatoria = listaImagenesTanque[numAleatorio]
+            listaImagenesTanque.remove(imagenTanqueAleatoria)
+            nuevoTanque = Tanque(self.director.pantalla, imagenTanqueAleatoria)
+            jugador.tanque = nuevoTanque
+
+            # cuando se presiona el boton de reiniciar, se debe crear una nueva partida que remplace la partida actual
+
+    def reiniciarPartida(self):
+        # creo la nueva partida
+        nuevaPartida = self.director.game.agregarPartida(self.partidaActual.id, self.director)
+        self.asignarNuevosTanques()
+
+        # se cambia en la lista partidas 
+        self.director.game.listaPartidas[self.partidaActual.id - 1] = nuevaPartida
+
+        # se actualiza la nueva lista
+        self.partidas = self.director.game.listaPartidas
+
+        # se remplaza la partida recién creada por la partida actual
+        self.partidaActual = self.partidas[0]
+        self.jugadorActual = self.partidaActual.jugadoresActivos[0]
+
+        # deben regenerarse las posiciones de los tanques y equiparle las armas
+        self.partidaActual.generarPosicionesJug()
+        self.partidaActual.equiparArmasIniciales()
+
+        # se limpian las estadisticas
+        self.limpiarTurno()
