@@ -35,9 +35,13 @@ class EscenaCambioArma(plantillaEscena.Escena):
     def on_draw(self, pantalla):
         pantalla.blit(self.fondo, (0,0))
         pantalla.blit(self.panel, (390, 100))
-        self.botonVolver = Boton(pantalla, "volver", 750,650)
+        # imagenes -- botones
+        volver= pygame.image.load("GUI/imagenes/botones/botonVolver.png")
+        aplicar= pygame.image.load("GUI/imagenes/botones/botonAplicar.png")
+        
+        self.botonVolver = Boton(pantalla, "volver", 750,650,volver)
         self.botonVolver.dibujaBoton()
-        self.botonAplicar = Boton(pantalla, "aplicar", 400,650)
+        self.botonAplicar = Boton(pantalla, "aplicar", 400,650,aplicar)
         self.botonAplicar.dibujaBoton()
     def redimensionarPanel(self, x,y):
         self.panel= pygame.transform.scale(self.panel, (x,y) )

@@ -3,12 +3,12 @@ import pygame.font
 from GUI.colores import *
 
 class Boton:
-    def __init__(self, pantalla, texto, posX, posY):
+    def __init__(self, pantalla, texto, posX, posY,imagenBoton):
         self.pantalla = pantalla
         self.pantalla_rect = self.pantalla.get_rect()
-        self.imagenBase= pygame.image.load("GUI/imagenes/botones/botonVacio.png") #debe volverse atributo de entrada
+        self.imagenBase= imagenBoton #debe volverse atributo de entrada
         
-        self.x, self.y = 120, 40
+        self.x, self.y = 127, 40
         self.posX = posX
         self.posY = posY
         self.rect = pygame.Rect(self.posX, self.posY, self.x, self.y)

@@ -95,11 +95,16 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def on_draw(self, pantalla):
         if self.director.game.juegoTerminado is not True:
-            self.boton_salir = Boton(pantalla, "salir", 1160, 0)
+            # botones -- imagenes
+            botonSalir=pygame.image.load("GUI/imagenes/botones/botonSalir.png")
+            botonReiniciar=pygame.image.load("GUI/imagenes/botones/botonReiniciar.png")
+            botonCambioArmas=pygame.image.load("GUI/imagenes/botones/botonMochila.png")
+            
+            self.boton_salir = Boton(pantalla, "salir", 1160, 0,botonSalir)
             self.boton_salir.dibujaBoton()
-            self.boton_reiniciar = Boton(pantalla, "restaurar", 1030, 0)
+            self.boton_reiniciar = Boton(pantalla, "restaurar", 1030, 0, botonReiniciar)
             self.boton_reiniciar.dibujaBoton()
-            self.boton_cambioArmas = Boton(pantalla, "Armas", 1150, 660)
+            self.boton_cambioArmas = Boton(pantalla, "Armas", 1150, 660, botonCambioArmas)
             self.boton_cambioArmas.dibujaBoton()
             # si tiene más de un jugador activo la partida, sigue la partida jugandose
             if len(self.partidaActual.jugadoresActivos) > 1:
