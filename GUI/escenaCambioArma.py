@@ -42,7 +42,7 @@ class EscenaCambioArma(plantillaEscena.Escena):
     def redimensionarPanel(self, x,y):
         self.panel= pygame.transform.scale(self.panel, (x,y) )
     def vuelveJuego(self):
-        juegoActual= self.director.listaEscenas[1]
+        juegoActual= self.director.listaEscenas[0]
         self.director.cambiarEscena(juegoActual)
 
         
