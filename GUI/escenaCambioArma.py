@@ -10,7 +10,7 @@ class EscenaCambioArma(plantillaEscena.Escena):
         plantillaEscena.Escena.__init__(self, director)
         self.botonVolver = None
         self.botonAplicar = None
-        
+        self.jugadorActual = director.listaEscenas[0].jugadorActual #pos 0 siempre debe corresponder a escena juego 
         # -- imagenes -- #
         self.fondo= pygame.image.load("GUI/imagenes/fondoNublado.png") #por ahora
         self.panel= pygame.image.load("GUI/imagenes/panelArmas.png")
