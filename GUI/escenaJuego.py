@@ -27,6 +27,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.contador = 0
         self.flag = False
         self.jugadorImpactado = None
+        self.bloqueImpactado = None
         self.xMaxDisparo = 0
         self.yMaxDisparo = 0
         self.boton_salir = None
@@ -151,6 +152,8 @@ class EscenaJuego(plantillaEscena.Escena):
             self.trayectoria.append((xDisparo, yDisparo))
             # ----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             jugadorImpactado = self.colisionTanque(xDisparo, yDisparo)
+            bloqueImpactado = self.colisionTierra(xDisparo, yDisparo)
+
             if jugadorImpactado is not None:  # si impacta con un tanque, se detiene la parabola (bala)
                 print("proyectil: toqué un tanque")  # debug
                 self.jugadorImpactado = jugadorImpactado
@@ -158,6 +161,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
             elif self.colisionTierra(xDisparo, yDisparo):
                 print("proyectil: toqué tierra")  # debug
+                self.bloqueImpactado= bloqueImpactado
                 break
 
             elif self.saleLimites(xDisparo, yDisparo):  # si impacta con un borde, se detiene la parabola (bala)
@@ -177,12 +181,13 @@ class EscenaJuego(plantillaEscena.Escena):
         bloquesTierra = self.partidaActual.mapa.listaBloques
         for bloque in bloquesTierra:
             if bloque.colision(xDisparo, yDisparo):
-                return True  # toca tierra y para el impacto
-        return False  # permanece en el rango correcto
+                return bloque
+        return None
+
 
     # verifica si un borde del mapa fue impactado, si lo fue retorna true, en caso contrario false
     def saleLimites(self, xDisparo, yDisparo):
-        if xDisparo >= 1280 or yDisparo >= 730 or xDisparo <= 0 or yDisparo <= 0:
+        if xDisparo >= 1280 or yDisparo >= 600 or xDisparo <= 0 or yDisparo <= 0:
             return True  # sale del rango
         return False  # dentro del rango
 
@@ -218,6 +223,9 @@ class EscenaJuego(plantillaEscena.Escena):
                         f'<<< el jugador/a {self.jugadorImpactado.nombre} ha sido impactado por {self.jugadorActual.nombre}, le ha quitado {dañoEfectuado} vida')
                     # se le resta la vida del arma del jugador contrario
                     self.jugadorImpactado.tanque.vida -= dañoEfectuado
+            if self.bloqueImpactado is not None:
+                # elimina el bloque impactado de la lista de bloques
+                self.partidaActual.mapa.listaBloques.remove(self.bloqueImpactado)
         pygame.time.wait(0)
 
     # ----------------------------------METODOS QUE MUESTRAN TEXTO-------------------------------------------------
@@ -311,7 +319,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def limpiarTurno(self):
         self.jugadorImpactado = None  # << se limpia
-        # self.bloqueImpactado = None
+        self.bloqueImpactado = None
         self.contador = 0  # << el contador debe estar limpio para un nuevo jugador
         self.trayectoria = []  # << la trayectoria debe estar limpio para un nuevo jugador
         self.flag = False  # << debe apretar enter nuevamente el jugador para disparar
