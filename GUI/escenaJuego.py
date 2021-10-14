@@ -9,6 +9,7 @@ from GUI.colores import *
 from GUI.Boton import Boton
 from GUI.escenaCambioArma import EscenaCambioArma
 from Tanque.Tanque import *
+import random
 
 class EscenaJuego(plantillaEscena.Escena):
 
@@ -313,9 +314,15 @@ class EscenaJuego(plantillaEscena.Escena):
     # cuando se cambia de partida o se crea una nueva, el jugador no puede tener el mismo tanque de la partida
     # anterior, por tanto, deben crearse nuevos
     def asignarNuevosTanques(self):
+        listaImagenesTanque = ["GUI/imagenes/bloque/tanqueGris.png", "GUI/imagenes/bloque/tanqueAmarillo.png",
+                               "GUI/imagenes/bloque/tanqueCeleste.png", "GUI/imagenes/bloque/tanqueRojo.png",
+                               "GUI/imagenes/bloque/tanqueVerde.png"]
+
         for jugador in self.partidaActual.jugadoresActivos:
-            nuevoTanque=Tanque(self.director.pantalla)
-            jugador.tanque=nuevoTanque
+            numAleatorio=random.randint(0,len(listaImagenesTanque)-1)
+            imagenTanqueAleatoria=listaImagenesTanque[numAleatorio]
+            nuevoTanque=Tanque(self.director.pantalla,imagenTanqueAleatoria)
+            jugador.tanque=nuevoTanque             
         
     # cuando se presiona el boton de reiniciar, se debe crear una nueva partida que remplace la partida actual
     def reiniciarPartida(self):
