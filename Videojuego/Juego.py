@@ -15,20 +15,23 @@ class Juego:
         self.jugadorGanador = None
         self.juegoTerminado = False
 
-            
-    def agregarJugador(self, i, pantalla):  
-        # colores de los tanques
-        #colores = (ROJO,AZUL,BLANCO)
+    def agregarJugador(self, i, pantalla, imagenTanqueAleatoria):
         nombre = str(input("Ingrese su nombre: "))
-        tanque = Tanque(pantalla)
+        tanque = Tanque(pantalla, imagenTanqueAleatoria)
         self.listaJugadores.append(Jugador(nombre, tanque))  # << agrega un nuevo Jugador con su nombre y su tanque
 
     # función que se encargará de llenar la lista de jugadores, registrará tantos jugadores
     # como lo indique la cantidad de jugadores (que debe tener el constructor de esta clase)
     def registroJugadores(self, director):
+        listaImagenesTanque = ["GUI/imagenes/bloque/tanqueGris.png", "GUI/imagenes/bloque/tanqueAmarillo.png",
+                               "GUI/imagenes/bloque/tanqueCeleste.png", "GUI/imagenes/bloque/tanqueRojo.png",
+                               "GUI/imagenes/bloque/tanqueVerde.png"]
         print("\n### REGISTRO DE JUGADORES ###")
         for i in range(1, self.cantidadJugadores + 1):
-            self.agregarJugador(i, director.pantalla)
+            numAleatorio=random.randint(0,len(listaImagenesTanque)-1)
+            imagenTanqueAleatoria=listaImagenesTanque[numAleatorio]
+            self.agregarJugador(i, director.pantalla,imagenTanqueAleatoria)
+            listaImagenesTanque.remove(imagenTanqueAleatoria)
         return True  # termina con exito el registro
 
 
@@ -36,10 +39,10 @@ class Juego:
     # totalidad de jugadores que participan en el juego
     def agregarPartida(self, i, director):
         listaMapas = (mapa1, mapa2, mapa3)
-        numeroRandom=random.randint(0, len(listaMapas)-1)
-        mapaRandom=listaMapas[numeroRandom] 
+        numeroRandom = random.randint(0, len(listaMapas) - 1)
+        mapaRandom = listaMapas[numeroRandom]
         mapa = Mapa(mapaRandom)
-        #mapa = Mapa(mapa1)
+        # mapa = Mapa(mapa1)
         mapa.generarMatriz(director.pantalla)
         partida = Partida(i, director, mapa)
         # va agregando los jugadores a la nueva partida

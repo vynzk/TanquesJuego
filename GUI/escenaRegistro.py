@@ -11,6 +11,7 @@ class EscenaRegistro(plantillaEscena.Escena):
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
         self.boton_registrar = None  # botón para cambiar a escenaJuego en la versión final
+        self.fondo= pygame.image.load("GUI/imagenes/fondoRegistro.png")
 
     def on_update(self):
         pygame.display.set_caption("Registrar jugadores")
@@ -35,6 +36,7 @@ class EscenaRegistro(plantillaEscena.Escena):
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
+        pantalla.blit(self.fondo, (0,0))
         self.boton_registrar = Boton(pantalla, "comenzar", 540, 320)
         self.boton_registrar.dibujaBoton()
 
