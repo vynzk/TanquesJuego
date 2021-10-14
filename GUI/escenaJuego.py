@@ -8,7 +8,7 @@ import time
 from GUI.colores import *
 from GUI.Boton import Boton
 from GUI.escenaCambioArma import EscenaCambioArma
-from GUI.escenaSeguro import EscenaSeguro
+from Tanque.Tanque import *
 
 class EscenaJuego(plantillaEscena.Escena):
 
@@ -49,7 +49,7 @@ class EscenaJuego(plantillaEscena.Escena):
             if self.director.checaBoton(self.director.mousePos, self.boton_salir):
                 pygame.exit()
             if self.director.checaBoton(self.director.mousePos, self.boton_reiniciar):
-                self.escenaSeguro()
+                self.reiniciarPartida()
             if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
                 print("funciona boton armas")
 
@@ -104,12 +104,7 @@ class EscenaJuego(plantillaEscena.Escena):
                         if self.contador < len(self.trayectoria):
                             self.dibujarBala()
                         else:
-                            self.jugadorImpactado = None  # << se limpia
-                            self.contador = 0  # << el contador debe estar limpio para un nuevo jugador
-                            self.trayectoria = []  # << la trayectoria debe estar limpio para un nuevo jugador
-                            self.flag = False  # << debe apretar enter nuevamente el jugador para disparar
-                            self.xMaxDisparo = 0
-                            self.yMaxDisparo = 0
+                            self.limpiarTurno() # se limpian las estadisticas
                             self.cambiarJugador()
                             self.mensajeTurno()
             else:
@@ -302,5 +297,48 @@ class EscenaJuego(plantillaEscena.Escena):
     def ventanaArmas(self):
         self.director.cambiarEscena(EscenaCambioArma(self.director))
 
+    """
     def escenaSeguro(self):
-        self.director.cambiarEscena(EscenaSeguro(self.director))
+        reiniciarPartida();
+        #self.director.cambiarEscena(EscenaSeguro(self.director,self.partidaActual))
+    """
+
+    def limpiarTurno(self):
+        self.jugadorImpactado = None  # << se limpia
+        # self.bloqueImpactado = None
+        self.contador = 0  # << el contador debe estar limpio para un nuevo jugador
+        self.trayectoria = []  # << la trayectoria debe estar limpio para un nuevo jugador
+        self.flag = False  # << debe apretar enter nuevamente el jugador para disparar
+        self.xMaxDisparo = 0
+        self.yMaxDisparo = 0
+
+    # cuando se cambia de partida o se crea una nueva, el jugador no puede tener el mismo tanque de la partida
+    # anterior, por tanto, deben crearse nuevos
+    def asignarNuevosTanques(self):
+        for jugador in self.partidaActual.jugadoresActivos:
+            nuevoTanque=Tanque(self.director.pantalla)
+            jugador.tanque=nuevoTanque
+        
+    # cuando se presiona el boton de reiniciar, se debe crear una nueva partida que remplace la partida actual
+    def reiniciarPartida(self):
+        # creo la nueva partida
+        nuevaPartida=self.director.game.agregarPartida(self.partidaActual.id,self.director)
+        self.asignarNuevosTanques() 
+
+        # se cambia en la lista partidas 
+        self.director.game.listaPartidas[self.partidaActual.id-1]=nuevaPartida
+        
+        # se actualiza la nueva lista
+        self.partidas=self.director.game.listaPartidas
+
+        # se remplaza la partida recién creada por la partida actual
+        self.partidaActual=self.partidas[0]
+        self.jugadorActual=self.partidaActual.jugadoresActivos[0]
+
+        # deben regenerarse las posiciones de los tanques y equiparle las armas
+        self.partidaActual.generarPosicionesJug()
+        self.partidaActual.equiparArmasIniciales()
+
+        # se limpian las estadisticas
+        self.limpiarTurno() 
+      

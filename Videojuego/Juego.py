@@ -4,7 +4,7 @@ from Videojuego.Partida import *
 from Tanque.Tanque import *
 from Mapa.Mapa import *
 from Mapa.listaMapas import *
-
+import copy
 
 class Juego:
     def __init__(self, cantidadJugadores, cantidadPartidas):
@@ -31,6 +31,7 @@ class Juego:
             self.agregarJugador(i, director.pantalla)
         return True  # termina con exito el registro
 
+
     # función que agregará una partida a la lista de partidas, cada partida agregará como jugadores activos a la
     # totalidad de jugadores que participan en el juego
     def agregarPartida(self, i, director):
@@ -43,7 +44,7 @@ class Juego:
         partida = Partida(i, director, mapa)
         # va agregando los jugadores a la nueva partida
         for jugador in self.listaJugadores:
-            partida.agregarJugadores(jugador)
+           partida.agregarJugadores(jugador)
         return partida
 
     # función que llenara la lista de partidas (atributo) con cada partida creada

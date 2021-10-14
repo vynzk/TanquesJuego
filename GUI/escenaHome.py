@@ -10,7 +10,7 @@ class EscenaHome(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
-        self.guardarPartida()
+       #self.guardarPartida()
         self.boton_play = None
         self.cambiaDePartida()
 
@@ -33,6 +33,6 @@ class EscenaHome(plantillaEscena.Escena):
     def cambiaDePartida(self):
         self.director.cambiarEscena(EscenaRegistro(self.director))
 
-    def guardarPartida(self):
-        juegoEscena2 = EscenaRegistro(self.director)
-        self.director.guardarEscena(juegoEscena2)
+    #def guardarPartida(self):
+    #    juegoEscena2 = EscenaRegistro(self.director)
+    #    self.director.guardarEscena(juegoEscena2)
