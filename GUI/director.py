@@ -39,4 +39,4 @@ class Director:
             return True
     def guardarEscena(self,escena):
         self.listaEscenas.append(escena)
-        print(self.listaEscenas)
+        
