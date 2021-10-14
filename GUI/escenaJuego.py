@@ -340,6 +340,7 @@ class EscenaJuego(plantillaEscena.Escena):
         for jugador in self.partidaActual.jugadoresActivos:
             numAleatorio = random.randint(0, len(listaImagenesTanque) - 1)
             imagenTanqueAleatoria = listaImagenesTanque[numAleatorio]
+            listaImagenesTanque.remove(imagenTanqueAleatoria)
             nuevoTanque = Tanque(self.director.pantalla, imagenTanqueAleatoria)
             jugador.tanque = nuevoTanque
 
