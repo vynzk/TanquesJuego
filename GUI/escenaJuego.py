@@ -64,25 +64,11 @@ class EscenaJuego(plantillaEscena.Escena):
                 self.reiniciarPartida()
             if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
                 self.ventanaArmas()
-
+        pygame.key.set_repeat(10, 20)
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                self.jugadorActual.tanque.velocidad -= 1
-                # print("potencia: ", self.jugadorActual.tanque.potencia, "; left: potencia --") # debug
-            if event.key == pygame.K_RIGHT:
-                self.jugadorActual.tanque.velocidad += 1
-                # print("potencia: ", self.jugadorActual.tanque.potencia, "; right: potencia ++") # debug
-            if event.key == pygame.K_UP:
-                if self.jugadorActual.tanque.angulo + 1 < 180:  # si no verificamos, cualquier angulo fuera de este, el proyectil impacta con el propio tanque
-                    self.jugadorActual.tanque.angulo += 1
-                # print("angulo: ", self.jugadorActual.tanque.angulo, "; up: angulo ++") # debug
-            if event.key == pygame.K_DOWN:
-                if self.jugadorActual.tanque.angulo - 1 > 0:
-                    self.jugadorActual.tanque.angulo -= 1
-                # print("angulo: ", self.jugadorActual.tanque.angulo, "; down: angulo --") # debug
-            if event.key == pygame.K_c:
-                self.jugadorActual.tanque.cambiarProyectil()
+            
             if event.key == pygame.K_SPACE:
+                pygame.key.set_repeat()
                 if self.jugadorActual.tanque.proyectilActual.stock > 0:  # posee balas suficientes
                     self.flag = True
                     print("\n--------------ACCION TURNO-------------------------")
@@ -93,6 +79,26 @@ class EscenaJuego(plantillaEscena.Escena):
                 else:
                     self.mensajeSinBalas()
                     print(f'Tu proyectil actual no tiene suficientes balas')
+            
+            
+            if event.key == pygame.K_LEFT:
+                pygame.key.set_repeat()
+                self.jugadorActual.tanque.velocidad -= 0.5
+                # print("potencia: ", self.jugadorActual.tanque.potencia, "; left: potencia --") # debug
+            if event.key == pygame.K_RIGHT:
+                pygame.key.set_repeat()
+                self.jugadorActual.tanque.velocidad += 0.5
+                # print("potencia: ", self.jugadorActual.tanque.potencia, "; right: potencia ++") # debug
+            if event.key == pygame.K_UP:
+                if self.jugadorActual.tanque.angulo + 1 < 180:  # si no verificamos, cualquier angulo fuera de este, el proyectil impacta con el propio tanque
+                    self.jugadorActual.tanque.angulo += 1
+                # print("angulo: ", self.jugadorActual.tanque.angulo, "; up: angulo ++") # debug
+            if event.key == pygame.K_DOWN:
+                pygame.key.set_repeat(1, 50)
+                if self.jugadorActual.tanque.angulo - 1 > 0:
+                    self.jugadorActual.tanque.angulo -= 1
+                # print("angulo: ", self.jugadorActual.tanque.angulo, "; down: angulo --") # debug
+
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
@@ -103,11 +109,11 @@ class EscenaJuego(plantillaEscena.Escena):
             botonReiniciar=pygame.image.load("GUI/imagenes/botones/botonReiniciar.png")
             botonCambioArmas=pygame.image.load("GUI/imagenes/botones/botonMochila.png")
             
-            self.boton_salir = Boton(pantalla, "salir", 1160, 0,botonSalir)
+            self.boton_salir = Boton(pantalla, "salir", 1160, 0,botonSalir,127,40)
             self.boton_salir.dibujaBoton()
-            self.boton_reiniciar = Boton(pantalla, "restaurar", 1030, 0, botonReiniciar)
+            self.boton_reiniciar = Boton(pantalla, "restaurar", 1030, 0, botonReiniciar,127,40)
             self.boton_reiniciar.dibujaBoton()
-            self.boton_cambioArmas = Boton(pantalla, "Armas", 1150, 660, botonCambioArmas)
+            self.boton_cambioArmas = Boton(pantalla, "Armas", 1150, 660, botonCambioArmas,127,40)
             self.boton_cambioArmas.dibujaBoton()
             # si tiene más de un jugador activo la partida, sigue la partida jugandose
             if len(self.partidaActual.jugadoresActivos) > 1:

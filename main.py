@@ -8,8 +8,6 @@ def main():
     game = Juego(2, 1)  # (cantidadJugadores,cantidadPartidas) #se automatizó para debuguear lo escencial
     director = Director(game)
     home = EscenaHome(director)  
-    
-    prueba= EscenaCambioArma(director) #provisional
 
     director.cambiarEscena(home) #debe ir home
     director.gameLoop()

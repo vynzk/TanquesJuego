@@ -25,7 +25,7 @@ class Tanque:
     def restablecerVelAng(self):
         self.velocidad = 100
         self.angulo = 100
-
+    ''' 
     def cambiarProyectil(self):
         print("\n###### MOCHILA DE ARMAS ####")
         for proyectil in self.listaProyectiles:
@@ -37,3 +37,6 @@ class Tanque:
                     print(f'Tu arma {self.proyectilActual.__class__} se cambiará por {proyectil.__class__}')  # debug
                     self.proyectilActual = proyectil
                     break;
+    '''
+    def cambiarArma(self,numArma):
+         self.proyectilActual = self.listaProyectiles[numArma]
