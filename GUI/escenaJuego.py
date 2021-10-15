@@ -13,13 +13,16 @@ from Tanque.Proyectil60 import Proyectil60
 from Tanque.ProyectilPerforante import ProyectilPerforante
 from Tanque.Tanque import *
 import random
+from GUI.fondos import fondosLista
+
 
 
 class EscenaJuego(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
-        self.fondo = pygame.image.load("GUI/imagenes/fondoDespejado.png")  # se asigna un fondo a la escena juego
+        self.fondo = fondosLista[random.randint(0,len(fondosLista)-1)]
+        self.fondo = pygame.transform.scale(self.fondo, (1280,720) )
         self.partidas = self.director.game.listaPartidas
         # para esta entrega hay solo una partida y 2 jugadores, por tanto:
         # la partida inicial será la primera partida (De momento es la única)
@@ -36,6 +39,9 @@ class EscenaJuego(plantillaEscena.Escena):
         self.boton_salir = None
         self.boton_reiniciar = None
         self.boton_cambioArmas = None
+        
+
+        
 
     def on_update(self):
         pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
@@ -57,9 +63,6 @@ class EscenaJuego(plantillaEscena.Escena):
             if self.director.checaBoton(self.director.mousePos, self.boton_reiniciar):
                 self.reiniciarPartida()
             if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
-                print("funciona boton armas")
-
-                # ---- NUEVO CODIGO ----# #ES PROBABLE QUE FALLEN LOS BOTONES EN ESCENA JUEGO POR LA INTERACCION DE OTROS EVENTOS
                 self.ventanaArmas()
         pygame.key.set_repeat(10, 20)
         if event.type == pygame.KEYDOWN:
@@ -302,7 +305,7 @@ class EscenaJuego(plantillaEscena.Escena):
             angulo = tanque.angulo * 3.1416 / -180
             x = tanque.bloque.x + 20
             y = tanque.bloque.y
-            pygame.draw.line(self.director.pantalla, NEGRO, [x, y],
+            pygame.draw.line(self.director.pantalla, BLANCO, [x, y],
                              [x + 50 * math.cos(angulo), y + 50 * math.sin(angulo)], 5)
 
     def muestreoVidaTanques(self):
@@ -378,3 +381,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
         # se limpian las estadisticas
         self.limpiarTurno()
+        #fondo nuevo
+        self.fondo = fondosLista[random.randint(0,len(fondosLista)-1)]
+        self.fondo = pygame.transform.scale(self.fondo, (1280,720) )
+
