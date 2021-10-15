@@ -1,6 +1,8 @@
 from GUI.bloque import Bloque
 import pygame
 from GUI.colores import *
+from GUI.fondos import bloquesLista
+import random
 
 pygame.init()
 
@@ -16,7 +18,7 @@ class Mapa:
         self.posPosiblesJug = []
         self.bloquePos = []
         self.mapa = mapa
-        self.imagenCemento = "GUI/imagenes/bloque/bloqueTierra2.png"
+        self.imagenCemento = bloquesLista[random.randint(0,len(bloquesLista)-1)]
 
     def dibujarMapa(self, pantalla):
         for bloque in self.listaBloques:
