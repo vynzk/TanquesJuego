@@ -38,7 +38,7 @@ class EscenaRegistro(plantillaEscena.Escena):
     def on_draw(self, pantalla):
         pantalla.blit(self.fondo, (0,0))
         botonRegistrar= pygame.image.load("GUI/imagenes/botones/botonRegistrar.png")
-        self.boton_registrar = Boton(pantalla, "comenzar", 540, 320,botonRegistrar,127,40)
+        self.boton_registrar = Boton(pantalla, "comenzar", 540, 420,botonRegistrar,127,40)
         self.boton_registrar.dibujaBoton()
 
     def cambioEscenaJuego(self):
