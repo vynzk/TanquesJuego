@@ -10,7 +10,7 @@ class EscenaCambioArma(plantillaEscena.Escena):
         plantillaEscena.Escena.__init__(self, director)
         self.botonVolver = None
         self.botonAplicar = None
-        self.botonSeleccionArma= None
+        self.listaPanelArmas= []
         self.jugadorActual = director.listaEscenas[0].jugadorActual #pos 0 siempre debe corresponder a escena juego
         # -- imagenes -- #
         
@@ -27,10 +27,13 @@ class EscenaCambioArma(plantillaEscena.Escena):
         if evento.type == pygame.MOUSEBUTTONDOWN:
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.botonVolver):
-                print("funciona boton de volver")
                 self.vuelveJuego()
             if self.director.checaBoton(self.director.mousePos, self.botonAplicar):
                 print("funciona boton de aplicar")
+            for i in range(len(self.jugadorActual.tanque.listaProyectiles)):
+                if self.director.checaBoton(self.director.mousePos, self.listaPanelArmas[i]):
+                    self.jugadorActual.tanque.cambiarArma(i)
+            
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
@@ -53,12 +56,12 @@ class EscenaCambioArma(plantillaEscena.Escena):
         posPanel=210 #posicion 'y' del panel
         yPanel = 60 #dimension 'y' del panel
         i=0
+
+        #crea los objetos boton del panel y los agrega a la lista de paneles
         while i < len(self.jugadorActual.tanque.listaProyectiles):
-            #dibujar la wea
-            #sumarle los pixeles + 5 a la prox
-            print(i)
-            self.botonSeleccionArma = Boton(pantalla, "seleccon arma", 480,posPanel,panelArma, 300,yPanel)
-            self.botonSeleccionArma.dibujaBoton()
+            panel = Boton(pantalla, "seleccion arma", 480,posPanel,panelArma, 300,yPanel)
+            self.listaPanelArmas.append(panel)
+            self.listaPanelArmas[i].dibujaBoton()
             posPanel+= yPanel + 10
             i += 1
             
