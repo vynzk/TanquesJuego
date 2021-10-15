@@ -28,8 +28,7 @@ class EscenaCambioArma(plantillaEscena.Escena):
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.botonVolver):
                 self.vuelveJuego()
-            if self.director.checaBoton(self.director.mousePos, self.botonAplicar):
-                print("funciona boton de aplicar")
+
             for i in range(len(self.jugadorActual.tanque.listaProyectiles)):
                 if self.director.checaBoton(self.director.mousePos, self.listaPanelArmas[i]):
                     self.jugadorActual.tanque.cambiarArma(i)
@@ -43,14 +42,12 @@ class EscenaCambioArma(plantillaEscena.Escena):
 
         # imagenes -- botones
         volver= pygame.image.load("GUI/imagenes/botones/botonVolver.png")
-        aplicar= pygame.image.load("GUI/imagenes/botones/botonAplicar.png")
+       
         panelArma= pygame.image.load("GUI/imagenes/panelSeleccionArmas.png")
         
         self.botonVolver = Boton(pantalla, "volver", 750,650,volver,127,40)
         self.botonVolver.dibujaBoton()
-        self.botonAplicar = Boton(pantalla, "aplicar", 400,650,aplicar,127,40)
-        self.botonAplicar.dibujaBoton()
-
+        
         
         # esto dibuja los paneles por cada arma en listaArmas
         posPanel=210 #posicion 'y' del panel
