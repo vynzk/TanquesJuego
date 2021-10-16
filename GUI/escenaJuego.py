@@ -238,6 +238,12 @@ class EscenaJuego(plantillaEscena.Escena):
                 return bloque
         return None
 
+    def buscarTanque(self, x, y):
+        for jugador in self.partidaActual.jugadoresActivos:
+            if jugador.tanque.bloque.x==x and jugador.tanque.bloque.y==y:
+                return jugador.tanque.bloque
+        return None
+
     def destruir(self, bloque):
         # si existe dentro de la lista de bloques
         if bloque is not None:
@@ -254,6 +260,9 @@ class EscenaJuego(plantillaEscena.Escena):
                     bloqueQueCae=bloqueSup
                     contador+=40
                 else:
+                    bloqueTanqueSup=self.buscarTanque(bloque.x,bloque.y-contador)
+                    if bloqueTanqueSup is not None:
+                        bloqueTanqueSup.y=bloqueQueCae.y
                     break
 
     def destruirZonaImpacto(self, bloqueImpactado, dañoArma):
