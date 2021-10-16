@@ -65,8 +65,7 @@ class EscenaJuego(plantillaEscena.Escena):
             if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
                 self.ventanaArmas()
         pygame.key.set_repeat(10, 20)
-        if event.type == pygame.KEYDOWN:
-            
+        if event.type == pygame.KEYDOWN and self.flag is False:
             if event.key == pygame.K_SPACE:
                 pygame.key.set_repeat()
                 if self.jugadorActual.tanque.proyectilActual.stock > 0:  # posee balas suficientes
