@@ -70,19 +70,14 @@ class EscenaJuego(plantillaEscena.Escena):
                 pygame.key.set_repeat()
                 if self.jugadorActual.tanque.proyectilActual.stock > 0:  # posee balas suficientes
                     self.flag = True
-                    print("\n--------------ACCION TURNO-------------------------")
-                    print(f'Balas antes del arma actual: {self.jugadorActual.tanque.proyectilActual.stock}')  # debug
-                    print(">>> jugador/a ", self.jugadorActual.nombre, " disparó")
                     self.jugadorActual.tanque.proyectilActual.stock -= 1  # se le resta una bala ya que disparó
-                    print(f'Balas después del arma actual: {self.jugadorActual.tanque.proyectilActual.stock}')  # debug
                 else:
                     self.mensajeSinBalas()
-                    print(f'Tu proyectil actual no tiene suficientes balas')
             
             
             if event.key == pygame.K_LEFT:
                 pygame.key.set_repeat(1,50)
-                if(200>= self.jugadorActual.tanque.velocidad >50):
+                if(200> self.jugadorActual.tanque.velocidad >50):
                     self.jugadorActual.tanque.velocidad -= 1
             if event.key == pygame.K_RIGHT:
                 pygame.key.set_repeat(1,50)
@@ -169,17 +164,14 @@ class EscenaJuego(plantillaEscena.Escena):
             bloqueImpactado = self.colisionTierra(xDisparo, yDisparo)
 
             if jugadorImpactado is not None:  # si impacta con un tanque, se detiene la parabola (bala)
-                print("proyectil: toqué un tanque")  # debug
                 self.jugadorImpactado = jugadorImpactado
                 break
 
             elif self.colisionTierra(xDisparo, yDisparo):
-                print("proyectil: toqué tierra")  # debug
                 self.bloqueImpactado = bloqueImpactado
                 break
 
             elif self.saleLimites(xDisparo, yDisparo):  # si impacta con un borde, se detiene la parabola (bala)
-                print("proyectil: salí rango")  # debug
                 break
 
     def cambiarJugador(self):
@@ -228,12 +220,8 @@ class EscenaJuego(plantillaEscena.Escena):
             if self.jugadorImpactado is not None:
                 dañoEfectuado = self.jugadorActual.tanque.proyectilActual.daño
                 if dañoEfectuado >= self.jugadorImpactado.tanque.vida:
-                    print(
-                        f'<<< el jugador/a {self.jugadorImpactado.nombre} ha sido eliminado por {self.jugadorActual.nombre}')
                     self.partidaActual.eliminarJugador(self.jugadorImpactado)  # elimina al jugador
                 else:
-                    print(
-                        f'<<< el jugador/a {self.jugadorImpactado.nombre} ha sido impactado por {self.jugadorActual.nombre}, le ha quitado {dañoEfectuado} vida')
                     # se le resta la vida del arma del jugador contrario
                     self.jugadorImpactado.tanque.vida -= dañoEfectuado
             if self.bloqueImpactado is not None:
@@ -247,7 +235,7 @@ class EscenaJuego(plantillaEscena.Escena):
     def mensajeTurno(self):
         fuente = pygame.font.SysFont("arial", 30, bold=True)
         text = "TURNO: " + str.upper(self.jugadorActual.nombre)
-        mensaje = fuente.render(text, 1, NEGRO)
+        mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (450, 300))
         pygame.display.update()
         time.sleep(2)
@@ -256,7 +244,7 @@ class EscenaJuego(plantillaEscena.Escena):
         fuente = pygame.font.SysFont("arial", 30, bold=True)
         jugadorGanador = self.partidaActual.jugadorGanador
         text = "FIN DE PARTIDA ; GANADOR: " + str.upper(jugadorGanador.nombre)
-        mensaje = fuente.render(text, 1, NEGRO)
+        mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (450, 300))
         pygame.display.update()
         time.sleep(1)
@@ -264,7 +252,7 @@ class EscenaJuego(plantillaEscena.Escena):
     def mensajeSinBalas(self):
         fuente = pygame.font.SysFont("arial", 30, bold=True)
         text = "NO TIENES BALAS SUFICIENTES, CAMBIA DE ARMA"
-        mensaje = fuente.render(text, 1, NEGRO)
+        mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (450, 300))
         pygame.display.update()
         time.sleep(2)
@@ -273,7 +261,7 @@ class EscenaJuego(plantillaEscena.Escena):
         fuente = pygame.font.SysFont("arial", 30, bold=True)
         jugadorGanador = self.director.game.jugadorGanador
         text = "FIN DEL JUEGO ; GANADOR: " + str.upper(jugadorGanador.nombre)
-        mensaje = fuente.render(text, 1, NEGRO)
+        mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (450, 400))
         pygame.display.update()
         time.sleep(3)
