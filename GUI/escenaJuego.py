@@ -262,7 +262,7 @@ class EscenaJuego(plantillaEscena.Escena):
                 else:
                     bloqueTanqueSup=self.buscarTanque(bloque.x,bloque.y-contador)
                     if bloqueTanqueSup is not None:
-                        bloqueTanqueSup.y=bloqueQueCae.y
+                        bloqueTanqueSup.y=bloque.y-contador+40
                     break
 
     def destruirZonaImpacto(self, bloqueImpactado, dañoArma):
