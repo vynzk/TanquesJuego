@@ -39,6 +39,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.boton_salir = None
         self.boton_reiniciar = None
         self.boton_cambioArmas = None
+        self.imagenExplosion=pygame.image.load("GUI/imagenes/bloque/fondoExplosion.png")
         
 
         
@@ -226,10 +227,53 @@ class EscenaJuego(plantillaEscena.Escena):
                     self.jugadorImpactado.tanque.vida -= dañoEfectuado
             if self.bloqueImpactado is not None:
                 # destruirá el bloque actual y la zona según el daño del proyectil
-                self.partidaActual.mapa.destruirZonaImpacto(self.bloqueImpactado,
-                                                            self.jugadorActual.tanque.proyectilActual.daño)
+                self.destruirZonaImpacto(self.bloqueImpactado,self.jugadorActual.tanque.proyectilActual.daño)
 
         pygame.time.wait(0)
+
+    #----------------------------------_DESTRUCCION DE TIERRA/TANQUE---------------------------------------
+    def buscarBloque(self, x, y):
+        for bloque in self.partidaActual.mapa.listaBloques:
+            if bloque.x == x and bloque.y == y:
+                return bloque
+        return None
+
+    def destruir(self, bloque):
+        # si existe dentro de la lista de bloques
+        if bloque is not None:
+            self.partidaActual.mapa.listaBloques.remove(bloque)
+
+            bloqueQueCae=bloque
+            contador=40
+            while(True):
+                bloqueSup=self.buscarBloque(bloque.x,bloque.y-contador)
+
+                # si el bloque removido tenía un bloque arriba 
+                if bloqueSup is not None:
+                    bloqueSup.y=bloqueQueCae.y
+                    bloqueQueCae=bloqueSup
+                    contador+=40
+                else:
+                    break
+
+    def destruirZonaImpacto(self, bloqueImpactado, dañoArma):
+
+        #-----------------------animacion para el bloque impactado---------------------
+        self.director.pantalla.blit(self.imagenExplosion,(self.bloqueImpactado.x,self.bloqueImpactado.y))
+        pygame.time.wait(50)      
+
+        #------------------------------------------------------------------------------
+        self.destruir(bloqueImpactado)  # todos rompen el bloque de impacto
+        # Proyectil 105
+        if dañoArma == 50:
+            pass
+        # Proyectil 105 o Perforante, comparten romper los bloques de los lados iz y derecho
+        if dañoArma == 40 or dañoArma == 50:
+            bloqueIzquierda = self.buscarBloque(bloqueImpactado.x - 40, bloqueImpactado.y)
+            bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, bloqueImpactado.y)
+            # destrucción de los bloques
+            self.destruir(bloqueIzquierda)
+            self.destruir(bloqueDerecha)
 
     # ----------------------------------METODOS QUE MUESTRAN TEXTO-------------------------------------------------
     def mensajeTurno(self):
