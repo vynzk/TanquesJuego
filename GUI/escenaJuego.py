@@ -131,18 +131,18 @@ class EscenaJuego(plantillaEscena.Escena):
 
     # ------------------------------FUNCIONES QUE REPRESENTAN ACCIONES DENTRO DEL JUEGO-----------------------------
     # Toma las posiciones de la bala y va viendo los posibles escenarios para buscar los valores maximos.
-    def rastreoBala(self, xDisparo, yDisparo):
-        if (self.xMaxDisparo > xDisparo and self.yMaxDisparo > yDisparo):
-            return {self.xMaxDisparo, self.yMaxDisparo}
-        elif (self.xMaxDisparo > xDisparo and self.yMaxDisparo < yDisparo):
-            self.yMaxDisparo = yDisparo
-        elif (self.xMaxDisparo < xDisparo and self.yMaxDisparo > yDisparo):
-            self.xMaxDisparo = xDisparo
-            return {self.xMaxDisparo, self.yMaxDisparo}
-        else:
-            self.xMaxDisparo = xDisparo
-            self.yMaxDisparo = yDisparo
-            return {self.xMaxDisparo, self.yMaxDisparo}
+    def calcularDesplazamientoAltura(self, xDisparo, yDisparo):
+        """
+        Para calcular el desplazamiento, debemos tomar dos puntos dentro del mapa, el cual son la 
+        posicion del tanque donde se efectuo el disparo, como tambien, la posicion en x donde llego este
+        """
+        self.xMaxDisparo=abs(xDisparo-self.jugadorActual.tanque.bloque.x)
+
+        """
+        Para calcular la altura, se tomara dos puntos dentro del mapa, el cual son la posicion
+        del tanque donde se efectuo el disparo, como tambien, la posicion en y donde llego este
+        """
+        self.yMaxDisparo=abs(yDisparo-self.jugadorActual.tanque.bloque.y)
 
     def efectuarDisparo(self):
         delta = 0
@@ -157,8 +157,8 @@ class EscenaJuego(plantillaEscena.Escena):
                     delta * self.jugadorActual.tanque.velocidad * math.sin(
                 self.jugadorActual.tanque.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2))
             delta += 0.1  # si quieres que hayan más puntitos en la parabola, modifica esto
-            self.rastreoBala(xDisparo, yDisparo)
             self.trayectoria.append((xDisparo, yDisparo))
+            self.calcularDesplazamientoAltura(xDisparo,yDisparo)
             # ----------------------------------VERIFICAR SI TOCA BLOQUES-----------------------------------------------
             jugadorImpactado = self.colisionTanque(xDisparo, yDisparo)
             bloqueImpactado = self.colisionTierra(xDisparo, yDisparo)
@@ -298,7 +298,7 @@ class EscenaJuego(plantillaEscena.Escena):
             fuente = pygame.font.SysFont("arial", 15, bold=True)
             # se pasan a int ya que son numeros decimales y luego ello se pasa a str para concatenar en un sólo string
             text = str(f'HP: {jugador.tanque.vida}')
-            mensaje = fuente.render(text, 1, NEGRO)
+            mensaje = fuente.render(text, 1, BLANCO)
             self.director.pantalla.blit(mensaje, (jugador.tanque.x, jugador.tanque.y + 40))
 
     def muestreoProyectilActual(self):
