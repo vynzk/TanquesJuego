@@ -8,7 +8,8 @@ class Proyectil60(Proyectil):
         Proyectil.__init__(self,daño, stock)
         self.imagen=pygame.image.load("GUI/imagenes/armas/proyectil60.png")
         self.color=AMARILLO
-
+        self.redimensionarImagen()
+        self.nombre = 'proyectil 60'
     # implementar en un futuro
     def efectoDestructivo(self):
         pass

@@ -13,13 +13,16 @@ from Tanque.Proyectil60 import Proyectil60
 from Tanque.ProyectilPerforante import ProyectilPerforante
 from Tanque.Tanque import *
 import random
+from GUI.fondos import fondosLista
+
 
 
 class EscenaJuego(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
-        self.fondo = pygame.image.load("GUI/imagenes/fondoDespejado.png")  # se asigna un fondo a la escena juego
+        self.fondo = fondosLista[random.randint(0,len(fondosLista)-1)]
+        self.fondo = pygame.transform.scale(self.fondo, (1280,720) )
         self.partidas = self.director.game.listaPartidas
         # para esta entrega hay solo una partida y 2 jugadores, por tanto:
         # la partida inicial será la primera partida (De momento es la única)
@@ -36,6 +39,9 @@ class EscenaJuego(plantillaEscena.Escena):
         self.boton_salir = None
         self.boton_reiniciar = None
         self.boton_cambioArmas = None
+        
+
+        
 
     def on_update(self):
         pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
@@ -57,29 +63,12 @@ class EscenaJuego(plantillaEscena.Escena):
             if self.director.checaBoton(self.director.mousePos, self.boton_reiniciar):
                 self.reiniciarPartida()
             if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
-                print("funciona boton armas")
-
-                # ---- NUEVO CODIGO ----# #ES PROBABLE QUE FALLEN LOS BOTONES EN ESCENA JUEGO POR LA INTERACCION DE OTROS EVENTOS
                 self.ventanaArmas()
-
+        pygame.key.set_repeat(10, 20)
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                self.jugadorActual.tanque.velocidad -= 1
-                # print("potencia: ", self.jugadorActual.tanque.potencia, "; left: potencia --") # debug
-            if event.key == pygame.K_RIGHT:
-                self.jugadorActual.tanque.velocidad += 1
-                # print("potencia: ", self.jugadorActual.tanque.potencia, "; right: potencia ++") # debug
-            if event.key == pygame.K_UP:
-                if self.jugadorActual.tanque.angulo + 1 < 180:  # si no verificamos, cualquier angulo fuera de este, el proyectil impacta con el propio tanque
-                    self.jugadorActual.tanque.angulo += 1
-                # print("angulo: ", self.jugadorActual.tanque.angulo, "; up: angulo ++") # debug
-            if event.key == pygame.K_DOWN:
-                if self.jugadorActual.tanque.angulo - 1 > 0:
-                    self.jugadorActual.tanque.angulo -= 1
-                # print("angulo: ", self.jugadorActual.tanque.angulo, "; down: angulo --") # debug
-            if event.key == pygame.K_c:
-                self.jugadorActual.tanque.cambiarProyectil()
+            
             if event.key == pygame.K_SPACE:
+                pygame.key.set_repeat()
                 if self.jugadorActual.tanque.proyectilActual.stock > 0:  # posee balas suficientes
                     self.flag = True
                     print("\n--------------ACCION TURNO-------------------------")
@@ -90,16 +79,41 @@ class EscenaJuego(plantillaEscena.Escena):
                 else:
                     self.mensajeSinBalas()
                     print(f'Tu proyectil actual no tiene suficientes balas')
+            
+            
+            if event.key == pygame.K_LEFT:
+                pygame.key.set_repeat()
+                self.jugadorActual.tanque.velocidad -= 0.5
+                # print("potencia: ", self.jugadorActual.tanque.potencia, "; left: potencia --") # debug
+            if event.key == pygame.K_RIGHT:
+                pygame.key.set_repeat()
+                self.jugadorActual.tanque.velocidad += 0.5
+                # print("potencia: ", self.jugadorActual.tanque.potencia, "; right: potencia ++") # debug
+            if event.key == pygame.K_UP:
+                if self.jugadorActual.tanque.angulo + 1 < 180:  # si no verificamos, cualquier angulo fuera de este, el proyectil impacta con el propio tanque
+                    self.jugadorActual.tanque.angulo += 1
+                # print("angulo: ", self.jugadorActual.tanque.angulo, "; up: angulo ++") # debug
+            if event.key == pygame.K_DOWN:
+                pygame.key.set_repeat(1, 50)
+                if self.jugadorActual.tanque.angulo - 1 > 0:
+                    self.jugadorActual.tanque.angulo -= 1
+                # print("angulo: ", self.jugadorActual.tanque.angulo, "; down: angulo --") # debug
+
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
         if self.director.game.juegoTerminado is not True:
-            self.boton_salir = Boton(pantalla, "salir", 1160, 0)
+            # botones -- imagenes
+            botonSalir=pygame.image.load("GUI/imagenes/botones/botonSalir.png")
+            botonReiniciar=pygame.image.load("GUI/imagenes/botones/botonReiniciar.png")
+            botonCambioArmas=pygame.image.load("GUI/imagenes/botones/botonMochila.png")
+            
+            self.boton_salir = Boton(pantalla, "salir", 1160, 0,botonSalir,127,40)
             self.boton_salir.dibujaBoton()
-            self.boton_reiniciar = Boton(pantalla, "restaurar", 1030, 0)
+            self.boton_reiniciar = Boton(pantalla, "restaurar", 1030, 0, botonReiniciar,127,40)
             self.boton_reiniciar.dibujaBoton()
-            self.boton_cambioArmas = Boton(pantalla, "Armas", 1150, 660)
+            self.boton_cambioArmas = Boton(pantalla, "Armas", 1150, 660, botonCambioArmas,127,40)
             self.boton_cambioArmas.dibujaBoton()
             # si tiene más de un jugador activo la partida, sigue la partida jugandose
             if len(self.partidaActual.jugadoresActivos) > 1:
@@ -291,7 +305,7 @@ class EscenaJuego(plantillaEscena.Escena):
             angulo = tanque.angulo * 3.1416 / -180
             x = tanque.bloque.x + 20
             y = tanque.bloque.y
-            pygame.draw.line(self.director.pantalla, NEGRO, [x, y],
+            pygame.draw.line(self.director.pantalla, BLANCO, [x, y],
                              [x + 50 * math.cos(angulo), y + 50 * math.sin(angulo)], 5)
 
     def muestreoVidaTanques(self):
@@ -367,3 +381,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
         # se limpian las estadisticas
         self.limpiarTurno()
+        #fondo nuevo
+        self.fondo = fondosLista[random.randint(0,len(fondosLista)-1)]
+        self.fondo = pygame.transform.scale(self.fondo, (1280,720) )
+
