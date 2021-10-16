@@ -39,7 +39,7 @@ class Partida:
             f'DEBUG: cant jug: {cantidadJug}, cant espacios: {cantEspacios}, cant posibles espacios: {len(self.mapa.posPosiblesJug)}, rango espacios: {espacio}')
         for jugador in self.jugadoresActivos:
             # ---- parametros aleatorios------------------------------
-            numAle = random.randint(contador, contador + espacio)
+            numAle = random.randint(contador, contador + espacio -1)
             ubicacionRandom = self.mapa.posPosiblesJug[numAle]
             colorRandom = random.choice(listaColores)
             listaColores.remove(colorRandom)  # para no repetir el color
