@@ -20,6 +20,7 @@ class EscenaRegistro(plantillaEscena.Escena):
         self.base = pygame.font.Font(None, 32) # es el tamaño de las letras
         self.cuadroTexto = pygame.Rect(530, 520, 140, 32) # lugar donde se dibujará el cuadrado para ingresar los nombres de los jugadores
         self.variable = 0
+        self.constante = 0
 
     def on_update(self):
         pygame.display.set_caption("Registrar jugadores")
@@ -40,6 +41,7 @@ class EscenaRegistro(plantillaEscena.Escena):
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_registrar): 
                 self.registrar()
+                self.eliminarElementosLista()
                 self.cambioEscenaJuego()
                 # print("salta a escena juego") # debug
 
@@ -74,5 +76,9 @@ class EscenaRegistro(plantillaEscena.Escena):
         self.director.guardarEscena(juegoEscena)
         self.director.cambiarEscena(juegoEscena)
 
-    #def registroGiu(self):
-    #    print("uwu")
+    def eliminarElementosLista(self): # se eliminan los elementos de la lista para un futuro uso
+        while self.constante < self.variable:
+            self.listaJugadores.pop()
+            self.constante = self.constante+1
+        self.constante = 0
+        self.variable = 0
