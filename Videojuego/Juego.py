@@ -15,14 +15,14 @@ class Juego:
         self.jugadorGanador = None
         self.juegoTerminado = False
 
-    def agregarJugador(self, i, pantalla, imagenTanqueAleatoria):
-        nombre = str(input("Ingrese su nombre: "))
+    def agregarJugador(self, i, pantalla, imagenTanqueAleatoria, nombre):
+        # ahora el nombre no se define aquí, ya que se le pasa el arreglo que contiene los nombres
         tanque = Tanque(pantalla, imagenTanqueAleatoria)
-        self.listaJugadores.append(Jugador(nombre, tanque))  # << agrega un nuevo Jugador con su nombre y su tanque
+        self.listaJugadores.append(Jugador(nombre[i-1], tanque))  # << agrega un nuevo Jugador con su nombre y su tanque
 
     # función que se encargará de llenar la lista de jugadores, registrará tantos jugadores
     # como lo indique la cantidad de jugadores (que debe tener el constructor de esta clase)
-    def registroJugadores(self, director):
+    def registroJugadores(self, director, nombre):
         listaImagenesTanque = ["GUI/imagenes/bloque/tanqueGris.png", "GUI/imagenes/bloque/tanqueAmarillo.png",
                                "GUI/imagenes/bloque/tanqueCeleste.png", "GUI/imagenes/bloque/tanqueRojo.png",
                                "GUI/imagenes/bloque/tanqueVerde.png"]
@@ -30,7 +30,7 @@ class Juego:
         for i in range(1, self.cantidadJugadores + 1):
             numAleatorio=random.randint(0,len(listaImagenesTanque)-1)
             imagenTanqueAleatoria=listaImagenesTanque[numAleatorio]
-            self.agregarJugador(i, director.pantalla,imagenTanqueAleatoria)
+            self.agregarJugador(i, director.pantalla,imagenTanqueAleatoria, nombre)
             listaImagenesTanque.remove(imagenTanqueAleatoria)
         return True  # termina con exito el registro
 
