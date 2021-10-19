@@ -30,6 +30,7 @@ class Escena:
         self.director.pantalla.blit(mensaje, (posicion[0],posicion[1]))
         # bug
         if deseaPausa is True:
+            pygame.display.update()
             pygame.time.wait(500)
 
     def mostrarImagenEnPos(self,pathImagen,tamaño,posicion):

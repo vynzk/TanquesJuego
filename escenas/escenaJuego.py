@@ -3,6 +3,7 @@
 # from GUI.escenaRegistro import EscenaRegistro
 import pygame
 import math
+import time
 from escenas import plantillaEscena
 from Mapa.listasEscenarios import *
 from utilidades.colores import *
@@ -71,7 +72,7 @@ class EscenaJuego(plantillaEscena.Escena):
                     self.jugadorActual.tanque.proyectilActual.municion -= 1  # se le resta una bala ya que disparó
                 else:
                     # se muestra mensaje que no posee balas
-                    self.textoEnPantalla(f'NO TIENES BALAS SUFICIENTES, CAMBIA DE ARMA',30,BLANCO,(450,300),True)
+                    self.textoEnPantalla(f'NO TIENES BALAS SUFICIENTES, CAMBIA DE ARMA',30,BLANCO,(300,300),True)
 
 
             if event.key == pygame.K_LEFT:
@@ -100,7 +101,9 @@ class EscenaJuego(plantillaEscena.Escena):
                 if self.flag:
                     # si al comenzar un turno, ningun jugador tiene balas, empatan
                     if self.empate() is True:
+                        self.textoEnPantalla("EMPATE POR NO TENER BALAS",30,BLANCO,(400,300),True)
                         print(f'Los jugadores no poseen balas para terminar el juego, EMPATE!')
+                        time.sleep(5)
                         self.director.running=False
                     if self.trayectoria == []:
                         self.efectuarDisparo()
@@ -108,19 +111,21 @@ class EscenaJuego(plantillaEscena.Escena):
                         if self.contador < len(self.trayectoria):
                             self.dibujarBala()
                         else:
+                            self.textoEnPantalla("CAMBIO DE TURNO",30,BLANCO,(500,300),True)
                             self.limpiarTurno()  # se limpian las estadisticas
                             self.cambiarJugador()
             else:
                 self.partidaActual.terminar()
                 # mensaje fin de partida
-                self.textoEnPantalla(f'FIN DE PARTIDA, GANADOR: {self.partidaActual.jugadorGanador.nombre}',30,BLANCO,(450,300),True)
-
+                self.textoEnPantalla(f'FIN DE PARTIDA, GANADOR: {self.partidaActual.jugadorGanador.nombre}',30,BLANCO,(400,200),True)
+                time.sleep(2)
                 self.director.game.definirGanador()  # << invocamos que defina un ganador del juego
                 # Nota: el metodo anterior cambia el estado de juegoTerminado a True, por tanto, rompe el gameLoop
                 # en el director.
         else:
             # mensaje fin juego
-            self.textoEnPantalla(f'FIN DEL JUEGO, GANADOR: {self.director.game.jugadorGanador.nombre})',30,BLANCO,(450,300),True)
+            self.textoEnPantalla(f'FIN DEL JUEGO, GANADOR: {self.director.game.jugadorGanador.nombre}',30,BLANCO,(400,300),True)
+            time.sleep(5)
             self.director.running = False  # rompe el gameloop para terminar el juego
 
     # ------------------------------FUNCIONES QUE REPRESENTAN ACCIONES DENTRO DEL JUEGO-----------------------------
