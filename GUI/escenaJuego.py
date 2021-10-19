@@ -127,6 +127,12 @@ class EscenaJuego(plantillaEscena.Escena):
             # si tiene más de un jugador activo la partida, sigue la partida jugandose
             if len(self.partidaActual.jugadoresActivos) > 1:
                 if self.flag:
+                    # si al comenzar un turno, ningun jugador tiene balas, empatan
+                    if self.empate() is True:
+                        print(f'Los jugadores no poseen balas para terminar el juego, EMPATE!')
+                        self.director.running=False
+
+
                     if self.trayectoria == []:
                         self.efectuarDisparo()
                     else:
@@ -307,7 +313,7 @@ class EscenaJuego(plantillaEscena.Escena):
         mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (450, 300))
         pygame.display.update()
-        time.sleep(2)
+        time.sleep(0.5)
 
     def mensajeFinPartida(self):
         fuente = pygame.font.SysFont("arial", 30, bold=True)
@@ -324,7 +330,7 @@ class EscenaJuego(plantillaEscena.Escena):
         mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (450, 300))
         pygame.display.update()
-        time.sleep(2)
+        time.sleep(0.5)
 
     def mensajeFinJuego(self):
         fuente = pygame.font.SysFont("arial", 30, bold=True)
@@ -333,7 +339,7 @@ class EscenaJuego(plantillaEscena.Escena):
         mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (450, 400))
         pygame.display.update()
-        time.sleep(3)
+        time.sleep(1)
 
     def muestreoTurnoVelocidadAngulo(self):
         fuente = pygame.font.SysFont("arial", 20, bold=True)
@@ -379,10 +385,19 @@ class EscenaJuego(plantillaEscena.Escena):
         mensaje = fuente.render(text, 1, BLANCO)
         self.director.pantalla.blit(mensaje, (15, 680))
 
+
+    #-----------------------------------DEFINIR EMPATE---------------------------------------------------------
+    def empate(self):
+        for jugador in self.partidaActual.jugadoresActivos:
+            proyectilesJug=jugador.tanque.listaProyectiles
+            for proyectil in proyectilesJug:
+                if proyectil.stock>0:
+                    return False
+        return True
+
     # ----------------------------------METODOS BOTONES-----------------------------------------------------------
     def ventanaArmas(self):
         self.director.cambiarEscena(EscenaCambioArma(self.director))
-
     """
     def escenaSeguro(self):
         reiniciarPartida();
