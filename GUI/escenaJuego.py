@@ -14,6 +14,7 @@ from Tanque.ProyectilPerforante import ProyectilPerforante
 from Tanque.Tanque import *
 import random
 from GUI.fondos import fondosLista
+from GUI.escenaAyuda import EscenaAyuda
 
 
 
@@ -39,6 +40,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.boton_salir = None
         self.boton_reiniciar = None
         self.boton_cambioArmas = None
+        self.boton_ayuda = None
         self.imagenExplosion=pygame.image.load("GUI/imagenes/bloque/fondoExplosion.png")
         
 
@@ -47,14 +49,14 @@ class EscenaJuego(plantillaEscena.Escena):
     def on_update(self):
         pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
         self.director.pantalla.blit(self.fondo, (0, 0))
-        self.muestreoTurnoVelocidadAngulo()
+        #self.muestreoTurnoVelocidadAngulo()
         pygame.draw.rect(self.director.pantalla, NEGRO, (0, 600, 1280, 120))  # bloque inferior
         self.partidaActual.mapa.dibujarMapa(self.director.pantalla)
-        self.muestreoRastreoBala()
+        #self.muestreoRastreoBala()
         self.dibujarTanques()
         self.mostrarCañon()
         self.muestreoVidaTanques()
-        self.muestreoProyectilActual()
+        #self.muestreoProyectilActual()
 
     def on_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -65,6 +67,9 @@ class EscenaJuego(plantillaEscena.Escena):
                 self.reiniciarPartida()
             if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
                 self.ventanaArmas()
+            if self.director.checaBoton(self.director.mousePos, self.boton_ayuda):
+                self.ventanaAyuda()
+
         pygame.key.set_repeat(10, 20)
         if event.type == pygame.KEYDOWN and self.flag is False:
             if event.key == pygame.K_SPACE:
@@ -101,13 +106,24 @@ class EscenaJuego(plantillaEscena.Escena):
             botonSalir=pygame.image.load("GUI/imagenes/botones/botonSalir.png")
             botonReiniciar=pygame.image.load("GUI/imagenes/botones/botonReiniciar.png")
             botonCambioArmas=pygame.image.load("GUI/imagenes/botones/botonMochila.png")
+            botonAyuda=pygame.image.load("GUI/imagenes/botones/botonMochila.png")
             
-            self.boton_salir = Boton(pantalla, "salir", 1160, 0,botonSalir,127,40)
+            self.boton_salir = Boton(pantalla, "Salir", 1100, 670 ,botonSalir,127,40)
             self.boton_salir.dibujaBoton()
-            self.boton_reiniciar = Boton(pantalla, "restaurar", 1030, 0, botonReiniciar,127,40)
+            
+            self.boton_reiniciar = Boton(pantalla, "Reiniciar", 1100, 610, botonReiniciar,127,40)
             self.boton_reiniciar.dibujaBoton()
-            self.boton_cambioArmas = Boton(pantalla, "Armas", 1150, 660, botonCambioArmas,127,40)
+            
+            self.boton_cambioArmas = Boton(pantalla, "Armas", 950, 670, botonCambioArmas,127,40)
             self.boton_cambioArmas.dibujaBoton()
+
+            self.boton_ayuda = Boton(pantalla, "Ayuda", 950, 610, botonAyuda,127,40)
+            self.boton_ayuda.dibujaBoton()
+
+            self.muestreoProyectilActual()
+            self.muestreoTurnoVelocidadAngulo()
+            self.muestreoRastreoBala()
+
             # si tiene más de un jugador activo la partida, sigue la partida jugandose
             if len(self.partidaActual.jugadoresActivos) > 1:
                 if self.flag:
@@ -324,7 +340,7 @@ class EscenaJuego(plantillaEscena.Escena):
         text = "Jugador actual: %s ; angulo: %d ° ; velocidad: %d (m/s)" % (
             self.jugadorActual.nombre, self.jugadorActual.tanque.angulo, self.jugadorActual.tanque.velocidad)
         mensaje = fuente.render(text, 1, BLANCO)
-        self.director.pantalla.blit(mensaje, (15, 5))
+        self.director.pantalla.blit(mensaje, (15, 620))
 
     # Define el mensaje a mostrar en pantalla junto a sus caracteristicas.
     def muestreoRastreoBala(self, bold=True):
@@ -334,7 +350,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
         text = f'Estado disparo {self.flag} ; Desplazamiento: {int(self.xMaxDisparo * conversionPxCm)} [cm] ; Altura maxima: {int(self.yMaxDisparo * conversionPxCm)} [cm]'
         mensaje = fuente.render(text, 1, BLANCO)
-        self.director.pantalla.blit(mensaje, (15, 30))
+        self.director.pantalla.blit(mensaje, (15, 650))
 
     # Se muestra el cañon para dar una aproximación del angulo a la hora de efectuar el disparo
     def mostrarCañon(self):
@@ -361,7 +377,7 @@ class EscenaJuego(plantillaEscena.Escena):
         text = "Arma actual: " + str(proyectilJugActual.__class__) + "; balas: " + str(
             proyectilJugActual.stock) + "; daño: " + str(proyectilJugActual.daño)
         mensaje = fuente.render(text, 1, BLANCO)
-        self.director.pantalla.blit(mensaje, (15, 55))
+        self.director.pantalla.blit(mensaje, (15, 680))
 
     # ----------------------------------METODOS BOTONES-----------------------------------------------------------
     def ventanaArmas(self):
@@ -372,6 +388,9 @@ class EscenaJuego(plantillaEscena.Escena):
         reiniciarPartida();
         #self.director.cambiarEscena(EscenaSeguro(self.director,self.partidaActual))
     """
+
+    def ventanaAyuda(self):
+        self.director.cambiarEscena(EscenaAyuda(self.director))
 
     def limpiarTurno(self):
         self.jugadorImpactado = None  # << se limpia

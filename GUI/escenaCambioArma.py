@@ -13,8 +13,7 @@ class EscenaCambioArma(plantillaEscena.Escena):
         self.listaPanelArmas= []
         self.jugadorActual = director.listaEscenas[0].jugadorActual #pos 0 siempre debe corresponder a escena juego
         # -- imagenes -- #
-        
-        self.fondo= pygame.image.load("GUI/imagenes/fondoNublado.png") #por ahora
+        #self.fondo= pygame.image.load("GUI/imagenes/fondoCambioArma.jpg") 
         self.panel= pygame.image.load("GUI/imagenes/panelArmas.png")
         self.redimensionarPanel(500,500)
         #---------------- #
@@ -37,7 +36,7 @@ class EscenaCambioArma(plantillaEscena.Escena):
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
-        pantalla.blit(self.fondo, (0,0))
+        pantalla.blit(self.fondoTransparente, (0,0))
         pantalla.blit(self.panel, (390, 100))
         
         
@@ -47,7 +46,7 @@ class EscenaCambioArma(plantillaEscena.Escena):
        
         panelArma= pygame.image.load("GUI/imagenes/panelSeleccionArmas.png")
         
-        self.botonVolver = Boton(pantalla, "volver", 750,650,volver,127,40)
+        self.botonVolver = Boton(pantalla, "volver", 580,500,volver,127,40)
         self.botonVolver.dibujaBoton()
         
         
