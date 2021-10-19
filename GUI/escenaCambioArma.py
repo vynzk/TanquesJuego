@@ -3,6 +3,7 @@
 import pygame
 from GUI import plantillaEscena
 from GUI.Boton import Boton
+from GUI.colores import *
 
 class EscenaCambioArma(plantillaEscena.Escena):
 
@@ -12,11 +13,8 @@ class EscenaCambioArma(plantillaEscena.Escena):
         self.botonAplicar = None
         self.listaPanelArmas= []
         self.jugadorActual = director.listaEscenas[0].jugadorActual #pos 0 siempre debe corresponder a escena juego
-        # -- imagenes -- #
-        #self.fondo= pygame.image.load("GUI/imagenes/fondoCambioArma.jpg") 
-        self.panel= pygame.image.load("GUI/imagenes/panelArmas.png")
+        self.panel= pygame.image.load("GUI/imagenes/fondoVentana.png")
         self.redimensionarPanel(500,500)
-        #---------------- #
 
     def on_update(self):
         pygame.display.set_caption("Cambio de armas")  # no cambies esto aun... es para debuggueo
@@ -37,7 +35,7 @@ class EscenaCambioArma(plantillaEscena.Escena):
 
     def on_draw(self, pantalla):
         pantalla.blit(self.fondoTransparente, (0,0))
-        pantalla.blit(self.panel, (390, 100))
+        pantalla.blit(self.panel, (390, 80))
         
         
 
@@ -67,8 +65,8 @@ class EscenaCambioArma(plantillaEscena.Escena):
             balaNombre = self.jugadorActual.tanque.listaProyectiles[i].nombre
             
             
-            balaNombreRender = self.textoRender(balaNombre,(108, 123, 161))
-            balasCantidadRender = self.textoRender(balasCantidad,(92, 81, 133))
+            balaNombreRender = self.textoRender(balaNombre,NEGRO)
+            balasCantidadRender = self.textoRender(balasCantidad,NEGRO)
             
             pantalla.blit(balaImagen, (480,posPanel+ 5))
             pantalla.blit(balaNombreRender, (580,posPanel+ 10))
@@ -86,7 +84,7 @@ class EscenaCambioArma(plantillaEscena.Escena):
         self.director.cambiarEscena(juegoActual)
 
     def textoRender(self,frase,color):
-        fuente = pygame.font.Font("GUI/font_pixel.ttf", 10) #fuente de texto
+        fuente = pygame.font.Font("GUI/fs-gravity.ttf", 25) #fuente de texto
     
         texto = fuente.render(frase, 1, color)#utimo parametro es el color... agregar despues a colores del juego
         return texto

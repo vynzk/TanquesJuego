@@ -6,9 +6,7 @@ class EscenaAyuda:
 	def __init__(self,director):
 		plantillaEscena.Escena.__init__(self, director)
 		self.botonVolver = None
-		self.fondo=pygame.image.load("GUI/imagenes/fondoTransparente.png")
-		#self.fondo= pygame.image.load("GUI/imagenes/fondoAyuda.jpg") #por ahora
-		self.panel= pygame.image.load("GUI/imagenes/panelArmas.png")
+		self.panel= pygame.image.load("GUI/imagenes/fondoControles.png")
 		self.redimensionarPanel(500,500)
 
 	def on_update(self):
@@ -23,7 +21,7 @@ class EscenaAyuda:
 
 	def on_draw(self, pantalla):
 		pantalla.blit(self.fondoTransparente, (0,0))
-		pantalla.blit(self.panel, (390, 100))
+		pantalla.blit(self.panel, (390, 80))
 
 
 		# imagenes -- botones
