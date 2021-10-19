@@ -299,23 +299,34 @@ class EscenaJuego(plantillaEscena.Escena):
     def destruir(self, bloque):
         # si existe dentro de la lista de bloques
         if bloque is not None:
-            self.partidaActual.mapa.listaBloques.remove(bloque)
+            self.partidaActual.mapa.listaBloques.remove(bloque) # se remueve el bloque impactado
 
-            bloqueQueCae=bloque
-            contador=40
-            while(True):
-                bloqueSup=self.buscarBloque(bloque.x,bloque.y-contador)
-
-                # si el bloque removido tenía un bloque arriba 
+            listaColumna=[bloque]
+            altura=40
+            # se van añadiendo los bloques a la lista (se buscan bloques hacia arriba del impactado)
+            while True:
+                bloqueSup=self.buscarBloque(bloque.x,bloque.y-altura)
+                # si el bloque de "tierra" existe
                 if bloqueSup is not None:
-                    bloqueSup.y=bloqueQueCae.y
-                    bloqueQueCae=bloqueSup
-                    contador+=40
+                    listaColumna.append(bloqueSup)
+                    altura+=40
                 else:
-                    bloqueTanqueSup=self.buscarTanque(bloque.x,bloque.y-contador)
-                    if bloqueTanqueSup is not None:
-                        bloqueTanqueSup.y=bloque.y-contador+40
                     break
+
+            bloqueTanque=self.buscarTanque(bloque.x,bloque.y-altura)
+            # si arriba del último bloque de tierra existe un tanque
+            if bloqueTanque is not None:
+                listaColumna.append(bloqueTanque)
+
+            """
+            queremos los bloques al reves, de modo que el de más arriba vaya ocupando la posición
+            del que esta abajo, así sucesivamente hasta llegar que el bloque superior al bloque 
+            impactado ocupe su posición
+            """
+            listaColumna.reverse()
+            for i in range(0,len(listaColumna)-1):
+                listaColumna[i].y=listaColumna[i+1].y
+
 
     def destruirZonaImpacto(self, bloqueImpactado,  nombreArma):
         # animación de impacto
