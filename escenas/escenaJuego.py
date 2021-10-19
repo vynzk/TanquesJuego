@@ -37,10 +37,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.boton_reiniciar = None
         self.boton_cambioArmas = None
         self.boton_ayuda = None
-        self.imagenExplosion=pygame.image.load("imagenes/bloque/fondoExplosion.png")
-        
 
-        
 
     def on_update(self):
         pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
@@ -320,20 +317,22 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def destruirZonaImpacto(self, bloqueImpactado,  nombreArma):
         # animación de impacto
-        self.director.pantalla.blit(self.imagenExplosion,(self.bloqueImpactado.x,self.bloqueImpactado.y))
+        self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x,self.bloqueImpactado.y))
         pygame.display.update()
-
         self.destruir(bloqueImpactado)  # todos rompen el bloque de impacto
-        if nombreArma == "Proyectil 105":
-            pass
 
-        if nombreArma == "Proyectil Perforante" or nombreArma=="Proyectil 60":
+        if nombreArma != "Proyectil 60":
+            self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x-40,self.bloqueImpactado.y))
+            self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x+40,self.bloqueImpactado.y))
             bloqueIzquierda = self.buscarBloque(bloqueImpactado.x - 40, bloqueImpactado.y)
             bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, bloqueImpactado.y)
             # destrucción de los bloques
             self.destruir(bloqueIzquierda)
             self.destruir(bloqueDerecha)
 
+        if nombreArma == "Proyectil 105":
+            pass
+            # debe destruir los demás bloques (arriba, abajo, diagonales)
         pygame.time.wait(400) # <-- necesario para que se vean las graficas
 
     #-----------------------------------DEFINIR EMPATE---------------------------------------------------------
@@ -387,6 +386,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.xMaxDisparo = 0
         self.yMaxDisparo = 0
 
+    #----------------------------METODOS AL TERMINAR UNA PARTIDA O CREAR UNA NUEVA-----------------------------
     # cuando se cambia de partida o se crea una nueva, el jugador no puede tener el mismo tanque de la partida
     # anterior, por tanto, deben crearse nuevos
     def asignarNuevosTanques(self):
