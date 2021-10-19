@@ -54,7 +54,7 @@ class EscenaJuego(plantillaEscena.Escena):
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_salir):
-                self.director.running = False;  # rompe el ciclo gameLoop y sale del juego
+                self.director.running = False  # rompe el ciclo gameLoop y sale del juego
             if self.director.checaBoton(self.director.mousePos, self.boton_reiniciar):
                 self.reiniciarPartida()
             if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
@@ -72,8 +72,8 @@ class EscenaJuego(plantillaEscena.Escena):
                 else:
                     # se muestra mensaje que no posee balas
                     self.textoEnPantalla(f'NO TIENES BALAS SUFICIENTES, CAMBIA DE ARMA',30,BLANCO,(450,300),True)
-            
-            
+
+
             if event.key == pygame.K_LEFT:
                 pygame.key.set_repeat(1,50)
                 if(200> self.jugadorActual.tanque.velocidad >50):
@@ -114,7 +114,7 @@ class EscenaJuego(plantillaEscena.Escena):
                 self.partidaActual.terminar()
                 # mensaje fin de partida
                 self.textoEnPantalla(f'FIN DE PARTIDA, GANADOR: {self.partidaActual.jugadorGanador.nombre}',30,BLANCO,(450,300),True)
-                
+
                 self.director.game.definirGanador()  # << invocamos que defina un ganador del juego
                 # Nota: el metodo anterior cambia el estado de juegoTerminado a True, por tanto, rompe el gameLoop
                 # en el director.
@@ -130,15 +130,17 @@ class EscenaJuego(plantillaEscena.Escena):
         conversionCmPx=265 / 10000
         """
         Para calcular el desplazamiento, debemos tomar dos puntos dentro del mapa, el cual son la 
-        posicion del tanque donde se efectuo el disparo, como tambien, la posicion en x donde llego este
+        posicion del tanque donde se efectuo el disparo, como tambien, la posicion en x donde llego este (al final)
         """
         self.xMaxDisparo=int(abs(xDisparo-self.jugadorActual.tanque.bloque.x)*conversionCmPx)
 
         """
         Para calcular la altura, se tomara dos puntos dentro del mapa, el cual son la posicion
-        del tanque donde se efectuo el disparo, como tambien, la posicion en y donde llego este
+        del tanque donde se efectuo el disparo, como tambien, la posicion en y donde viaja el proyectil
         """
-        self.yMaxDisparo=int(abs(yDisparo-self.jugadorActual.tanque.bloque.y)*conversionCmPx)
+        yDisparoConv=int(abs(yDisparo*conversionCmPx))
+        if(yDisparo*conversionCmPx>self.yMaxDisparo):
+            self.yMaxDisparo=yDisparoConv
 
     def efectuarDisparo(self):
         delta = 0
