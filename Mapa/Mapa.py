@@ -1,7 +1,6 @@
-from GUI.bloque import Bloque
+from Mapa.bloque import Bloque
 import pygame
-from GUI.colores import *
-from GUI.fondos import bloquesLista
+from Mapa.listasEscenarios import *
 import random
 
 pygame.init()

@@ -4,7 +4,6 @@ from Videojuego.Partida import *
 from Tanque.Tanque import *
 from Mapa.Mapa import *
 from Mapa.listaMapas import *
-import copy
 
 class Juego:
     def __init__(self, cantidadJugadores, cantidadPartidas):
@@ -23,9 +22,9 @@ class Juego:
     # función que se encargará de llenar la lista de jugadores, registrará tantos jugadores
     # como lo indique la cantidad de jugadores (que debe tener el constructor de esta clase)
     def registroJugadores(self, director):
-        listaImagenesTanque = ["GUI/imagenes/bloque/tanqueGris.png", "GUI/imagenes/bloque/tanqueAmarillo.png",
-                               "GUI/imagenes/bloque/tanqueCeleste.png", "GUI/imagenes/bloque/tanqueRojo.png",
-                               "GUI/imagenes/bloque/tanqueVerde.png"]
+        listaImagenesTanque = ["imagenes/bloque/tanqueGris.png", "imagenes/bloque/tanqueAmarillo.png",
+                               "imagenes/bloque/tanqueCeleste.png", "imagenes/bloque/tanqueRojo.png",
+                               "imagenes/bloque/tanqueVerde.png"]
         print("\n### REGISTRO DE JUGADORES ###")
         for i in range(1, self.cantidadJugadores + 1):
             numAleatorio=random.randint(0,len(listaImagenesTanque)-1)

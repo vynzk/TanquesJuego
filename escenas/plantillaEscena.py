@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 import pygame
+import time
 
 class Escena:
     """Clase abstracta para construir las escenas del video juego"""
@@ -22,3 +23,15 @@ class Escena:
     def on_draw(self, screen):
         "Se llama cuando se quiere dibujar la pantalla."
         raise NotImplemented("Tiene que implementar el método on_draw.")
+
+    def textoEnPantalla(self,texto,tamañoLetra,color,posicion,deseaPausa):
+        fuente= pygame.font.SysFont("arial",tamañoLetra,bold=True)
+        mensaje= fuente.render(texto,1,color)
+        self.director.pantalla.blit(mensaje, (posicion[0],posicion[1]))
+        # bug
+        if deseaPausa is True:
+            pygame.time.wait(500)
+
+    def mostrarImagenEnPos(self,pathImagen,tamaño,posicion):
+        imagen= pygame.transform.scale(pygame.image.load(pathImagen), (tamaño[0],tamaño[1]))
+        self.director.pantalla.blit(imagen,(posicion[0],posicion[1]))

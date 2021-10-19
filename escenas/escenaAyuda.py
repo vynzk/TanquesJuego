@@ -1,12 +1,12 @@
 import pygame
-from GUI import plantillaEscena
-from GUI.Boton import Boton
+from escenas import plantillaEscena
+from utilidades.Boton import Boton
 
 class EscenaAyuda:
 	def __init__(self,director):
 		plantillaEscena.Escena.__init__(self, director)
 		self.botonVolver = None
-		self.panel= pygame.image.load("GUI/imagenes/fondoControles.png")
+		self.panel= pygame.image.load("imagenes/fondoControles.png")
 		self.redimensionarPanel(500,500)
 
 	def on_update(self):
@@ -25,8 +25,8 @@ class EscenaAyuda:
 
 
 		# imagenes -- botones
-		volver= pygame.image.load("GUI/imagenes/botones/botonVolver.png")
-		panelArma= pygame.image.load("GUI/imagenes/panelSeleccionArmas.png")
+		volver= pygame.image.load("imagenes/botones/botonVolver.png")
+		panelArma= pygame.image.load("imagenes/panelSeleccionArmas.png")
 
 		self.botonVolver = Boton(pantalla, "volver", 580,500,volver,127,40)
 		self.botonVolver.dibujaBoton()

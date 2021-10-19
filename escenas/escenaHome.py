@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from GUI.escenaRegistro import EscenaRegistro
+from escenas.escenaRegistro import EscenaRegistro
 import pygame
-from GUI import plantillaEscena
-from GUI.Boton import Boton
+from escenas import plantillaEscena
+from utilidades.Boton import Boton
 
 
 class EscenaHome(plantillaEscena.Escena):
@@ -12,7 +12,7 @@ class EscenaHome(plantillaEscena.Escena):
         plantillaEscena.Escena.__init__(self, director)
        #self.guardarPartida()
         self.boton_play = None
-        self.fondo= pygame.image.load("GUI/imagenes/fondoHome.png")
+        self.fondo= pygame.image.load("imagenes/fondoHome.png")
         self.cambiaDePartida()
 
     def on_update(self):
@@ -29,7 +29,7 @@ class EscenaHome(plantillaEscena.Escena):
 
     def on_draw(self, pantalla):
         pantalla.blit(self.fondo, (0,0))
-        botonJugar= pygame.image.load("GUI/imagenes/botones/botonJugar.png")
+        botonJugar= pygame.image.load("imagenes/botones/botonJugar.png")
         self.boton_play = Boton(pantalla, "play", 540, 420,botonJugar,127,40)
         self.boton_play.dibujaBoton()
 

@@ -1,13 +1,13 @@
 import pygame
 
 class Proyectil:
-    def __init__(self, daño, stock):
+    def __init__(self, nombre, municion, daño, pathImagen, color):
+        self.nombre= nombre
+        self.municion = municion
         self.daño = daño
-        self.stock = stock
-        self.imagen = pygame.image.load("GUI/imagenes/armas/bomb.png")
-        self.nombre = 'default'
+        self.imagen = pathImagen
+        self.color=color
+        self.redimensionarImagen()
 
-    def efectoDestructivo(self):
-        pass
     def redimensionarImagen(self):
-        self.imagen= pygame.transform.scale(self.imagen, (50,50) )
+        self.imagen= pygame.transform.scale(pygame.image.load(self.imagen), (50,50))

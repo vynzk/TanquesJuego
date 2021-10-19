@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 import pygame
-from GUI.escenaCambioArma import EscenaCambioArma
+
+
 class Director:
     """El director se encarga de iniciar el juego,
         cambiar las escenas y recoger e interpretar los eventos de estas."""

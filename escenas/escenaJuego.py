@@ -3,18 +3,14 @@
 # from GUI.escenaRegistro import EscenaRegistro
 import pygame
 import math
-from GUI import plantillaEscena
-import time
-from GUI.colores import *
-from GUI.Boton import Boton
-from GUI.escenaCambioArma import EscenaCambioArma
-from Tanque.Proyectil105 import Proyectil105
-from Tanque.Proyectil60 import Proyectil60
-from Tanque.ProyectilPerforante import ProyectilPerforante
+from escenas import plantillaEscena
+from Mapa.listasEscenarios import *
+from utilidades.colores import *
+from utilidades.Boton import Boton
+from escenas.escenaCambioArma import EscenaCambioArma
 from Tanque.Tanque import *
 import random
-from GUI.fondos import fondosLista
-from GUI.escenaAyuda import EscenaAyuda
+from escenas.escenaAyuda import EscenaAyuda
 
 
 
@@ -41,7 +37,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.boton_reiniciar = None
         self.boton_cambioArmas = None
         self.boton_ayuda = None
-        self.imagenExplosion=pygame.image.load("GUI/imagenes/bloque/fondoExplosion.png")
+        self.imagenExplosion=pygame.image.load("imagenes/bloque/fondoExplosion.png")
         
 
         
@@ -49,14 +45,13 @@ class EscenaJuego(plantillaEscena.Escena):
     def on_update(self):
         pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
         self.director.pantalla.blit(self.fondo, (0, 0))
-        #self.muestreoTurnoVelocidadAngulo()
-        pygame.draw.rect(self.director.pantalla, NEGRO, (0, 600, 1280, 120))  # bloque inferior
+        pygame.draw.rect(self.director.pantalla, NEGRO, (0, 600, 1280, 120))  # barra inferior inferior
         self.partidaActual.mapa.dibujarMapa(self.director.pantalla)
-        #self.muestreoRastreoBala()
         self.dibujarTanques()
         self.mostrarCañon()
         self.muestreoVidaTanques()
-        #self.muestreoProyectilActual()
+
+
 
     def on_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -66,19 +61,20 @@ class EscenaJuego(plantillaEscena.Escena):
             if self.director.checaBoton(self.director.mousePos, self.boton_reiniciar):
                 self.reiniciarPartida()
             if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
-                self.ventanaArmas()
+                self.cambiarEscenaArmas()
             if self.director.checaBoton(self.director.mousePos, self.boton_ayuda):
-                self.ventanaAyuda()
+                self.cambiarEscenaAyuda()
 
         pygame.key.set_repeat(10, 20)
         if event.type == pygame.KEYDOWN and self.flag is False:
             if event.key == pygame.K_SPACE:
                 pygame.key.set_repeat()
-                if self.jugadorActual.tanque.proyectilActual.stock > 0:  # posee balas suficientes
+                if self.jugadorActual.tanque.proyectilActual.municion > 0:  # posee balas suficientes
                     self.flag = True
-                    self.jugadorActual.tanque.proyectilActual.stock -= 1  # se le resta una bala ya que disparó
+                    self.jugadorActual.tanque.proyectilActual.municion -= 1  # se le resta una bala ya que disparó
                 else:
-                    self.mensajeSinBalas()
+                    # se muestra mensaje que no posee balas
+                    self.textoEnPantalla(f'NO TIENES BALAS SUFICIENTES, CAMBIA DE ARMA',30,BLANCO,(450,300),True)
             
             
             if event.key == pygame.K_LEFT:
@@ -99,40 +95,16 @@ class EscenaJuego(plantillaEscena.Escena):
 
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
-
     def on_draw(self, pantalla):
         if self.director.game.juegoTerminado is not True:
-            # botones -- imagenes
-            botonSalir=pygame.image.load("GUI/imagenes/botones/botonSalir.png")
-            botonReiniciar=pygame.image.load("GUI/imagenes/botones/botonReiniciar.png")
-            botonCambioArmas=pygame.image.load("GUI/imagenes/botones/botonMochila.png")
-            botonAyuda=pygame.image.load("GUI/imagenes/botones/botonMochila.png")
-            
-            self.boton_salir = Boton(pantalla, "Salir", 1100, 670 ,botonSalir,127,40)
-            self.boton_salir.dibujaBoton()
-            
-            self.boton_reiniciar = Boton(pantalla, "Reiniciar", 1100, 610, botonReiniciar,127,40)
-            self.boton_reiniciar.dibujaBoton()
-            
-            self.boton_cambioArmas = Boton(pantalla, "Armas", 950, 670, botonCambioArmas,127,40)
-            self.boton_cambioArmas.dibujaBoton()
-
-            self.boton_ayuda = Boton(pantalla, "Ayuda", 950, 610, botonAyuda,127,40)
-            self.boton_ayuda.dibujaBoton()
-
-            self.muestreoProyectilActual()
-            self.muestreoTurnoVelocidadAngulo()
-            self.muestreoRastreoBala()
-
             # si tiene más de un jugador activo la partida, sigue la partida jugandose
             if len(self.partidaActual.jugadoresActivos) > 1:
+                self.contenidoBarraInferior()
                 if self.flag:
                     # si al comenzar un turno, ningun jugador tiene balas, empatan
                     if self.empate() is True:
                         print(f'Los jugadores no poseen balas para terminar el juego, EMPATE!')
                         self.director.running=False
-
-
                     if self.trayectoria == []:
                         self.efectuarDisparo()
                     else:
@@ -141,31 +113,35 @@ class EscenaJuego(plantillaEscena.Escena):
                         else:
                             self.limpiarTurno()  # se limpian las estadisticas
                             self.cambiarJugador()
-                            self.mensajeTurno()
             else:
                 self.partidaActual.terminar()
-                self.mensajeFinPartida()  # como es una partida de momento, si gana la partida gana el juego
+                # mensaje fin de partida
+                self.textoEnPantalla(f'FIN DE PARTIDA, GANADOR: {self.partidaActual.jugadorGanador.nombre}',30,BLANCO,(450,300),True)
+                
                 self.director.game.definirGanador()  # << invocamos que defina un ganador del juego
                 # Nota: el metodo anterior cambia el estado de juegoTerminado a True, por tanto, rompe el gameLoop
                 # en el director.
         else:
-            self.mensajeFinJuego()
+            # mensaje fin juego
+            self.textoEnPantalla(f'FIN DEL JUEGO, GANADOR: {self.director.game.jugadorGanador.nombre})',30,BLANCO,(450,300),True)
             self.director.running = False  # rompe el gameloop para terminar el juego
 
     # ------------------------------FUNCIONES QUE REPRESENTAN ACCIONES DENTRO DEL JUEGO-----------------------------
+
     # Toma las posiciones de la bala y va viendo los posibles escenarios para buscar los valores maximos.
     def calcularDesplazamientoAltura(self, xDisparo, yDisparo):
+        conversionCmPx=265 / 10000
         """
         Para calcular el desplazamiento, debemos tomar dos puntos dentro del mapa, el cual son la 
         posicion del tanque donde se efectuo el disparo, como tambien, la posicion en x donde llego este
         """
-        self.xMaxDisparo=abs(xDisparo-self.jugadorActual.tanque.bloque.x)
+        self.xMaxDisparo=int(abs(xDisparo-self.jugadorActual.tanque.bloque.x)*conversionCmPx)
 
         """
         Para calcular la altura, se tomara dos puntos dentro del mapa, el cual son la posicion
         del tanque donde se efectuo el disparo, como tambien, la posicion en y donde llego este
         """
-        self.yMaxDisparo=abs(yDisparo-self.jugadorActual.tanque.bloque.y)
+        self.yMaxDisparo=int(abs(yDisparo-self.jugadorActual.tanque.bloque.y)*conversionCmPx)
 
     def efectuarDisparo(self):
         delta = 0
@@ -194,7 +170,7 @@ class EscenaJuego(plantillaEscena.Escena):
                 self.bloqueImpactado = bloqueImpactado
                 break
 
-            elif self.saleLimites(xDisparo, yDisparo):  # si impacta con un borde, se detiene la parabola (bala)
+            elif self.tocaBordes(xDisparo, yDisparo):  # si impacta con un borde, se detiene la parabola (bala)
                 break
 
     def cambiarJugador(self):
@@ -214,7 +190,7 @@ class EscenaJuego(plantillaEscena.Escena):
         return None
 
     # verifica si un borde del mapa fue impactado, si lo fue retorna true, en caso contrario false
-    def saleLimites(self, xDisparo, yDisparo):
+    def tocaBordes(self, xDisparo, yDisparo):
         if xDisparo >= 1280 or yDisparo >= 600 or xDisparo <= 0 or yDisparo <= 0:
             return True  # sale del rango
         return False  # dentro del rango
@@ -249,11 +225,66 @@ class EscenaJuego(plantillaEscena.Escena):
                     self.jugadorImpactado.tanque.vida -= dañoEfectuado
             if self.bloqueImpactado is not None:
                 # destruirá el bloque actual y la zona según el daño del proyectil
-                self.destruirZonaImpacto(self.bloqueImpactado,self.jugadorActual.tanque.proyectilActual.daño)
+                self.destruirZonaImpacto(self.bloqueImpactado,self.jugadorActual.tanque.proyectilActual.nombre)
 
         pygame.time.wait(0)
 
-    #----------------------------------_DESTRUCCION DE TIERRA/TANQUE---------------------------------------
+    # Se muestra el cañon para dar una aproximación del angulo a la hora de efectuar el disparo
+    def mostrarCañon(self):
+        for jugador in self.partidaActual.jugadoresActivos:
+            tanque = jugador.tanque
+            angulo = tanque.angulo * 3.1416 / -180
+            x = tanque.bloque.x + 20
+            y = tanque.bloque.y
+            pygame.draw.line(self.director.pantalla, BLANCO, [x, y],
+                             [x + 50 * math.cos(angulo), y + 50 * math.sin(angulo)], 5)
+
+    def muestreoVidaTanques(self):
+        for jugador in self.partidaActual.jugadoresActivos:
+            fuente = pygame.font.SysFont("arial", 15, bold=True)
+            # se pasan a int ya que son numeros decimales y luego ello se pasa a str para concatenar en un sólo string
+            text = str(f'HP: {jugador.tanque.vida}')
+            mensaje = fuente.render(text, 1, BLANCO)
+            self.director.pantalla.blit(mensaje, (jugador.tanque.x, jugador.tanque.y + 40))
+
+    def contenidoBarraInferior(self):
+        # Información
+        self.textoEnPantalla(f'INFORMACIÓN TURNO ACTUAL',25,BLANCO,(20,610),False)
+        self.textoEnPantalla(f'Angulo: {self.jugadorActual.tanque.angulo}°',20,BLANCO,(500,610),False)
+        self.textoEnPantalla(f'Velocidad: {self.jugadorActual.tanque.velocidad} [cm/s]',20,BLANCO,(650,610),False)
+
+        self.mostrarImagenEnPos(self.jugadorActual.tanque.imagen,(50,50),(20,660))
+        self.textoEnPantalla(f'Nombre jugador: {self.jugadorActual.nombre}',20,BLANCO,(80,660),False)
+        self.textoEnPantalla(f'Vida tanque: {self.jugadorActual.tanque.vida}',20,BLANCO,(80,690),False)
+
+        #self.mostrarImagenEnPos(self.jugadorActual.tanque.proyectilActual.imagen,(50,50),(20,660))
+        self.textoEnPantalla(f'Arma equipada: {self.jugadorActual.tanque.proyectilActual.nombre}',20,BLANCO,
+                             (300,660),False)
+        self.textoEnPantalla(f'Munición: {self.jugadorActual.tanque.proyectilActual.municion},'
+                             f' Daño: {self.jugadorActual.tanque.proyectilActual.daño}',20,BLANCO,(300,690),False)
+
+        self.textoEnPantalla(f'Desplazamiento máxima: {self.xMaxDisparo} [cm]',20,BLANCO,(600,660),False)
+        self.textoEnPantalla(f'Altura máxima máxima: {self.yMaxDisparo} [cm]',20,BLANCO,(600,690),False)
+
+        # Botones
+        botonSalir=pygame.image.load("imagenes/botones/botonSalir.png")
+        botonReiniciar=pygame.image.load("imagenes/botones/botonReiniciar.png")
+        botonCambioArmas=pygame.image.load("imagenes/botones/botonMochila.png")
+        botonAyuda=pygame.image.load("imagenes/botones/botonMochila.png")
+
+        self.boton_salir = Boton(self.director.pantalla, "Salir", 1100, 670 ,botonSalir,127,40)
+        self.boton_salir.dibujaBoton()
+
+        self.boton_reiniciar = Boton(self.director.pantalla, "Reiniciar", 1100, 610, botonReiniciar,127,40)
+        self.boton_reiniciar.dibujaBoton()
+
+        self.boton_cambioArmas = Boton(self.director.pantalla, "Armas", 950, 670, botonCambioArmas,127,40)
+        self.boton_cambioArmas.dibujaBoton()
+
+        self.boton_ayuda = Boton(self.director.pantalla, "Ayuda", 950, 610, botonAyuda,127,40)
+        self.boton_ayuda.dibujaBoton()
+
+    #----------------------------------_DESTRUCCION DE TIERRA ---------------------------------------
     def buscarBloque(self, x, y):
         for bloque in self.partidaActual.mapa.listaBloques:
             if bloque.x == x and bloque.y == y:
@@ -287,150 +318,39 @@ class EscenaJuego(plantillaEscena.Escena):
                         bloqueTanqueSup.y=bloque.y-contador+40
                     break
 
-    def destruirZonaImpacto(self, bloqueImpactado, dañoArma):
-
-        #-----------------------animacion para el bloque impactado---------------------
+    def destruirZonaImpacto(self, bloqueImpactado,  nombreArma):
+        # animación de impacto
         self.director.pantalla.blit(self.imagenExplosion,(self.bloqueImpactado.x,self.bloqueImpactado.y))
-        pygame.time.wait(50)      
+        pygame.display.update()
 
-        #------------------------------------------------------------------------------
         self.destruir(bloqueImpactado)  # todos rompen el bloque de impacto
-        # Proyectil 105
-        if dañoArma == 50:
+        if nombreArma == "Proyectil 105":
             pass
-        # Proyectil 105 o Perforante, comparten romper los bloques de los lados iz y derecho
-        if dañoArma == 40 or dañoArma == 50:
+
+        if nombreArma == "Proyectil Perforante" or nombreArma=="Proyectil 60":
             bloqueIzquierda = self.buscarBloque(bloqueImpactado.x - 40, bloqueImpactado.y)
             bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, bloqueImpactado.y)
             # destrucción de los bloques
             self.destruir(bloqueIzquierda)
             self.destruir(bloqueDerecha)
 
-    # ----------------------------------METODOS QUE MUESTRAN TEXTO-------------------------------------------------
-    def mensajeTurno(self):
-        fuente = pygame.font.SysFont("arial", 30, bold=True)
-        text = "TURNO: " + str.upper(self.jugadorActual.nombre)
-        mensaje = fuente.render(text, 1, BLANCO)
-        self.director.pantalla.blit(mensaje, (450, 300))
-        pygame.display.update()
-        time.sleep(0.5)
-
-    def mensajeFinPartida(self):
-        fuente = pygame.font.SysFont("arial", 30, bold=True)
-        jugadorGanador = self.partidaActual.jugadorGanador
-        text = "FIN DE PARTIDA ; GANADOR: " + str.upper(jugadorGanador.nombre)
-        mensaje = fuente.render(text, 1, BLANCO)
-        self.director.pantalla.blit(mensaje, (450, 300))
-        pygame.display.update()
-        time.sleep(1)
-
-    def mensajeSinBalas(self):
-        fuente = pygame.font.SysFont("arial", 30, bold=True)
-        text = "NO TIENES BALAS SUFICIENTES, CAMBIA DE ARMA"
-        mensaje = fuente.render(text, 1, BLANCO)
-        self.director.pantalla.blit(mensaje, (450, 300))
-        pygame.display.update()
-        time.sleep(0.5)
-
-    def mensajeFinJuego(self):
-        fuente = pygame.font.SysFont("arial", 30, bold=True)
-        jugadorGanador = self.director.game.jugadorGanador
-        text = "FIN DEL JUEGO ; GANADOR: " + str.upper(jugadorGanador.nombre)
-        mensaje = fuente.render(text, 1, BLANCO)
-        self.director.pantalla.blit(mensaje, (450, 400))
-        pygame.display.update()
-        time.sleep(1)
-
-    def muestreoTurnoVelocidadAngulo(self):
-        fuente = pygame.font.SysFont("arial", 20, bold=True)
-        text = "Jugador actual: %s ; angulo: %d ° ; velocidad: %d (m/s)" % (
-            self.jugadorActual.nombre, self.jugadorActual.tanque.angulo, self.jugadorActual.tanque.velocidad)
-        mensaje = fuente.render(text, 1, BLANCO)
-        self.director.pantalla.blit(mensaje, (15, 620))
-
-    # Define el mensaje a mostrar en pantalla junto a sus caracteristicas.
-    def muestreoRastreoBala(self, bold=True):
-        fuente = pygame.font.SysFont("arial", 20, bold=True)
-
-        conversionPxCm = 265 / 10000  # Conversion de pixel a cm ;1 px --> 0,0265 cm
-
-        text = f'Estado disparo {self.flag} ; Desplazamiento: {int(self.xMaxDisparo * conversionPxCm)} [cm] ; Altura maxima: {int(self.yMaxDisparo * conversionPxCm)} [cm]'
-        mensaje = fuente.render(text, 1, BLANCO)
-        self.director.pantalla.blit(mensaje, (15, 650))
-
-    # Se muestra el cañon para dar una aproximación del angulo a la hora de efectuar el disparo
-    def mostrarCañon(self):
-        for jugador in self.partidaActual.jugadoresActivos:
-            tanque = jugador.tanque
-            angulo = tanque.angulo * 3.1416 / -180
-            x = tanque.bloque.x + 20
-            y = tanque.bloque.y
-            pygame.draw.line(self.director.pantalla, BLANCO, [x, y],
-                             [x + 50 * math.cos(angulo), y + 50 * math.sin(angulo)], 5)
-
-    def muestreoVidaTanques(self):
-        for jugador in self.partidaActual.jugadoresActivos:
-            fuente = pygame.font.SysFont("arial", 15, bold=True)
-            # se pasan a int ya que son numeros decimales y luego ello se pasa a str para concatenar en un sólo string
-            text = str(f'HP: {jugador.tanque.vida}')
-            mensaje = fuente.render(text, 1, BLANCO)
-            self.director.pantalla.blit(mensaje, (jugador.tanque.x, jugador.tanque.y + 40))
-
-    def muestreoProyectilActual(self):
-        fuente = pygame.font.SysFont("arial", 20, True)
-        # se pasan a int ya que son numeros decimales y luego ello se pasa a str para concatenar en un sólo string
-        proyectilJugActual = self.jugadorActual.tanque.proyectilActual
-        text = "Arma actual: " + str(proyectilJugActual.__class__) + "; balas: " + str(
-            proyectilJugActual.stock) + "; daño: " + str(proyectilJugActual.daño)
-        mensaje = fuente.render(text, 1, BLANCO)
-        self.director.pantalla.blit(mensaje, (15, 680))
-
+        pygame.time.wait(400) # <-- necesario para que se vean las graficas
 
     #-----------------------------------DEFINIR EMPATE---------------------------------------------------------
     def empate(self):
         for jugador in self.partidaActual.jugadoresActivos:
             proyectilesJug=jugador.tanque.listaProyectiles
             for proyectil in proyectilesJug:
-                if proyectil.stock>0:
+                if proyectil.municion>0:
                     return False
         return True
 
-    # ----------------------------------METODOS BOTONES-----------------------------------------------------------
-    def ventanaArmas(self):
+    # ----------------------------------METODOS ACCIONADOS POR BOTONES-------------------------------------------
+    def cambiarEscenaArmas(self):
         self.director.cambiarEscena(EscenaCambioArma(self.director))
-    """
-    def escenaSeguro(self):
-        reiniciarPartida();
-        #self.director.cambiarEscena(EscenaSeguro(self.director,self.partidaActual))
-    """
 
-    def ventanaAyuda(self):
+    def cambiarEscenaAyuda(self):
         self.director.cambiarEscena(EscenaAyuda(self.director))
-
-    def limpiarTurno(self):
-        self.jugadorImpactado = None  # << se limpia
-        self.bloqueImpactado = None
-        self.contador = 0  # << el contador debe estar limpio para un nuevo jugador
-        self.trayectoria = []  # << la trayectoria debe estar limpio para un nuevo jugador
-        self.flag = False  # << debe apretar enter nuevamente el jugador para disparar
-        self.xMaxDisparo = 0
-        self.yMaxDisparo = 0
-
-    # cuando se cambia de partida o se crea una nueva, el jugador no puede tener el mismo tanque de la partida
-    # anterior, por tanto, deben crearse nuevos
-    def asignarNuevosTanques(self):
-        listaImagenesTanque = ["GUI/imagenes/bloque/tanqueGris.png", "GUI/imagenes/bloque/tanqueAmarillo.png",
-                               "GUI/imagenes/bloque/tanqueCeleste.png", "GUI/imagenes/bloque/tanqueRojo.png",
-                               "GUI/imagenes/bloque/tanqueVerde.png"]
-
-        for jugador in self.partidaActual.jugadoresActivos:
-            numAleatorio = random.randint(0, len(listaImagenesTanque) - 1)
-            imagenTanqueAleatoria = listaImagenesTanque[numAleatorio]
-            listaImagenesTanque.remove(imagenTanqueAleatoria)
-            nuevoTanque = Tanque(self.director.pantalla, imagenTanqueAleatoria)
-            jugador.tanque = nuevoTanque
-
-            # cuando se presiona el boton de reiniciar, se debe crear una nueva partida que remplace la partida actual
 
     def reiniciarPartida(self):
         # creo la nueva partida
@@ -456,4 +376,29 @@ class EscenaJuego(plantillaEscena.Escena):
         #fondo nuevo
         self.fondo = fondosLista[random.randint(0,len(fondosLista)-1)]
         self.fondo = pygame.transform.scale(self.fondo, (1280,720) )
+
+    #----------------------------------METODOS AL CAMBIAR DE TURNO------------------------------------------------
+    def limpiarTurno(self):
+        self.jugadorImpactado = None  # << se limpia
+        self.bloqueImpactado = None
+        self.contador = 0  # << el contador debe estar limpio para un nuevo jugador
+        self.trayectoria = []  # << la trayectoria debe estar limpio para un nuevo jugador
+        self.flag = False  # << debe apretar enter nuevamente el jugador para disparar
+        self.xMaxDisparo = 0
+        self.yMaxDisparo = 0
+
+    # cuando se cambia de partida o se crea una nueva, el jugador no puede tener el mismo tanque de la partida
+    # anterior, por tanto, deben crearse nuevos
+    def asignarNuevosTanques(self):
+        listaImagenesTanque = ["imagenes/bloque/tanqueGris.png", "imagenes/bloque/tanqueAmarillo.png",
+                               "imagenes/bloque/tanqueCeleste.png", "imagenes/bloque/tanqueRojo.png",
+                               "imagenes/bloque/tanqueVerde.png"]
+
+        for jugador in self.partidaActual.jugadoresActivos:
+            numAleatorio = random.randint(0, len(listaImagenesTanque) - 1)
+            imagenTanqueAleatoria = listaImagenesTanque[numAleatorio]
+            listaImagenesTanque.remove(imagenTanqueAleatoria)
+            nuevoTanque = Tanque(self.director.pantalla, imagenTanqueAleatoria)
+            jugador.tanque = nuevoTanque
+
 

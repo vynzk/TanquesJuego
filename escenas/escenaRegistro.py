@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import pygame
-from GUI import plantillaEscena
-from GUI.Boton import Boton
-from GUI.escenaJuego import EscenaJuego
+from escenas import plantillaEscena
+from utilidades.Boton import Boton
+from escenas.escenaJuego import EscenaJuego
 
 
 class EscenaRegistro(plantillaEscena.Escena):
@@ -11,7 +11,7 @@ class EscenaRegistro(plantillaEscena.Escena):
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
         self.boton_registrar = None  # botón para cambiar a escenaJuego en la versión final
-        self.fondo= pygame.image.load("GUI/imagenes/fondoRegistro.png")
+        self.fondo= pygame.image.load("imagenes/fondoRegistro.png")
 
     def on_update(self):
         pygame.display.set_caption("Registrar jugadores")
@@ -37,7 +37,7 @@ class EscenaRegistro(plantillaEscena.Escena):
 
     def on_draw(self, pantalla):
         pantalla.blit(self.fondo, (0,0))
-        botonRegistrar= pygame.image.load("GUI/imagenes/botones/botonRegistrar.png")
+        botonRegistrar= pygame.image.load("imagenes/botones/botonRegistrar.png")
         self.boton_registrar = Boton(pantalla, "comenzar", 540, 420,botonRegistrar,127,40)
         self.boton_registrar.dibujaBoton()
 
