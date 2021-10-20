@@ -1,8 +1,11 @@
 import random
-from GUI.colores import *
+from utilidades.colores import *
+from Tanque.Proyectil import Proyectil
+"""
 from Tanque.Proyectil105 import *
 from Tanque.ProyectilPerforante import *
 from Tanque.Proyectil60 import *
+"""
 
 class Partida:
     def __init__(self, id, pantalla, mapa):
@@ -56,9 +59,16 @@ class Partida:
 
     def equiparArmasIniciales(self):
         for jugador in self.jugadoresActivos:
+            proyectil105=Proyectil("Proyectil 105",3,50,"imagenes/armas/proyectil105.png",ROJO)
+            proyectilPerforante=Proyectil("Proyectil Perforante",10,40,"imagenes/armas/proyectilPerforante.png",NARANJA)
+            proyectil60=Proyectil("Proyectil 60",3,30,"imagenes/armas/proyectil60.png",AMARILLO)
+
+            """
+            antes del refactor
             proyectil105 = Proyectil105(50, 3)
             proyectilPerforante = ProyectilPerforante(40,10)
             proyectil60 = Proyectil60(30,3)
+            """
             jugador.tanque.listaProyectiles.append(proyectil105)
             jugador.tanque.listaProyectiles.append(proyectilPerforante)
             jugador.tanque.listaProyectiles.append(proyectil60)

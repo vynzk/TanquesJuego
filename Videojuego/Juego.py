@@ -4,7 +4,6 @@ from Videojuego.Partida import *
 from Tanque.Tanque import *
 from Mapa.Mapa import *
 from Mapa.listaMapas import *
-import copy
 
 class Juego:
     def __init__(self, cantidadJugadores, cantidadPartidas):

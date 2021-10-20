@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import pygame
 import plantillaEscena
-from GUI.colores import *
+from utilidades.utilidades import *
 
 class EscenaHome(plantillaEscena.Escena):
 

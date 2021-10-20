@@ -14,17 +14,6 @@ class Bloque:
     def dibujar(self):
         self.pantalla.blit(self.imagen,(self.x,self.y))
 
-    """ esto es innecesario, ya que cuando un bloque es sacado de una lista, se deja de dibujar, un ejemplo es el
-    del mapa con su lista de bloques, en un futuro cuando se destruya un bloque, si se saca de esta lista ya no se
-    dibujará más. Por tanto, se optará por quitar el atributo vivo/muerto
-    
-    def destruir(self):
-        self.vivo = False
-        # se desdibuja/borra, fijando el color del fondo, en este caso negro
-        self.color((0, 0, 0))
-        self.dibujar()
-    """
-
     def colision(self, xColision, yColision):
         # (x,y)------------| x+delta
         #  |               |

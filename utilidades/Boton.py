@@ -1,6 +1,6 @@
 import pygame
 import pygame.font
-from GUI.colores import *
+from utilidades.colores import *
 
 class Boton:
     def __init__(self, pantalla, texto, posX, posY,imagenBoton, x,y):
