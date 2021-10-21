@@ -48,7 +48,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.dibujarTanques()
         self.mostrarCañon()
         self.muestreoVidaTanques()
-
+        self.mostrarLineas() # <--- debug
 
 
     def on_event(self, event):
@@ -431,4 +431,15 @@ class EscenaJuego(plantillaEscena.Escena):
             nuevoTanque = Tanque(self.director.pantalla, imagenTanqueAleatoria)
             jugador.tanque = nuevoTanque
 
+    #-----------------------ESCENA DEBUG
+    # metodos debug
+    def mostrarLineas(self):
+        contadorHorizontal=40
+        while contadorHorizontal<640:
+            pygame.draw.line(self.director.pantalla,BLANCO,(0,contadorHorizontal),(1280,contadorHorizontal),1)
+            contadorHorizontal+=40
+        contadorVertical=40
+        while contadorVertical<1280:
+            pygame.draw.line(self.director.pantalla,BLANCO,(contadorVertical,0),(contadorVertical,600),1)
+            contadorVertical+=40
 
