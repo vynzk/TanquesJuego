@@ -348,9 +348,21 @@ class EscenaJuego(plantillaEscena.Escena):
             self.destruir(bloqueIzquierda)
             self.destruir(bloqueDerecha)
 
-        if nombreArma == "Proyectil 105":
-            pass
-            # debe destruir los demás bloques (arriba, abajo, diagonales)
+        if nombreArma != "Proyectil Perforante":
+            ejeY = self.bloqueImpactado.y - 40
+            while ejeY < self.bloqueImpactado.y + 80:
+                self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x-40, ejeY))
+                self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x, ejeY))
+                self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x+40, ejeY))
+                bloqueIzquierda = self.buscarBloque(bloqueImpactado.x - 40, ejeY)
+                bloqueCentral = self.buscarBloque(bloqueImpactado.x,ejeY)
+                bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, ejeY)
+                self.destruir(bloqueIzquierda)
+                if bloqueCentral != bloqueImpactado:
+                    self.destruir(bloqueCentral)
+                self.destruir(bloqueDerecha)
+                ejeY += 40    
+                
         pygame.time.wait(400) # <-- necesario para que se vean las graficas
 
     #-----------------------------------DEFINIR EMPATE---------------------------------------------------------
