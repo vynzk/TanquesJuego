@@ -274,7 +274,7 @@ class EscenaJuego(plantillaEscena.Escena):
         botonSalir=pygame.image.load("imagenes/botones/botonSalir.png")
         botonReiniciar=pygame.image.load("imagenes/botones/botonReiniciar.png")
         botonCambioArmas=pygame.image.load("imagenes/botones/botonMochila.png")
-        botonAyuda=pygame.image.load("imagenes/botones/botonMochila.png")
+        botonAyuda=pygame.image.load("imagenes/botones/botonAyuda.png")
 
         self.boton_salir = Boton(self.director.pantalla, "Salir", 1100, 670 ,botonSalir,127,40)
         self.boton_salir.dibujaBoton()
