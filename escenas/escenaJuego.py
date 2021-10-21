@@ -229,6 +229,12 @@ class EscenaJuego(plantillaEscena.Escena):
         self.contador += 1
         if self.contador == len(self.trayectoria):
             if self.jugadorImpactado is not None:
+                # se muestra la imagen explosion sobre el tanque, para ilustrar el impacto
+                self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),
+                                        (self.jugadorImpactado.tanque.bloque.x,
+                                         self.jugadorImpactado.tanque.bloque.y))
+                pygame.time.wait(100)
+
                 dañoEfectuado = self.jugadorActual.tanque.proyectilActual.daño
                 if dañoEfectuado >= self.jugadorImpactado.tanque.vida:
                     self.partidaActual.eliminarJugador(self.jugadorImpactado)  # elimina al jugador
@@ -238,8 +244,11 @@ class EscenaJuego(plantillaEscena.Escena):
             if self.bloqueImpactado is not None:
                 # destruirá el bloque actual y la zona según el daño del proyectil
                 self.destruirZonaImpacto(self.bloqueImpactado,self.jugadorActual.tanque.proyectilActual.nombre)
+            else:
+                # se muestra la imagen explosion con el borde
+                self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(coord[0],coord[1]))
+                pygame.time.wait(100)
 
-        pygame.time.wait(0)
 
     # Se muestra el cañon para dar una aproximación del angulo a la hora de efectuar el disparo
     def mostrarCañon(self):
