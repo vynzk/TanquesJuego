@@ -17,7 +17,7 @@ class EscenaRegistro(plantillaEscena.Escena):
         self.listaJugadores = [] # se almacenan los nombres de los jugadores 
         self.texto_usuario = '' # texto que se mostrará en pantalla al escribir 
         self.base = pygame.font.Font(None, 32) # es el tamaño de las letras 
-        self.cuadroTexto = pygame.Rect(480, 480, 140, 32) # lugar donde se dibujará el cuadrado para ingresar los nombres de los jugadores 
+        self.cuadroTexto = pygame.Rect(540, 480, 140, 32) # lugar donde se dibujará el cuadrado para ingresar los nombres de los jugadores 
         self.variable = 0 
         self.constante = 0
 
@@ -56,6 +56,8 @@ class EscenaRegistro(plantillaEscena.Escena):
     def on_draw(self, pantalla):
         pantalla.blit(self.fondo, (0,0))
 
+        self.mostrarImagenEnPos("imagenes/fondoBlanco.png", (127, 32), (540, 480))
+
         botonAgregar = pygame.image.load("imagenes/botones/botonAgregar.png")
         self.boton_agregar = Boton(pantalla, "agregar", 540, 420, botonAgregar, 127, 40)
         self.boton_agregar.dibujaBoton()
@@ -64,7 +66,7 @@ class EscenaRegistro(plantillaEscena.Escena):
         superficie = self.base.render(self.texto_usuario, True, NEGRO) 
         pantalla.blit(superficie, (self.cuadroTexto.x + 5, self.cuadroTexto.y + 5)) # se ajusta el texto en el cuadrado 
  
-        self.cuadroTexto.w = superficie.get_width() + 10 # esto hace que el cuadrado se alargue dependiendo de lo que escriba el usuario 
+        self.cuadroTexto.w = superficie.get_width() + 10# esto hace que el cuadrado se alargue dependiendo de lo que escriba el usuario 
 
     def cambioEscenaJuego(self):
         # define las posiciones aleatorias de los jugadores dentro de cada partida
