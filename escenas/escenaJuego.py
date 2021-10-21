@@ -48,7 +48,8 @@ class EscenaJuego(plantillaEscena.Escena):
         self.dibujarTanques()
         self.mostrarCañon()
         self.muestreoVidaTanques()
-        #self.mostrarLineas() # <--- debug
+        self.pisoEsLava()
+        # self.mostrarLineas() # <--- debug
 
 
     def on_event(self, event):
@@ -177,12 +178,19 @@ class EscenaJuego(plantillaEscena.Escena):
             elif self.tocaBordes(xDisparo, yDisparo):  # si impacta con un borde, se detiene la parabola (bala)
                 break
 
+    """
+    Metodo que pasa de turno al siguiente jugador dentro de la partida, si
+    este jugador es el ultimo en la lista de jugadores le pasará el turno
+    al primero de la lista. Funciona para n cantidad de jugadores.
+    """
+
     def cambiarJugador(self):
-        listaJugadoresActuales = self.partidaActual.jugadoresActivos
-        if self.jugadorActual == listaJugadoresActuales[0]:
-            self.jugadorActual = listaJugadoresActuales[1]
-        else:
-            self.jugadorActual = listaJugadoresActuales[0]
+        listaJugadoresPartida = self.partidaActual.jugadoresActivos
+        index = listaJugadoresPartida.index(self.jugadorActual)
+        if index < len(listaJugadoresPartida) - 1:
+            self.jugadorActual = listaJugadoresPartida[index + 1]
+        else:  # si llegó al ultimo, le toca al primero
+            self.jugadorActual = listaJugadoresPartida[0]
 
     # ----------------------------------FUNCIONES QUE VERIFICAN COLISIÓN---------------------------------------------
     # verifica si un bloque de tierra fue impactado, si lo fue retorna true, en caso contrario false
@@ -329,21 +337,23 @@ class EscenaJuego(plantillaEscena.Escena):
             impactado ocupe su posición
             """
             listaColumna.reverse()
-            for i in range(0,len(listaColumna)-1):
-                listaColumna[i].y=listaColumna[i+1].y
+            for i in range(0, len(listaColumna) - 1):
+                listaColumna[i].y = listaColumna[i + 1].y
 
-
-    def destruirZonaImpacto(self, bloqueImpactado,  nombreArma):
+    def destruirZonaImpacto(self, bloqueImpactado, nombreArma):
         if nombreArma != "Proyectil 105":
             # animación de impacto
-            self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x,self.bloqueImpactado.y))
+            self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
+                                    (self.bloqueImpactado.x, self.bloqueImpactado.y))
             self.destruir(bloqueImpactado)  # todos rompen el bloque de impacto
 
         if nombreArma == "Proyectil Perforante":
-            self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x-40,self.bloqueImpactado.y))
-            self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x+40,self.bloqueImpactado.y))
-            #pygame.display.update()
-            #time.sleep(3) #<-- debug para notar con mas claridad la gravedad
+            self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
+                                    (self.bloqueImpactado.x - 40, self.bloqueImpactado.y))
+            self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
+                                    (self.bloqueImpactado.x + 40, self.bloqueImpactado.y))
+            # pygame.display.update()
+            # time.sleep(3) #<-- debug para notar con mas claridad la gravedad
             bloqueIzquierda = self.buscarBloque(bloqueImpactado.x - 40, bloqueImpactado.y)
             bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, bloqueImpactado.y)
             # destrucción de los bloques
@@ -353,11 +363,13 @@ class EscenaJuego(plantillaEscena.Escena):
         if nombreArma == "Proyectil 105":
             ejeY = self.bloqueImpactado.y - 40
             while ejeY < self.bloqueImpactado.y + 80:
-                self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x-40, ejeY))
-                self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x, ejeY))
-                self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x+40, ejeY))
-                #pygame.display.update()
-                #time.sleep(3) #<-- debug para notar con mas claridad la gravedad
+                self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
+                                        (self.bloqueImpactado.x - 40, ejeY))
+                self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40), (self.bloqueImpactado.x, ejeY))
+                self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
+                                        (self.bloqueImpactado.x + 40, ejeY))
+                # pygame.display.update()
+                # time.sleep(3) #<-- debug para notar con mas claridad la gravedad
                 bloqueIzquierda = self.buscarBloque(bloqueImpactado.x - 40, ejeY)
                 bloqueCentral = self.buscarBloque(bloqueImpactado.x,ejeY)
                 bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, ejeY)
@@ -434,8 +446,26 @@ class EscenaJuego(plantillaEscena.Escena):
             nuevoTanque = Tanque(self.director.pantalla, imagenTanqueAleatoria)
             jugador.tanque = nuevoTanque
 
-    #-----------------------ESCENA DEBUG
-    # metodos debug
+    """
+    Metodo que verifica si alguno de los tanques en la instancia actual de la partida
+    esta tocando el suelo, de ser afirmativo, elimina el jugador de esa partida
+    """
+
+    def pisoEsLava(self):
+        for jugador in self.partidaActual.jugadoresActivos:
+            if jugador.tanque.bloque.y == 560:
+                self.mostrarImagenEnPos("imagenes/bloque/flama.png", (40, 40),
+                                        (jugador.tanque.bloque.x, jugador.tanque.bloque.y))
+                self.textoEnPantalla("EL PISO ES LAVA", 30, ROJO, (500, 300), True)
+                self.partidaActual.eliminarJugador(jugador)
+
+    """
+    Metodo que sirve para mostrar lineas horizontales y verticales en la pantalla, cuando
+    estas se instersectan podremos notar con más claridad cada bloque dentro del juego,
+    principalmente se usará para comprobar que la destrucción de los bloques es correcta y
+    que la gravedad funciona correctamente.
+    """
+
     def mostrarLineas(self):
         contadorHorizontal=40
         while contadorHorizontal<640:
