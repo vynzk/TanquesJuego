@@ -48,7 +48,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.dibujarTanques()
         self.mostrarCañon()
         self.muestreoVidaTanques()
-        self.mostrarLineas() # <--- debug
+        #self.mostrarLineas() # <--- debug
 
 
     def on_event(self, event):
