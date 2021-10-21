@@ -334,32 +334,35 @@ class EscenaJuego(plantillaEscena.Escena):
 
 
     def destruirZonaImpacto(self, bloqueImpactado,  nombreArma):
-        # animación de impacto
-        self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x,self.bloqueImpactado.y))
-        pygame.display.update()
-        self.destruir(bloqueImpactado)  # todos rompen el bloque de impacto
+        if nombreArma != "Proyectil 105":
+            # animación de impacto
+            self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x,self.bloqueImpactado.y))
+            self.destruir(bloqueImpactado)  # todos rompen el bloque de impacto
 
-        if nombreArma != "Proyectil 60":
+        if nombreArma == "Proyectil Perforante":
             self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x-40,self.bloqueImpactado.y))
             self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x+40,self.bloqueImpactado.y))
+            pygame.display.update()
+            time.sleep(3) #<-- debug para notar con mas claridad la gravedad
             bloqueIzquierda = self.buscarBloque(bloqueImpactado.x - 40, bloqueImpactado.y)
             bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, bloqueImpactado.y)
             # destrucción de los bloques
             self.destruir(bloqueIzquierda)
             self.destruir(bloqueDerecha)
 
-        if nombreArma != "Proyectil Perforante":
+        if nombreArma == "Proyectil 105":
             ejeY = self.bloqueImpactado.y - 40
             while ejeY < self.bloqueImpactado.y + 80:
                 self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x-40, ejeY))
                 self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x, ejeY))
                 self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png",(40,40),(self.bloqueImpactado.x+40, ejeY))
+                pygame.display.update()
+                time.sleep(3) #<-- debug para notar con mas claridad la gravedad
                 bloqueIzquierda = self.buscarBloque(bloqueImpactado.x - 40, ejeY)
                 bloqueCentral = self.buscarBloque(bloqueImpactado.x,ejeY)
                 bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, ejeY)
                 self.destruir(bloqueIzquierda)
-                if bloqueCentral != bloqueImpactado:
-                    self.destruir(bloqueCentral)
+                self.destruir(bloqueCentral)
                 self.destruir(bloqueDerecha)
                 ejeY += 40    
                 
