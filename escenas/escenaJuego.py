@@ -437,10 +437,17 @@ class EscenaJuego(plantillaEscena.Escena):
     Juego anterior creado y se le asigna al atributo game del director un nuevo objeto juego recién creado
     """
     def cambiarEscenaRegistro(self):
+        #print(f'lista escenas antes: {self.director.listaEscenas}') # << debug
+        # se limpia/borra el objeto juego anterior y se crea un nuevo juego (manejado por el director)
         del self.director.game
         self.director.game=[]
         self.director.game=Juego(2,1)
+        # se cambia a la escena de registro anteriormente guardada
         self.director.cambiarEscena(self.director.listaEscenas[0])
+        # se borran las escenas guardadas hasta el momento por el director
+        del self.director.listaEscenas
+        self.director.listaEscenas=[]
+        #print(f' lista escena despues: {self.director.listaEscenas}') # << debug
         self.director.escena.textoEnPantalla("Se ha reiniciado el juego correctamente, por favor registra jugadores"
                                              +" nuevamente",20,BLANCO,(100,300),True)
         time.sleep(3)
