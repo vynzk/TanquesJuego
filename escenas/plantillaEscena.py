@@ -25,7 +25,7 @@ class Escena:
         raise NotImplemented("Tiene que implementar el método on_draw.")
 
     def textoEnPantalla(self,texto,tamañoLetra,color,posicion,deseaPausa):
-        fuente= pygame.font.SysFont("arial",tamañoLetra,bold=True)
+        fuente= pygame.font.Font("fuentes/font_pixel.ttf",tamañoLetra-5,bold=True)
         mensaje= fuente.render(texto,1,color)
         self.director.pantalla.blit(mensaje, (posicion[0],posicion[1]))
         # bug

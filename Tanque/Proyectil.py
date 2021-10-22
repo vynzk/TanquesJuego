@@ -5,6 +5,7 @@ class Proyectil:
         self.nombre= nombre
         self.municion = municion
         self.daño = daño
+        self.pathImagen = pathImagen
         self.imagen = pathImagen
         self.color=color
         self.redimensionarImagen()

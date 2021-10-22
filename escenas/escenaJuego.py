@@ -38,6 +38,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.boton_reiniciar = None
         self.boton_cambioArmas = None
         self.boton_ayuda = None
+        self.boton_infoBala = None
 
 
     def on_update(self):
@@ -53,8 +54,9 @@ class EscenaJuego(plantillaEscena.Escena):
 
 
     def on_event(self, event):
+        self.director.mousePos = pygame.mouse.get_pos()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            self.director.mousePos = pygame.mouse.get_pos()
+            
             if self.director.checaBoton(self.director.mousePos, self.boton_salir):
                 self.director.running = False  # rompe el ciclo gameLoop y sale del juego
             if self.director.checaBoton(self.director.mousePos, self.boton_reiniciar):
@@ -63,6 +65,9 @@ class EscenaJuego(plantillaEscena.Escena):
                 self.cambiarEscenaArmas()
             if self.director.checaBoton(self.director.mousePos, self.boton_ayuda):
                 self.cambiarEscenaAyuda()
+
+        if self.director.mousePos == (0,0):
+            print('miaau')
 
         pygame.key.set_repeat(10, 20)
         if event.type == pygame.KEYDOWN and self.flag is False:
@@ -270,39 +275,53 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def contenidoBarraInferior(self):
         # Información
-        self.textoEnPantalla(f'INFORMACIÓN TURNO ACTUAL',25,BLANCO,(20,610),False)
-        self.textoEnPantalla(f'Angulo: {self.jugadorActual.tanque.angulo}°',20,BLANCO,(500,610),False)
-        self.textoEnPantalla(f'Velocidad: {self.jugadorActual.tanque.velocidad} [cm/s]',20,BLANCO,(650,610),False)
-
-        self.mostrarImagenEnPos(self.jugadorActual.tanque.imagen,(50,50),(20,660))
-        self.textoEnPantalla(f'Nombre jugador: {self.jugadorActual.nombre}',20,BLANCO,(80,660),False)
-        self.textoEnPantalla(f'Vida tanque: {self.jugadorActual.tanque.vida}',20,BLANCO,(80,690),False)
+        self.textoEnPantalla(f'Jugador actual: {self.jugadorActual.nombre}',15,BLANCO,(20,605),False)
+        self.textoEnPantalla(f'Angulo: {self.jugadorActual.tanque.angulo}°',15,BLANCO,(500,610),False)
+        self.textoEnPantalla(f'Velocidad: {self.jugadorActual.tanque.velocidad} [cm/s]',15,BLANCO,(650,610),False)
+        cuadroVacioImagen= "imagenes/botones/botonVacio.png"
+        self.mostrarImagenEnPos(cuadroVacioImagen,(50,50),(20,640))
+        self.mostrarImagenEnPos(self.jugadorActual.tanque.imagen,(30,30),(30,650))
+        
+        #self.textoEnPantalla(f'Nombre jugador: {self.jugadorActual.nombre}',20,BLANCO,(80,660),False)
+        #self.textoEnPantalla(f'Vida tanque: {self.jugadorActual.tanque.vida}',20,BLANCO,(80,690),False)
 
         #self.mostrarImagenEnPos(self.jugadorActual.tanque.proyectilActual.imagen,(50,50),(20,660))
-        self.textoEnPantalla(f'Arma equipada: {self.jugadorActual.tanque.proyectilActual.nombre}',20,BLANCO,
-                             (300,660),False)
-        self.textoEnPantalla(f'Munición: {self.jugadorActual.tanque.proyectilActual.municion},'
-                             f' Daño: {self.jugadorActual.tanque.proyectilActual.daño}',20,BLANCO,(300,690),False)
+        #self.textoEnPantalla(f'Arma equipada: {self.jugadorActual.tanque.proyectilActual.nombre}',20,BLANCO,
+        #                     (300,660),False)
+        #self.textoEnPantalla(f'Munición: {self.jugadorActual.tanque.proyectilActual.municion},'
+        #                     f' Daño: {self.jugadorActual.tanque.proyectilActual.daño}',20,BLANCO,(300,690),False)
 
-        self.textoEnPantalla(f'Desplazamiento máxima: {self.xMaxDisparo} [cm]',20,BLANCO,(600,660),False)
-        self.textoEnPantalla(f'Altura máxima máxima: {self.yMaxDisparo} [cm]',20,BLANCO,(600,690),False)
+        self.textoEnPantalla(f'Desplazamiento maximo: {self.xMaxDisparo} [cm]',15,BLANCO,(150,635),False)
+        self.textoEnPantalla(f'Altura maxima: {self.yMaxDisparo} [cm]',15,BLANCO,(150,665),False)
+        
+        
 
         # Botones
+        #infoBala= pygame.image.load(self.jugadorActual.tanque.proyectilActual.pathImagen)
+        
+        cuadroVacio= pygame.image.load(cuadroVacioImagen)# para tanque y bala
+        bala = self.jugadorActual.tanque.proyectilActual.pathImagen
+        
         botonSalir=pygame.image.load("imagenes/botones/botonSalir.png")
         botonReiniciar=pygame.image.load("imagenes/botones/botonReiniciar.png")
         botonCambioArmas=pygame.image.load("imagenes/botones/botonMochila.png")
         botonAyuda=pygame.image.load("imagenes/botones/botonAyuda.png")
 
-        self.boton_salir = Boton(self.director.pantalla, "Salir", 1100, 670 ,botonSalir,127,40)
+        self.boton_infoBala= Boton(self.director.pantalla, "proyectil actual\ndaño: {self.jugadorActual.tanque.proyectilActual.daño} ", 80, 640 ,cuadroVacio,50,50)
+        self.boton_infoBala.dibujaBoton()
+        self.mostrarImagenEnPos(bala,(50,50),(80,640))
+
+        
+        self.boton_salir = Boton(self.director.pantalla, "", 1220, 660 ,botonSalir,40,40)
         self.boton_salir.dibujaBoton()
 
-        self.boton_reiniciar = Boton(self.director.pantalla, "Reiniciar", 1100, 610, botonReiniciar,127,40)
+        self.boton_reiniciar = Boton(self.director.pantalla, "", 1220, 610, botonReiniciar,40,40)
         self.boton_reiniciar.dibujaBoton()
 
-        self.boton_cambioArmas = Boton(self.director.pantalla, "Armas", 950, 670, botonCambioArmas,127,40)
+        self.boton_cambioArmas = Boton(self.director.pantalla, "", 1170, 660, botonCambioArmas,40,40)
         self.boton_cambioArmas.dibujaBoton()
 
-        self.boton_ayuda = Boton(self.director.pantalla, "Ayuda", 950, 610, botonAyuda,127,40)
+        self.boton_ayuda = Boton(self.director.pantalla, "", 1170, 610, botonAyuda,40,40)
         self.boton_ayuda.dibujaBoton()
 
     #----------------------------------_DESTRUCCION DE TIERRA ---------------------------------------
