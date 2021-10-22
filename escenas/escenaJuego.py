@@ -276,7 +276,7 @@ class EscenaJuego(plantillaEscena.Escena):
     def contenidoBarraInferior(self):
         # Información
         self.textoEnPantalla(f'Jugador actual: {self.jugadorActual.nombre}',15,BLANCO,(20,605),False)
-        self.textoEnPantalla(f'Angulo: {self.jugadorActual.tanque.angulo}°',15,BLANCO,(500,610),False)
+        self.textoEnPantalla(f'Angulo: {self.jugadorActual.tanque.angulo}',15,BLANCO,(500,610),False)
         self.textoEnPantalla((f'Municion de Bala: ' + str(self.jugadorActual.tanque.proyectilActual.municion)),15,BLANCO,(500,650),False)
         self.textoEnPantalla(f'Velocidad: {self.jugadorActual.tanque.velocidad} [cm/s]',15,BLANCO,(650,610),False)
         cuadroVacioImagen= "imagenes/botones/botonVacio.png"
