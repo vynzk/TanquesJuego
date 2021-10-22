@@ -393,6 +393,7 @@ class EscenaJuego(plantillaEscena.Escena):
         #fondo nuevo
         self.fondo = fondosLista[random.randint(0,len(fondosLista)-1)]
         self.fondo = pygame.transform.scale(self.fondo, (1280,720) )
+        self.cambiarNombres()
 
     #----------------------------------METODOS AL CAMBIAR DE TURNO------------------------------------------------
     def limpiarTurno(self):
@@ -419,4 +420,10 @@ class EscenaJuego(plantillaEscena.Escena):
             nuevoTanque = Tanque(self.director.pantalla, imagenTanqueAleatoria)
             jugador.tanque = nuevoTanque
 
-
+    def cambiarNombres(self):
+        i = 0
+        while i < len(self.partidaActual.jugadoresActivos):
+            print("Ingrese el nombre del jugador",i+1)
+            nombre=input(":")
+            self.partidaActual.jugadoresActivos[i].nombre = nombre
+            i = i+1
