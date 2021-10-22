@@ -17,7 +17,7 @@ class EscenaRegistro(plantillaEscena.Escena):
         self.listaJugadores = [] # se almacenan los nombres de los jugadores 
         self.texto_usuario = '' # texto que se mostrará en pantalla al escribir 
         self.base = pygame.font.Font(None, 32) # es el tamaño de las letras 
-        self.cuadroTexto = pygame.Rect(480, 480, 140, 32) # lugar donde se dibujará el cuadrado para ingresar los nombres de los jugadores 
+        self.cuadroTexto = pygame.Rect(540, 470, 140, 32) # lugar donde se dibujará el cuadrado para ingresar los nombres de los jugadores 
         self.variable = 0 
         self.constante = 0
 
@@ -56,9 +56,11 @@ class EscenaRegistro(plantillaEscena.Escena):
 
     def on_draw(self, pantalla):
         pantalla.blit(self.fondo, (0,0))
+        self.mostrarTexto()
+        self.mostrarImagenEnPos("imagenes/fondoBlanco.png", (127, 32), (540, 470))
 
         botonAgregar = pygame.image.load("imagenes/botones/botonAgregar.png")
-        self.boton_agregar = Boton(pantalla, "agregar", 540, 420, botonAgregar, 127, 40)
+        self.boton_agregar = Boton(pantalla, "agregar", 540, 520, botonAgregar, 127, 40)
         self.boton_agregar.dibujaBoton()
 
         pygame.draw.rect(pantalla, BLANCO, self.cuadroTexto) 
@@ -87,8 +89,11 @@ class EscenaRegistro(plantillaEscena.Escena):
         self.constante = 0 
         self.variable = 0 
 
-    def agregarJugador(self): # 
+    def agregarJugador(self): 
         self.variable = self.variable+1 
         self.listaJugadores.append(self.texto_usuario)
         print("Nombre del jugador", self.variable, "=", self.texto_usuario) 
         self.texto_usuario = ''
+
+    def mostrarTexto(self):
+        self.textoEnPantalla(f'Ingrese el nombre del jugador: {self.variable+1}',15,BLANCO,(480,420),False)
