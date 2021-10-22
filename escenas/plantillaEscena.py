@@ -31,7 +31,7 @@ class Escena:
         # bug
         if deseaPausa is True:
             pygame.display.update()
-            pygame.time.wait(500)
+            pygame.time.wait(250)
 
     def mostrarImagenEnPos(self,pathImagen,tamaño,posicion):
         imagen= pygame.transform.scale(pygame.image.load(pathImagen), (tamaño[0],tamaño[1]))

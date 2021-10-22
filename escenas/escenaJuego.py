@@ -44,7 +44,9 @@ class EscenaJuego(plantillaEscena.Escena):
     def on_update(self):
         pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
         self.director.pantalla.blit(self.fondo, (0, 0))
-        pygame.draw.rect(self.director.pantalla, NEGRO, (0, 600, 1280, 120))  # barra inferior inferior
+        
+        self.director.pantalla.blit(pygame.image.load('imagenes/banner.png'),(0,600))
+        #pygame.draw.rect(self.director.pantalla, NEGRO, (0, 600, 1280, 120))  # barra inferior inferior
         self.partidaActual.mapa.dibujarMapa(self.director.pantalla)
         self.dibujarTanques()
         self.mostrarCañon()
@@ -277,6 +279,7 @@ class EscenaJuego(plantillaEscena.Escena):
         # Información
         self.textoEnPantalla(f'Jugador actual: {self.jugadorActual.nombre}',15,BLANCO,(20,605),False)
         self.textoEnPantalla(f'Angulo: {self.jugadorActual.tanque.angulo}°',15,BLANCO,(500,610),False)
+        self.textoEnPantalla((f'Municion de Bala: ' + str(self.jugadorActual.tanque.proyectilActual.municion)),15,BLANCO,(500,650),False)
         self.textoEnPantalla(f'Velocidad: {self.jugadorActual.tanque.velocidad} [cm/s]',15,BLANCO,(650,610),False)
         cuadroVacioImagen= "imagenes/botones/botonVacio.png"
         self.mostrarImagenEnPos(cuadroVacioImagen,(50,50),(20,640))
