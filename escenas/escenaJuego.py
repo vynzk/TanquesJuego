@@ -6,6 +6,7 @@ import math
 import time
 from escenas import plantillaEscena
 from Mapa.listasEscenarios import *
+from escenas.escenaCreditos import EscenaCreditos
 from utilidades.colores import *
 from utilidades.Boton import Boton
 from escenas.escenaCambioArma import EscenaCambioArma
@@ -40,6 +41,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.boton_cambioArmas = None
         self.boton_ayuda = None
         self.boton_infoBala = None
+        self.boton_creditos= None
 
 
     def on_update(self):
@@ -69,6 +71,8 @@ class EscenaJuego(plantillaEscena.Escena):
                 self.cambiarEscenaArmas()
             if self.director.checaBoton(self.director.mousePos, self.boton_ayuda):
                 self.cambiarEscenaAyuda()
+            if self.director.checaBoton(self.director.mousePos, self.boton_creditos):
+                self.cambiarEscenaCreditos()
 
         if event.type == pygame.KEYDOWN and self.flag is False:
             if event.key == pygame.K_SPACE:
@@ -324,6 +328,9 @@ class EscenaJuego(plantillaEscena.Escena):
         self.boton_ayuda = Boton(self.director.pantalla, "", 1170, 610, botonAyuda,40,40)
         self.boton_ayuda.dibujaBoton()
 
+        self.boton_creditos = Boton(self.director.pantalla, "", 1235, 5, cuadroVacio,40,40)
+        self.boton_creditos.dibujaBoton()
+
     #----------------------------------_DESTRUCCION DE TIERRA ---------------------------------------
     def buscarBloque(self, x, y):
         for bloque in self.partidaActual.mapa.listaBloques:
@@ -420,6 +427,8 @@ class EscenaJuego(plantillaEscena.Escena):
     # ----------------------------------METODOS ACCIONADOS POR BOTONES-------------------------------------------
     def cambiarEscenaArmas(self):
         self.director.cambiarEscena(EscenaCambioArma(self.director))
+    def cambiarEscenaCreditos(self):
+        self.director.cambiarEscena(EscenaCreditos(self.director))  
 
     def cambiarEscenaAyuda(self):
         self.director.cambiarEscena(EscenaAyuda(self.director))
