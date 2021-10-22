@@ -84,19 +84,16 @@ class EscenaJuego(plantillaEscena.Escena):
                     self.textoEnPantalla(f'NO TIENES BALAS SUFICIENTES, CAMBIA DE ARMA',30,BLANCO,(300,300),True)
 
 
-            if event.key == pygame.K_LEFT:
-                pygame.key.set_repeat(1,50)
+            if event.key == pygame.K_LEFT:             
                 if(200> self.jugadorActual.tanque.velocidad >50):
                     self.jugadorActual.tanque.velocidad -= 1
-            if event.key == pygame.K_RIGHT:
-                pygame.key.set_repeat(1,50)
+            if event.key == pygame.K_RIGHT:        
                 if(200>= self.jugadorActual.tanque.velocidad >50):
                     self.jugadorActual.tanque.velocidad += 1
             if event.key == pygame.K_UP:
                 if self.jugadorActual.tanque.angulo + 1 < 180:  # si no verificamos, cualquier angulo fuera de este, el proyectil impacta con el propio tanque
                     self.jugadorActual.tanque.angulo += 1
-            if event.key == pygame.K_DOWN:
-                pygame.key.set_repeat(1, 50)
+            if event.key == pygame.K_DOWN:         
                 if self.jugadorActual.tanque.angulo - 1 > 0:
                     self.jugadorActual.tanque.angulo -= 1
 

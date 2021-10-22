@@ -30,5 +30,5 @@ class EscenaCreditos(plantillaEscena.Escena):
         self.boton_salir.dibujaBoton()
 
     def vuelveJuego(self):
-        juegoActual = self.director.listaEscenas[0]
+        juegoActual = self.director.listaEscenas[1]
         self.director.cambiarEscena(juegoActual)
