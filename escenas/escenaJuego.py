@@ -301,7 +301,9 @@ class EscenaJuego(plantillaEscena.Escena):
         #infoBala= pygame.image.load(self.jugadorActual.tanque.proyectilActual.pathImagen)
         
         cuadroVacio= pygame.image.load(cuadroVacioImagen)# para tanque y bala
+        
         bala = self.jugadorActual.tanque.proyectilActual.pathImagen
+        giftCreditos = "imagenes/creditosGift.png"
         
         botonSalir=pygame.image.load("imagenes/botones/botonSalir.png")
         botonReiniciar=pygame.image.load("imagenes/botones/botonReiniciar.png")
@@ -327,6 +329,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
         self.boton_creditos = Boton(self.director.pantalla, "", 1235, 5, cuadroVacio,40,40)
         self.boton_creditos.dibujaBoton()
+        self.mostrarImagenEnPos(giftCreditos,(30,30),(1240,10))
 
     #----------------------------------_DESTRUCCION DE TIERRA ---------------------------------------
     def buscarBloque(self, x, y):

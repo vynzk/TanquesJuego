@@ -8,7 +8,7 @@ class EscenaCreditos(plantillaEscena.Escena):
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
         self.boton_salir = None
-        self.fondo= pygame.image.load("imagenes/fondoDefault.png")
+        self.fondo= pygame.image.load("imagenes/fondoCreditos.png")
         
 
     def on_update(self):
@@ -26,8 +26,9 @@ class EscenaCreditos(plantillaEscena.Escena):
     def on_draw(self, pantalla):
         pantalla.blit(self.fondo, (0,0))
         botonSalir= pygame.image.load("imagenes/botones/botonVolver.png")
-        self.boton_salir = Boton(pantalla, "play", 540, 420,botonSalir,127,40)
+        self.boton_salir = Boton(pantalla, "volver", 1150, 670,botonSalir,127,40)
         self.boton_salir.dibujaBoton()
+
 
     def vuelveJuego(self):
         juegoActual = self.director.listaEscenas[1]
