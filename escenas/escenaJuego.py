@@ -274,7 +274,7 @@ class EscenaJuego(plantillaEscena.Escena):
             # se pasan a int ya que son numeros decimales y luego ello se pasa a str para concatenar en un sólo string
             text = str(f'HP: {jugador.tanque.vida}')
             mensaje = fuente.render(text, 1, BLANCO)
-            self.director.pantalla.blit(mensaje, (jugador.tanque.x, jugador.tanque.y + 40))
+            self.director.pantalla.blit(mensaje, (jugador.tanque.bloque.x, jugador.tanque.bloque.y + 40))
 
     def contenidoBarraInferior(self):
         # Información
