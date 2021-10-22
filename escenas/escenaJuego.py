@@ -12,6 +12,7 @@ from escenas.escenaCambioArma import EscenaCambioArma
 from Tanque.Tanque import *
 import random
 from escenas.escenaAyuda import EscenaAyuda
+from Videojuego.Juego import Juego
 
 
 
@@ -62,19 +63,15 @@ class EscenaJuego(plantillaEscena.Escena):
             if self.director.checaBoton(self.director.mousePos, self.boton_salir):
                 self.director.running = False  # rompe el ciclo gameLoop y sale del juego
             if self.director.checaBoton(self.director.mousePos, self.boton_reiniciar):
-                self.reiniciarPartida()
+                self.cambiarEscenaRegistro()
+                #self.reiniciarPartida()
             if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
                 self.cambiarEscenaArmas()
             if self.director.checaBoton(self.director.mousePos, self.boton_ayuda):
                 self.cambiarEscenaAyuda()
 
-        if self.director.mousePos == (0,0):
-            print('miaau')
-
-        pygame.key.set_repeat(10, 20)
         if event.type == pygame.KEYDOWN and self.flag is False:
             if event.key == pygame.K_SPACE:
-                pygame.key.set_repeat()
                 if self.jugadorActual.tanque.proyectilActual.municion > 0:  # posee balas suficientes
                     self.flag = True
                     self.jugadorActual.tanque.proyectilActual.municion -= 1  # se le resta una bala ya que disparó
@@ -427,30 +424,17 @@ class EscenaJuego(plantillaEscena.Escena):
     def cambiarEscenaAyuda(self):
         self.director.cambiarEscena(EscenaAyuda(self.director))
 
-    def reiniciarPartida(self):
-        # creo la nueva partida
-        nuevaPartida = self.director.game.agregarPartida(self.partidaActual.id, self.director)
-        self.asignarNuevosTanques()
-
-        # se cambia en la lista partidas 
-        self.director.game.listaPartidas[self.partidaActual.id - 1] = nuevaPartida
-
-        # se actualiza la nueva lista
-        self.partidas = self.director.game.listaPartidas
-
-        # se remplaza la partida recién creada por la partida actual
-        self.partidaActual = self.partidas[0]
-        self.jugadorActual = self.partidaActual.jugadoresActivos[0]
-
-        # deben regenerarse las posiciones de los tanques y equiparle las armas
-        self.partidaActual.generarPosicionesJug()
-        self.partidaActual.equiparArmasIniciales()
-
-        # se limpian las estadisticas
-        self.limpiarTurno()
-        #fondo nuevo
-        self.fondo = fondosLista[random.randint(0,len(fondosLista)-1)]
-        self.fondo = pygame.transform.scale(self.fondo, (1280,720) )
+    """ Cuando se presiona el botón reiniciar, debemos crear un nuevo juego, por tanto, se borra el objeto
+    Juego anterior creado y se le asigna al atributo game del director un nuevo objeto juego recién creado
+    """
+    def cambiarEscenaRegistro(self):
+        del self.director.game
+        self.director.game=[]
+        self.director.game=Juego(2,1)
+        self.director.cambiarEscena(self.director.listaEscenas[0])
+        self.director.escena.textoEnPantalla("Se ha reiniciado el juego correctamente, por favor registra jugadores"
+                                             +" nuevamente",20,BLANCO,(100,300),True)
+        time.sleep(3)
 
     #----------------------------------METODOS AL CAMBIAR DE TURNO------------------------------------------------
     def limpiarTurno(self):

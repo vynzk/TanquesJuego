@@ -44,6 +44,7 @@ class EscenaRegistro(plantillaEscena.Escena):
                 self.cambioEscenaJuego()
             
     def registrar(self):
+        print(f'DEBUG: Objeto juego: {self.director.game}\n- - - - -')
         # se registran los jugadores
         if self.director.game.registroJugadores(self.director, self.listaJugadores):
             # se registran las partidas
@@ -72,6 +73,10 @@ class EscenaRegistro(plantillaEscena.Escena):
             partida.generarPosicionesJug()
             partida.equiparArmasIniciales()
         juegoEscena = EscenaJuego(self.director)
+
+        """ Se guardarán las escenas hasta ahora utilizadas, por lo que: listaEscenas= [escenaRegistro, escenaJuego]
+        con el motivo de viajar de una a otra en un futuro"""
+        self.director.guardarEscena(self.director.escena)
         self.director.guardarEscena(juegoEscena)
         self.director.cambiarEscena(juegoEscena)
 
