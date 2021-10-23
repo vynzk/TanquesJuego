@@ -54,6 +54,7 @@ class EscenaHome(plantillaEscena.Escena):
         self.boton_MenosJug.dibujaBoton()
 
     def cambiaDePartida(self):
+        self.director.guardarEscena(self.director.escena)
         game=Juego(self.cantidadJugadores,1)
         self.director.game=game
         self.director.cambiarEscena(EscenaRegistro(self.director))

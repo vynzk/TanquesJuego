@@ -78,7 +78,6 @@ class EscenaRegistro(plantillaEscena.Escena):
 
         """ Se guardarán las escenas hasta ahora utilizadas, por lo que: listaEscenas= [escenaRegistro, escenaJuego]
         con el motivo de viajar de una a otra en un futuro"""
-        self.director.guardarEscena(self.director.escena)
         self.director.guardarEscena(juegoEscena)
         self.director.cambiarEscena(juegoEscena)
 
