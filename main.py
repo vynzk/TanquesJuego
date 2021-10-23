@@ -4,7 +4,7 @@ from escenas.director import *
 
 
 def main():
-    game = Juego(2, 1)  # (cantidadJugadores,cantidadPartidas) #se automatizó para debuguear lo escencial
+    game = Juego(3, 1)  # (cantidadJugadores,cantidadPartidas) #se automatizó para debuguear lo escencial
     director = Director(game)
     home = EscenaHome(director)  
 

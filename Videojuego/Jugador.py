@@ -3,3 +3,4 @@ class Jugador:
         self.nombre = nombre
         self.tanque = tanque
         self.victorias = 0
+        self.participoTurno=False

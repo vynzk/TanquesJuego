@@ -5,6 +5,7 @@ from Tanque.Tanque import *
 from Mapa.Mapa import *
 from Mapa.listaMapas import *
 
+
 class Juego:
     def __init__(self, cantidadJugadores, cantidadPartidas):
         self.cantidadJugadores = cantidadJugadores
@@ -17,7 +18,8 @@ class Juego:
     def agregarJugador(self, i, pantalla, imagenTanqueAleatoria, nombre):
         # ahora el nombre no se define aquí, ya que se le pasa el arreglo que contiene los nombres
         tanque = Tanque(pantalla, imagenTanqueAleatoria)
-        self.listaJugadores.append(Jugador(nombre[i-1], tanque))  # << agrega un nuevo Jugador con su nombre y su tanque
+        self.listaJugadores.append(
+            Jugador(nombre[i - 1], tanque))  # << agrega un nuevo Jugador con su nombre y su tanque
 
     # función que se encargará de llenar la lista de jugadores, registrará tantos jugadores
     # como lo indique la cantidad de jugadores (que debe tener el constructor de esta clase)
@@ -25,14 +27,13 @@ class Juego:
         listaImagenesTanque = ["imagenes/bloque/tanqueGris.png", "imagenes/bloque/tanqueAmarillo.png",
                                "imagenes/bloque/tanqueCeleste.png", "imagenes/bloque/tanqueRojo.png",
                                "imagenes/bloque/tanqueVerde.png"]
-        #print("\n### REGISTRO DE JUGADORES ###")
+        # print("\n### REGISTRO DE JUGADORES ###")
         for i in range(1, self.cantidadJugadores + 1):
-            numAleatorio=random.randint(0,len(listaImagenesTanque)-1)
-            imagenTanqueAleatoria=listaImagenesTanque[numAleatorio]
-            self.agregarJugador(i, director.pantalla,imagenTanqueAleatoria, nombre)
+            numAleatorio = random.randint(0, len(listaImagenesTanque) - 1)
+            imagenTanqueAleatoria = listaImagenesTanque[numAleatorio]
+            self.agregarJugador(i, director.pantalla, imagenTanqueAleatoria, nombre)
             listaImagenesTanque.remove(imagenTanqueAleatoria)
         return True  # termina con exito el registro
-
 
     # función que agregará una partida a la lista de partidas, cada partida agregará como jugadores activos a la
     # totalidad de jugadores que participan en el juego
@@ -46,7 +47,7 @@ class Juego:
         partida = Partida(i, director, mapa)
         # va agregando los jugadores a la nueva partida
         for jugador in self.listaJugadores:
-           partida.agregarJugadores(jugador)
+            partida.agregarJugadores(jugador)
         return partida
 
     # función que llenara la lista de partidas (atributo) con cada partida creada

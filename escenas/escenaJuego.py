@@ -27,8 +27,8 @@ class EscenaJuego(plantillaEscena.Escena):
         # para esta entrega hay solo una partida y 2 jugadores, por tanto:
         # la partida inicial será la primera partida (De momento es la única)
         self.partidaActual = self.partidas[0]
-        # como tambien, el jugador inicial será el primer jugador activo de la primera partida
-        self.jugadorActual = self.partidaActual.jugadoresActivos[0]
+        # Requisito 3: El jugador inicial será aleatorio
+        self.jugadorActual = random.choice(self.partidaActual.jugadoresActivos)
         self.trayectoria = []
         self.contador = 0
         self.flag = False
@@ -117,7 +117,6 @@ class EscenaJuego(plantillaEscena.Escena):
                         if self.contador < len(self.trayectoria):
                             self.dibujarBala()
                         else:
-                            self.textoEnPantalla("CAMBIO DE TURNO",30,BLANCO,(500,300),True)
                             self.limpiarTurno()  # se limpian las estadisticas
                             self.cambiarJugador()
             else:
@@ -184,18 +183,33 @@ class EscenaJuego(plantillaEscena.Escena):
                 break
 
     """
-    Metodo que pasa de turno al siguiente jugador dentro de la partida, si
-    este jugador es el ultimo en la lista de jugadores le pasará el turno
-    al primero de la lista. Funciona para n cantidad de jugadores.
+    Requisito 3 U3: Se establece para cada jugador el atributo participoTurno el cual es False en el constructor.
+    El primer jugador es aleatorio, por tanto, al participar en el turno se cambia su atributo participoTurno
+    a True, posteriormente se filtran todos los jugadores que aun no participan (que tienen su atributo
+    participoTurno en False) y se escoge aleatoriamente uno de ellos hasta que todos hayan participado. Cuando
+    sucede lo anterior, se completa la RONDA por lo que cada jugador tiene la posibilidad de participar (jugar su turno)
+    de forma aleatoria nuevamente siguiendo la misma logica.
     """
 
     def cambiarJugador(self):
+        print(f'Turno Jugador: {self.jugadorActual.nombre}') # << debug terminal
+        # como ya participo el jugador actual
+        self.jugadorActual.participoTurno=True
+
         listaJugadoresPartida = self.partidaActual.jugadoresActivos
-        index = listaJugadoresPartida.index(self.jugadorActual)
-        if index < len(listaJugadoresPartida) - 1:
-            self.jugadorActual = listaJugadoresPartida[index + 1]
-        else:  # si llegó al ultimo, le toca al primero
-            self.jugadorActual = listaJugadoresPartida[0]
+        jugadoresSinParticipar=list(filter(lambda jug: jug.participoTurno is not True,listaJugadoresPartida))
+        if jugadoresSinParticipar == []:
+            self.textoEnPantalla("SE HA COMPLETADO UNA RONDA DE TURNOS",30,BLANCO,(280,300),True)
+            print("- - - - - - - - - - - - ") # << debug terminal
+            time.sleep(2)
+            # se reinicia la particion de cada jugador activo en la partida a False
+            for jugador in self.partidaActual.jugadoresActivos:
+                jugador.participoTurno=False
+        else:
+            self.textoEnPantalla("CAMBIO DE TURNO",30,BLANCO,(500,300),True)
+            # elige un jugador que no ha participado para cederle el turno
+            self.jugadorActual=random.choice(jugadoresSinParticipar)
+
 
     # ----------------------------------FUNCIONES QUE VERIFICAN COLISIÓN---------------------------------------------
     # verifica si un bloque de tierra fue impactado, si lo fue retorna true, en caso contrario false
