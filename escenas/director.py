@@ -6,11 +6,11 @@ class Director:
     """El director se encarga de iniciar el juego,
         cambiar las escenas y recoger e interpretar los eventos de estas."""
 
-    def __init__(self, game):  # constructor
+    def __init__(self):  # constructor
         self.pantalla = pygame.display.set_mode((1280, 720))
         self.escena = None
         self.running = True
-        self.game = game
+        self.game = None
         self.listaEscenas = []
         
 
