@@ -26,7 +26,7 @@ class Juego:
     def registroJugadores(self, director, nombre):
         listaImagenesTanque = ["imagenes/bloque/tanqueGris.png", "imagenes/bloque/tanqueAmarillo.png",
                                "imagenes/bloque/tanqueCeleste.png", "imagenes/bloque/tanqueRojo.png",
-                               "imagenes/bloque/tanqueVerde.png"]
+                               "imagenes/bloque/tanqueVerde.png","imagenes/bloque/tanqueCafe.png"]
         # print("\n### REGISTRO DE JUGADORES ###")
         for i in range(1, self.cantidadJugadores + 1):
             numAleatorio = random.randint(0, len(listaImagenesTanque) - 1)

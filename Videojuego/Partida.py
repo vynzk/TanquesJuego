@@ -32,7 +32,6 @@ class Partida:
         self.jugadoresActivos.remove(jugadorEliminado)
 
     def generarPosicionesJug(self):
-        listaColores = colores = [ROJO, VERDE, ORO, AZUL]
         cantidadJug = len(self.jugadoresActivos)
         cantEspacios = cantidadJug - 1
         espacio = int(len(self.mapa.posPosiblesJug) / (2 * cantidadJug - 1))
@@ -46,15 +45,13 @@ class Partida:
             # ---- parametros aleatorios------------------------------
             numAle = random.randint(contador, contador + espacio -1)
             ubicacionRandom = self.mapa.posPosiblesJug[numAle]
-            colorRandom = random.choice(listaColores)
-            listaColores.remove(colorRandom)  # para no repetir el color
             
             # debug:
             #print(
             #    f'DEBUG: >>jugador: {jugador.nombre}, rango aleatorio ({contador},{contador + espacio}), numAleatorio: {numAle} , posRandom: {ubicacionRandom}, color: {colorRandom}')
             
             # se ubica el tanque y se crea su bloque
-            jugador.tanque.construirBloques(ubicacionRandom[0], ubicacionRandom[1], colorRandom)
+            jugador.tanque.construirBloques(ubicacionRandom[0], ubicacionRandom[1])
             contador += 2 * espacio
 
     def equiparArmasIniciales(self):

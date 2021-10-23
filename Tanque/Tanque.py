@@ -12,15 +12,13 @@ class Tanque:
         self.velocidad = 100
         self.angulo = 100
         self.vida = 100
-        self.color = None
         self.proyectilActual = None
         self.listaProyectiles = []
 
     # funcion que definirá las posiciones x e y del tanque y construirá su bloque
-    def construirBloques(self, x, y, color):
+    def construirBloques(self, x, y):
         self.x = x
         self.y = y
-        self.color = color
         self.bloque = Bloque(self.pantalla, 40, 40, self.imagen, self.x, self.y)
 
     def restablecerVelAng(self):
