@@ -122,7 +122,7 @@ class EscenaJuego(plantillaEscena.Escena):
                 sólo queda un jugador, debemos calcular qué jugador destruyó más tanques, por ende, se invoca
                 el metodo de a continuación a la partida acutal:
                 """
-                self.partidaActual.terminar(self.director.game.nombresJugadores)
+                self.partidaActual.terminar(self.director.game.datosJugadores)
                 # mensaje fin de partida
                 if self.partidaActual.jugadorGanador is not None:
                     self.textoEnPantalla(f'FIN DE PARTIDA, GANADOR: {self.partidaActual.jugadorGanador.nombre}', 30,
@@ -310,6 +310,11 @@ class EscenaJuego(plantillaEscena.Escena):
         cuadroVacioImagen = "imagenes/botones/botonVacio.png"
         self.mostrarImagenEnPos(cuadroVacioImagen, (50, 50), (20, 640))
         self.mostrarImagenEnPos(self.jugadorActual.tanque.imagen, (30, 30), (30, 650))
+
+        """ Requisito 2 y 4: Si el jugador del turno es una IA, se muestra un robot en la barra inferior"""
+        if self.jugadorActual.esIA is True:
+            self.mostrarImagenEnPos("imagenes/IA.png",(50,50),(1000,640))
+
 
         # self.textoEnPantalla(f'Nombre jugador: {self.jugadorActual.nombre}',20,BLANCO,(80,660),False)
         # self.textoEnPantalla(f'Vida tanque: {self.jugadorActual.tanque.vida}',20,BLANCO,(80,690),False)

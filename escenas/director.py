@@ -38,6 +38,7 @@ class Director:
     def checaBoton(self, mousePos, botonNombre):  # detecta el tocar un boton
         if botonNombre.rect.collidepoint((mousePos)):
             return True
+
     def guardarEscena(self,escena):
         self.listaEscenas.append(escena)
         

@@ -15,7 +15,9 @@ class EscenaRegistro(plantillaEscena.Escena):
         self.boton_agregar = None  # botón para agregar jugadores
         self.boton_ia = None  # Requisito 2 y Requisito 4: boton de ia
         self.fondo = pygame.image.load("imagenes/fondoRegistro.png")
-        self.nombresJugadores = []  # se almacenan los nombres de los jugadores
+        """ Requisito 2 y 4: lista que almacenará el par (nombreJugador,esIa) para posteriormente registrar
+        los jugadores en el juego"""
+        self.datosJugadores = []
         self.texto_usuario = ''  # texto que se mostrará en pantalla al escribir
         self.base = pygame.font.Font(None, 32)  # es el tamaño de las letras
         self.cuadroTexto = pygame.Rect(540, 470, 140,
@@ -39,14 +41,14 @@ class EscenaRegistro(plantillaEscena.Escena):
             self.director.mousePos = pygame.mouse.get_pos()
             """Si se presiona el boton agregar, se agrega el jugador al atributo lista"""
             if self.director.checaBoton(self.director.mousePos, self.boton_agregar):
-                self.guardarNombreJug()
+                self.guardarNombreJug(False)
 
             """Requisito 2 y Requisito 4: Accion del boton IA, este registra como nombre IA n° y
             presiona el boton agregar automaticamente para que este se registre sin tanto trabajo del usuario"""
             if self.director.checaBoton(self.director.mousePos, self.boton_ia):
-                self.contadorIA+=1
+                self.contadorIA += 1
                 self.texto_usuario = f'IA {self.contadorIA}'
-                self.guardarNombreJug() # << se registra como jugador
+                self.guardarNombreJug(True)  # << se registra como jugador
 
             """Una vez se ha guardado el nombre y si es ia o no (segun el boton presionado), 
             se procede el registro de los jugadores en el Juego (construccion de los objetos Jugadores
@@ -59,7 +61,7 @@ class EscenaRegistro(plantillaEscena.Escena):
     def registrar(self):
         print(f'DEBUG: Objeto juego: {self.director.game}\n- - - - -')
         # se registran los jugadores
-        if self.director.game.registroJugadores(self.director, self.nombresJugadores):
+        if self.director.game.registroJugadores(self.director, self.datosJugadores):
             # se registran las partidas
             if self.director.game.registroPartidas(self.director):
                 return True  # el registro de ambos funcionó con exito
@@ -79,7 +81,8 @@ class EscenaRegistro(plantillaEscena.Escena):
         """Requisito 2 y Requisito 4: Se crea y muestra el boton IA"""
         botonEsIa = pygame.image.load("imagenes/botones/botonIA.png")
         self.boton_ia = Boton(pantalla, "boton ia", 800, 470, botonEsIa, 127, 40)
-        self.boton_ia.dibujaBoton()
+        if self.contadorJug > 0: # El primer jugador es el usuario, por tanto no se da la opción de IA
+            self.boton_ia.dibujaBoton()
 
         pygame.draw.rect(pantalla, BLANCO, self.cuadroTexto)
         superficie = self.base.render(self.texto_usuario, True, NEGRO)
@@ -102,16 +105,19 @@ class EscenaRegistro(plantillaEscena.Escena):
 
     def eliminarElementosLista(self):  # se eliminan los elementos de la lista para un futuro uso
         while self.constante < self.contadorJug:
-            self.nombresJugadores.pop()
+            self.datosJugadores.pop()
             self.constante = self.constante + 1
         self.constante = 0
         self.contadorJug = 0
 
     """ Guarda el nombre del jugador que se registra en el atributo lista nombreJugadores"""
 
-    def guardarNombreJug(self):
+    """ Requisito 2 y Requisito 4:Guarda como información el par (nombre,esIA) en el atributo datosJugadores, recibe
+    como parametroun boleando (True/False) para saber si el jugador es una IA o no 
+    (esto depende si presiona el boton de IA)"""
+    def guardarNombreJug(self, esIA):
         self.contadorJug = self.contadorJug + 1
-        self.nombresJugadores.append(self.texto_usuario)
+        self.datosJugadores.append((self.texto_usuario, esIA))
         print("Nombre del jugador", self.contadorJug, "=", self.texto_usuario)
         self.texto_usuario = ''
 
