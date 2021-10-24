@@ -15,11 +15,13 @@ class Juego:
         self.jugadorGanador = None
         self.juegoTerminado = False
 
+    """Requisito 4: Se adapta para esta unidad de modo que al invocar la funcion agregarJugador, se 
+    pasa el booleano de acuerdo al boton seleccionada al menu (es o no ia)."""
     def agregarJugador(self, i, pantalla, imagenTanqueAleatoria, nombre):
         # ahora el nombre no se define aquí, ya que se le pasa el arreglo que contiene los nombres
         tanque = Tanque(pantalla, imagenTanqueAleatoria)
         self.listaJugadores.append(
-            Jugador(nombre[i - 1], tanque))  # << agrega un nuevo Jugador con su nombre y su tanque
+            Jugador(nombre[i - 1], tanque,False))  # << agrega un nuevo Jugador con su nombre y su tanque
 
     # función que se encargará de llenar la lista de jugadores, registrará tantos jugadores
     # como lo indique la cantidad de jugadores (que debe tener el constructor de esta clase)
