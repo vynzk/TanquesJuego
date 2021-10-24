@@ -1,11 +1,13 @@
 import random
 from utilidades.colores import *
 from Tanque.Proyectil import Proyectil
+
 """
 from Tanque.Proyectil105 import *
 from Tanque.ProyectilPerforante import *
 from Tanque.Proyectil60 import *
 """
+
 
 class Partida:
     def __init__(self, id, pantalla, mapa):
@@ -21,11 +23,35 @@ class Partida:
     def agregarJugadores(self, jugador):
         self.jugadoresActivos.append(jugador)
 
+    """
     # funcion que termina la partida cuando queda sólo un jugador activo dentro de ella
     def terminar(self):
         self.estado = True
-        self.jugadorGanador = self.jugadoresActivos[0]
+        #self.jugadorGanador = self.jugadoresActivos[0] # << antes, cuando ganaba el que quedaba en pie
         self.jugadorGanador.victorias += 1
+
+    """
+
+    def terminar(self, listaJugadores):
+        empate = False
+        ganadorAux = None
+        print(f'--> OPONENTES DESTRUIDO PARTIDA {self.id} <--')
+        # se recorre la lista de jugadores, contando sus oponentes destruidos
+        for jugador in listaJugadores:
+            print(f'jugador: {jugador.nombre} ==> op dest: { jugador.oponentesDestruidos}')
+            if ganadorAux is None:
+                ganadorAux = jugador
+            else:
+                if ganadorAux.oponentesDestruidos == jugador.oponentesDestruidos:
+                    empate = True
+                elif ganadorAux.oponentesDestruidos < jugador.oponentesDestruidos:
+                    ganadorAux = jugador
+                    empate = False
+        if empate is True:
+            self.jugadorGanador = None
+        else:
+            self.jugadorGanador = ganadorAux
+            self.jugadorGanador.victorias += 1  # << para que sume una victora en la persepctiva de juego
 
     # funcion que brinda la posibilidad de eliminar jugadores al jugadorAtacante 
     def eliminarJugador(self, jugadorEliminado):
@@ -37,28 +63,29 @@ class Partida:
         espacio = int(len(self.mapa.posPosiblesJug) / (2 * cantidadJug - 1))
         contador = 0
 
-        #debug
-        #print(
+        # debug
+        # print(
         #    f'DEBUG: cant jug: {cantidadJug}, cant espacios: {cantEspacios}, cant posibles espacios: {len(self.mapa.posPosiblesJug)}, rango espacios: {espacio}')
-        
+
         for jugador in self.jugadoresActivos:
             # ---- parametros aleatorios------------------------------
-            numAle = random.randint(contador, contador + espacio -1)
+            numAle = random.randint(contador, contador + espacio - 1)
             ubicacionRandom = self.mapa.posPosiblesJug[numAle]
-            
+
             # debug:
-            #print(
+            # print(
             #    f'DEBUG: >>jugador: {jugador.nombre}, rango aleatorio ({contador},{contador + espacio}), numAleatorio: {numAle} , posRandom: {ubicacionRandom}, color: {colorRandom}')
-            
+
             # se ubica el tanque y se crea su bloque
             jugador.tanque.construirBloques(ubicacionRandom[0], ubicacionRandom[1])
             contador += 2 * espacio
 
     def equiparArmasIniciales(self):
         for jugador in self.jugadoresActivos:
-            proyectil105=Proyectil("Proyectil 105",3,50,"imagenes/armas/proyectil105.png",ROJO)
-            proyectilPerforante=Proyectil("Proyectil Perforante",10,40,"imagenes/armas/proyectilPerforante.png",NARANJA)
-            proyectil60=Proyectil("Proyectil 60",3,30,"imagenes/armas/proyectil60.png",AMARILLO)
+            proyectil105 = Proyectil("Proyectil 105", 3, 50, "imagenes/armas/proyectil105.png", ROJO)
+            proyectilPerforante = Proyectil("Proyectil Perforante", 10, 40, "imagenes/armas/proyectilPerforante.png",
+                                            NARANJA)
+            proyectil60 = Proyectil("Proyectil 60", 3, 30, "imagenes/armas/proyectil60.png", AMARILLO)
 
             """
             antes del refactor

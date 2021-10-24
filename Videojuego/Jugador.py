@@ -4,3 +4,4 @@ class Jugador:
         self.tanque = tanque
         self.victorias = 0
         self.participoTurno=False
+        self.oponentesDestruidos=0
