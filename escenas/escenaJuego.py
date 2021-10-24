@@ -14,6 +14,7 @@ from Tanque.Tanque import *
 import random
 from escenas.escenaAyuda import EscenaAyuda
 from Videojuego.Juego import Juego
+import keyboard
 
 
 class EscenaJuego(plantillaEscena.Escena):
@@ -57,8 +58,8 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def on_event(self, event):
         self.director.mousePos = pygame.mouse.get_pos()
-        if event.type == pygame.MOUSEBUTTONDOWN:
-
+        """Requisito 4: Se bloquea presionar botones por parte del usuario en turnos de IA (para evitar bugs)"""
+        if event.type == pygame.MOUSEBUTTONDOWN and self.jugadorActual.esIA is not True:
             if self.director.checaBoton(self.director.mousePos, self.boton_salir):
                 self.director.running = False  # rompe el ciclo gameLoop y sale del juego
             if self.director.checaBoton(self.director.mousePos, self.boton_reiniciar):
@@ -81,18 +82,20 @@ class EscenaJuego(plantillaEscena.Escena):
                     # se muestra mensaje que no posee balas
                     self.textoEnPantalla(f'NO TIENES BALAS SUFICIENTES, CAMBIA DE ARMA', 30, BLANCO, (300, 300), True)
 
-            if event.key == pygame.K_LEFT:
-                if 200 > self.jugadorActual.tanque.velocidad > 50:
-                    self.jugadorActual.tanque.velocidad -= 1
-            if event.key == pygame.K_RIGHT:
-                if 200 >= self.jugadorActual.tanque.velocidad > 50:
-                    self.jugadorActual.tanque.velocidad += 1
-            if event.key == pygame.K_UP:
-                if self.jugadorActual.tanque.angulo + 1 < 180:  # si no verificamos, cualquier angulo fuera de este, el proyectil impacta con el propio tanque
-                    self.jugadorActual.tanque.angulo += 1
-            if event.key == pygame.K_DOWN:
-                if self.jugadorActual.tanque.angulo - 1 > 0:
-                    self.jugadorActual.tanque.angulo -= 1
+            """Requisito 4: Se bloquea mover flechas por parte del usuario en turnos de IA(para evitar bugs)"""
+            if self.jugadorActual.esIA is not True:
+                if event.key == pygame.K_LEFT:
+                    if 200 > self.jugadorActual.tanque.velocidad > 50:
+                        self.jugadorActual.tanque.velocidad -= 1
+                if event.key == pygame.K_RIGHT:
+                    if 200 >= self.jugadorActual.tanque.velocidad > 50:
+                        self.jugadorActual.tanque.velocidad += 1
+                if event.key == pygame.K_UP:
+                    if self.jugadorActual.tanque.angulo + 1 < 180:  # si no verificamos, cualquier angulo fuera de este, el proyectil impacta con el propio tanque
+                        self.jugadorActual.tanque.angulo += 1
+                if event.key == pygame.K_DOWN:
+                    if self.jugadorActual.tanque.angulo - 1 > 0:
+                        self.jugadorActual.tanque.angulo -= 1
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
@@ -100,6 +103,9 @@ class EscenaJuego(plantillaEscena.Escena):
         if self.director.game.juegoTerminado is not True:
             # si tiene más de un jugador activo la partida, sigue la partida jugandose
             if len(self.partidaActual.jugadoresActivos) > 1:
+                """Requisito 4: Si es IA, debe actuar autonomamente"""
+                if self.jugadorActual.esIA is True:
+                    self.decisionIA()
                 self.contenidoBarraInferior()
                 if self.flag:
                     # si al comenzar un turno, ningun jugador tiene balas, empatan
@@ -313,8 +319,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
         """ Requisito 2 y 4: Si el jugador del turno es una IA, se muestra un robot en la barra inferior"""
         if self.jugadorActual.esIA is True:
-            self.mostrarImagenEnPos("imagenes/IA.png",(50,50),(1000,640))
-
+            self.mostrarImagenEnPos("imagenes/IA.png", (50, 50), (1000, 640))
 
         # self.textoEnPantalla(f'Nombre jugador: {self.jugadorActual.nombre}',20,BLANCO,(80,660),False)
         # self.textoEnPantalla(f'Vida tanque: {self.jugadorActual.tanque.vida}',20,BLANCO,(80,690),False)
@@ -540,3 +545,21 @@ class EscenaJuego(plantillaEscena.Escena):
         while contadorVertical < 1280:
             pygame.draw.line(self.director.pantalla, BLANCO, (contadorVertical, 0), (contadorVertical, 600), 1)
             contadorVertical += 40
+
+    """------------------------------------------------------------------------------------
+    Requisito 4: Cuando el turno es de una inteligencia artificial, decidirá la decisión automaticamente, no 
+    debe el usuario actuar, por tanto, se empleará el metodo de a continuación:
+    """
+
+    def decisionIA(self):
+        if self.flag is False:
+            self.jugadorActual.tanque.angulo = random.randint(0, 180)
+            self.jugadorActual.tanque.velocidad = random.randint(50, 100)
+            if self.jugadorActual.tanque.proyectilActual.municion > 0:
+                keyboard.press_and_release('space')
+            # si no tiene municion, debe cambiar de arma por si sola
+            else:
+                for proyectil in self.jugadorActual.tanque.listaProyectiles:
+                    if proyectil.municion > 0:
+                        self.jugadorActual.tanque.proyectilActual = proyectil
+                        self.textoEnPantalla("IA CAMBIA DE ARMA", 30, ROJO, (300, 300), True)

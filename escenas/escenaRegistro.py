@@ -81,7 +81,9 @@ class EscenaRegistro(plantillaEscena.Escena):
         """Requisito 2 y Requisito 4: Se crea y muestra el boton IA"""
         botonEsIa = pygame.image.load("imagenes/botones/botonIA.png")
         self.boton_ia = Boton(pantalla, "boton ia", 800, 470, botonEsIa, 127, 40)
-        if self.contadorJug > 0: # El primer jugador es el usuario, por tanto no se da la opción de IA
+        """Requisito 4: El primer jugador es el usuario, por tanto, no debe permitirse que se registre una IA
+        como primer jugador, si quieres que juegen sólo IA, comenta el siguiente if"""
+        if self.contadorJug > 0:
             self.boton_ia.dibujaBoton()
 
         pygame.draw.rect(pantalla, BLANCO, self.cuadroTexto)
