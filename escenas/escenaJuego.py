@@ -128,7 +128,7 @@ class EscenaJuego(plantillaEscena.Escena):
                 sólo queda un jugador, debemos calcular qué jugador destruyó más tanques, por ende, se invoca
                 el metodo de a continuación a la partida acutal:
                 """
-                self.partidaActual.terminar(self.director.game.datosJugadores)
+                self.partidaActual.terminar(self.director.game.listaJugadores)
                 # mensaje fin de partida
                 if self.partidaActual.jugadorGanador is not None:
                     self.textoEnPantalla(f'FIN DE PARTIDA, GANADOR: {self.partidaActual.jugadorGanador.nombre}', 30,
