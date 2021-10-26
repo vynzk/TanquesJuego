@@ -20,7 +20,7 @@ class EscenaRegistro(plantillaEscena.Escena):
         self.datosJugadores = []
         self.texto_usuario = ''  # texto que se mostrará en pantalla al escribir
         self.base = pygame.font.Font(None, 32)  # es el tamaño de las letras
-        self.cuadroTexto = pygame.Rect(540, 470, 140,
+        self.cuadroTexto = pygame.Rect(600, 400, 140,
                                        32)  # lugar donde se dibujará el cuadrado para ingresar los nombres de los jugadores
         self.contadorJug = 0
         self.constante = 0
@@ -72,15 +72,15 @@ class EscenaRegistro(plantillaEscena.Escena):
     def on_draw(self, pantalla):
         pantalla.blit(self.fondo, (0, 0))
         self.mostrarTexto()
-        self.mostrarImagenEnPos("imagenes/fondoBlanco.png", (127, 32), (540, 470))
+        self.mostrarImagenEnPos("imagenes/fondoBlanco.png", (127, 32), (600, 400))
 
         botonAgregar = pygame.image.load("imagenes/botones/botonAgregar.png")
-        self.boton_agregar = Boton(pantalla, "agregar", 540, 520, botonAgregar, 150, 40)
+        self.boton_agregar = Boton(pantalla, "agregar", 600, 520, botonAgregar, 127, 40)
         self.boton_agregar.dibujaBoton()
 
         """Requisito 2 y Requisito 4: Se crea y muestra el boton IA"""
         botonEsIa = pygame.image.load("imagenes/botones/botonIA.png")
-        self.boton_ia = Boton(pantalla, "boton ia", 800, 470, botonEsIa, 127, 40)
+        self.boton_ia = Boton(pantalla, "boton ia", 800, 400, botonEsIa, 127, 40)
         """Requisito 4: El primer jugador es el usuario, por tanto, no debe permitirse que se registre una IA
         como primer jugador, si quieres que juegen sólo IA, comenta el siguiente if"""
         if self.contadorJug > 0:
@@ -89,7 +89,7 @@ class EscenaRegistro(plantillaEscena.Escena):
         pygame.draw.rect(pantalla, BLANCO, self.cuadroTexto)
         superficie = self.base.render(self.texto_usuario, True, NEGRO)
         pantalla.blit(superficie,
-                      (self.cuadroTexto.x + 5, self.cuadroTexto.y + 5))  # se ajusta el texto en el cuadrado
+                      (self.cuadroTexto.x + 10, self.cuadroTexto.y + 10))  # se ajusta el texto en el cuadrado
 
         self.cuadroTexto.w = superficie.get_width() + 10  # esto hace que el cuadrado se alargue dependiendo de lo que escriba el usuario
 
@@ -124,4 +124,4 @@ class EscenaRegistro(plantillaEscena.Escena):
         self.texto_usuario = ''
 
     def mostrarTexto(self):
-        self.textoEnPantalla(f'Ingrese el nombre del jugador: {self.contadorJug + 1}', 15, BLANCO, (480, 420), False)
+        self.textoEnPantalla(f'Ingrese el nombre del jugador: {self.contadorJug + 1}', 20, BLANCO, (470, 300), False)
