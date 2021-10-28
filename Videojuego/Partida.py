@@ -58,27 +58,14 @@ class Partida:
         self.jugadoresActivos.remove(jugadorEliminado)
 
     def generarPosicionesJug(self):
-        cantidadJug = len(self.jugadoresActivos)
-        cantEspacios = cantidadJug - 1
-        espacio = int(len(self.mapa.posPosiblesJug) / (2 * cantidadJug - 1))
-        contador = 0
-
-        # debug
-        # print(
-        #    f'DEBUG: cant jug: {cantidadJug}, cant espacios: {cantEspacios}, cant posibles espacios: {len(self.mapa.posPosiblesJug)}, rango espacios: {espacio}')
-
+        cantDivisiones=2*len(self.jugadoresActivos)-1
+        espacios=int(len(self.mapa.posPosiblesJug)/cantDivisiones)
+        contador=0
         for jugador in self.jugadoresActivos:
-            # ---- parametros aleatorios------------------------------
-            numAle = random.randint(contador, contador + espacio - 1)
-            ubicacionRandom = self.mapa.posPosiblesJug[numAle]
-
-            # debug:
-            # print(
-            #    f'DEBUG: >>jugador: {jugador.nombre}, rango aleatorio ({contador},{contador + espacio}), numAleatorio: {numAle} , posRandom: {ubicacionRandom}, color: {colorRandom}')
-
-            # se ubica el tanque y se crea su bloque
-            jugador.tanque.construirBloques(ubicacionRandom[0], ubicacionRandom[1])
-            contador += 2 * espacio
+            posAleatoria=self.mapa.posPosiblesJug[random.randint(contador,contador+espacios)]
+            # ahora pos aleatoria es un par ordenado (x,y), por tanto:
+            jugador.tanque.construirBloques(posAleatoria[0],posAleatoria[1])
+            contador+=espacios*2
 
     def equiparArmasIniciales(self):
         for jugador in self.jugadoresActivos:

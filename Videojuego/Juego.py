@@ -33,11 +33,11 @@ class Juego:
                                "imagenes/bloque/tanqueCeleste.png", "imagenes/bloque/tanqueRojo.png",
                                "imagenes/bloque/tanqueVerde.png", "imagenes/bloque/tanqueCafe.png"]
         # print("\n### REGISTRO DE JUGADORES ###")
-        for i in range(1, self.cantidadJugadores + 1):
-            numAleatorio = random.randint(0, len(listaImagenesTanque) - 1)
-            imagenTanqueAleatoria = listaImagenesTanque[numAleatorio]
+        for i in range(0,self.cantidadJugadores):
+            numAleatorio=random.randint(0,len(listaImagenesTanque)-1)
+            imagenTanqueAleatoria=listaImagenesTanque[numAleatorio]
             listaImagenesTanque.remove(imagenTanqueAleatoria)
-            self.agregarJugador(i, director.pantalla, imagenTanqueAleatoria, datosJugadores[i-1])
+            self.agregarJugador(i+1,director.pantalla,imagenTanqueAleatoria,datosJugadores[i])
         return True  # termina con exito el registro
 
     # función que agregará una partida a la lista de partidas, cada partida agregará como jugadores activos a la
