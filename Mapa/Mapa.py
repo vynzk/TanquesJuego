@@ -1,6 +1,7 @@
-from GUI.bloque import Bloque
+from Mapa.bloque import Bloque
 import pygame
-from GUI.colores import *
+from Mapa.listasEscenarios import *
+import random
 
 pygame.init()
 
@@ -16,7 +17,7 @@ class Mapa:
         self.posPosiblesJug = []
         self.bloquePos = []
         self.mapa = mapa
-        self.imagenCemento = "GUI/imagenes/bloque/bloqueTierra2.png"
+        self.imagenCemento = bloquesLista[random.randint(0,len(bloquesLista)-1)]
 
     def dibujarMapa(self, pantalla):
         for bloque in self.listaBloques:
@@ -37,27 +38,3 @@ class Mapa:
                     self.posPosiblesJug.append([i * self.pixel_x, j * self.pixel_y])
                 j += 1
             i += 1
-
-    def buscarBloque(self, x, y):
-        for bloque in self.listaBloques:
-            if bloque.x == x and bloque.y == y:
-                return bloque
-        return None
-
-    def destruir(self, bloque):
-        if bloque is not None:
-            self.listaBloques.remove(bloque)
-
-    def destruirZonaImpacto(self, bloqueImpactado, dañoArma):
-
-        self.destruir(bloqueImpactado)  # todos rompen el bloque de impacto
-        # Proyectil 105
-        if dañoArma == 50:
-            pass
-        # Proyectil 105 o Perforante, comparten romper los bloques de los lados iz y derecho
-        if dañoArma == 40 or dañoArma == 50:
-            bloqueIzquierda = self.buscarBloque(bloqueImpactado.x - 40, bloqueImpactado.y)
-            bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, bloqueImpactado.y)
-            # destrucción de los bloques
-            self.destruir(bloqueIzquierda)
-            self.destruir(bloqueDerecha)
