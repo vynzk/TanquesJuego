@@ -62,6 +62,7 @@ class EscenaConfig(plantillaEscena.Escena):
         self.boton_dimensionPantalla = Boton(pantalla, "play", 64, 300,botonVacio,127,40)
         self.boton_dimensionPantalla.dibujaBoton()
         #municion
+        self.textoEnPantalla(f' Proyectil Perforante',15,BLANCO,(950,150),False)
         self.boton_perforante = Boton(pantalla, "play", 900, 150,botonVacio,40,40)
         self.boton_perforante.dibujaBoton()   
 
