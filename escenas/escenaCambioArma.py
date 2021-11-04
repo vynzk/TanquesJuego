@@ -13,9 +13,10 @@ class EscenaCambioArma(plantillaEscena.Escena):
         self.botonVolver = None
         self.botonAplicar = None
         self.listaPanelArmas = []
-        self.jugadorActual = director.listaEscenas[0].jugadorActual  # pos 0 siempre debe corresponder a escena juego
+        self.jugadorActual = director.listaEscenas[1].jugadorActual  # pos 0 siempre debe corresponder a escena juego
         self.panel = pygame.image.load("imagenes/fondoVentana.png")
         self.redimensionarPanel(500, 500)
+        self.cambioArmaFlag=False
 
     def on_update(self):
         pygame.display.set_caption("Cambio de armas")  # no cambies esto aun... es para debuggueo
@@ -29,6 +30,9 @@ class EscenaCambioArma(plantillaEscena.Escena):
             for i in range(len(self.jugadorActual.tanque.listaProyectiles)):
                 if self.director.checaBoton(self.director.mousePos, self.listaPanelArmas[i]):
                     self.jugadorActual.tanque.cambiarArma(i)
+                    self.cambioArmaFlag= True
+                    
+
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
@@ -57,7 +61,7 @@ class EscenaCambioArma(plantillaEscena.Escena):
             self.listaPanelArmas[i].dibujaBoton()
             balaImagen = self.jugadorActual.tanque.listaProyectiles[i].imagen
 
-            balasCantidad = 'Munición: ' + str(self.jugadorActual.tanque.listaProyectiles[i].municion)
+            balasCantidad = 'Daño: ' + str(self.jugadorActual.tanque.listaProyectiles[i].daño)
             balaNombre = self.jugadorActual.tanque.listaProyectiles[i].nombre
 
             balaNombreRender = self.textoRender(balaNombre, NEGRO)
@@ -69,12 +73,14 @@ class EscenaCambioArma(plantillaEscena.Escena):
 
             posPanel += yPanel + 10
             i += 1
-
+        if self.cambioArmaFlag:
+            self.textoEnPantalla("Se a cambiado de arma exitosamente",15,ROJO,(450,450),True)
+        
     def redimensionarPanel(self, x, y):
         self.panel = pygame.transform.scale(self.panel, (x, y))
 
     def vuelveJuego(self):
-        juegoActual = self.director.listaEscenas[0]
+        juegoActual = self.director.listaEscenas[1]
         self.director.cambiarEscena(juegoActual)
 
     def textoRender(self, frase, color):
