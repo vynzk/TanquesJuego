@@ -36,8 +36,8 @@ class EscenaJuego(plantillaEscena.Escena):
         self.bloqueImpactado = None
         self.xMaxDisparo = 0
         self.yMaxDisparo = 0
-        self.aceleracionVertical = random.randint(5,20)
-        self.aceleracionHorizontal = random.randint(-10,10)
+        self.aceleracionVertical = self.director.game.aceleracionVertical 
+        self.aceleracionHorizontal = self.director.game.aceleracionHorizontal
         self.boton_salir = None
         self.boton_reiniciar = None
         self.boton_cambioArmas = None
