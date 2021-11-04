@@ -36,6 +36,8 @@ class EscenaJuego(plantillaEscena.Escena):
         self.bloqueImpactado = None
         self.xMaxDisparo = 0
         self.yMaxDisparo = 0
+        self.aceleracionVertical = random.randint(5,20)
+        self.aceleracionHorizontal = random.randint(-10,10)
         self.boton_salir = None
         self.boton_reiniciar = None
         self.boton_cambioArmas = None
@@ -174,12 +176,15 @@ class EscenaJuego(plantillaEscena.Escena):
         self.yMaxDisparo = 0
         xJugador = self.jugadorActual.tanque.bloque.x
         yJugador = self.jugadorActual.tanque.bloque.y
+        print("aceleracion vertical:", self.aceleracionVertical)
+        print("aceleracion horizontal:", self.aceleracionHorizontal)
         while True:
+            #Se aplica la misma formula de la aceleracion de gravedad, pero ahora de forma vertical, lo cual da un efecto de viento
             xDisparo = int(xJugador + 20 + delta * self.jugadorActual.tanque.velocidad * math.cos(
-                self.jugadorActual.tanque.angulo * 3.1416 / 180))
+                self.jugadorActual.tanque.angulo * 3.1416 / 180) + (self.aceleracionHorizontal * delta * delta) / 2)
             yDisparo = int(yJugador - 1 - (
                     delta * self.jugadorActual.tanque.velocidad * math.sin(
-                self.jugadorActual.tanque.angulo * 3.1416 / 180) - (9.81 * delta * delta) / 2))
+                self.jugadorActual.tanque.angulo * 3.1416 / 180) - (self.aceleracionVertical * delta * delta) / 2))
             delta += 0.1  # si quieres que hayan más puntitos en la parabola, modifica esto
             self.trayectoria.append((xDisparo, yDisparo))
             self.calcularDesplazamientoAltura(xDisparo, yDisparo)
