@@ -443,10 +443,14 @@ class EscenaJuego(plantillaEscena.Escena):
         self.director.game=[]
         self.director.game=Juego(2,1)
         # se cambia a la escena de registro anteriormente guardada
-        self.director.cambiarEscena(self.director.listaEscenas[0])
+        # se salvan del borrado escenas iniciales
+        nuevoHome=self.director.listaEscenas[0]
+        nuevoConfig=self.director.listaEscenas[1]
+        self.director.cambiarEscena(nuevoHome)
         # se borran las escenas guardadas hasta el momento por el director
+
         del self.director.listaEscenas
-        self.director.listaEscenas=[]
+        self.director.listaEscenas=[nuevoHome,nuevoConfig]
         #print(f' lista escena despues: {self.director.listaEscenas}') # << debug
         self.director.escena.textoEnPantalla("Se ha reiniciado el juego correctamente, por favor registra jugadores"
                                              +" nuevamente",20,BLANCO,(100,300),True)

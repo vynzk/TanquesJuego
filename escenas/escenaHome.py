@@ -14,11 +14,13 @@ class EscenaHome(plantillaEscena.Escena):
         self.boton_play = None
         self.boton_config= None
         self.fondo= pygame.image.load("imagenes/fondoHome.png")
+
         self.cambiaDePartida()
+
 
     def on_update(self):
         pygame.display.set_caption("Home")  # no cambies esto aun... es para debuggueo
-        
+
 
     def on_event(self, evento):
         if evento.type == pygame.MOUSEBUTTONDOWN:
@@ -26,7 +28,7 @@ class EscenaHome(plantillaEscena.Escena):
             if self.director.checaBoton(self.director.mousePos, self.boton_play):
                 self.cambiaDePartida()
             if self.director.checaBoton(self.director.mousePos, self.boton_config):
-                self.cambiaConfiguracion()
+                self.cambiaEscenaConfig()
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
@@ -40,5 +42,12 @@ class EscenaHome(plantillaEscena.Escena):
 
     def cambiaDePartida(self):
         self.director.cambiarEscena(EscenaRegistro(self.director))
-    def cambiaConfiguracion(self):
-        self.director.cambiarEscena(EscenaConfig(self.director))
+
+    def guardaEscenaConfig(self):
+        config = EscenaConfig(self.director)
+        #home = self.director.escena
+        #self.director.guardarEscena(home) #self.director.listaEscenas[0]
+        self.director.guardarEscena(config) #self.director.listaEscenas[1]
+
+    def cambiaEscenaConfig(self):
+        self.director.cambiarEscena(self.director.listaEscenas[1])

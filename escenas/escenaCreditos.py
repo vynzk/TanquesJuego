@@ -31,5 +31,7 @@ class EscenaCreditos(plantillaEscena.Escena):
 
 
     def vuelveJuego(self):
-        juegoActual = self.director.listaEscenas[1]
+        juegoActual = self.director.listaEscenas[3]
         self.director.cambiarEscena(juegoActual)
+
+        print(self.director.listaEscenas)

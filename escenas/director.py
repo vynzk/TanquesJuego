@@ -12,6 +12,7 @@ class Director:
         self.running = True
         self.game = game
         self.listaEscenas = []
+
         
 
     def gameLoop(self):  # bucle del juego
