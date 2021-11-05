@@ -16,6 +16,8 @@ class EscenaHome(plantillaEscena.Escena):
         self.boton_MasJug = None
         self.cantidadJugadores=2
         self.boton_MenosJug = None
+        self.boton_gravedad = None
+        self.boton_clima = None
         self.fondo = pygame.image.load("imagenes/fondoHome.png")
 
     def on_update(self):
@@ -36,22 +38,33 @@ class EscenaHome(plantillaEscena.Escena):
                     self.cantidadJugadores-=1
                 else:
                     self.textoEnPantalla("El minimo de jugadores es 2",20,ROJO,(150,150),True)
+            if self.director.checaBoton(self.director.mousePos, self.boton_gravedad):
+                pass
+            if self.director.checaBoton(self.director.mousePos, self.boton_clima):
+                pass
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
         pantalla.blit(self.fondo, (0, 0))
         self.textoEnPantalla(f'Cantidad jugadores: {self.cantidadJugadores}',20,BLANCO,(150,200),False)
+        self.textoEnPantalla(f'Efectos de entorno', 20, BLANCO, (870, 200), False)
 
         botonJugar = pygame.image.load("imagenes/botones/botonJugar.png")
         botonMasJug = pygame.image.load("imagenes/botones/botonAgregar.png")
         botonMenosJug = pygame.image.load("imagenes/botones/botonDisminuir.png")
+        botonGravedad = pygame.image.load("imagenes/botones/botonGravedad.png")
+        botonClima = pygame.image.load("imagenes/botones/botonClima.png")
         self.boton_play = Boton(pantalla, "play", 580, 500, botonJugar, 127, 40)
         self.boton_MasJug = Boton(pantalla, "Mas jugador", 150, 250, botonMasJug, 127,40)
         self.boton_MenosJug = Boton(pantalla, "Menos Jugador", 300, 250, botonMenosJug, 127,40)
+        self.boton_gravedad = Boton(pantalla, "gravedad", 853, 250, botonGravedad, 127, 40)
+        self.boton_clima = Boton(pantalla, "clima", 1003, 250, botonClima, 127, 40)
         self.boton_play.dibujaBoton()
         self.boton_MasJug.dibujaBoton()
         self.boton_MenosJug.dibujaBoton()
+        self.boton_gravedad.dibujaBoton()
+        self.boton_clima.dibujaBoton()
 
     def cambiaDePartida(self):
         self.director.guardarEscena(self.director.escena)
