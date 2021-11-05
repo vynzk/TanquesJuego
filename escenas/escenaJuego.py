@@ -176,8 +176,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.yMaxDisparo = 0
         xJugador = self.jugadorActual.tanque.bloque.x
         yJugador = self.jugadorActual.tanque.bloque.y
-        print("aceleracion vertical:", self.aceleracionVertical)
-        print("aceleracion horizontal:", self.aceleracionHorizontal)
+        
         while True:
             #Se aplica la misma formula de la aceleracion de gravedad, pero ahora de forma vertical, lo cual da un efecto de viento
             xDisparo = int(xJugador + 20 + delta * self.jugadorActual.tanque.velocidad * math.cos(

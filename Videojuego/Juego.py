@@ -82,6 +82,8 @@ class Juego:
 
     def redefinirGravedad(self):
         self.aceleracionVertical = random.randint(5,20)
+        print("aceleracion gravedad:", self.aceleracionVertical, "m/s**2")
     
     def redefinirClima(self):
         self.aceleracionHorizontal = random.randint(-10,10)
+        print("aceleracion clima:", self.aceleracionHorizontal, "m/s")
