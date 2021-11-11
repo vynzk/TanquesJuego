@@ -76,7 +76,7 @@ class EscenaRegistro(plantillaEscena.Escena):
             partida.equiparArmasIniciales()
         juegoEscena = EscenaJuego(self.director)
 
-        """ Se guardarán las escenas hasta ahora utilizadas, por lo que: listaEscenas= [escenaRegistro, escenaJuego]
+        """ Se guardarán las escenas hasta ahora utilizadas, por lo que: listaEscenas= [escenaRegistro[2], escenaJuego[3]
         con el motivo de viajar de una a otra en un futuro"""
         self.director.guardarEscena(self.director.escena)
         self.director.guardarEscena(juegoEscena)
