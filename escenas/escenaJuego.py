@@ -14,7 +14,6 @@ from Tanque.Tanque import *
 import random
 from escenas.escenaAyuda import EscenaAyuda
 from Videojuego.Juego import Juego
-import keyboard
 
 
 class EscenaJuego(plantillaEscena.Escena):
@@ -560,7 +559,8 @@ class EscenaJuego(plantillaEscena.Escena):
             self.jugadorActual.tanque.angulo = random.randint(0, 180)
             self.jugadorActual.tanque.velocidad = random.randint(50, 100)
             if self.jugadorActual.tanque.proyectilActual.municion > 0:
-                keyboard.press_and_release('space')
+                self.flag = True
+                self.jugadorActual.tanque.proyectilActual.municion -= 1  # se le resta una bala ya que disparó
             # si no tiene municion, debe cambiar de arma por si sola
             else:
                 for proyectil in self.jugadorActual.tanque.listaProyectiles:
