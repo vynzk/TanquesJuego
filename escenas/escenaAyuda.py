@@ -41,5 +41,5 @@ class EscenaAyuda:
 		self.panel= pygame.transform.scale(self.panel, (x,y) )
 
 	def vuelveJuego(self):
-		juegoActual= self.director.listaEscenas[0]
+		juegoActual= self.director.listaEscenas[1]
 		self.director.cambiarEscena(juegoActual)
