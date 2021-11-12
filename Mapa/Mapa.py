@@ -9,8 +9,8 @@ pygame.init()
 class Mapa:
     def __init__(self, mapa):
         # medidas
-        self.ancho = 1280
-        self.alto = 730
+        self.ancho = 1280 #800 en el futuro
+        self.alto = 730 #800 en el futuro
         self.pixel_y = 40
         self.pixel_x = 40
         self.listaBloques = []

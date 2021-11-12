@@ -6,11 +6,26 @@ class Director:
     """El director se encarga de iniciar el juego,
         cambiar las escenas y recoger e interpretar los eventos de estas."""
 
-    def __init__(self):  # constructor
-        self.pantalla = pygame.display.set_mode((1280, 720))
+    def __init__(self, game):  # constructor para ventana default
+        self.ancho = 1280 #800 a futuro
+        self.largo = 720 #800 a futuro
+        self.pantalla = pygame.display.set_mode((1280, 720))#aqui hay que poner self.pantalla = pygame.display.set_mode((800, 800))
         self.escena = None
         self.running = True
-        self.game = None
+        self.game = game
+        self.listaEscenas = []
+
+    def __init__(self, game, ancho, largo):  # constructor para tamaño de ventana editado
+        if(ancho<800 and ancho>1600):
+            ancho = 800
+        if(largo<800 and largo>1600):
+            largo = 800
+        self.ancho = ancho
+        self.largo = largo
+        self.pantalla = pygame.display.set_mode((ancho, largo))
+        self.escena = None
+        self.running = True
+        self.game = game
         self.listaEscenas = []
         
 
@@ -41,4 +56,7 @@ class Director:
 
     def guardarEscena(self,escena):
         self.listaEscenas.append(escena)
+
+    
+    
         

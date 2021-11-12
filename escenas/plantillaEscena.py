@@ -8,7 +8,7 @@ class Escena:
     def __init__(self, director):
         self.director = director
         #---para tener un fondo transparente en cualquier escena que sea hija---
-        self.fondoTransparente = pygame.Surface((1280, 720))
+        self.fondoTransparente = pygame.Surface((1280, 720)) # En el futuro  pygame.Surface((800, 800))
         self.fondoTransparente = self.fondoTransparente.convert_alpha()
         self.fondoTransparente.fill((0, 0, 0, 0))
     
