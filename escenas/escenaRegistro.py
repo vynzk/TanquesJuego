@@ -73,7 +73,7 @@ class EscenaRegistro(plantillaEscena.Escena):
         pantalla.blit(self.fondo, (0, 0))
         self.mostrarTexto()
         self.mostrarImagenEnPos("imagenes/fondoBlanco.png", (127, 32), (600, 400))
-
+        
         botonAgregar = pygame.image.load("imagenes/botones/botonAgregar.png")
         self.boton_agregar = Boton(pantalla, "agregar", 600, 520, botonAgregar, 127, 40)
         self.boton_agregar.dibujaBoton()

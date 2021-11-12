@@ -108,6 +108,7 @@ class EscenaJuego(plantillaEscena.Escena):
                 if self.jugadorActual.esIA is True:
                     self.decisionIA()
                 self.contenidoBarraInferior()
+                self.gravedadClima()
                 if self.flag:
                     # si al comenzar un turno, ningun jugador tiene balas, empatan
                     if self.empate() is True:
@@ -567,3 +568,18 @@ class EscenaJuego(plantillaEscena.Escena):
                     if proyectil.municion > 0:
                         self.jugadorActual.tanque.proyectilActual = proyectil
                         self.textoEnPantalla("IA CAMBIA DE ARMA", 30, ROJO, (300, 300), True)
+
+    def gravedadClima(self):
+        if self.aceleracionHorizontal > 0:
+            viento = "imagenes/banderaVientoDerecha.png"
+            self.mostrarImagenEnPos(viento, (80, 80), (0, 0))
+            self.textoEnPantalla(f'Viento : {self.aceleracionHorizontal} m/s', 15, BLANCO, (100, 0), False)
+
+        if self.aceleracionHorizontal < 0:
+            viento = "imagenes/banderaVientoIzquierda.png"
+            self.mostrarImagenEnPos(viento, (80, 80), (0, 0))
+            self.textoEnPantalla(f'Viento : {self.aceleracionHorizontal * -1} m/s', 15, BLANCO, (100, 0), False)
+
+        self.textoEnPantalla(f'Gravedad : {self.aceleracionVertical} m/s^2', 15, BLANCO, (100, 40), False)
+
+        
