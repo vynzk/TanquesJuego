@@ -5,8 +5,7 @@ from escenas.director import *
 def main():
     director = Director()
     home = EscenaHome(director)  
-
-    director.cambiarEscena(home) #debe ir home
+    director.cambiarEscena(home)
     director.gameLoop()
 
 

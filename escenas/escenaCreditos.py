@@ -7,6 +7,8 @@ class EscenaCreditos(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
+        self.director.listaEscenas["escenaCreditos"]=self;
+
         self.boton_salir = None
         self.fondo= pygame.image.load("imagenes/fondoCreditos.png")
         
@@ -31,5 +33,4 @@ class EscenaCreditos(plantillaEscena.Escena):
 
 
     def vuelveJuego(self):
-        juegoActual = self.director.listaEscenas[1]
-        self.director.cambiarEscena(juegoActual)
+        self.director.cambiarEscena(self.director.listaEscenas["escenaJuego"])

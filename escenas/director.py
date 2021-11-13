@@ -11,7 +11,7 @@ class Director:
         self.escena = None
         self.running = True
         self.game = None
-        self.listaEscenas = []
+        self.listaEscenas = dict()
         
 
     def gameLoop(self):  # bucle del juego
@@ -38,7 +38,3 @@ class Director:
     def checaBoton(self, mousePos, botonNombre):  # detecta el tocar un boton
         if botonNombre.rect.collidepoint((mousePos)):
             return True
-
-    def guardarEscena(self,escena):
-        self.listaEscenas.append(escena)
-        

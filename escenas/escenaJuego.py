@@ -1,11 +1,9 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# from GUI.escenaRegistro import EscenaRegistro
 import pygame
 import math
 import time
 from escenas import plantillaEscena
 from Mapa.listasEscenarios import *
+from escenas.director import Director
 from escenas.escenaCreditos import EscenaCreditos
 from utilidades.colores import *
 from utilidades.Boton import Boton
@@ -15,11 +13,13 @@ import random
 from escenas.escenaAyuda import EscenaAyuda
 from Videojuego.Juego import Juego
 
-
 class EscenaJuego(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
+        self.director.listaEscenas["escenaJuego"]=self;
+        print(self.director.listaEscenas.keys())
+        
         self.fondo = fondosLista[random.randint(0, len(fondosLista) - 1)]
         self.fondo = pygame.transform.scale(self.fondo, (1280, 720))
         self.partidas = self.director.game.listaPartidas
@@ -64,6 +64,7 @@ class EscenaJuego(plantillaEscena.Escena):
             if self.director.checaBoton(self.director.mousePos, self.boton_salir):
                 self.director.running = False  # rompe el ciclo gameLoop y sale del juego
             if self.director.checaBoton(self.director.mousePos, self.boton_reiniciar):
+                print(self.director.listaEscenas)
                 self.cambiarEscenaHome()
                 # self.reiniciarPartida()
             if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
@@ -479,17 +480,30 @@ class EscenaJuego(plantillaEscena.Escena):
     """
 
     def cambiarEscenaHome(self):
-        # print(f'lista escenas antes: {self.director.listaEscenas}') # << debug
         # se limpia/borra el objeto juego anterior y se crea un nuevo juego (manejado por el director)
         del self.director.game
-        self.director.game = []
+        self.director.game = None
         pygame.key.set_repeat(0, 0)
-        # se cambia a la escena de registro anteriormente guardada
-        self.director.cambiarEscena(self.director.listaEscenas[0])
-        # se borran las escenas guardadas hasta el momento por el director
-        del self.director.listaEscenas
-        self.director.listaEscenas = []
-        # print(f' lista escena despues: {self.director.listaEscenas}') # << debug
+
+        print(self.director.listaEscenas.keys()) # << debug
+        
+        
+        listaBorrar=[]
+        """ se recorre el diccionario buscando todas llaves, valor a eliminar, no se pueden
+        eliminar directamente en el ciclo ya que se prohibe (error de dict)"""
+        for llave,valor in self.director.listaEscenas.items():
+            if(llave != "escenaHome"):
+                listaBorrar.append([llave,valor])
+     
+        """ posteriormente, procedemos a borrar"""
+        for llave,valor in listaBorrar:
+            self.director.listaEscenas.pop(llave) # <<< saca la escena del diccionario
+            del valor # << borra el objeto donde se almacena la escena
+
+        print(self.director.listaEscenas.keys())
+
+        self.director.cambiarEscena(self.director.listaEscenas["escenaHome"])
+        
         self.director.escena.textoEnPantalla("Se ha reiniciado el juego correctamente, por favor registra jugadores"
                                              + " nuevamente", 20, BLANCO, (100, 300), True)
         time.sleep(3)

@@ -12,9 +12,12 @@ class EscenaRegistro(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
+        self.director.listaEscenas["escenaRegistro"]=self;
+
         self.boton_agregar = None  # botón para agregar jugadores
         self.boton_ia = None  # Requisito 2 y Requisito 4: boton de ia
         self.fondo = pygame.image.load("imagenes/fondoRegistro.png")
+
         """ Requisito 2 y 4: lista que almacenará el par (nombreJugador,esIa) para posteriormente registrar
         los jugadores en el juego"""
         self.datosJugadores = []
@@ -98,12 +101,8 @@ class EscenaRegistro(plantillaEscena.Escena):
         for partida in self.director.game.listaPartidas:
             partida.generarPosicionesJug()
             partida.equiparArmasIniciales()
-        juegoEscena = EscenaJuego(self.director)
 
-        """ Se guardarán las escenas hasta ahora utilizadas, por lo que: listaEscenas= [escenaRegistro, escenaJuego]
-        con el motivo de viajar de una a otra en un futuro"""
-        self.director.guardarEscena(juegoEscena)
-        self.director.cambiarEscena(juegoEscena)
+        self.director.cambiarEscena(EscenaJuego(self.director))
 
     def eliminarElementosLista(self):  # se eliminan los elementos de la lista para un futuro uso
         while self.constante < self.contadorJug:

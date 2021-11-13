@@ -5,6 +5,8 @@ from utilidades.Boton import Boton
 class EscenaAyuda:
 	def __init__(self,director):
 		plantillaEscena.Escena.__init__(self, director)
+		self.director.listaEscenas["escenaAyuda"]=self;
+
 		self.botonVolver = None
 		self.panel= pygame.image.load("imagenes/fondoControles.png")
 		self.redimensionarPanel(500,500)
@@ -41,5 +43,4 @@ class EscenaAyuda:
 		self.panel= pygame.transform.scale(self.panel, (x,y) )
 
 	def vuelveJuego(self):
-		juegoActual= self.director.listaEscenas[1]
-		self.director.cambiarEscena(juegoActual)
+		self.director.cambiarEscena(self.director.listaEscenas["escenaJuego"])

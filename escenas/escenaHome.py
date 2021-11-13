@@ -1,24 +1,23 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 from Videojuego.Juego import Juego
 from escenas.escenaRegistro import EscenaRegistro
 import pygame
 from escenas import plantillaEscena
 from utilidades.Boton import Boton
 from utilidades.colores import *
-
+from escenas.escenaConfig import *
+from escenas.escenaJuego import *
+import escenas.escenaHome
 
 class EscenaHome(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
+        self.director.listaEscenas["escenaHome"]=self;
+
         self.boton_play = None
-        self.boton_MasJug = None
-        self.cantidadJugadores=2
-        self.boton_MenosJug = None
-        self.boton_gravedad = None
-        self.boton_clima = None
+        self.boton_config = None
         self.fondo = pygame.image.load("imagenes/fondoHome.png")
+        self.cantidadJugadores=2
 
     def on_update(self):
         pygame.display.set_caption("Home")  # no cambies esto aun... es para debuggueo
@@ -28,46 +27,27 @@ class EscenaHome(plantillaEscena.Escena):
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_play):
                 self.cambiaDePartida()
-            if self.director.checaBoton(self.director.mousePos, self.boton_MasJug):
-                if(self.cantidadJugadores<6):
-                    self.cantidadJugadores+=1
-                else:
-                    self.textoEnPantalla("El maximo de jugadores es 6",20,ROJO,(150,150),True)
-            if self.director.checaBoton(self.director.mousePos, self.boton_MenosJug):
-                if self.cantidadJugadores>2:
-                    self.cantidadJugadores-=1
-                else:
-                    self.textoEnPantalla("El minimo de jugadores es 2",20,ROJO,(150,150),True)
-            if self.director.checaBoton(self.director.mousePos, self.boton_gravedad):
-                pass
-            if self.director.checaBoton(self.director.mousePos, self.boton_clima):
-                pass
+            # verifica si el boton de configuración fue seleccionado
+            if self.director.checaBoton(self.director.mousePos, self.boton_config): 
+                self.cambiaConfiguracion() 
+
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
         pantalla.blit(self.fondo, (0, 0))
-        self.textoEnPantalla(f'Cantidad jugadores: {self.cantidadJugadores}',20,BLANCO,(150,200),False)
-        self.textoEnPantalla(f'Efectos de entorno', 20, BLANCO, (870, 200), False)
 
         botonJugar = pygame.image.load("imagenes/botones/botonJugar.png")
-        botonMasJug = pygame.image.load("imagenes/botones/botonAgregar.png")
-        botonMenosJug = pygame.image.load("imagenes/botones/botonDisminuir.png")
-        botonGravedad = pygame.image.load("imagenes/botones/botonGravedad.png")
-        botonClima = pygame.image.load("imagenes/botones/botonClima.png")
         self.boton_play = Boton(pantalla, "play", 580, 500, botonJugar, 127, 40)
-        self.boton_MasJug = Boton(pantalla, "Mas jugador", 150, 250, botonMasJug, 127,40)
-        self.boton_MenosJug = Boton(pantalla, "Menos Jugador", 300, 250, botonMenosJug, 127,40)
-        self.boton_gravedad = Boton(pantalla, "gravedad", 853, 250, botonGravedad, 127, 40)
-        self.boton_clima = Boton(pantalla, "clima", 1003, 250, botonClima, 127, 40)
         self.boton_play.dibujaBoton()
-        self.boton_MasJug.dibujaBoton()
-        self.boton_MenosJug.dibujaBoton()
-        self.boton_gravedad.dibujaBoton()
-        self.boton_clima.dibujaBoton()
+        self.boton_config = Boton(pantalla, "configuracion", 580, 550,botonJugar,127,40) 
+        self.boton_config.dibujaBoton() 
 
     def cambiaDePartida(self):
-        self.director.guardarEscena(self.director.escena)
         game=Juego(self.cantidadJugadores,1)
         self.director.game=game
         self.director.cambiarEscena(EscenaRegistro(self.director))
+
+    def cambiaConfiguracion(self): 
+        self.director.cambiarEscena(EscenaConfig(self.director)) 
+
