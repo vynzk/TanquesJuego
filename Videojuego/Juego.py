@@ -70,14 +70,14 @@ class Juego:
         contador = 0
         while contador < self.cantidadJugadores:
             if contador == 0:
-                ganadorAux = self.listaJugadores[contador]
+                ganadorActual = self.listaJugadores[contador]
             else:
                 jugadorActual = self.listaJugadores[contador]
-                if jugadorActual.victorias > ganadorAux.victorias:
-                    ganadorAux = jugadorActual
+                if jugadorActual.victorias > ganadorActual.victorias:
+                    ganadorActual = jugadorActual
 
             contador += 1
-        self.jugadorGanador = ganadorAux  # << se guarda en el atributo ganador
+        self.jugadorGanador = ganadorActual  # << se guarda en el atributo ganador
         self.juegoTerminado = True
 
     def redefinirGravedad(self):

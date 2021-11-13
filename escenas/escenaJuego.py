@@ -142,14 +142,17 @@ class EscenaJuego(plantillaEscena.Escena):
                                          BLANCO,
                                          (400, 200), True)
                 time.sleep(2)
-                self.director.game.definirGanador()  # << invocamos que defina un ganador del juego
-                # Nota: el metodo anterior cambia el estado de juegoTerminado a True, por tanto, rompe el gameLoop
-                # en el director.
-        else:
-            # mensaje fin juego
-            self.textoEnPantalla(f'FIN DEL JUEGO, GANADOR: {self.director.game.jugadorGanador.nombre}', 30, BLANCO,
+                """ si no empatan es porque existe ganador de la partida, por ende, también lo habrá
+                del juego (se construyó con la visión de que el juego podría tener múltiples partidas)"""
+                if(self.partidaActual.jugadorGanador is not None):
+                    self.director.game.definirGanador()  # << invocamos que defina un ganador del juego
+                    self.textoEnPantalla(f'FIN DEL JUEGO, GANADOR: {self.director.game.jugadorGanador.nombre}', 30, BLANCO,
                                  (400, 300), True)
-            time.sleep(5)
+                    time.sleep(2)
+                    self.director.game.juegoTerminado=True
+                    self.director.running=False
+
+        else:
             self.director.running = False  # rompe el gameloop para terminar el juego
 
     # ------------------------------FUNCIONES QUE REPRESENTAN ACCIONES DENTRO DEL JUEGO-----------------------------
@@ -272,7 +275,7 @@ class EscenaJuego(plantillaEscena.Escena):
                 self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
                                         (self.jugadorImpactado.tanque.bloque.x,
                                          self.jugadorImpactado.tanque.bloque.y))
-                pygame.time.wait(100)
+                #pygame.time.wait(100)
 
                 dañoEfectuado = self.jugadorActual.tanque.proyectilActual.daño
                 if dañoEfectuado >= self.jugadorImpactado.tanque.vida:
@@ -291,7 +294,7 @@ class EscenaJuego(plantillaEscena.Escena):
             else:
                 # se muestra la imagen explosion con el borde
                 self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40), (coord[0], coord[1]))
-                pygame.time.wait(100)
+                #pygame.time.wait(100)
 
     # Se muestra el cañon para dar una aproximación del angulo a la hora de efectuar el disparo
     def mostrarCañon(self):

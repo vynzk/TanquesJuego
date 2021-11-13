@@ -34,23 +34,23 @@ class Partida:
 
     def terminar(self, listaJugadores):
         empate = False
-        ganadorAux = None
+        ganadorActual = None
         print(f'--> OPONENTES DESTRUIDO PARTIDA {self.id} <--')
         # se recorre la lista de jugadores, contando sus oponentes destruidos
         for jugador in listaJugadores:
             print(f'jugador: {jugador.nombre} ==> op dest: { jugador.oponentesDestruidos}')
-            if ganadorAux is None:
-                ganadorAux = jugador
+            if ganadorActual is None:
+                ganadorActual = jugador
             else:
-                if ganadorAux.oponentesDestruidos == jugador.oponentesDestruidos:
+                if ganadorActual.oponentesDestruidos == jugador.oponentesDestruidos:
                     empate = True
-                elif ganadorAux.oponentesDestruidos < jugador.oponentesDestruidos:
-                    ganadorAux = jugador
+                elif ganadorActual.oponentesDestruidos < jugador.oponentesDestruidos:
+                    ganadorActual = jugador
                     empate = False
         if empate is True:
             self.jugadorGanador = None
         else:
-            self.jugadorGanador = ganadorAux
+            self.jugadorGanador = ganadorActual
             self.jugadorGanador.victorias += 1  # << para que sume una victora en la persepctiva de juego
 
     # funcion que brinda la posibilidad de eliminar jugadores al jugadorAtacante 
