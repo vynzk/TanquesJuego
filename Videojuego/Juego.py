@@ -49,7 +49,7 @@ class Juego:
     def agregarPartida(self, i, director):
         mapa=Mapa()
         #Adaptar a pantalla
-        mapa.generarMapa(director.pantalla,self.director.ancho,self.director.alto)
+        mapa.generarMapa(director.pantalla,director.ancho,director.alto)
         partida = Partida(i, director, mapa)
         # va agregando los jugadores a la nueva partida
         for jugador in self.listaJugadores:
