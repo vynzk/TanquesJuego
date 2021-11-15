@@ -6,8 +6,12 @@ class Director:
     """El director se encarga de iniciar el juego,
         cambiar las escenas y recoger e interpretar los eventos de estas."""
 
-    def __init__(self):  # constructor
-        self.pantalla = pygame.display.set_mode((1280, 720))
+    """ adaptar pantalla: para ello, el director se crea con un determinado ancho y alto
+    respectivamente para su pantalla"""
+    def __init__(self,ancho,alto):  # constructor
+        self.ancho=ancho
+        self.alto=alto
+        self.pantalla = pygame.display.set_mode((self.ancho,self.alto))
         self.escena = None
         self.running = True
         self.game = None
