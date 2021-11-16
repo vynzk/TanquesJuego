@@ -22,6 +22,7 @@ class EscenaHome(plantillaEscena.Escena):
         #los efectos de entorno definidos en la escenaConfig se almacenan acá y se utilizan en la escenaJuego
         self.viento = 0
         self.gravedad = 10
+        self.viento_o_no = False
 
     def on_update(self):
         pygame.display.set_caption("Home")  # no cambies esto aun... es para debuggueo

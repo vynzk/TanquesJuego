@@ -223,6 +223,9 @@ class EscenaJuego(plantillaEscena.Escena):
         listaJugadoresPartida = self.partidaActual.jugadoresActivos
         jugadoresSinParticipar = list(filter(lambda jug: jug.participoTurno is not True, listaJugadoresPartida))
         if not jugadoresSinParticipar:
+            #en el caso de que se activaran los efectos de entorno, se revaloriza el clima por cada ronda
+            if self.director.listaEscenas["escenaHome"].viento_o_no == True:
+                self.aceleracionHorizontal = random.randint(-10, 10)
             self.textoEnPantalla("SE HA COMPLETADO UNA RONDA DE TURNOS", 30, BLANCO, (280, 300), True)
             print("- - - - - - - - - - - - ")  # << debug terminal
             time.sleep(2)

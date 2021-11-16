@@ -191,6 +191,8 @@ class EscenaConfig(plantillaEscena.Escena):
         elif self.viento_o_no == True:
             self.viento = 0
             self.viento_o_no = False
+
+        self.director.listaEscenas["escenaHome"].viento_o_no = self.viento_o_no
         self.director.listaEscenas["escenaHome"].viento = self.viento
         print("viento:",self.viento)
 
