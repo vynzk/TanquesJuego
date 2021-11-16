@@ -494,7 +494,10 @@ class EscenaJuego(plantillaEscena.Escena):
 
         print(self.director.listaEscenas.keys()) # << debug
         
-        
+        self.director.listaEscenas["escenaHome"].viento = 0
+        self.director.listaEscenas["escenaHome"].gravedad = 10
+        self.director.listaEscenas["escenaHome"].viento_o_no = False
+
         listaBorrar=[]
         """ se recorre el diccionario buscando todas llaves, valor a eliminar, no se pueden
         eliminar directamente en el ciclo ya que se prohibe (error de dict)"""

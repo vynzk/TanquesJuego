@@ -36,7 +36,7 @@ class EscenaConfig(plantillaEscena.Escena):
         self.cuadroTexto = pygame.Rect(64, 200, 140, 32)  # lugar donde se dibujará el cuadrado para ingresar los nombres de los jugadores
 
         #parametros que almacenan los efectos de entorno
-        self.viento = 10
+        self.viento = 0
         self.viento_o_no = False
 
     def on_update(self):
@@ -48,7 +48,7 @@ class EscenaConfig(plantillaEscena.Escena):
             if self.director.checaBoton(self.director.mousePos, self.boton_aplicar):
                 self.cambiarEscenaHome()
                 print('presiona aplicado')
-            if self.director.checaBoton(self.director.mousePos, self.boton_restablecer):
+            if self.director.checaBoton(self.director.mousePos, self.boton_restaurar):
                 self.restablecer()
                 print('presiona restablecer predeterminado')  
             #--------------deteccion botones +/- jugadores
@@ -117,6 +117,8 @@ class EscenaConfig(plantillaEscena.Escena):
     def on_draw(self, pantalla):
         botonVacio= pygame.image.load("imagenes/botones/botonVacio.png")
         botonViento = pygame.image.load("imagenes/botones/botonClima.png")
+        botonAplicar = pygame.image.load("imagenes/botones/botonAplicar.png")
+        botonRestaurar = pygame.image.load("imagenes/botones/botonRestaurar.png")
         pantalla.blit(self.fondo, (0,0))
 
         self.mostrarImagenEnPos("imagenes/fondoBlanco.png", (127, 32), (64, 200))
@@ -143,11 +145,11 @@ class EscenaConfig(plantillaEscena.Escena):
 
 
         
-        self.boton_aplicar = Boton(pantalla, "play", 64, 420,botonVacio,40,40)
+        self.boton_aplicar = Boton(pantalla, "play", 64, 420,botonAplicar,127,40)
         self.boton_aplicar.dibujaBoton()
 
-        self.boton_restablecer = Boton(pantalla, "play", 1200, 420,botonVacio,40,40)
-        self.boton_restablecer.dibujaBoton()
+        self.boton_restaurar = Boton(pantalla, "play", 1089, 420,botonRestaurar,127,40)
+        self.boton_restaurar.dibujaBoton()
 
         self.textoEnPantalla(f' clima?',15,BLANCO,(214,150),False)
         self.boton_viento = Boton(pantalla, "play", 64, 150,botonViento,127,40)
