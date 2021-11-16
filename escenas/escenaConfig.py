@@ -38,6 +38,7 @@ class EscenaConfig(plantillaEscena.Escena):
         #parametros que almacenan los efectos de entorno
         self.viento = 0
         self.viento_o_no = False
+        self.indicarClima = "Desactivado"
 
     def on_update(self):
         pygame.display.set_caption("configuraciones")
@@ -71,7 +72,7 @@ class EscenaConfig(plantillaEscena.Escena):
                 # si se presiona podria cambiarse el boton a otro color
                 print("presione boton viento")
                 self.redefinirViento()
-                self.textoEnPantalla(f'Efecto de viento: {self.viento}', 20, BLANCO, (500, 250), True)
+                #self.textoEnPantalla(f'Efecto de viento: {self.viento}', 20, BLANCO, (500, 250), True)
 
 
         # al escribir, solo se toman en cuenta los números (intenté hacerlo enn un solo if, pero no me funcionó de ninguna forma)
@@ -151,7 +152,8 @@ class EscenaConfig(plantillaEscena.Escena):
         self.boton_restaurar = Boton(pantalla, "play", 1089, 420,botonRestaurar,127,40)
         self.boton_restaurar.dibujaBoton()
 
-        self.textoEnPantalla(f' clima?',15,BLANCO,(214,150),False)
+        self.textoEnPantalla(f'Clima : {self.indicarClima}', 15, BLANCO, (214, 150), False)
+        #self.textoEnPantalla(f' clima?',15,BLANCO,(214,150),False)
         self.boton_viento = Boton(pantalla, "play", 64, 150,botonViento,127,40)
         self.boton_viento.dibujaBoton()
 
@@ -189,10 +191,12 @@ class EscenaConfig(plantillaEscena.Escena):
         if self.viento_o_no == False:
             self.viento = random.randint(-10,10)
             self.viento_o_no = True
+            self.indicarClima = "Activado"
 
         elif self.viento_o_no == True:
             self.viento = 0
             self.viento_o_no = False
+            self.indicarClima = "Desactivado"
 
         self.director.listaEscenas["escenaHome"].viento_o_no = self.viento_o_no
         self.director.listaEscenas["escenaHome"].viento = self.viento
@@ -202,4 +206,6 @@ class EscenaConfig(plantillaEscena.Escena):
     def restablecer(self):
         self.viento = 0
         self.director.listaEscenas["escenaHome"].viento = self.viento
+        self.viento_o_no = False
         print("viento:",self.viento)
+        self.indicarClima = "Desactivado"

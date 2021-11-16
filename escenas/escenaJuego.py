@@ -594,16 +594,16 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def mostrarGravedadViento(self): 
         if self.aceleracionHorizontal == 0:
+            viento = "imagenes/sinViento.png"
             self.textoEnPantalla(f'Viento : {self.aceleracionHorizontal} m/s', 15, BLANCO, (100, 0), False) 
 
         if self.aceleracionHorizontal > 0: 
             viento = "imagenes/banderaVientoDerecha.png" 
-            self.mostrarImagenEnPos(viento, (80, 80), (0, 0)) 
             self.textoEnPantalla(f'Viento : {self.aceleracionHorizontal} m/s', 15, BLANCO, (100, 0), False) 
  
         if self.aceleracionHorizontal < 0: 
             viento = "imagenes/banderaVientoIzquierda.png" 
-            self.mostrarImagenEnPos(viento, (80, 80), (0, 0)) 
             self.textoEnPantalla(f'Viento : {self.aceleracionHorizontal * -1} m/s', 15, BLANCO, (100, 0), False) 
  
+        self.mostrarImagenEnPos(viento, (80, 80), (0, 0)) 
         self.textoEnPantalla(f'Gravedad : {self.aceleracionVertical} m/s^2', 15, BLANCO, (100, 40), False) 
