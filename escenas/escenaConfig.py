@@ -38,9 +38,17 @@ class EscenaConfig(plantillaEscena.Escena):
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_aplicar):
-                self.director.cambiarEscena(self.director.listaEscenas[0])
+                self.cambiarEscenaHome()
+                print('presiona aplicado')
             if self.director.checaBoton(self.director.mousePos, self.boton_restablecer):
-                print('ok')    
+                self.restablecer()
+                print('presiona restablecer predeterminado')
+            if self.director.checaBoton(self.director.mousePos, self.boton_numJugadores):
+                if(self.numJugadores >= 6):
+                    self.numJugadores = 1
+                else:
+                    self.numJugadores += 1
+
         
         
         # al escribir, solo se toman en cuenta los números (intenté hacerlo enn un solo if, pero no me funcionó de ninguna forma)
@@ -153,7 +161,7 @@ class EscenaConfig(plantillaEscena.Escena):
         print("viento:",self.viento)
     def restablecer(self):
         self.viento = 0
-    #cuando se presiona el botón de reestablecer se restablece el viento (por ahora)
+        #cuando se presiona el botón de reestablecer se restablece el viento (por ahora)
         self.director.listaEscenas["escenaHome"].viento = self.viento
         self.viento_o_no = False
         print("viento:",self.viento)
@@ -161,3 +169,5 @@ class EscenaConfig(plantillaEscena.Escena):
             
             #elif event.key == pygame.K_PERIOD:
             #    self.texto_usuario += event.unicode
+    def cambiarEscenaHome(self):
+        self.director.cambiarEscena(self.director.listaEscenas["escenaHome"])
