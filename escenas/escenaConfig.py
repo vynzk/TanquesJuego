@@ -2,6 +2,7 @@ import pygame
 from escenas import plantillaEscena
 from utilidades.Boton import Boton
 from utilidades.colores import *
+import random
 
 class EscenaConfig(plantillaEscena.Escena):
 
@@ -39,7 +40,44 @@ class EscenaConfig(plantillaEscena.Escena):
             if self.director.checaBoton(self.director.mousePos, self.boton_aplicar):
                 self.director.cambiarEscena(self.director.listaEscenas[0])
             if self.director.checaBoton(self.director.mousePos, self.boton_restablecer):
-                print('ok')       
+                print('ok')    
+        
+        
+        # al escribir, solo se toman en cuenta los números (intenté hacerlo enn un solo if, pero no me funcionó de ninguna forma)
+        if event.type == pygame.KEYDOWN:
+            #if event.key == (pygame.K_0) or (pygame.K_1) or (pygame.K_2) or (pygame.K_3) or (pygame.K_4) or (pygame.K_5) or (pygame.K_6) or (pygame.K_7) or (pygame.K_8) or (pygame.K_9)=):
+            if event.key == pygame.K_0:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_1:
+                self.texto_usuario += event.unicode
+            
+            elif event.key == pygame.K_2:
+                self.texto_usuario += event.unicode
+            
+            elif event.key == pygame.K_3:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_4:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_5:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_6:
+                self.texto_usuario += event.unicode
+            
+            elif event.key == pygame.K_7:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_8:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_9:
+                self.texto_usuario += event.unicode
+            
+            elif event.key == pygame.K_BACKSPACE:
+                self.texto_usuario = self.texto_usuario[:-1]   
         
 
     def on_draw(self, pantalla):
@@ -97,40 +135,8 @@ class EscenaConfig(plantillaEscena.Escena):
         self.viento = 0
         self.viento_o_no = False
         self.indicarClima = "Desactivado"
-        # al escribir, solo se toman en cuenta los números (intenté hacerlo enn un solo if, pero no me funcionó de ninguna forma)
-        if event.type == pygame.KEYDOWN:
-            #if event.key == (pygame.K_0) or (pygame.K_1) or (pygame.K_2) or (pygame.K_3) or (pygame.K_4) or (pygame.K_5) or (pygame.K_6) or (pygame.K_7) or (pygame.K_8) or (pygame.K_9)=):
-            if event.key == pygame.K_0:
-                self.texto_usuario += event.unicode
 
-            elif event.key == pygame.K_1:
-                self.texto_usuario += event.unicode
-
-                self.texto_usuario += event.unicode
-            elif event.key == pygame.K_2:
-
-            elif event.key == pygame.K_3:
-                self.texto_usuario += event.unicode
-
-            elif event.key == pygame.K_4:
-                self.texto_usuario += event.unicode
-
-            elif event.key == pygame.K_5:
-                self.texto_usuario += event.unicode
-
-            elif event.key == pygame.K_6:
-                self.texto_usuario += event.unicode
-            
-            elif event.key == pygame.K_7:
-                self.texto_usuario += event.unicode
-
-            elif event.key == pygame.K_8:
-                self.texto_usuario += event.unicode
-
-            elif event.key == pygame.K_9:
-                self.texto_usuario += event.unicode
-            elif event.key == pygame.K_BACKSPACE:
-                self.texto_usuario = self.texto_usuario[:-1]
+    
     def redefinirViento(self):
         if self.viento_o_no == False:
             self.viento = random.randint(-10,10)
