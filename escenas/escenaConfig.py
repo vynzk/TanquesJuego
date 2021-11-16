@@ -92,3 +92,66 @@ class EscenaConfig(plantillaEscena.Escena):
         self.boton_60mm = Boton(pantalla, "play", 900, 250,botonVacio,40,40)
         self.boton_60mm.dibujaBoton()
         self.textoEnPantalla(f'{self.p60mm}', 15, NEGRO, (915, 250), False)
+
+        #parametros que almacenan los efectos de entorno
+        self.viento = 0
+        self.viento_o_no = False
+        self.indicarClima = "Desactivado"
+        # al escribir, solo se toman en cuenta los números (intenté hacerlo enn un solo if, pero no me funcionó de ninguna forma)
+        if event.type == pygame.KEYDOWN:
+            #if event.key == (pygame.K_0) or (pygame.K_1) or (pygame.K_2) or (pygame.K_3) or (pygame.K_4) or (pygame.K_5) or (pygame.K_6) or (pygame.K_7) or (pygame.K_8) or (pygame.K_9)=):
+            if event.key == pygame.K_0:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_1:
+                self.texto_usuario += event.unicode
+
+                self.texto_usuario += event.unicode
+            elif event.key == pygame.K_2:
+
+            elif event.key == pygame.K_3:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_4:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_5:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_6:
+                self.texto_usuario += event.unicode
+            
+            elif event.key == pygame.K_7:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_8:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_9:
+                self.texto_usuario += event.unicode
+            elif event.key == pygame.K_BACKSPACE:
+                self.texto_usuario = self.texto_usuario[:-1]
+    def redefinirViento(self):
+        if self.viento_o_no == False:
+            self.viento = random.randint(-10,10)
+            self.viento_o_no = True
+            self.indicarClima = "Activado"
+
+        elif self.viento_o_no == True:
+            self.viento = 0
+            self.viento_o_no = False
+            self.indicarClima = "Desactivado"
+
+        self.director.listaEscenas["escenaHome"].viento_o_no = self.viento_o_no
+        self.director.listaEscenas["escenaHome"].viento = self.viento
+        print("viento:",self.viento)
+    def restablecer(self):
+        self.viento = 0
+    #cuando se presiona el botón de reestablecer se restablece el viento (por ahora)
+        self.director.listaEscenas["escenaHome"].viento = self.viento
+        self.viento_o_no = False
+        print("viento:",self.viento)
+        self.indicarClima = "Desactivado"
+            
+            #elif event.key == pygame.K_PERIOD:
+            #    self.texto_usuario += event.unicode

@@ -1,11 +1,13 @@
 import random
 from utilidades.colores import *
 from Tanque.Proyectil import Proyectil
+
 """
 from Tanque.Proyectil105 import *
 from Tanque.ProyectilPerforante import *
 from Tanque.Proyectil60 import *
 """
+
 
 class Partida:
     def __init__(self, id, pantalla, mapa):
@@ -21,47 +23,56 @@ class Partida:
     def agregarJugadores(self, jugador):
         self.jugadoresActivos.append(jugador)
 
+    """
     # funcion que termina la partida cuando queda sólo un jugador activo dentro de ella
     def terminar(self):
         self.estado = True
-        self.jugadorGanador = self.jugadoresActivos[0]
+        #self.jugadorGanador = self.jugadoresActivos[0] # << antes, cuando ganaba el que quedaba en pie
         self.jugadorGanador.victorias += 1
+
+    """
+
+    def terminar(self, listaJugadores):
+        empate = False
+        ganadorActual = None
+        print(f'--> OPONENTES DESTRUIDO PARTIDA {self.id} <--')
+        # se recorre la lista de jugadores, contando sus oponentes destruidos
+        for jugador in listaJugadores:
+            print(f'jugador: {jugador.nombre} ==> op dest: { jugador.oponentesDestruidos}')
+            if ganadorActual is None:
+                ganadorActual = jugador
+            else:
+                if ganadorActual.oponentesDestruidos == jugador.oponentesDestruidos:
+                    empate = True
+                elif ganadorActual.oponentesDestruidos < jugador.oponentesDestruidos:
+                    ganadorActual = jugador
+                    empate = False
+        if empate is True:
+            self.jugadorGanador = None
+        else:
+            self.jugadorGanador = ganadorActual
+            self.jugadorGanador.victorias += 1  # << para que sume una victora en la persepctiva de juego
 
     # funcion que brinda la posibilidad de eliminar jugadores al jugadorAtacante 
     def eliminarJugador(self, jugadorEliminado):
         self.jugadoresActivos.remove(jugadorEliminado)
 
     def generarPosicionesJug(self):
-        listaColores = colores = [ROJO, VERDE, ORO, AZUL]
-        cantidadJug = len(self.jugadoresActivos)
-        cantEspacios = cantidadJug - 1
-        espacio = int(len(self.mapa.posPosiblesJug) / (2 * cantidadJug - 1))
-        contador = 0
-
-        #debug
-        #print(
-        #    f'DEBUG: cant jug: {cantidadJug}, cant espacios: {cantEspacios}, cant posibles espacios: {len(self.mapa.posPosiblesJug)}, rango espacios: {espacio}')
-        
+        cantDivisiones=2*len(self.jugadoresActivos)-1
+        espacios=int(len(self.mapa.posPosiblesJug)/cantDivisiones)
+        contador=0
         for jugador in self.jugadoresActivos:
-            # ---- parametros aleatorios------------------------------
-            numAle = random.randint(contador, contador + espacio -1)
-            ubicacionRandom = self.mapa.posPosiblesJug[numAle]
-            colorRandom = random.choice(listaColores)
-            listaColores.remove(colorRandom)  # para no repetir el color
-            
-            # debug:
-            #print(
-            #    f'DEBUG: >>jugador: {jugador.nombre}, rango aleatorio ({contador},{contador + espacio}), numAleatorio: {numAle} , posRandom: {ubicacionRandom}, color: {colorRandom}')
-            
-            # se ubica el tanque y se crea su bloque
-            jugador.tanque.construirBloques(ubicacionRandom[0], ubicacionRandom[1], colorRandom)
-            contador += 2 * espacio
+            posAleatoria=self.mapa.posPosiblesJug[random.randint(contador,contador+espacios)]
+            # ahora pos aleatoria es un par ordenado (x,y), por tanto:
+            jugador.tanque.construirBloques(posAleatoria[0],posAleatoria[1])
+            contador+=espacios*2
 
     def equiparArmasIniciales(self):
         for jugador in self.jugadoresActivos:
-            proyectil105=Proyectil("Proyectil 105",3,50,"imagenes/armas/proyectil105.png",ROJO)
-            proyectilPerforante=Proyectil("Proyectil Perforante",10,40,"imagenes/armas/proyectilPerforante.png",NARANJA)
-            proyectil60=Proyectil("Proyectil 60",3,30,"imagenes/armas/proyectil60.png",AMARILLO)
+            proyectil105 = Proyectil("Proyectil 105", 3, 50, "imagenes/armas/proyectil105.png", ROJO)
+            proyectilPerforante = Proyectil("Proyectil Perforante", 10, 40, "imagenes/armas/proyectilPerforante.png",
+                                            NARANJA)
+            proyectil60 = Proyectil("Proyectil 60", 3, 30, "imagenes/armas/proyectil60.png", AMARILLO)
 
             """
             antes del refactor

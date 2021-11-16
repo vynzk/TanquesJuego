@@ -6,13 +6,12 @@ class Director:
     """El director se encarga de iniciar el juego,
         cambiar las escenas y recoger e interpretar los eventos de estas."""
 
-    def __init__(self, game):  # constructor
+    def __init__(self):  # constructor
         self.pantalla = pygame.display.set_mode((1280, 720))
         self.escena = None
         self.running = True
-        self.game = game
-        self.listaEscenas = []
-
+        self.game = None
+        self.listaEscenas = dict()
         
 
     def gameLoop(self):  # bucle del juego
@@ -39,6 +38,3 @@ class Director:
     def checaBoton(self, mousePos, botonNombre):  # detecta el tocar un boton
         if botonNombre.rect.collidepoint((mousePos)):
             return True
-    def guardarEscena(self,escena):
-        self.listaEscenas.append(escena)
-        

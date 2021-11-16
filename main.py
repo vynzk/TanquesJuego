@@ -1,4 +1,3 @@
-from Videojuego.Juego import *
 from escenas.escenaHome import EscenaHome
 from escenas.escenaConfig import EscenaConfig
 from escenas.director import *
@@ -12,14 +11,9 @@ from escenas.director import *
 
 
 def main():
-    game = Juego(2, 1)  # (cantidadJugadores,cantidadPartidas) #se automatizó para debuguear lo escencial
-    director = Director(game)
-    home = EscenaHome(director)
-    config = EscenaConfig(director)
-
-    director.guardarEscena(home)
-    director.guardarEscena(config)
-    director.cambiarEscena(director.listaEscenas[0]) #debe ir home
+    director = Director()
+    home = EscenaHome(director)  
+    director.cambiarEscena(home)
     director.gameLoop()
 
 

@@ -10,10 +10,13 @@ class EscenaCambioArma(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
+        self.director=director
+        self.director.listaEscenas["escenaCambioArma"]=self;
+
         self.botonVolver = None
         self.botonAplicar = None
         self.listaPanelArmas = []
-        self.jugadorActual = director.listaEscenas[3].jugadorActual  # pos 0 siempre debe corresponder a escena juego
+        self.jugadorActual = self.director.listaEscenas["escenaJuego"].jugadorActual 
         self.panel = pygame.image.load("imagenes/fondoVentana.png")
         self.redimensionarPanel(500, 500)
         self.cambioArmaFlag=False
@@ -80,8 +83,7 @@ class EscenaCambioArma(plantillaEscena.Escena):
         self.panel = pygame.transform.scale(self.panel, (x, y))
 
     def vuelveJuego(self):
-        juegoActual = self.director.listaEscenas[3]
-        self.director.cambiarEscena(juegoActual)
+        self.director.cambiarEscena(self.director.listaEscenas["escenaJuego"])
 
     def textoRender(self, frase, color):
         fuente = pygame.font.Font("fuentes/fs-gravity.ttf", 25)  # fuente de texto

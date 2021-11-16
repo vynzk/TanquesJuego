@@ -1,22 +1,29 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+from Videojuego.Juego import Juego
 from escenas.escenaRegistro import EscenaRegistro
 from escenas.escenaConfig import EscenaConfig
 import pygame
 from escenas import plantillaEscena
 from utilidades.Boton import Boton
-
+from utilidades.colores import *
+from escenas.escenaConfig import *
+from escenas.escenaJuego import *
+import escenas.escenaHome
 
 class EscenaHome(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
+        self.director.listaEscenas["escenaHome"]=self;
+
         self.boton_play = None
-        self.boton_config= None
-        self.fondo= pygame.image.load("imagenes/fondoHome.png")
+        self.boton_config = None
+        self.fondo = pygame.image.load("imagenes/fondoHome.png")
+        self.cantidadJugadores=2
 
-        self.cambiaDePartida()
-
+        #los efectos de entorno definidos en la escenaConfig se almacenan acá y se utilizan en la escenaJuego
+        self.viento = 0
+        self.gravedad = 10
+        self.viento_o_no = False
 
     def on_update(self):
         pygame.display.set_caption("Home")  # no cambies esto aun... es para debuggueo
@@ -27,27 +34,28 @@ class EscenaHome(plantillaEscena.Escena):
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_play):
                 self.cambiaDePartida()
-            if self.director.checaBoton(self.director.mousePos, self.boton_config):
-                self.cambiaEscenaConfig()
+            # verifica si el boton de configuración fue seleccionado
+            if self.director.checaBoton(self.director.mousePos, self.boton_config): 
+                self.cambiaConfiguracion() 
+
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
-        pantalla.blit(self.fondo, (0,0))
-        botonJugar= pygame.image.load("imagenes/botones/botonJugar.png")
-        self.boton_play = Boton(pantalla, "play", 540, 420,botonJugar,127,40)
+        pantalla.blit(self.fondo, (0, 0))
+
+        botonJugar = pygame.image.load("imagenes/botones/botonJugar.png")
+        botonAjustes = pygame.image.load("imagenes/botones/botonAjustes.png")
+        self.boton_play = Boton(pantalla, "play", 580, 500, botonJugar, 127, 40)
         self.boton_play.dibujaBoton()
-        self.boton_config = Boton(pantalla, "configuracion", 540, 470,botonJugar,127,40)
-        self.boton_config.dibujaBoton()
+        self.boton_config = Boton(pantalla, "configuracion", 580, 550,botonAjustes,127,40) 
+        self.boton_config.dibujaBoton() 
 
     def cambiaDePartida(self):
+        game=Juego(self.cantidadJugadores,1)
+        self.director.game=game
         self.director.cambiarEscena(EscenaRegistro(self.director))
 
-    def guardaEscenaConfig(self):
-        config = EscenaConfig(self.director)
-        #home = self.director.escena
-        #self.director.guardarEscena(home) #self.director.listaEscenas[0]
-        self.director.guardarEscena(config) #self.director.listaEscenas[1]
+    def cambiaConfiguracion(self): 
+        self.director.cambiarEscena(EscenaConfig(self.director)) 
 
-    def cambiaEscenaConfig(self):
-        self.director.cambiarEscena(self.director.listaEscenas[1])
