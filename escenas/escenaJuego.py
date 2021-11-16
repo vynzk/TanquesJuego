@@ -35,8 +35,8 @@ class EscenaJuego(plantillaEscena.Escena):
         self.bloqueImpactado = None
         self.xMaxDisparo = 0
         self.yMaxDisparo = 0
-        self.aceleracionVertical = self.director.game.aceleracionVertical 
-        self.aceleracionHorizontal = self.director.game.aceleracionHorizontal
+        self.aceleracionVertical = self.director.game.aceleracionVertical
+        self.aceleracionHorizontal = self.director.listaEscenas["escenaHome"].viento
         self.boton_salir = None
         self.boton_reiniciar = None
         self.boton_cambioArmas = None
@@ -587,6 +587,9 @@ class EscenaJuego(plantillaEscena.Escena):
                         self.textoEnPantalla("IA CAMBIA DE ARMA", 30, ROJO, (300, 300), True)
 
     def mostrarGravedadViento(self): 
+        if self.aceleracionHorizontal == 0:
+            self.textoEnPantalla(f'Viento : {self.aceleracionHorizontal} m/s', 15, BLANCO, (100, 0), False) 
+
         if self.aceleracionHorizontal > 0: 
             viento = "imagenes/banderaVientoDerecha.png" 
             self.mostrarImagenEnPos(viento, (80, 80), (0, 0)) 

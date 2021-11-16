@@ -2,6 +2,7 @@ import pygame
 from escenas import plantillaEscena
 from utilidades.Boton import Boton
 from utilidades.colores import *
+import random
 
 class EscenaConfig(plantillaEscena.Escena):
     def __init__(self, director):
@@ -29,7 +30,15 @@ class EscenaConfig(plantillaEscena.Escena):
         self.boton_105mm = None
         self.boton_60mm = None
 
-    
+        #parametro para crear la caja de texto y hacerla funcional
+        self.texto_usuario = ''  # texto que se mostrará en pantalla al escribir
+        self.base = pygame.font.Font(None, 32)  # es el tamaño de las letras
+        self.cuadroTexto = pygame.Rect(64, 200, 140, 32)  # lugar donde se dibujará el cuadrado para ingresar los nombres de los jugadores
+
+        #parametros que almacenan los efectos de entorno
+        self.viento = 10
+        self.viento_o_no = False
+
     def on_update(self):
         pygame.display.set_caption("configuraciones")
 
@@ -40,6 +49,7 @@ class EscenaConfig(plantillaEscena.Escena):
                 self.cambiarEscenaHome()
                 print('presiona aplicado')
             if self.director.checaBoton(self.director.mousePos, self.boton_restablecer):
+                self.restablecer()
                 print('presiona restablecer predeterminado')  
             #--------------deteccion botones +/- jugadores
            
@@ -54,20 +64,62 @@ class EscenaConfig(plantillaEscena.Escena):
                 else:
                     self.textoEnPantalla("El minimo de jugadores es 2",20,ROJO,(470,250),True)
             #------------ deteccion botones clima
-            if self.director.checaBoton(self.director.mousePos, self.boton_gravedad):
-                print("presione boton gravedad")
-                pass
+            #if self.director.checaBoton(self.director.mousePos, self.boton_gravedad):
+            #    print("presione boton gravedad")
+            #    pass
             if self.director.checaBoton(self.director.mousePos, self.boton_viento):
                 # si se presiona podria cambiarse el boton a otro color
                 print("presione boton viento")
-                pass
+                self.redefinirViento()
+                self.textoEnPantalla(f'Efecto de viento: {self.viento}', 20, BLANCO, (500, 250), True)
 
+
+        # al escribir, solo se toman en cuenta los números (intenté hacerlo enn un solo if, pero no me funcionó de ninguna forma)
+        if event.type == pygame.KEYDOWN:
+            #if event.key == (pygame.K_0) or (pygame.K_1) or (pygame.K_2) or (pygame.K_3) or (pygame.K_4) or (pygame.K_5) or (pygame.K_6) or (pygame.K_7) or (pygame.K_8) or (pygame.K_9)=):
+            if event.key == pygame.K_0:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_1:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_2:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_3:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_4:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_5:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_6:
+                self.texto_usuario += event.unicode
+            
+            elif event.key == pygame.K_7:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_8:
+                self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_9:
+                self.texto_usuario += event.unicode
+            
+            #elif event.key == pygame.K_PERIOD:
+            #    self.texto_usuario += event.unicode
+
+            elif event.key == pygame.K_BACKSPACE:
+                self.texto_usuario = self.texto_usuario[:-1]
         
 
     def on_draw(self, pantalla):
         botonVacio= pygame.image.load("imagenes/botones/botonVacio.png")
-
+        botonViento = pygame.image.load("imagenes/botones/botonClima.png")
         pantalla.blit(self.fondo, (0,0))
+
+        self.mostrarImagenEnPos("imagenes/fondoBlanco.png", (127, 32), (64, 200))
 
         #---------------dibujar botones +/- jug 
         cantidadJugadores=(self.director.listaEscenas["escenaHome"]).cantidadJugadores
@@ -79,12 +131,13 @@ class EscenaConfig(plantillaEscena.Escena):
         self.boton_MasJug.dibujaBoton()
         self.boton_MenosJug.dibujaBoton()
 
+
         #------------dibuja botones clima
         #self.textoEnPantalla(f'Efectos de entorno', 20, BLANCO, (870, 200), False)
-        botonGravedad = pygame.image.load("imagenes/botones/botonGravedad.png")
-        botonViento = pygame.image.load("imagenes/botones/botonClima.png")
-        self.boton_gravedad = Boton(pantalla, "gravedad", 853, 250, botonGravedad, 127, 40)
-        self.boton_viento = Boton(pantalla, "clima", 1003, 250, botonViento, 127, 40)
+        #botonGravedad = pygame.image.load("imagenes/botones/botonGravedad.png")
+        #botonViento = pygame.image.load("imagenes/botones/botonClima.png")
+        #self.boton_gravedad = Boton(pantalla, "gravedad", 853, 250, botonGravedad, 127, 40)
+        #self.boton_viento = Boton(pantalla, "play", 64, 150,botonViento,40,40)
         #self.boton_gravedad.dibujaBoton()
         #self.boton_viento.dibujaBoton()
 
@@ -96,13 +149,13 @@ class EscenaConfig(plantillaEscena.Escena):
         self.boton_restablecer = Boton(pantalla, "play", 1200, 420,botonVacio,40,40)
         self.boton_restablecer.dibujaBoton()
 
-        self.textoEnPantalla(f' clima?',15,BLANCO,(114,150),False)
-        self.boton_afectosEntorno = Boton(pantalla, "play", 64, 150,botonVacio,40,40)
-        self.boton_afectosEntorno.dibujaBoton()
+        self.textoEnPantalla(f' clima?',15,BLANCO,(214,150),False)
+        self.boton_viento = Boton(pantalla, "play", 64, 150,botonViento,127,40)
+        self.boton_viento.dibujaBoton()
 
         self.textoEnPantalla(f' gravedad?',15,BLANCO,(214,200),False)
-        self.boton_dimensionPantalla = Boton(pantalla, "play", 64, 200,botonVacio,127,40)
-        self.boton_dimensionPantalla.dibujaBoton()
+        #self.boton_gravedad = Boton(pantalla, "play", 64, 200,botonVacio,127,40)
+        #self.boton_gravedad.dibujaBoton()
 
         self.textoEnPantalla(f' dimension de pantalla',15,BLANCO,(214,250),False)
         self.boton_dimensionPantalla = Boton(pantalla, "play", 64, 250,botonVacio,127,40)
@@ -119,5 +172,30 @@ class EscenaConfig(plantillaEscena.Escena):
         self.boton_60mm = Boton(pantalla, "play", 900, 250,botonVacio,40,40)
         self.boton_60mm.dibujaBoton()       
 
+        #es para crear el cuadro de texto que será utilizado para cambiar la gravedad
+        pygame.draw.rect(pantalla, BLANCO, self.cuadroTexto)
+        superficie = self.base.render(self.texto_usuario, True, NEGRO)
+        pantalla.blit(superficie, (self.cuadroTexto.x + 10, self.cuadroTexto.y + 10))  # se ajusta el texto en el cuadrado
+
+        self.cuadroTexto.w = superficie.get_width() + 10  # esto hace que el cuadrado se alargue dependiendo de lo que escriba el usuario
+
     def cambiarEscenaHome(self):
         self.director.cambiarEscena(self.director.listaEscenas["escenaHome"])
+
+    #se redefine el viento cuando se presiona el botón de clima
+    def redefinirViento(self):
+        if self.viento_o_no == False:
+            self.viento = random.randint(-10,10)
+            self.viento_o_no = True
+
+        elif self.viento_o_no == True:
+            self.viento = 0
+            self.viento_o_no = False
+        self.director.listaEscenas["escenaHome"].viento = self.viento
+        print("viento:",self.viento)
+
+    #cuando se presiona el botón de reestablecer se restablece el viento (por ahora)
+    def restablecer(self):
+        self.viento = 0
+        self.director.listaEscenas["escenaHome"].viento = self.viento
+        print("viento:",self.viento)

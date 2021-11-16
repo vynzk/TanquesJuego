@@ -16,7 +16,6 @@ class Juego:
         self.juegoTerminado = False
         self.aceleracionVertical = 10
         self.aceleracionHorizontal = 0
-        self.redefinirClima()
         self.redefinirGravedad()
 
     """Requisito 4: Se adapta para esta unidad de modo que al invocar la funcion agregarJugador, se 
@@ -82,8 +81,5 @@ class Juego:
 
     def redefinirGravedad(self):
         self.aceleracionVertical = random.randint(5,20)
-        print("aceleracion gravedad:", self.aceleracionVertical, "m/s**2")
+    #    print("aceleracion gravedad:", self.aceleracionVertical, "m/s**2")
     
-    def redefinirClima(self):
-        self.aceleracionHorizontal = random.randint(-10,10)
-        print("aceleracion clima:", self.aceleracionHorizontal, "m/s")

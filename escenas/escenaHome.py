@@ -19,6 +19,10 @@ class EscenaHome(plantillaEscena.Escena):
         self.fondo = pygame.image.load("imagenes/fondoHome.png")
         self.cantidadJugadores=2
 
+        #los efectos de entorno definidos en la escenaConfig se almacenan acá y se utilizan en la escenaJuego
+        self.viento = 0
+        self.gravedad = 10
+
     def on_update(self):
         pygame.display.set_caption("Home")  # no cambies esto aun... es para debuggueo
 
