@@ -38,9 +38,10 @@ class EscenaHome(plantillaEscena.Escena):
         pantalla.blit(self.fondo, (0, 0))
 
         botonJugar = pygame.image.load("imagenes/botones/botonJugar.png")
+        botonAjustes = pygame.image.load("imagenes/botones/botonAjustes.png")
         self.boton_play = Boton(pantalla, "play", 580, 500, botonJugar, 127, 40)
         self.boton_play.dibujaBoton()
-        self.boton_config = Boton(pantalla, "configuracion", 580, 550,botonJugar,127,40) 
+        self.boton_config = Boton(pantalla, "configuracion", 580, 550,botonAjustes,127,40) 
         self.boton_config.dibujaBoton() 
 
     def cambiaDePartida(self):

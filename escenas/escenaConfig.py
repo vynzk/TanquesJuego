@@ -47,12 +47,12 @@ class EscenaConfig(plantillaEscena.Escena):
                 if(self.director.listaEscenas["escenaHome"].cantidadJugadores<6):
                     self.director.listaEscenas["escenaHome"].cantidadJugadores+=1
                 else:
-                    self.textoEnPantalla("El maximo de jugadores es 6",20,ROJO,(150,150),True)
+                    self.textoEnPantalla("El maximo de jugadores es 6",20,ROJO,(470,250),True)
             if self.director.checaBoton(self.director.mousePos, self.boton_MenosJug):
                 if self.director.listaEscenas["escenaHome"].cantidadJugadores>2:
                     self.director.listaEscenas["escenaHome"].cantidadJugadores-=1
                 else:
-                    self.textoEnPantalla("El minimo de jugadores es 2",20,ROJO,(150,150),True)
+                    self.textoEnPantalla("El minimo de jugadores es 2",20,ROJO,(470,250),True)
             #------------ deteccion botones clima
             if self.director.checaBoton(self.director.mousePos, self.boton_gravedad):
                 print("presione boton gravedad")
@@ -71,22 +71,22 @@ class EscenaConfig(plantillaEscena.Escena):
 
         #---------------dibujar botones +/- jug 
         cantidadJugadores=(self.director.listaEscenas["escenaHome"]).cantidadJugadores
-        self.textoEnPantalla(f'Cantidad jugadores: {cantidadJugadores}', 20, BLANCO, (150, 200), False)
+        self.textoEnPantalla(f'Cantidad jugadores: {cantidadJugadores}', 20, BLANCO, (500, 150), False)
         botonMasJug = pygame.image.load("imagenes/botones/botonAgregar.png")
         botonMenosJug = pygame.image.load("imagenes/botones/botonDisminuir.png")
-        self.boton_MasJug = Boton(pantalla, "Mas jugador", 150, 250, botonMasJug, 127,40)
-        self.boton_MenosJug = Boton(pantalla, "Menos Jugador", 300, 250, botonMenosJug, 127,40)
+        self.boton_MasJug = Boton(pantalla, "Mas jugador", 500, 200, botonMasJug, 127,40)
+        self.boton_MenosJug = Boton(pantalla, "Menos Jugador", 650, 200, botonMenosJug, 127,40)
         self.boton_MasJug.dibujaBoton()
         self.boton_MenosJug.dibujaBoton()
 
         #------------dibuja botones clima
-        self.textoEnPantalla(f'Efectos de entorno', 20, BLANCO, (870, 200), False)
+        #self.textoEnPantalla(f'Efectos de entorno', 20, BLANCO, (870, 200), False)
         botonGravedad = pygame.image.load("imagenes/botones/botonGravedad.png")
         botonViento = pygame.image.load("imagenes/botones/botonClima.png")
         self.boton_gravedad = Boton(pantalla, "gravedad", 853, 250, botonGravedad, 127, 40)
         self.boton_viento = Boton(pantalla, "clima", 1003, 250, botonViento, 127, 40)
-        self.boton_gravedad.dibujaBoton()
-        self.boton_viento.dibujaBoton()
+        #self.boton_gravedad.dibujaBoton()
+        #self.boton_viento.dibujaBoton()
 
 
         
@@ -96,12 +96,16 @@ class EscenaConfig(plantillaEscena.Escena):
         self.boton_restablecer = Boton(pantalla, "play", 1200, 420,botonVacio,40,40)
         self.boton_restablecer.dibujaBoton()
 
-        self.textoEnPantalla(f' efectos de entorno?',15,BLANCO,(114,250),False)
-        self.boton_afectosEntorno = Boton(pantalla, "play", 64, 250,botonVacio,40,40)
+        self.textoEnPantalla(f' clima?',15,BLANCO,(114,150),False)
+        self.boton_afectosEntorno = Boton(pantalla, "play", 64, 150,botonVacio,40,40)
         self.boton_afectosEntorno.dibujaBoton()
 
-        self.textoEnPantalla(f' dimension de pantalla',15,BLANCO,(214,300),False)
-        self.boton_dimensionPantalla = Boton(pantalla, "play", 64, 300,botonVacio,127,40)
+        self.textoEnPantalla(f' gravedad?',15,BLANCO,(214,200),False)
+        self.boton_dimensionPantalla = Boton(pantalla, "play", 64, 200,botonVacio,127,40)
+        self.boton_dimensionPantalla.dibujaBoton()
+
+        self.textoEnPantalla(f' dimension de pantalla',15,BLANCO,(214,250),False)
+        self.boton_dimensionPantalla = Boton(pantalla, "play", 64, 250,botonVacio,127,40)
         self.boton_dimensionPantalla.dibujaBoton()
         
         #municion
