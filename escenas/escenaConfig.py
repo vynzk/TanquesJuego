@@ -200,6 +200,16 @@ class EscenaConfig(plantillaEscena.Escena):
         self.viento_o_no = False
         print("viento:",self.viento)
         self.indicarClima = "Desactivado"
+
+        # valores predeterminados
+        self.numJugadores= 2
+        self.afectosEntorno = 'no'
+        self.dimensionPantalla = (1280,720)
+        self.perforante = 10
+        self.p105mm= 10
+        self.p60mm= 10
+
+
             
             #elif event.key == pygame.K_PERIOD:
             #    self.texto_usuario += event.unicode

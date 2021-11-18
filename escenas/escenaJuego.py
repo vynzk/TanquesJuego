@@ -497,6 +497,8 @@ class EscenaJuego(plantillaEscena.Escena):
         self.director.listaEscenas["escenaHome"].viento = 0
         self.director.listaEscenas["escenaHome"].gravedad = 10
         self.director.listaEscenas["escenaHome"].viento_o_no = False
+        #hacer
+
 
         listaBorrar=[]
         """ se recorre el diccionario buscando todas llaves, valor a eliminar, no se pueden
