@@ -3,7 +3,7 @@ from escenas.director import *
 
 
 def main():
-    director = Director(800,800)
+    director = Director(1200,800)
     home = EscenaHome(director)  
     director.cambiarEscena(home)
     director.gameLoop()
