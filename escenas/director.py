@@ -42,3 +42,8 @@ class Director:
     def checaBoton(self, mousePos, botonNombre):  # detecta el tocar un boton
         if botonNombre.rect.collidepoint((mousePos)):
             return True
+
+    def cambiarResolucion(self, nuevaX,nuevaY):
+        self.ancho= nuevaX
+        self.alto= nuevaY
+        self.pantalla = pygame.display.set_mode((self.ancho,self.alto))

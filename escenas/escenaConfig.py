@@ -25,7 +25,7 @@ class EscenaConfig(plantillaEscena.Escena):
         # valores predeterminados
         self.numJugadores= 2
         self.afectosEntorno = 'no'
-        self.dimensionPantalla = (1280,720)
+        self.dimensionPantalla = (800,800)
         self.perforante = 10
         self.p105mm= 10
         self.p60mm= 10
@@ -178,7 +178,9 @@ class EscenaConfig(plantillaEscena.Escena):
         self.director.listaEscenas["escenaHome"].viento = self.viento
         self.director.listaEscenas["escenaHome"].viento_o_no = self.viento_o_no
         self.director.listaEscenas["escenaHome"].indicarClima = self.indicarClima
-    
+
+        #provisional
+        self.director.cambiarResolucion(self.dimensionPantalla[0],self.dimensionPantalla[1])
     def redefinirViento(self):
         if self.viento_o_no == False:
             self.viento = random.randint(-10,10)
