@@ -11,6 +11,17 @@ class EscenaConfig(plantillaEscena.Escena):
         plantillaEscena.Escena.__init__(self, director)
         self.director = director
         self.fondo= pygame.image.load("imagenes/fondoHome.png")
+
+        # previsonal caja texto
+        cajaImagen= pygame.image.load("imagenes/botones/botonVacio.png")
+        self.caja = CajaTexto(self.director.pantalla,"caja",0,0, cajaImagen, 100,40)
+        self.numero = 0
+        """
+        self.textoTeclasPermitidas = (pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4, pygame.K_5, pygame.K_6,
+                                      pygame.K_7, pygame.K_8, pygame.K_9, pygame.K_0)
+        """
+
+
         # botones
         self.boton_aplicar = None
         self.boton_restablecer = None
@@ -33,6 +44,7 @@ class EscenaConfig(plantillaEscena.Escena):
         self.viento = 0
         self.viento_o_no = False
         self.indicarClima = "Desactivado"
+
 
     
     def on_update(self):
@@ -74,6 +86,22 @@ class EscenaConfig(plantillaEscena.Escena):
                     self.p60mm = 10
                 else:
                     self.p60mm += 1
+            if self.director.checaBoton(self.director.mousePos, self.caja):
+                self.caja.flag = True
+                print(self.caja.flag)
+        # previsional caja texto
+        if self.caja.flag:
+            try:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_BACKSPACE:
+                        self.caja.texto = self.caja.texto[:-1]
+                    else:
+                        self.caja.texto += event.unicode
+                        self.numero = int(self.caja.texto)
+            except:
+                print("solo numeros")
+                self.caja.texto = self.caja.texto[:-1]
+
 
         
         """
@@ -117,6 +145,13 @@ class EscenaConfig(plantillaEscena.Escena):
     def on_draw(self, pantalla):
         pantalla.blit(self.fondo, (0, 0))
         self.textoEnPantalla(f'click derecho ++     click izquierdo --', 15, ROJO, (500, 650), False)
+        #provisional caja texto
+
+        self.caja.dibujaBoton()
+        self.textoEnPantalla(f'{self.caja.texto}', 15, NEGRO, (self.caja.posX, self.caja.posY), False)
+
+
+
         #BotonesImagenes
         botonVacio= pygame.image.load("imagenes/botones/botonVacio.png")
         botonRegistrar = pygame.image.load("imagenes/botones/botonRegistrar.png")

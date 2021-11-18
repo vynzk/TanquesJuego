@@ -51,7 +51,6 @@ class EscenaHome(plantillaEscena.Escena):
 
     def on_draw(self, pantalla):
         pantalla.blit(self.fondo, (0, 0))
-
         botonJugar = pygame.image.load("imagenes/botones/botonJugar.png")
         botonAjustes = pygame.image.load("imagenes/botones/botonAjustes.png")
         self.boton_play = Boton(pantalla, "play", self.director.ancho/2, self.director.alto/2, botonJugar, 127, 40)

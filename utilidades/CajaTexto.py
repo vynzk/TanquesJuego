@@ -4,9 +4,10 @@ from utilidades.Boton import Boton
 class CajaTexto(Boton):
     def __init__(self,pantalla, texto, posX, posY,imagenBoton, x,y):
         Boton.__init__(self,pantalla, texto, posX, posY,imagenBoton, x,y)
-        self.flagEscritura = False
+        self.flag = False
+        self.texto = ""
 
-    def capturaTexto(self,event):
+    def acapturaTexto(self,event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_BACKSPACE:
 
@@ -15,8 +16,8 @@ class CajaTexto(Boton):
                 tecla = event.unicode
                 self.concadena(tecla)
                 print('texto'+ self.textoC)
-    def flag(self, booleano):
+    def aflag(self, booleano):
         self.flagEscritura = booleano
 
-    def concadena(self, tecla):
+    def aconcadena(self, tecla):
         self.textoC.join(tecla)
