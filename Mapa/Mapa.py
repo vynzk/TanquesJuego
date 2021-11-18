@@ -25,7 +25,7 @@ class Mapa:
         listaAlturas=[]
 
         listaVariante=[]
-        variante=random.randint(1,3);
+        variante=random.randint(1,3)
         contador=0
         caso=0;
         if(variante==1):
