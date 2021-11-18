@@ -23,8 +23,8 @@ class EscenaRegistro(plantillaEscena.Escena):
         self.datosJugadores = []
         self.texto_usuario = ''  # texto que se mostrará en pantalla al escribir
         self.base = pygame.font.Font(None, 32)  # es el tamaño de las letras
-        self.cuadroTexto = pygame.Rect(600, 400, 140,
-                                       32)  # lugar donde se dibujará el cuadrado para ingresar los nombres de los jugadores
+        self.cuadroTexto = pygame.Rect(self.director.ancho/2, self.director.alto/2, 127,
+                                       40)  # lugar donde se dibujará el cuadrado para ingresar los nombres de los jugadores
         self.contadorJug = 0
         self.constante = 0
         self.contadorIA = 0  # Requisito 2 y Requisito 4: contador de cuantas IA hay en el juego
@@ -81,15 +81,15 @@ class EscenaRegistro(plantillaEscena.Escena):
     def on_draw(self, pantalla):
         pantalla.blit(self.fondo, (0, 0))
         self.mostrarTexto()
-        self.mostrarImagenEnPos("imagenes/fondoBlanco.png", (127, 32), (600, 400))
+        self.mostrarImagenEnPos("imagenes/fondoBlanco.png", (127, 40), (self.director.ancho/2, self.director.alto/2))
 
         botonAgregar = pygame.image.load("imagenes/botones/botonAgregar.png")
-        self.boton_agregar = Boton(pantalla, "agregar", 600, 520, botonAgregar, 127, 40)
+        self.boton_agregar = Boton(pantalla, "agregar", self.director.ancho/2, self.director.alto/2+120, botonAgregar, 127, 40)
         self.boton_agregar.dibujaBoton()
 
         """Requisito 2 y Requisito 4: Se crea y muestra el boton IA"""
         botonEsIa = pygame.image.load("imagenes/botones/botonIA.png")
-        self.boton_ia = Boton(pantalla, "boton ia", 800, 400, botonEsIa, 127, 40)
+        self.boton_ia = Boton(pantalla, "boton ia", self.director.ancho/2+150,self.director.alto/2, botonEsIa, 127, 40)
         """Requisito 4: El primer jugador es el usuario, por tanto, no debe permitirse que se registre una IA
         como primer jugador, si quieres que juegen sólo IA, comenta el siguiente if"""
         if self.contadorJug > 0:
@@ -129,4 +129,4 @@ class EscenaRegistro(plantillaEscena.Escena):
         self.texto_usuario = ''
 
     def mostrarTexto(self):
-        self.textoEnPantalla(f'Ingrese el nombre del jugador: {self.contadorJug + 1}', 20, BLANCO, (470, 300), False)
+        self.textoEnPantalla(f'Ingrese el nombre del jugador: {self.contadorJug + 1}', 20, BLANCO, (self.director.ancho/2-127, self.director.alto/3), False)

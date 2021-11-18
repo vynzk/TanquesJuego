@@ -17,7 +17,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def __init__(self, director):  # constructor
         plantillaEscena.Escena.__init__(self, director)
-        self.director.listaEscenas["escenaJuego"]=self;
+        self.director.listaEscenas["escenaJuego"]=self
         print(self.director.listaEscenas.keys())
         
         self.fondo = fondosLista[random.randint(0, len(fondosLista) - 1)]
@@ -248,7 +248,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
     # verifica si un borde del mapa fue impactado, si lo fue retorna true, en caso contrario false
     def tocaBordes(self, xDisparo, yDisparo):
-        if xDisparo >= 1280 or yDisparo >= 600 or xDisparo <= 0 or yDisparo <= 0:
+        if xDisparo >= self.director.ancho or yDisparo >= self.director.alto or xDisparo <= 0 or yDisparo <= 0:
             return True  # sale del rango
         return False  # dentro del rango
 
@@ -550,7 +550,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def pisoEsLava(self):
         for jugador in self.partidaActual.jugadoresActivos:
-            if jugador.tanque.bloque.y == 560:
+            if jugador.tanque.bloque.y == self.director.alto:
                 self.mostrarImagenEnPos("imagenes/bloque/flama.png", (40, 40),
                                         (jugador.tanque.bloque.x, jugador.tanque.bloque.y))
                 self.textoEnPantalla("EL PISO ES LAVA", 30, ROJO, (500, 300), True)

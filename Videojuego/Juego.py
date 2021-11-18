@@ -46,12 +46,9 @@ class Juego:
     # función que agregará una partida a la lista de partidas, cada partida agregará como jugadores activos a la
     # totalidad de jugadores que participan en el juego
     def agregarPartida(self, i, director):
-        listaMapas = (mapa1, mapa2, mapa3)
-        numeroRandom = random.randint(0, len(listaMapas) - 1)
-        mapaRandom = listaMapas[numeroRandom]
-        mapa = Mapa(mapaRandom)
-        # mapa = Mapa(mapa1)
-        mapa.generarMatriz(director.pantalla)
+        mapa=Mapa()
+        #Adaptar a pantalla
+        mapa.generarMapa(director.pantalla,director.ancho,director.alto)
         partida = Partida(i, director, mapa)
         # va agregando los jugadores a la nueva partida
         for jugador in self.listaJugadores:
