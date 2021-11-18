@@ -11,7 +11,7 @@ from escenas.director import *
 
 
 def main():
-    director = Director(1200,800)
+    director = Director(1280,720)
     home = EscenaHome(director)  
     director.cambiarEscena(home)
     director.gameLoop()

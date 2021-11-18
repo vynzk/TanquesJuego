@@ -18,7 +18,6 @@ class EscenaHome(plantillaEscena.Escena):
         self.boton_play = None
         self.boton_config = None
         self.fondo = pygame.image.load("imagenes/fondoHome.png")
-        self.cantidadJugadores=2
 
         # valores predeterminados
         self.numJugadores= 2
@@ -55,15 +54,13 @@ class EscenaHome(plantillaEscena.Escena):
 
         botonJugar = pygame.image.load("imagenes/botones/botonJugar.png")
         botonAjustes = pygame.image.load("imagenes/botones/botonAjustes.png")
-        self.boton_play = Boton(pantalla, "play", 580, 500, botonJugar, 127, 40)
         self.boton_play = Boton(pantalla, "play", self.director.ancho/2, self.director.alto/2, botonJugar, 127, 40)
         self.boton_play.dibujaBoton()
-        self.boton_config = Boton(pantalla, "configuracion", 580, 550,botonAjustes,127,40) 
-        self.boton_config = Boton(pantalla, "configuracion", self.director.ancho/2, self.director.alto/2+50,botonJugar,127,40) 
+        self.boton_config = Boton(pantalla, "configuracion", self.director.ancho/2, self.director.alto/2+50,botonAjustes,127,40)
         self.boton_config.dibujaBoton() 
 
     def cambiaDePartida(self):
-        game=Juego(self.cantidadJugadores,1)
+        game=Juego(self.numJugadores,1)
         self.director.game=game
         self.director.cambiarEscena(EscenaRegistro(self.director))
 
