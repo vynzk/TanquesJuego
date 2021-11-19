@@ -423,6 +423,25 @@ class EscenaJuego(plantillaEscena.Escena):
             for i in range(0, len(listaColumna) - 1):
                 listaColumna[i].y = listaColumna[i + 1].y
 
+    """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""
+    def danoColateralTanque(self,posX,posY,danoArma):
+        danoColateral=danoArma/2
+        for jugador in self.partidaActual.jugadoresActivos:
+            tanqueJugador=jugador.tanque
+            bloqueTanqueJugador=jugador.tanque.bloque
+            # si el bloque danado por la zona de impacto es un bloque de un tanque
+            if(bloqueTanqueJugador.x==posX and bloqueTanqueJugador.y==posY):
+                # si el dano mata al tanque
+                if danoColateral>=tanqueJugador.vida:
+                    """ Requisito 3 U3: Si se suicida, no cuenta como oponente destruido"""
+                    if(self.jugadorActual is not jugador):
+                        self.jugadorActual.oponentesDestruidos+=1
+                    self.partidaActual.eliminarJugador(jugador) # lo elimina
+                # si el dano no quita toda la vida del tanque
+                else:
+                    tanqueJugador.vida-=danoColateral
+                
+
     def destruirZonaImpacto(self, bloqueImpactado, nombreArma):
         if nombreArma != "Proyectil 105":
             # animación de impacto
@@ -439,6 +458,10 @@ class EscenaJuego(plantillaEscena.Escena):
             # time.sleep(3) #<-- debug para notar con mas claridad la gravedad
             bloqueIzquierda = self.buscarBloque(bloqueImpactado.x - 40, bloqueImpactado.y)
             bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, bloqueImpactado.y)
+            
+            """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""
+            self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y,40)
+            self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y,40)
             # destrucción de los bloques
             self.destruir(bloqueIzquierda)
             self.destruir(bloqueDerecha)
@@ -456,6 +479,11 @@ class EscenaJuego(plantillaEscena.Escena):
                 bloqueIzquierda = self.buscarBloque(bloqueImpactado.x - 40, ejeY)
                 bloqueCentral = self.buscarBloque(bloqueImpactado.x, ejeY)
                 bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, ejeY)
+                """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""
+                self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y,50)
+                self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y,50)
+                self.danoColateralTanque(bloqueImpactado.x,bloqueImpactado.y,50)
+
                 self.destruir(bloqueIzquierda)
                 self.destruir(bloqueCentral)
                 self.destruir(bloqueDerecha)
@@ -463,7 +491,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
         pygame.time.wait(400)  # <-- necesario para que se vean las graficas
 
-    # -----------------------------------DEFINIR EMPATE---------------------------------------------------------
+    # ----------------------------------DEFINIR EMPATE---------------------------------------------------------
     def empate(self):
         for jugador in self.partidaActual.jugadoresActivos:
             proyectilesJug = jugador.tanque.listaProyectiles
