@@ -35,8 +35,8 @@ class EscenaJuego(plantillaEscena.Escena):
         self.bloqueImpactado = None
         self.xMaxDisparo = 0
         self.yMaxDisparo = 0
-        self.aceleracionVertical = self.director.game.aceleracionVertical 
-        self.aceleracionHorizontal = self.director.game.aceleracionHorizontal
+        self.aceleracionVertical = self.director.game.aceleracionVertical
+        self.aceleracionHorizontal = self.director.listaEscenas["escenaHome"].viento
         self.boton_salir = None
         self.boton_reiniciar = None
         self.boton_cambioArmas = None
@@ -223,6 +223,9 @@ class EscenaJuego(plantillaEscena.Escena):
         listaJugadoresPartida = self.partidaActual.jugadoresActivos
         jugadoresSinParticipar = list(filter(lambda jug: jug.participoTurno is not True, listaJugadoresPartida))
         if not jugadoresSinParticipar:
+            #en el caso de que se activaran los efectos de entorno, se revaloriza el clima por cada ronda
+            if self.director.listaEscenas["escenaHome"].viento_o_no == True:
+                self.aceleracionHorizontal = random.randint(-10, 10)
             self.textoEnPantalla("SE HA COMPLETADO UNA RONDA DE TURNOS", 30, BLANCO, (280, 300), True)
             print("- - - - - - - - - - - - ")  # << debug terminal
             time.sleep(2)
@@ -491,7 +494,10 @@ class EscenaJuego(plantillaEscena.Escena):
 
         print(self.director.listaEscenas.keys()) # << debug
         
-        
+        self.director.listaEscenas["escenaHome"].viento = 0
+        self.director.listaEscenas["escenaHome"].gravedad = 10
+        self.director.listaEscenas["escenaHome"].viento_o_no = False
+
         listaBorrar=[]
         """ se recorre el diccionario buscando todas llaves, valor a eliminar, no se pueden
         eliminar directamente en el ciclo ya que se prohibe (error de dict)"""
@@ -587,14 +593,17 @@ class EscenaJuego(plantillaEscena.Escena):
                         self.textoEnPantalla("IA CAMBIA DE ARMA", 30, ROJO, (300, 300), True)
 
     def mostrarGravedadViento(self): 
+        if self.aceleracionHorizontal == 0:
+            viento = "imagenes/sinViento.png"
+            self.textoEnPantalla(f'Viento : {self.aceleracionHorizontal} m/s', 15, BLANCO, (100, 0), False) 
+
         if self.aceleracionHorizontal > 0: 
             viento = "imagenes/banderaVientoDerecha.png" 
-            self.mostrarImagenEnPos(viento, (80, 80), (0, 0)) 
             self.textoEnPantalla(f'Viento : {self.aceleracionHorizontal} m/s', 15, BLANCO, (100, 0), False) 
  
         if self.aceleracionHorizontal < 0: 
             viento = "imagenes/banderaVientoIzquierda.png" 
-            self.mostrarImagenEnPos(viento, (80, 80), (0, 0)) 
             self.textoEnPantalla(f'Viento : {self.aceleracionHorizontal * -1} m/s', 15, BLANCO, (100, 0), False) 
  
+        self.mostrarImagenEnPos(viento, (80, 80), (0, 0)) 
         self.textoEnPantalla(f'Gravedad : {self.aceleracionVertical} m/s^2', 15, BLANCO, (100, 40), False) 
