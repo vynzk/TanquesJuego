@@ -69,6 +69,7 @@ class EscenaConfig(plantillaEscena.Escena):
                     self.numJugadores += 1
             if self.director.checaBoton(self.director.mousePos, self.boton_afectosEntorno):
                 if(self.afectosEntorno=='no'):
+                    self.redefinirViento()
                     self.afectosEntorno = 'si'
                 else:
                     self.afectosEntorno = 'no'
@@ -219,6 +220,7 @@ class EscenaConfig(plantillaEscena.Escena):
         self.director.listaEscenas["escenaHome"].indicarClima = self.indicarClima
 
         self.director.cambiarResolucion(self.dimensionPantalla[0],self.dimensionPantalla[1])
+
     def redefinirViento(self):
         if self.viento_o_no == False:
             self.viento = random.randint(-10,10)
