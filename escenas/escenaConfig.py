@@ -23,11 +23,11 @@ class EscenaConfig(plantillaEscena.Escena):
         self.cajaDimensionY = CajaTexto(self.director.pantalla,"caja",150,250, cajaImagen, 60,40)
         self.cajaDimensionY_valor = 720
         self.cajaPerforante = CajaTexto(self.director.pantalla,"caja",900,150, cajaImagen, 40,40)
-        self.cajaPerforante_valor = 100
+        self.cajaPerforante_valor = 10
         self.caja100mm = CajaTexto(self.director.pantalla,"caja",900,200, cajaImagen, 40,40)
-        self.caja100mm_valor = 30
+        self.caja100mm_valor = 10
         self.caja60mm = CajaTexto(self.director.pantalla,"caja",900,250, cajaImagen, 40,40)
-        self.caja60mm_valor = 30
+        self.caja60mm_valor = 10
 
 
 
