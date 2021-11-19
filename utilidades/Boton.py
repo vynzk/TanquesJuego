@@ -12,7 +12,6 @@ class Boton:
         self.posX = posX
         self.posY = posY
         self.rect = pygame.Rect(self.posX, self.posY, self.x, self.y)
-        
         self.color = ROJO
         self.redimensionarBoton()
 

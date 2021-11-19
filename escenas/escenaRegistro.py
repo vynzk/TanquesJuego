@@ -29,6 +29,12 @@ class EscenaRegistro(plantillaEscena.Escena):
         self.constante = 0
         self.contadorIA = 0  # Requisito 2 y Requisito 4: contador de cuantas IA hay en el juego
 
+        #municiones
+        self.municionPerforante = self.director.listaEscenas["escenaHome"].perforante
+        self.municion105 = self.director.listaEscenas["escenaHome"].p105mm
+        self.municion60 = self.director.listaEscenas["escenaHome"].p60mm
+
+
     def on_update(self):
         pygame.display.set_caption("Registrar jugadores")
         pass
@@ -100,7 +106,7 @@ class EscenaRegistro(plantillaEscena.Escena):
         # define las posiciones aleatorias de los jugadores dentro de cada partida
         for partida in self.director.game.listaPartidas:
             partida.generarPosicionesJug()
-            partida.equiparArmasIniciales()
+            partida.equiparArmasIniciales(self.municionPerforante,self.municion105,self.municion60)
 
         self.director.cambiarEscena(EscenaJuego(self.director))
 

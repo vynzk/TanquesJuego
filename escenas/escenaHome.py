@@ -1,5 +1,6 @@
 from Videojuego.Juego import Juego
 from escenas.escenaRegistro import EscenaRegistro
+from escenas.escenaConfig import EscenaConfig
 import pygame
 from escenas import plantillaEscena
 from utilidades.Boton import Boton
@@ -17,15 +18,24 @@ class EscenaHome(plantillaEscena.Escena):
         self.boton_play = None
         self.boton_config = None
         self.fondo = pygame.image.load("imagenes/fondoHome.png")
-        self.cantidadJugadores=2
 
-        #los efectos de entorno definidos en la escenaConfig se almacenan acá y se utilizan en la escenaJuego
+        # valores predeterminados
+        self.numJugadores= 2
+        self.afectosEntorno = 'no'
+        self.dimensionPantalla = (1280,720)
+        self.perforante = 10
+        self.p105mm= 10
+        self.p60mm= 10
+
+            #los efectos de entorno
         self.viento = 0
         self.gravedad = 10
         self.viento_o_no = False
 
+
     def on_update(self):
         pygame.display.set_caption("Home")  # no cambies esto aun... es para debuggueo
+
 
     def on_event(self, evento):
         if evento.type == pygame.MOUSEBUTTONDOWN:
@@ -41,16 +51,15 @@ class EscenaHome(plantillaEscena.Escena):
 
     def on_draw(self, pantalla):
         pantalla.blit(self.fondo, (0, 0))
-
         botonJugar = pygame.image.load("imagenes/botones/botonJugar.png")
         botonAjustes = pygame.image.load("imagenes/botones/botonAjustes.png")
-        self.boton_play = Boton(pantalla, "play", 580, 500, botonJugar, 127, 40)
+        self.boton_play = Boton(pantalla, "play", self.director.ancho/2, self.director.alto/2, botonJugar, 127, 40)
         self.boton_play.dibujaBoton()
-        self.boton_config = Boton(pantalla, "configuracion", 580, 550,botonAjustes,127,40) 
+        self.boton_config = Boton(pantalla, "configuracion", self.director.ancho/2, self.director.alto/2+50,botonAjustes,127,40)
         self.boton_config.dibujaBoton() 
 
     def cambiaDePartida(self):
-        game=Juego(self.cantidadJugadores,1)
+        game=Juego(self.numJugadores,1)
         self.director.game=game
         self.director.cambiarEscena(EscenaRegistro(self.director))
 

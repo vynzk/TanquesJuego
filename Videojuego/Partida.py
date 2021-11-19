@@ -67,12 +67,12 @@ class Partida:
             jugador.tanque.construirBloques(posAleatoria[0],posAleatoria[1])
             contador+=espacios*2
 
-    def equiparArmasIniciales(self):
+    def equiparArmasIniciales(self, municionPerforante, municion105, municion60):
         for jugador in self.jugadoresActivos:
-            proyectil105 = Proyectil("Proyectil 105", 3, 50, "imagenes/armas/proyectil105.png", ROJO)
-            proyectilPerforante = Proyectil("Proyectil Perforante", 10, 40, "imagenes/armas/proyectilPerforante.png",
+            proyectil105 = Proyectil("Proyectil 105", municion105, 50, "imagenes/armas/proyectil105.png", ROJO)
+            proyectilPerforante = Proyectil("Proyectil Perforante", municionPerforante, 40, "imagenes/armas/proyectilPerforante.png",
                                             NARANJA)
-            proyectil60 = Proyectil("Proyectil 60", 3, 30, "imagenes/armas/proyectil60.png", AMARILLO)
+            proyectil60 = Proyectil("Proyectil 60", municion60, 30, "imagenes/armas/proyectil60.png", AMARILLO)
 
             """
             antes del refactor
