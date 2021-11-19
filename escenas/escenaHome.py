@@ -22,7 +22,7 @@ class EscenaHome(plantillaEscena.Escena):
         # valores predeterminados
         self.numJugadores= 2
         self.afectosEntorno = 'no'
-        self.dimensionPantalla = (1280,720)
+        self.dimensionPantalla = (800,800)
         self.perforante = 10
         self.p105mm= 10
         self.p60mm= 10

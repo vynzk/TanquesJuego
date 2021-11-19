@@ -332,20 +332,9 @@ class EscenaJuego(plantillaEscena.Escena):
         if self.jugadorActual.esIA is True:
             self.mostrarImagenEnPos("imagenes/IA.png", (50, 50), (1000, 640))
 
-        # self.textoEnPantalla(f'Nombre jugador: {self.jugadorActual.nombre}',20,BLANCO,(80,660),False)
-        # self.textoEnPantalla(f'Vida tanque: {self.jugadorActual.tanque.vida}',20,BLANCO,(80,690),False)
-
-        # self.mostrarImagenEnPos(self.jugadorActual.tanque.proyectilActual.imagen,(50,50),(20,660))
-        # self.textoEnPantalla(f'Arma equipada: {self.jugadorActual.tanque.proyectilActual.nombre}',20,BLANCO,
-        #                     (300,660),False)
-        # self.textoEnPantalla(f'Munición: {self.jugadorActual.tanque.proyectilActual.municion},'
-        #                     f' Daño: {self.jugadorActual.tanque.proyectilActual.daño}',20,BLANCO,(300,690),False)
 
         self.textoEnPantalla(f'Desplazamiento maximo: {self.xMaxDisparo} [cm]', 15, BLANCO, (150, 635), False)
         self.textoEnPantalla(f'Altura maxima: {self.yMaxDisparo} [cm]', 15, BLANCO, (150, 665), False)
-
-        # Botones
-        # infoBala= pygame.image.load(self.jugadorActual.tanque.proyectilActual.pathImagen)
 
         cuadroVacio = pygame.image.load(cuadroVacioImagen)  # para tanque y bala
 
