@@ -23,12 +23,11 @@ class EscenaConfig(plantillaEscena.Escena):
         self.cajaDimensionY = CajaTexto(self.director.pantalla,"caja",150,250, cajaImagen, 60,40)
         self.cajaDimensionY_valor = 720
         self.cajaPerforante = CajaTexto(self.director.pantalla,"caja",900,150, cajaImagen, 40,40)
-        self.cajaPerforante_valor = 30
+        self.cajaPerforante_valor = 100
         self.caja100mm = CajaTexto(self.director.pantalla,"caja",900,200, cajaImagen, 40,40)
-        self.caja100mm_valor = 60
-
-        self.caja60mm = CajaTexto(self.director.pantalla,"caja",0,0, cajaImagen, 60,40)
-        self.caja60mm_valor = 100
+        self.caja100mm_valor = 30
+        self.caja60mm = CajaTexto(self.director.pantalla,"caja",900,250, cajaImagen, 40,40)
+        self.caja60mm_valor = 30
 
 
 
@@ -83,54 +82,61 @@ class EscenaConfig(plantillaEscena.Escena):
                     self.afectosEntorno = 'si'
                 else:
                     self.afectosEntorno = 'no'
-            #if self.director.checaBoton(self.director.mousePos, self.cajaPerforante):
-                #if(self.perforante == 30):
-                    #self.perforante = 10
+            #if self.director.checaBoton(self.director.mousePos, self.caja100mm):
+                #if(self.p105mm == 30):
+                    #self.p105mm = 10
                 #else:
-                    #self.perforante += 1
-            if self.director.checaBoton(self.director.mousePos, self.caja100mm):
-                if(self.p105mm == 30):
-                    self.p105mm = 10
-                else:
-                    self.p105mm += 1
-            if self.director.checaBoton(self.director.mousePos, self.boton_60mm):
-                if(self.p60mm == 30):
-                    self.p60mm = 10
-                else:
-                    self.p60mm += 1
+                    ##self.p105mm += 1
+            #if self.director.checaBoton(self.director.mousePos, self.boton_60mm):
+                #if(self.p60mm == 30):
+                    #self.p60mm = 10
+                #else:
+                    #self.p60mm += 1
             if self.director.checaBoton(self.director.mousePos, self.caja):
                 self.cajaDimensionX.flag = False
                 self.cajaDimensionY.flag = False
                 self.caja.flag = True
                 self.cajaPerforante.flag = False
                 self.caja100mm.flag = False
+                self.caja60mm.flag = False
             if self.director.checaBoton(self.director.mousePos, self.cajaDimensionX):
                 self.caja.flag = False
                 self.cajaDimensionY.flag = False
                 self.cajaDimensionX.flag = True
                 self.cajaPerforante.flag = False
                 self.caja100mm.flag = False
+                self.caja60mm.flag = False
             if self.director.checaBoton(self.director.mousePos, self.cajaDimensionY):
                 self.caja.flag = False
                 self.cajaDimensionX.flag = False
                 self.cajaDimensionY.flag = True
                 self.cajaPerforante.flag = False
                 self.caja100mm.flag = False
+                self.caja60mm.flag = False
             if self.director.checaBoton(self.director.mousePos, self.cajaPerforante):
                 self.caja.flag = False
                 self.cajaDimensionX.flag = False
                 self.cajaDimensionY.flag = False
                 self.cajaPerforante.flag = True
                 self.caja100mm.flag = False
+                self.caja60mm.flag = False
             if self.director.checaBoton(self.director.mousePos, self.caja100mm):
                 self.caja.flag = False
                 self.cajaDimensionX.flag = False
                 self.cajaDimensionY.flag = False
                 self.cajaPerforante.flag = False
                 self.caja100mm.flag = True
+                self.caja60mm.flag = False
+            if self.director.checaBoton(self.director.mousePos, self.caja60mm):
+                self.caja.flag = False
+                self.cajaDimensionX.flag = False
+                self.cajaDimensionY.flag = False
+                self.cajaPerforante.flag = False
+                self.caja100mm.flag = False
+                self.caja60mm.flag = True
         # previsional caja texto
         if self.caja.flag:
-            print("entra caja")
+
             try:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
@@ -184,6 +190,17 @@ class EscenaConfig(plantillaEscena.Escena):
                         self.caja100mm_valor = int(self.caja100mm.texto)
             except:
                 self.caja100mm.texto = self.caja100mm.texto[:-1]
+        if self.caja60mm.flag:
+            print("entra dimension y")
+            try:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_BACKSPACE:
+                        self.caja60mm.texto = self.caja60mm.texto[:-1]
+                    else:
+                        self.caja60mm.texto += event.unicode
+                        self.caja60mm_valor = int(self.caja60mm.texto)
+            except:
+                self.caja60mm.texto = self.caja60mm.texto[:-1]
 
     def on_draw(self, pantalla):
 
@@ -208,6 +225,10 @@ class EscenaConfig(plantillaEscena.Escena):
         self.caja100mm.dibujaBoton()
         self.textoEnPantalla(f'{self.caja100mm.texto}', 15, NEGRO, (self.caja100mm.posX+5, self.caja100mm.posY+5), False)
         self.textoEnPantalla(f' Proyectil 100mm', 15, BLANCO, (950, 200), False)
+
+        self.caja60mm.dibujaBoton()
+        self.textoEnPantalla(f'{self.caja60mm.texto}', 15, NEGRO, (self.caja60mm.posX+5, self.caja60mm.posY+5), False)
+        self.textoEnPantalla(f' Proyectil 60mm', 15, BLANCO, (950, 250), False)
 
         #BotonesImagenes
         botonVacio= pygame.image.load("imagenes/botones/botonVacio.png")
@@ -247,14 +268,20 @@ class EscenaConfig(plantillaEscena.Escena):
         #self.boton_105mm.dibujaBoton()
         #self.textoEnPantalla(f'{self.p105mm}', 15, NEGRO, (915, 200), False)
 
-        self.textoEnPantalla(f' Proyectil 60mm',15,BLANCO,(950,250),False)
-        self.boton_60mm = Boton(pantalla, "play", 900, 250,botonVacio,40,40)
-        self.boton_60mm.dibujaBoton()
-        self.textoEnPantalla(f'{self.p60mm}', 15, NEGRO, (915, 250), False)
+        #self.textoEnPantalla(f' Proyectil 60mm',15,BLANCO,(950,250),False)
+        #self.boton_60mm = Boton(pantalla, "play", 900, 250,botonVacio,40,40)
+        #self.boton_60mm.dibujaBoton()
+        #self.textoEnPantalla(f'{self.p60mm}', 15, NEGRO, (915, 250), False)
 
 
     def registrar(self):
         # valores predeterminados
+        self.dimensionPantalla = (self.cajaDimensionX_valor,self.cajaDimensionY_valor)
+        self.perforante = self.cajaPerforante_valor
+        self.p105mm= self.caja100mm_valor
+        self.p60mm= self.caja60mm_valor
+
+        # valores
         self.director.listaEscenas["escenaHome"].numJugadores=  self.numJugadores
         self.director.listaEscenas["escenaHome"].afectosEntorno = self.afectosEntorno
         self.director.listaEscenas["escenaHome"].dimensionPantalla = self.dimensionPantalla
@@ -266,7 +293,6 @@ class EscenaConfig(plantillaEscena.Escena):
         self.director.listaEscenas["escenaHome"].viento_o_no = self.viento_o_no
         self.director.listaEscenas["escenaHome"].indicarClima = self.indicarClima
 
-        #provisional
         self.director.cambiarResolucion(self.dimensionPantalla[0],self.dimensionPantalla[1])
     def redefinirViento(self):
         if self.viento_o_no == False:
@@ -293,15 +319,25 @@ class EscenaConfig(plantillaEscena.Escena):
         # valores predeterminados
         self.numJugadores= 2
         self.afectosEntorno = 'no'
-        self.dimensionPantalla = (1280,720)
-        self.perforante = 10
-        self.p105mm= 10
-        self.p60mm= 10
+        self.cajaDimensionY.texto = "800"
+        self.cajaDimensionX.texto = "800"
+        self.cajaPerforante.texto = "10"
+        self.caja100mm.texto= "10"
+        self.caja60mm.texto= "10"
+
+        self.cajaDimensionY_valor = 800
+        self.cajaDimensionX_valor = 800
+        self.cajaPerforante_valor = 10
+        self.caja100mm_valor= 10
+        self.caja60m_valoro= 10
 
 
-            
-            #elif event.key == pygame.K_PERIOD:
-            #    self.texto_usuario += event.unicode
+        self.dimensionPantalla = (self.cajaDimensionX_valor, self.cajaDimensionY_valor)
+        self.perforante =self.cajaPerforante_valor
+        self.p105mm=self.caja100mm_valor
+        self.p60mm=self.caja60mm_valor
+
+
     def cambiarEscenaHome(self):
         self.director.cambiarEscena(self.director.listaEscenas["escenaHome"])
     def compruebaValores(self):
