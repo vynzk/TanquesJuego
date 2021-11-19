@@ -196,7 +196,7 @@ class EscenaConfig(plantillaEscena.Escena):
         self.boton_numJugadores.dibujaBoton()
         self.textoEnPantalla(f'{self.numJugadores}', 15, NEGRO, (80, 150), False)
 
-        self.textoEnPantalla(f' efectos de entorno?',15,BLANCO,(114,200),False)
+        self.textoEnPantalla(f' viento?',15,BLANCO,(114,200),False)
         self.boton_afectosEntorno = Boton(pantalla, "play", 64, 200,botonVacio,40,40)
         self.boton_afectosEntorno.dibujaBoton()
         self.textoEnPantalla(f'{self.afectosEntorno}', 15, NEGRO, (80, 200), False)
