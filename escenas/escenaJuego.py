@@ -48,7 +48,7 @@ class EscenaJuego(plantillaEscena.Escena):
         pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
         self.director.pantalla.blit(self.fondo, (0, 0))
 
-        self.director.pantalla.blit(pygame.image.load('imagenes/banner.png'), (0, 600))
+        self.director.pantalla.blit(pygame.image.load('imagenes/banner.png'), (0, self.director.alto-120))
         # pygame.draw.rect(self.director.pantalla, NEGRO, (0, 600, 1280, 120))  # barra inferior inferior
         self.partidaActual.mapa.dibujarMapa(self.director.pantalla)
         self.dibujarTanques()
@@ -319,22 +319,23 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def contenidoBarraInferior(self):
         # Información
-        self.textoEnPantalla(f'Jugador actual: {self.jugadorActual.nombre}', 15, BLANCO, (20, 605), False)
-        self.textoEnPantalla(f'Angulo: {self.jugadorActual.tanque.angulo}', 15, BLANCO, (500, 610), False)
+        self.textoEnPantalla(f'Jugador actual: {self.jugadorActual.nombre}', 15, BLANCO, (20, self.director.alto-100), False)
+        self.textoEnPantalla(f'Angulo: {self.jugadorActual.tanque.angulo}', 15, BLANCO, ((self.director.ancho/2)+20, self.director.alto-75), False)
         self.textoEnPantalla((f'Municion de Bala: ' + str(self.jugadorActual.tanque.proyectilActual.municion)), 15,
-                             BLANCO, (500, 650), False)
-        self.textoEnPantalla(f'Velocidad: {self.jugadorActual.tanque.velocidad} [cm/s]', 15, BLANCO, (650, 610), False)
+                             BLANCO, ((self.director.ancho/2)+20, self.director.alto-55), False)
+        self.textoEnPantalla(f'Velocidad: {self.jugadorActual.tanque.velocidad} [cm/s]', 15, BLANCO, ((self.director.ancho/2)+20, self.director.alto-95), False)
         cuadroVacioImagen = "imagenes/botones/botonVacio.png"
-        self.mostrarImagenEnPos(cuadroVacioImagen, (50, 50), (20, 640))
-        self.mostrarImagenEnPos(self.jugadorActual.tanque.imagen, (30, 30), (30, 650))
+
+        self.mostrarImagenEnPos(cuadroVacioImagen, (50, 50), (20, self.director.alto-70))
+        self.mostrarImagenEnPos(self.jugadorActual.tanque.imagen, (30, 30), (30, self.director.alto-60))
 
         """ Requisito 2 y 4: Si el jugador del turno es una IA, se muestra un robot en la barra inferior"""
         if self.jugadorActual.esIA is True:
             self.mostrarImagenEnPos("imagenes/IA.png", (50, 50), (1000, 640))
 
 
-        self.textoEnPantalla(f'Desplazamiento maximo: {self.xMaxDisparo} [cm]', 15, BLANCO, (150, 635), False)
-        self.textoEnPantalla(f'Altura maxima: {self.yMaxDisparo} [cm]', 15, BLANCO, (150, 665), False)
+        self.textoEnPantalla(f'Desplazamiento maximo: {self.xMaxDisparo} [cm]', 15, BLANCO, (150, self.director.alto-75), False)
+        self.textoEnPantalla(f'Altura maxima: {self.yMaxDisparo} [cm]', 15, BLANCO, (150, self.director.alto-55), False)
 
         cuadroVacio = pygame.image.load(cuadroVacioImagen)  # para tanque y bala
 
@@ -348,25 +349,25 @@ class EscenaJuego(plantillaEscena.Escena):
 
         self.boton_infoBala = Boton(self.director.pantalla,
                                     "proyectil actual\ndaño: {self.jugadorActual.tanque.proyectilActual.daño} ", 80,
-                                    640, cuadroVacio, 50, 50)
+                                    self.director.alto-70, cuadroVacio, 50, 50)
         self.boton_infoBala.dibujaBoton()
-        self.mostrarImagenEnPos(bala, (50, 50), (80, 640))
+        self.mostrarImagenEnPos(bala, (50, 50), (80, self.director.alto-70))
 
-        self.boton_salir = Boton(self.director.pantalla, "", 1220, 660, botonSalir, 40, 40)
+        self.boton_salir = Boton(self.director.pantalla, "", self.director.ancho-95, self.director.alto-95, botonSalir, 40, 40)
         self.boton_salir.dibujaBoton()
 
-        self.boton_reiniciar = Boton(self.director.pantalla, "", 1220, 610, botonReiniciar, 40, 40)
+        self.boton_reiniciar = Boton(self.director.pantalla, "", self.director.ancho-95, self.director.alto-50, botonReiniciar, 40, 40)
         self.boton_reiniciar.dibujaBoton()
 
-        self.boton_cambioArmas = Boton(self.director.pantalla, "", 1170, 660, botonCambioArmas, 40, 40)
+        self.boton_cambioArmas = Boton(self.director.pantalla, "", self.director.ancho-50, self.director.alto-50, botonCambioArmas, 40, 40)
         self.boton_cambioArmas.dibujaBoton()
 
-        self.boton_ayuda = Boton(self.director.pantalla, "", 1170, 610, botonAyuda, 40, 40)
+        self.boton_ayuda = Boton(self.director.pantalla, "", self.director.ancho-50, self.director.alto-95, botonAyuda, 40, 40)
         self.boton_ayuda.dibujaBoton()
 
-        self.boton_creditos = Boton(self.director.pantalla, "", 1235, 5, cuadroVacio, 40, 40)
+        self.boton_creditos = Boton(self.director.pantalla, "", self.director.ancho-50, 5, cuadroVacio, 40, 40)
         self.boton_creditos.dibujaBoton()
-        self.mostrarImagenEnPos(giftCreditos, (30, 30), (1240, 10))
+        self.mostrarImagenEnPos(giftCreditos, (30, 30), (self.director.ancho-45, 10))
 
     # ----------------------------------_DESTRUCCION DE TIERRA ---------------------------------------
     def buscarBloque(self, x, y):
