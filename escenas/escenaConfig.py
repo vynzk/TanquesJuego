@@ -12,12 +12,7 @@ class EscenaConfig(plantillaEscena.Escena):
         self.director = director
         self.fondo= pygame.image.load("imagenes/fondoHome.png")
 
-        # previsonal caja texto
-
-        cajaImagen= pygame.image.load("imagenes/botones/botonVacio.png")
-        self.caja = CajaTexto(self.director.pantalla,"caja",0,0, cajaImagen, 100,40)
-        self.caja_valor = 0
-
+        # cajas: corresponden a las cajas de introduccion de texto
         self.cajaDimensionX = CajaTexto(self.director.pantalla,"caja",60,250, cajaImagen, 60,40)
         self.cajaDimensionX_valor = 1280
         self.cajaDimensionY = CajaTexto(self.director.pantalla,"caja",150,250, cajaImagen, 60,40)
@@ -29,18 +24,11 @@ class EscenaConfig(plantillaEscena.Escena):
         self.caja60mm = CajaTexto(self.director.pantalla,"caja",900,250, cajaImagen, 40,40)
         self.caja60mm_valor = 10
 
-
-
         # botones
         self.boton_aplicar = None
         self.boton_restablecer = None
         self.boton_numJugadores = None
         self.boton_afectosEntorno = None
-        self.boton_dimensionPantalla = None
-            #cant muiniciones
-        #self.boton_perforante = None
-        #self.boton_105mm = None
-        #self.boton_60mm = None
 
         # valores predeterminados
         self.numJugadores= 2
@@ -82,16 +70,7 @@ class EscenaConfig(plantillaEscena.Escena):
                     self.afectosEntorno = 'si'
                 else:
                     self.afectosEntorno = 'no'
-            #if self.director.checaBoton(self.director.mousePos, self.caja100mm):
-                #if(self.p105mm == 30):
-                    #self.p105mm = 10
-                #else:
-                    ##self.p105mm += 1
-            #if self.director.checaBoton(self.director.mousePos, self.boton_60mm):
-                #if(self.p60mm == 30):
-                    #self.p60mm = 10
-                #else:
-                    #self.p60mm += 1
+
             if self.director.checaBoton(self.director.mousePos, self.caja):
                 self.cajaDimensionX.flag = False
                 self.cajaDimensionY.flag = False
@@ -134,9 +113,8 @@ class EscenaConfig(plantillaEscena.Escena):
                 self.cajaPerforante.flag = False
                 self.caja100mm.flag = False
                 self.caja60mm.flag = True
-        # previsional caja texto
+        #flags de las cajas: habilitan la escritura de una caja desactivando las otras
         if self.caja.flag:
-
             try:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
@@ -147,7 +125,6 @@ class EscenaConfig(plantillaEscena.Escena):
             except:
                 self.caja.texto = self.caja.texto[:-1]
         if self.cajaDimensionX.flag:
-            print("entra dimension x")
             try:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
@@ -158,7 +135,6 @@ class EscenaConfig(plantillaEscena.Escena):
             except:
                 self.cajaDimensionX.texto = self.cajaDimensionX.texto[:-1]
         if self.cajaDimensionY.flag:
-            print("entra dimension y")
             try:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
@@ -169,7 +145,6 @@ class EscenaConfig(plantillaEscena.Escena):
             except:
                 self.cajaDimensionY.texto = self.cajaDimensionY.texto[:-1]
         if self.cajaPerforante.flag:
-            print("entra dimension y")
             try:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
@@ -180,7 +155,6 @@ class EscenaConfig(plantillaEscena.Escena):
             except:
                 self.cajaDimensionY.texto = self.cajaDimensionY.texto[:-1]
         if self.caja100mm.flag:
-            print("entra dimension y")
             try:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
@@ -191,7 +165,6 @@ class EscenaConfig(plantillaEscena.Escena):
             except:
                 self.caja100mm.texto = self.caja100mm.texto[:-1]
         if self.caja60mm.flag:
-            print("entra dimension y")
             try:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
@@ -204,8 +177,7 @@ class EscenaConfig(plantillaEscena.Escena):
 
     def on_draw(self, pantalla):
 
-        self.textoEnPantalla(f'click derecho ++     click izquierdo --', 15, ROJO, (500, 650), False)
-        #provisional caja texto
+        self.textoEnPantalla(f'         click derecho: ++/escribir', 15, ROJO, (500, 650), False)
 
         self.caja.dibujaBoton()
         self.textoEnPantalla(f'{self.caja.texto}', 15, NEGRO, (self.caja.posX+10, self.caja.posY+10), False)
@@ -239,7 +211,6 @@ class EscenaConfig(plantillaEscena.Escena):
         self.boton_aplicar = Boton(pantalla, "play", 64, 420,botonRegistrar,127,40)
         self.boton_aplicar.dibujaBoton()
 
-
         self.boton_restablecer = Boton(pantalla, "play", 1200, 420,botonRestablecer,40,40)
         self.boton_restablecer.dibujaBoton()
 
@@ -252,28 +223,6 @@ class EscenaConfig(plantillaEscena.Escena):
         self.boton_afectosEntorno = Boton(pantalla, "play", 64, 200,botonVacio,40,40)
         self.boton_afectosEntorno.dibujaBoton()
         self.textoEnPantalla(f'{self.afectosEntorno}', 15, NEGRO, (80, 200), False)
-
-
-        #self.boton_dimensionPantalla = Boton(pantalla, "play", 64, 250,botonVacio,127,40)
-        #self.boton_dimensionPantalla.dibujaBoton()
-        #self.textoEnPantalla(f'{self.dimensionPantalla[0]} x {self.dimensionPantalla[1]} ', 15, NEGRO, (80, 250), False)
-        #municion
-
-        #self.boton_perforante = Boton(pantalla, "play", 900, 150,botonVacio,40,40)
-        #self.boton_perforante.dibujaBoton()
-        #self.textoEnPantalla(f'{self.perforante}', 15, NEGRO, (915, 150), False)
-
-        #self.textoEnPantalla(f' Proyectil 105mm',15,BLANCO,(950,200),False)
-        #self.boton_105mm = Boton(pantalla, "play", 900, 200,botonVacio,40,40)
-        #self.boton_105mm.dibujaBoton()
-        #self.textoEnPantalla(f'{self.p105mm}', 15, NEGRO, (915, 200), False)
-
-        #self.textoEnPantalla(f' Proyectil 60mm',15,BLANCO,(950,250),False)
-        #self.boton_60mm = Boton(pantalla, "play", 900, 250,botonVacio,40,40)
-        #self.boton_60mm.dibujaBoton()
-        #self.textoEnPantalla(f'{self.p60mm}', 15, NEGRO, (915, 250), False)
-
-
     def registrar(self):
         # valores predeterminados
         self.dimensionPantalla = (self.cajaDimensionX_valor,self.cajaDimensionY_valor)
