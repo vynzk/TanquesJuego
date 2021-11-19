@@ -13,6 +13,7 @@ class EscenaConfig(plantillaEscena.Escena):
         self.fondo= pygame.image.load("imagenes/fondoHome.png")
 
         # cajas: corresponden a las cajas de introduccion de texto
+        cajaImagen = pygame.image.load("imagenes/botones/botonVacio.png")
         self.cajaDimensionX = CajaTexto(self.director.pantalla,"caja",60,250, cajaImagen, 60,40)
         self.cajaDimensionX_valor = 1280
         self.cajaDimensionY = CajaTexto(self.director.pantalla,"caja",150,250, cajaImagen, 60,40)
@@ -44,6 +45,7 @@ class EscenaConfig(plantillaEscena.Escena):
 
     
     def on_update(self):
+        pygame.display.set_mode((1280,720))
         self.director.pantalla.blit(self.fondo, (0, 0))
         pygame.display.set_caption("configuraciones")
 
@@ -70,60 +72,37 @@ class EscenaConfig(plantillaEscena.Escena):
                     self.afectosEntorno = 'si'
                 else:
                     self.afectosEntorno = 'no'
-
-            if self.director.checaBoton(self.director.mousePos, self.caja):
-                self.cajaDimensionX.flag = False
-                self.cajaDimensionY.flag = False
-                self.caja.flag = True
-                self.cajaPerforante.flag = False
-                self.caja100mm.flag = False
-                self.caja60mm.flag = False
             if self.director.checaBoton(self.director.mousePos, self.cajaDimensionX):
-                self.caja.flag = False
                 self.cajaDimensionY.flag = False
                 self.cajaDimensionX.flag = True
                 self.cajaPerforante.flag = False
                 self.caja100mm.flag = False
                 self.caja60mm.flag = False
             if self.director.checaBoton(self.director.mousePos, self.cajaDimensionY):
-                self.caja.flag = False
                 self.cajaDimensionX.flag = False
                 self.cajaDimensionY.flag = True
                 self.cajaPerforante.flag = False
                 self.caja100mm.flag = False
                 self.caja60mm.flag = False
             if self.director.checaBoton(self.director.mousePos, self.cajaPerforante):
-                self.caja.flag = False
                 self.cajaDimensionX.flag = False
                 self.cajaDimensionY.flag = False
                 self.cajaPerforante.flag = True
                 self.caja100mm.flag = False
                 self.caja60mm.flag = False
             if self.director.checaBoton(self.director.mousePos, self.caja100mm):
-                self.caja.flag = False
                 self.cajaDimensionX.flag = False
                 self.cajaDimensionY.flag = False
                 self.cajaPerforante.flag = False
                 self.caja100mm.flag = True
                 self.caja60mm.flag = False
             if self.director.checaBoton(self.director.mousePos, self.caja60mm):
-                self.caja.flag = False
                 self.cajaDimensionX.flag = False
                 self.cajaDimensionY.flag = False
                 self.cajaPerforante.flag = False
                 self.caja100mm.flag = False
                 self.caja60mm.flag = True
         #flags de las cajas: habilitan la escritura de una caja desactivando las otras
-        if self.caja.flag:
-            try:
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_BACKSPACE:
-                        self.caja.texto = self.caja.texto[:-1]
-                    else:
-                        self.caja.texto += event.unicode
-                        self.caja_valor = int(self.caja.texto)
-            except:
-                self.caja.texto = self.caja.texto[:-1]
         if self.cajaDimensionX.flag:
             try:
                 if event.type == pygame.KEYDOWN:
@@ -178,9 +157,6 @@ class EscenaConfig(plantillaEscena.Escena):
     def on_draw(self, pantalla):
 
         self.textoEnPantalla(f'         click derecho: ++/escribir', 15, ROJO, (500, 650), False)
-
-        self.caja.dibujaBoton()
-        self.textoEnPantalla(f'{self.caja.texto}', 15, NEGRO, (self.caja.posX+10, self.caja.posY+10), False)
 
         self.cajaDimensionX.dibujaBoton()
         self.textoEnPantalla(f'{self.cajaDimensionX.texto}', 15, NEGRO, (self.cajaDimensionX.posX+5, self.cajaDimensionX.posY+5), False)
