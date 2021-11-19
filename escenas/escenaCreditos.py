@@ -14,6 +14,7 @@ class EscenaCreditos(plantillaEscena.Escena):
         
 
     def on_update(self):
+        pygame.display.set_mode((1280, 720))
         pygame.display.set_caption("Creditos")  # no cambies esto aun... es para debuggueo
         
 

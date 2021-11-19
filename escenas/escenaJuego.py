@@ -46,6 +46,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def on_update(self):
         pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
+        pygame.display.set_mode((self.director.ancho, self.director.alto))
         self.director.pantalla.blit(self.fondo, (0, 0))
 
         self.director.pantalla.blit(pygame.image.load('imagenes/banner.png'), (0, self.director.alto-120))
