@@ -134,25 +134,23 @@ class EscenaJuego(plantillaEscena.Escena):
                 """
                 self.partidaActual.terminar(self.director.game.listaJugadores)
                 # mensaje fin de partida
+                """ si no empatan es porque existe ganador de la partida, por ende, también lo habrá
+                del juego (se construyó con la visión de que el juego podría tener múltiples partidas)"""
                 if self.partidaActual.jugadorGanador is not None:
                     self.textoEnPantalla(f'FIN DE PARTIDA, GANADOR: {self.partidaActual.jugadorGanador.nombre}', 30,
                                          BLANCO,
                                          (400, 200), True)
-                else:  # si es none es porque hubo empate
-                    self.textoEnPantalla(f'EMPATE POR CANTIDAD DE DESTRUIDOS', 30,
-                                         BLANCO,
-                                         (400, 200), True)
-                time.sleep(2)
-                """ si no empatan es porque existe ganador de la partida, por ende, también lo habrá
-                del juego (se construyó con la visión de que el juego podría tener múltiples partidas)"""
-                if(self.partidaActual.jugadorGanador is not None):
                     self.director.game.definirGanador()  # << invocamos que defina un ganador del juego
                     self.textoEnPantalla(f'FIN DEL JUEGO, GANADOR: {self.director.game.jugadorGanador.nombre}', 30, BLANCO,
                                  (400, 300), True)
                     time.sleep(2)
+                else:  # si es none es porque hubo empate
+                    self.textoEnPantalla(f'EMPATE POR CANTIDAD DE DESTRUIDOS', 30,
+                                         BLANCO,
+                                         (400, 200), True)
+                    self.textoEnPantalla(f'Ganador Juego: Ninguno debido empate',30,BLANCO,(self.director.ancho/2,self.director.alto/2),True)
+                    time.sleep(2)
                     self.director.game.juegoTerminado=True
-                    self.director.running=False
-
         else:
             self.director.running = False  # rompe el gameloop para terminar el juego
 
@@ -181,7 +179,6 @@ class EscenaJuego(plantillaEscena.Escena):
         self.yMaxDisparo = 0
         xJugador = self.jugadorActual.tanque.bloque.x
         yJugador = self.jugadorActual.tanque.bloque.y
-        
         while True:
             #Se aplica la misma formula de la aceleracion de gravedad, pero ahora de forma vertical, lo cual da un efecto de viento
             xDisparo = int(xJugador + 20 + delta * self.jugadorActual.tanque.velocidad * math.cos(
@@ -249,7 +246,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
     # verifica si un borde del mapa fue impactado, si lo fue retorna true, en caso contrario false
     def tocaBordes(self, xDisparo, yDisparo):
-        if xDisparo >= self.director.ancho or yDisparo >= self.director.alto or xDisparo <= 0 or yDisparo <= 0:
+        if xDisparo >= self.director.ancho or yDisparo >= self.director.alto-160 or xDisparo <= 0 or yDisparo <= 0:
             return True  # sale del rango
         return False  # dentro del rango
 
@@ -443,7 +440,7 @@ class EscenaJuego(plantillaEscena.Escena):
         if nombreArma == "Proyectil Perforante":
             self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
                                     (self.bloqueImpactado.x - 40, self.bloqueImpactado.y))
-            self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
+            self.mostrarImagenEnPos("imagenes/bfloque/fondoExplosion.png", (40, 40),
                                     (self.bloqueImpactado.x + 40, self.bloqueImpactado.y))
             # pygame.display.update()
             # time.sleep(3) #<-- debug para notar con mas claridad la gravedad
@@ -472,7 +469,16 @@ class EscenaJuego(plantillaEscena.Escena):
                 bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, ejeY)
                 """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""
                 self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y,50)
-                self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y,50)
+                """Ajuste para no causar daño demás al objeto impactado, recordar que:
+                C C C
+                C I C
+                C C C
+                
+                C: dano colateral
+                I: dano impactado <-- no debe quitar daño colateral, sólo dano impacto
+                """
+                if(ejeY!=bloqueImpactado.y):
+                    self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y,50)
                 self.danoColateralTanque(bloqueImpactado.x,bloqueImpactado.y,50)
 
                 self.destruir(bloqueIzquierda)
@@ -575,6 +581,7 @@ class EscenaJuego(plantillaEscena.Escena):
                 self.mostrarImagenEnPos("imagenes/bloque/flama.png", (40, 40),
                                         (jugador.tanque.bloque.x, jugador.tanque.bloque.y))
                 self.textoEnPantalla("EL PISO ES LAVA", 30, ROJO, (500, 300), True)
+                print("Tanque de jugador "+self.jugador.nombre+" se destruyó por la lava")
                 self.partidaActual.eliminarJugador(jugador)
 
     """
