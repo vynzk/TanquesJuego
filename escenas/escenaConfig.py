@@ -38,7 +38,7 @@ class EscenaConfig(plantillaEscena.Escena):
         self.perforante = self.cajaPerforante_valor
         self.p105mm= self.caja100mm_valor
         self.p60mm= self.caja60mm_valor
-            #parametros que almacenan los efectos de entorno
+        #parametros que almacenan los efectos de entorno
         self.viento = 0
         self.viento_o_no = False
         self.indicarClima = "Desactivado"
@@ -278,7 +278,7 @@ class EscenaConfig(plantillaEscena.Escena):
         if self.caja100mm_valor > 30 or self.caja100mm_valor < 10:
             self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
             return False
-        if self.caja60mm_valor > 100 or self.caja60mm_valor < 10:
+        if self.caja60mm_valor > 30 or self.caja60mm_valor < 10:
             self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
             return False
         else:
