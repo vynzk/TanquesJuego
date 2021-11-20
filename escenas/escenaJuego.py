@@ -133,25 +133,23 @@ class EscenaJuego(plantillaEscena.Escena):
                 """
                 self.partidaActual.terminar(self.director.game.listaJugadores)
                 # mensaje fin de partida
+                """ si no empatan es porque existe ganador de la partida, por ende, también lo habrá
+                del juego (se construyó con la visión de que el juego podría tener múltiples partidas)"""
                 if self.partidaActual.jugadorGanador is not None:
                     self.textoEnPantalla(f'FIN DE PARTIDA, GANADOR: {self.partidaActual.jugadorGanador.nombre}', 30,
                                          BLANCO,
                                          (400, 200), True)
-                else:  # si es none es porque hubo empate
-                    self.textoEnPantalla(f'EMPATE POR CANTIDAD DE DESTRUIDOS', 30,
-                                         BLANCO,
-                                         (400, 200), True)
-                time.sleep(2)
-                """ si no empatan es porque existe ganador de la partida, por ende, también lo habrá
-                del juego (se construyó con la visión de que el juego podría tener múltiples partidas)"""
-                if(self.partidaActual.jugadorGanador is not None):
                     self.director.game.definirGanador()  # << invocamos que defina un ganador del juego
                     self.textoEnPantalla(f'FIN DEL JUEGO, GANADOR: {self.director.game.jugadorGanador.nombre}', 30, BLANCO,
                                  (400, 300), True)
                     time.sleep(2)
+                else:  # si es none es porque hubo empate
+                    self.textoEnPantalla(f'EMPATE POR CANTIDAD DE DESTRUIDOS', 30,
+                                         BLANCO,
+                                         (400, 200), True)
+                    self.textoEnPantalla(f'Ganador Juego: Ninguno debido empate',30,BLANCO,(self.director.ancho/2,self.director.alto/2),True)
+                    time.sleep(2)
                     self.director.game.juegoTerminado=True
-                    self.director.running=False
-
         else:
             self.director.running = False  # rompe el gameloop para terminar el juego
 
