@@ -48,8 +48,8 @@ class EscenaJuego(plantillaEscena.Escena):
         pygame.display.set_caption("NORTHKOREA WARS SIMULATOR")
         pygame.display.set_mode((self.director.ancho, self.director.alto))
         self.director.pantalla.blit(self.fondo, (0, 0))
-
-        self.director.pantalla.blit(pygame.image.load('imagenes/banner.png'), (0, self.director.alto-120))
+        bannerImagen = pygame.transform.scale(pygame.image.load('imagenes/banner.png'), (self.director.ancho, 120 ))
+        self.director.pantalla.blit(bannerImagen, (0, self.director.alto-120))
         # pygame.draw.rect(self.director.pantalla, NEGRO, (0, 600, 1280, 120))  # barra inferior inferior
         self.partidaActual.mapa.dibujarMapa(self.director.pantalla)
         self.dibujarTanques()
