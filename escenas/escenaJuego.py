@@ -35,7 +35,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.bloqueImpactado = None
         self.xMaxDisparo = 0
         self.yMaxDisparo = 0
-        self.aceleracionVertical = self.director.game.aceleracionVertical
+        self.aceleracionVertical = self.director.listaEscenas["escenaHome"].gravedad
         self.aceleracionHorizontal = self.director.listaEscenas["escenaHome"].viento
         self.boton_salir = None
         self.boton_reiniciar = None

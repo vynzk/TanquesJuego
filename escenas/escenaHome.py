@@ -29,7 +29,7 @@ class EscenaHome(plantillaEscena.Escena):
 
             #los efectos de entorno
         self.viento = 0
-        self.gravedad = 10
+        self.gravedad = 9.8
         self.viento_o_no = False
 
 

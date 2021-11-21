@@ -24,6 +24,8 @@ class EscenaConfig(plantillaEscena.Escena):
         self.caja100mm_valor = 10
         self.caja60mm = CajaTexto(self.director.pantalla,"caja",900,250, cajaImagen, 40,40)
         self.caja60mm_valor = 10
+        self.cajaGravedad = CajaTexto(self.director.pantalla, "caja", 60,300, cajaImagen, 60,40)
+        self.cajaGravedad_valor = 9.8
 
         # botones
         self.boton_aplicar = None
@@ -38,7 +40,10 @@ class EscenaConfig(plantillaEscena.Escena):
         self.perforante = self.cajaPerforante_valor
         self.p105mm= self.caja100mm_valor
         self.p60mm= self.caja60mm_valor
+        self.gravedad= self.cajaGravedad_valor
+
         #parametros que almacenan los efectos de entorno
+        
         self.viento = 0
         self.viento_o_no = False
         self.indicarClima = "Desactivado"
@@ -79,36 +84,49 @@ class EscenaConfig(plantillaEscena.Escena):
                 self.cajaPerforante.flag = False
                 self.caja100mm.flag = False
                 self.caja60mm.flag = False
+                self.cajaGravedad.flag = False
             if self.director.checaBoton(self.director.mousePos, self.cajaDimensionY):
                 self.cajaDimensionX.flag = False
                 self.cajaDimensionY.flag = True
                 self.cajaPerforante.flag = False
                 self.caja100mm.flag = False
                 self.caja60mm.flag = False
+                self.cajaGravedad.flag = False
             if self.director.checaBoton(self.director.mousePos, self.cajaPerforante):
                 self.cajaDimensionX.flag = False
                 self.cajaDimensionY.flag = False
                 self.cajaPerforante.flag = True
                 self.caja100mm.flag = False
                 self.caja60mm.flag = False
+                self.cajaGravedad.flag = False
             if self.director.checaBoton(self.director.mousePos, self.caja100mm):
                 self.cajaDimensionX.flag = False
                 self.cajaDimensionY.flag = False
                 self.cajaPerforante.flag = False
                 self.caja100mm.flag = True
                 self.caja60mm.flag = False
+                self.cajaGravedad.flag = False
             if self.director.checaBoton(self.director.mousePos, self.caja60mm):
                 self.cajaDimensionX.flag = False
                 self.cajaDimensionY.flag = False
                 self.cajaPerforante.flag = False
                 self.caja100mm.flag = False
                 self.caja60mm.flag = True
+                self.cajaGravedad.flag = False
+            if self.director.checaBoton(self.director.mousePos, self.cajaGravedad):
+                self.cajaDimensionX.flag = False
+                self.cajaDimensionY.flag = False
+                self.cajaPerforante.flag = False
+                self.caja100mm.flag = False
+                self.caja60mm.flag = False
+                self.cajaGravedad.flag = True
         #flags de las cajas: habilitan la escritura de una caja desactivando las otras
         if self.cajaDimensionX.flag:
             try:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
                         self.cajaDimensionX.texto = self.cajaDimensionX.texto[:-1]
+                        self.cajaDimensionX_valor = int(self.cajaDimensionX.texto)
                     else:
                         self.cajaDimensionX.texto += event.unicode
                         self.cajaDimensionX_valor = int(self.cajaDimensionX.texto)
@@ -119,6 +137,7 @@ class EscenaConfig(plantillaEscena.Escena):
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
                         self.cajaDimensionY.texto = self.cajaDimensionY.texto[:-1]
+                        self.cajaDimensionY_valor = int(self.cajaDimensionY.texto)
                     else:
                         self.cajaDimensionY.texto += event.unicode
                         self.cajaDimensionY_valor = int(self.cajaDimensionY.texto)
@@ -129,6 +148,7 @@ class EscenaConfig(plantillaEscena.Escena):
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
                         self.cajaPerforante.texto = self.cajaPerforante.texto[:-1]
+                        self.cajaPerforante_valor = int(self.cajaPerforante.texto)
                     else:
                         self.cajaPerforante.texto += event.unicode
                         self.cajaPerforante_valor = int(self.cajaPerforante.texto)
@@ -139,6 +159,7 @@ class EscenaConfig(plantillaEscena.Escena):
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
                         self.caja100mm.texto = self.caja100mm.texto[:-1]
+                        self.caja100mm_valor = int(self.caja100mm.texto)
                     else:
                         self.caja100mm.texto += event.unicode
                         self.caja100mm_valor = int(self.caja100mm.texto)
@@ -149,11 +170,23 @@ class EscenaConfig(plantillaEscena.Escena):
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
                         self.caja60mm.texto = self.caja60mm.texto[:-1]
+                        self.caja60mm_valor = int(self.caja60mm.texto)
                     else:
                         self.caja60mm.texto += event.unicode
                         self.caja60mm_valor = int(self.caja60mm.texto)
             except:
                 self.caja60mm.texto = self.caja60mm.texto[:-1]
+        if self.cajaGravedad.flag:
+            try:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_BACKSPACE:
+                        self.cajaGravedad.texto = self.cajaGravedad.texto[:-1]
+                        self.cajaGravedad_valor = float(self.cajaGravedad.texto)
+                    else:
+                        self.cajaGravedad.texto += event.unicode
+                        self.cajaGravedad_valor = float(self.cajaGravedad.texto)
+            except:
+                self.cajaGravedad.texto = self.cajaGravedad.texto[:-1]
 
     def on_draw(self, pantalla):
 
@@ -179,6 +212,10 @@ class EscenaConfig(plantillaEscena.Escena):
         self.textoEnPantalla(f'{self.caja60mm.texto}', 15, NEGRO, (self.caja60mm.posX+5, self.caja60mm.posY+5), False)
         self.textoEnPantalla(f' Proyectil 60mm', 15, BLANCO, (950, 250), False)
 
+        self.cajaGravedad.dibujaBoton()
+        self.textoEnPantalla(f'{self.cajaGravedad.texto}', 15, NEGRO, (self.cajaGravedad.posX+5, self.cajaGravedad.posY+5), False)
+        self.textoEnPantalla(f' Gravedad', 15, BLANCO, (124, 300), False)
+
         #BotonesImagenes
         botonVacio= pygame.image.load("imagenes/botones/botonVacio.png")
         botonRegistrar = pygame.image.load("imagenes/botones/botonRegistrar.png")
@@ -200,12 +237,14 @@ class EscenaConfig(plantillaEscena.Escena):
         self.boton_afectosEntorno = Boton(pantalla, "play", 64, 200,botonVacio,40,40)
         self.boton_afectosEntorno.dibujaBoton()
         self.textoEnPantalla(f'{self.afectosEntorno}', 15, NEGRO, (80, 200), False)
+
     def registrar(self):
         # valores predeterminados
         self.dimensionPantalla = (self.cajaDimensionX_valor,self.cajaDimensionY_valor)
         self.perforante = self.cajaPerforante_valor
         self.p105mm= self.caja100mm_valor
         self.p60mm= self.caja60mm_valor
+        self.gravedad= self.cajaGravedad_valor
 
         # valores
         self.director.listaEscenas["escenaHome"].numJugadores=  self.numJugadores
@@ -218,6 +257,7 @@ class EscenaConfig(plantillaEscena.Escena):
         self.director.listaEscenas["escenaHome"].viento = self.viento
         self.director.listaEscenas["escenaHome"].viento_o_no = self.viento_o_no
         self.director.listaEscenas["escenaHome"].indicarClima = self.indicarClima
+        self.director.listaEscenas["escenaHome"].gravedad = self.gravedad
 
         self.director.cambiarResolucion(self.dimensionPantalla[0],self.dimensionPantalla[1])
 
@@ -232,15 +272,10 @@ class EscenaConfig(plantillaEscena.Escena):
             self.viento_o_no = False
             self.indicarClima = "Desactivado"
 
-        self.director.listaEscenas["escenaHome"].viento_o_no = self.viento_o_no
-        self.director.listaEscenas["escenaHome"].viento = self.viento
-        print("viento:",self.viento)
     def restablecer(self):
-        self.viento = 0
         #cuando se presiona el botón de reestablecer se restablece el viento (por ahora)
         self.director.listaEscenas["escenaHome"].viento = self.viento
         self.viento_o_no = False
-        print("viento:",self.viento)
         self.indicarClima = "Desactivado"
 
         # valores predeterminados
@@ -251,24 +286,30 @@ class EscenaConfig(plantillaEscena.Escena):
         self.cajaPerforante.texto = "10"
         self.caja100mm.texto= "10"
         self.caja60mm.texto= "10"
+        self.cajaGravedad.texto= "9.8"
 
         self.cajaDimensionY_valor = 800
         self.cajaDimensionX_valor = 800
         self.cajaPerforante_valor = 10
         self.caja100mm_valor= 10
         self.caja60m_valoro= 10
-
+        self.cajaGravedad_valor= 9.8
+        self.viento = 0
 
         self.dimensionPantalla = (self.cajaDimensionX_valor, self.cajaDimensionY_valor)
         self.perforante =self.cajaPerforante_valor
         self.p105mm=self.caja100mm_valor
         self.p60mm=self.caja60mm_valor
-
+        self.gravedad=self.cajaGravedad_valor
 
     def cambiarEscenaHome(self):
         self.director.cambiarEscena(self.director.listaEscenas["escenaHome"])
+
     def compruebaValores(self):
         #sirve para verificar si los datos ingresados estan correctos
+        if self.cajaGravedad_valor > 50 or self.cajaGravedad_valor < 1:
+            self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
+            return False
         if self.cajaDimensionX_valor > 2000 or self.cajaDimensionY_valor > 2000: #ejemplo de resolucion
             self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
             return False
