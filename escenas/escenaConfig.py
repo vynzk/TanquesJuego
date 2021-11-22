@@ -261,6 +261,8 @@ class EscenaConfig(plantillaEscena.Escena):
 
         self.director.cambiarResolucion(self.dimensionPantalla[0],self.dimensionPantalla[1])
 
+        self.director.listaEscenas["escenaHome"].mostrarInformacionTerminal()
+
     def redefinirViento(self):
         if self.viento_o_no == False:
             self.viento = random.randint(-10,10)

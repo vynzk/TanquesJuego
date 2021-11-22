@@ -32,6 +32,21 @@ class EscenaHome(plantillaEscena.Escena):
         self.gravedad = 9.8
         self.viento_o_no = False
 
+        self.mostrarInformacionTerminal()
+
+    def mostrarInformacionTerminal(self):
+        print("INFORMACIÓN ACTUAL DE LA CONFIGURACIÓN")
+        print("----------------------------------------------------------")
+        print(f'Cantidad de jugadores: {self.numJugadores}')
+        print(f'CAfectos del entorno: {self.afectosEntorno}')
+        print(f'CDimensión de la pantalla: {self.dimensionPantalla}')
+        print(f'Cantidad de Balas Perforante: {self.perforante}')
+        print(f'Cantidad de Balas P105mm: {self.p105mm}')
+        print(f'Cantidad de Balas P60mm: {self.p60mm}')
+        print(f'Viento: {self.viento}')
+        print(f'Gravedad: {self.gravedad}')
+        print(f'Viento o no: {self.viento_o_no}')
+        print("----------------------------------------------------------")
 
     def on_update(self):
         pygame.display.set_caption("Home")  # no cambies esto aun... es para debuggueo
