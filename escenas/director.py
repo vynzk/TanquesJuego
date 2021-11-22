@@ -22,7 +22,7 @@ class Director:
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    print("JUEGO CERRADO POR PRESIONAR X")
+                    print('(escenaJuego) PRESION BOTON VENTANA: juego terminado por presionar X')
                     self.running = False
                 self.escena.on_event(event)  # no mover
 
@@ -31,7 +31,7 @@ class Director:
             # Dibujo escena actual
             self.escena.on_draw(self.pantalla)
             pygame.display.update()
-        print("FIN DEL JUEGO")
+        print("JUEGO: fin del juego")
 
     # ---------- funciones kernel (avisar si la tocan) ----------#
     # función que cambia la escena actual a una nueva

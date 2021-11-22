@@ -41,9 +41,11 @@ class EscenaHome(plantillaEscena.Escena):
         if evento.type == pygame.MOUSEBUTTONDOWN:
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_play):
+                print('(escenaHome) PRESION BOTON: presionaste el boton play, te llevará a la escenaRegistro')
                 self.cambiaDePartida()
             # verifica si el boton de configuración fue seleccionado
             if self.director.checaBoton(self.director.mousePos, self.boton_config): 
+                print('(escenaHome) PRESION BOTON: presionaste el boton de configuraciones, te llevará a escenaConfig')
                 self.cambiaConfiguracion() 
 
 

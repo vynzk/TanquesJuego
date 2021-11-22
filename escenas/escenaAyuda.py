@@ -19,6 +19,7 @@ class EscenaAyuda:
 		if evento.type == pygame.MOUSEBUTTONDOWN:
 			self.director.mousePos = pygame.mouse.get_pos()	
 			if self.director.checaBoton(self.director.mousePos, self.botonVolver):
+				print('(escenaAyuda) PRESION BOTON: presiono el boton volver, vuelve a la escenaJuego')
 				self.vuelveJuego()
 
 	def on_draw(self, pantalla):

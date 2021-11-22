@@ -35,7 +35,7 @@ class Partida:
     def terminar(self, listaJugadores):
         empate = False
         ganadorActual = None
-        print(f'--> OPONENTES DESTRUIDO PARTIDA {self.id} <--')
+        print(f'/n--> OPONENTES DESTRUIDO PARTIDA {self.id} <--')
         # se recorre la lista de jugadores, contando sus oponentes destruidos
         for jugador in listaJugadores:
             print(f'jugador: {jugador.nombre} ==> op dest: { jugador.oponentesDestruidos}')
