@@ -407,6 +407,7 @@ class EscenaJuego(plantillaEscena.Escena):
             # si arriba del último bloque de tierra existe un tanque
             if bloqueTanque is not None:
                 print('    (escenaJuego) CAIDA: tanque cae un bloque por gravedad de bloques')
+                print(f'    (DEBUG) posTanque: ({bloqueTanque.x},{bloqueTanque.y})')
                 listaColumna.append(bloqueTanque)
 
 
@@ -585,19 +586,11 @@ class EscenaJuego(plantillaEscena.Escena):
 
     def pisoEsLava(self):
         for jugador in self.partidaActual.jugadoresActivos:
-            """el limite inferior es self.director.alto-120, sin embargo, la posición
-            del tanque esta un bloque más arriba
-            
-             (x,self.director.alto-100)
-            x______
-            |    |   
-            ---------------------------------------- limInf=self.director.alto-120
-            """
-            if jugador.tanque.bloque.y == self.director.alto-140:
+            if jugador.tanque.bloque.y == self.director.alto-160:
                 self.mostrarImagenEnPos("imagenes/bloque/flama.png", (40, 40),
                                         (jugador.tanque.bloque.x, jugador.tanque.bloque.y))
                 self.textoEnPantalla("EL PISO ES LAVA", 30, ROJO, (500, 300), True)
-                print("JUEGO: Tanque de jugador "+self.jugador.nombre+" se destruyó por la lava")
+                print(f'(escenaJuego) JUEGO: Tanque de jugador {jugador.nombre} se destruyó por la lava')
                 self.partidaActual.eliminarJugador(jugador)
 
     """
