@@ -82,7 +82,6 @@ class EscenaJuego(plantillaEscena.Escena):
             pygame.key.set_repeat(2, 100)
             if event.key == pygame.K_SPACE:
                 if self.jugadorActual.tanque.proyectilActual.municion > 0:  # posee balas suficientes
-                    print(f'(escenaJuego) ACCION: Tanque del jugador {self.jugadorActual.nombre} disparó')
                     self.flag = True
                     self.jugadorActual.tanque.proyectilActual.municion -= 1  # se le resta una bala ya que disparó
                 else:
@@ -123,6 +122,10 @@ class EscenaJuego(plantillaEscena.Escena):
                         time.sleep(5)
                         self.director.running = False
                     if self.trayectoria == []:
+                        if(self.jugadorActual.esIA is True):
+                            print(f'\n(escenaJuego) ACCION: Tanque del jugador {self.jugadorActual.nombre} disparó automaticacamente')
+                        else:
+                            print(f'\n(escenaJuego) ACCION: Tanque del jugador {self.jugadorActual.nombre} disparó manualmente')
                         self.efectuarDisparo()
                     else:
                         if self.contador < len(self.trayectoria):
