@@ -101,11 +101,11 @@ class Mapa:
         matriz=[]
         cantidadColumnas=int(ancho/40)
         # se resta 200 porque ese espacio lo usará la barra
-        cantidadBloquesColumna=int((alto-160)/40)
+        cantidadBloquesColumna=int((alto-120)/40)
         lista= self.generarAlturasColumnas(cantidadColumnas,cantidadBloquesColumna)
         for altura in lista:
             columna=[]
-            for i in range(0,cantidadBloquesColumna):
+            for i in range(0,cantidadBloquesColumna+1):
                 if i<altura:
                     columna.append(0)
                 else:
