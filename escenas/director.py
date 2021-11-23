@@ -31,7 +31,7 @@ class Director:
             # Dibujo escena actual
             self.escena.on_draw(self.pantalla)
             pygame.display.update()
-        print("JUEGO: fin del juego")
+        print("\nJUEGO: fin del juego")
 
     # ---------- funciones kernel (avisar si la tocan) ----------#
     # función que cambia la escena actual a una nueva

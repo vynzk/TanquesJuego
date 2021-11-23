@@ -202,16 +202,16 @@ class EscenaJuego(plantillaEscena.Escena):
 
             if jugadorImpactado is not None:  # si impacta con un tanque, se detiene la parabola (bala)
                 self.jugadorImpactado = jugadorImpactado
-                print(f'    (escenaJuego) IMPACTO: la bala impactó al tanque del jugador {self.jugadorImpactado.nombre} quitandole {self.jugadorActual.tanque.proyectilActual.daño}')
+                print(f'        (escenaJuego) IMPACTO: la bala impactó al tanque del jugador {self.jugadorImpactado.nombre} quitandole {self.jugadorActual.tanque.proyectilActual.daño}')
                 break
 
             elif self.colisionTierra(xDisparo, yDisparo):
-                print(f'    (escenaJuego) IMPACTO: la bala impactó un bloque de tierra')
+                print(f'        (escenaJuego) IMPACTO: la bala impactó un bloque de tierra')
                 self.bloqueImpactado = bloqueImpactado
                 break
 
             elif self.tocaBordes(xDisparo, yDisparo):  # si impacta con un borde, se detiene la parabola (bala)
-                print(f'    (escenaJuego) IMPACTO: la bala impactó un limite de mapa')
+                print(f'        (escenaJuego) IMPACTO: la bala impactó un limite de mapa')
                 break
 
     """
@@ -409,8 +409,8 @@ class EscenaJuego(plantillaEscena.Escena):
             bloqueTanque = self.buscarTanque(bloque.x, bloque.y - altura)
             # si arriba del último bloque de tierra existe un tanque
             if bloqueTanque is not None:
-                print('    (escenaJuego) CAIDA: tanque cae un bloque por gravedad de bloques')
-                print(f'    (DEBUG) posTanque: ({bloqueTanque.x},{bloqueTanque.y})')
+                print('        (escenaJuego) CAIDA: tanque cae un bloque por gravedad de bloques')
+                print(f'           (DEBUG) posTanque: ({bloqueTanque.x},{bloqueTanque.y})')
                 listaColumna.append(bloqueTanque)
 
 
@@ -433,14 +433,14 @@ class EscenaJuego(plantillaEscena.Escena):
             if(bloqueTanqueJugador.x==posX and bloqueTanqueJugador.y==posY):
                 # si el dano mata al tanque
                 if danoColateral>=tanqueJugador.vida:
-                    print(f'    (escenaJuego) DAÑO COLATERAL: a causa del impacto, el jugador {jugador.nombre} murió (le quitó {danoColateral})')
+                    print(f'        (escenaJuego) DAÑO COLATERAL: a causa del impacto, el jugador {jugador.nombre} murió (le quitó {danoColateral})')
                     """ Requisito 3 U3: Si se suicida, no cuenta como oponente destruido"""
                     if(self.jugadorActual is not jugador):
                         self.jugadorActual.oponentesDestruidos+=1
                     self.partidaActual.eliminarJugador(jugador) # lo elimina
                 # si el dano no quita toda la vida del tanque
                 else:
-                    print(f'    (escenaJuego) DAÑO COLATERAL: a causa del impacto, el tanque del jugador {jugador.nombre} sufrio daño de {danoColateral}')
+                    print(f'        (escenaJuego) DAÑO COLATERAL: a causa del impacto, el tanque del jugador {jugador.nombre} sufrio daño de {danoColateral}')
                     tanqueJugador.vida-=danoColateral
                 
 
@@ -454,7 +454,7 @@ class EscenaJuego(plantillaEscena.Escena):
         if nombreArma == "Proyectil Perforante":
             self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
                                     (self.bloqueImpactado.x - 40, self.bloqueImpactado.y))
-            self.mostrarImagenEnPos("imagenes/bfloque/fondoExplosion.png", (40, 40),
+            self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
                                     (self.bloqueImpactado.x + 40, self.bloqueImpactado.y))
             # pygame.display.update()
             # time.sleep(3) #<-- debug para notar con mas claridad la gravedad
