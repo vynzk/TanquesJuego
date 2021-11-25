@@ -191,6 +191,15 @@ class EscenaConfig(plantillaEscena.Escena):
     def on_draw(self, pantalla):
 
         self.textoEnPantalla(f'         click derecho: ++/escribir', 15, ROJO, (500, 650), False)
+        self.textoEnPantalla(f'----------------------------------------------------------------------------------------------------------------------', 15, BLANCO, (15, 470), False)
+        self.textoEnPantalla(f'  INFORMACION LIMITES DEL JUEGO', 13, ROJO, (300, 490), False)
+        self.textoEnPantalla(f'- Dimensión de la pantalla: Maxima[1600, 1600], Minina[800, 800], Multiplos de 40', 13, BLANCO, (20, 526), False)
+        self.textoEnPantalla(f'- Cantidad de jugadores:', 13, BLANCO, (20, 563), False)
+        self.textoEnPantalla(f'- Gravedad: Maxima = 50, Minima = 1', 13, BLANCO, (20, 598), False)
+        self.textoEnPantalla(f'- Proyectil perforante: MaxBalas = 100, MinBalas = 10', 13, BLANCO, (600, 526), False)
+        self.textoEnPantalla(f'- Proyectil 100mm: MaxBalas = 30, MinBalas = 10', 13, BLANCO, (600, 563), False)
+        self.textoEnPantalla(f'- Proyectil 60mm: MaxBalas = 30, MinBalas = 10', 13, BLANCO, (600, 598), False)
+        self.textoEnPantalla(f'----------------------------------------------------------------------------------------------------------------------', 15, BLANCO, (15, 620), False)
 
         self.cajaDimensionX.dibujaBoton()
         self.textoEnPantalla(f'{self.cajaDimensionX.texto}', 15, NEGRO, (self.cajaDimensionX.posX+5, self.cajaDimensionX.posY+5), False)
