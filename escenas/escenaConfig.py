@@ -63,10 +63,10 @@ class EscenaConfig(plantillaEscena.Escena):
                 if self.compruebaValores():
                     self.registrar()
                     self.cambiarEscenaHome()
-                    print('presiona aplicado')
+                    print('(escenaConfig) PRESION BOTON: presionó el botón aplicado')
             if self.director.checaBoton(self.director.mousePos, self.boton_restablecer):
                 self.restablecer()
-                print('presiona restablecer predeterminado')
+                print('(escenaConfig) PRESION BOTON: presionó restablecer predeterminado')
             if self.director.checaBoton(self.director.mousePos, self.boton_numJugadores):
                 if(self.numJugadores >= 6 or self.numJugadores <=1):
                     self.numJugadores = 2
