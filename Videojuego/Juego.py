@@ -35,7 +35,6 @@ class Juego:
         listaImagenesTanque = ["imagenes/bloque/tanqueGris.png", "imagenes/bloque/tanqueAmarillo.png",
                                "imagenes/bloque/tanqueCeleste.png", "imagenes/bloque/tanqueRojo.png",
                                "imagenes/bloque/tanqueVerde.png", "imagenes/bloque/tanqueCafe.png"]
-        # print("\n### REGISTRO DE JUGADORES ###")
         for i in range(0,self.cantidadJugadores):
             numAleatorio=random.randint(0,len(listaImagenesTanque)-1)
             imagenTanqueAleatoria=listaImagenesTanque[numAleatorio]
@@ -78,5 +77,4 @@ class Juego:
 
     def redefinirGravedad(self):
         self.aceleracionVertical = random.randint(5,20)
-    #    print("aceleracion gravedad:", self.aceleracionVertical, "m/s**2")
     

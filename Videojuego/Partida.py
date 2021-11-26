@@ -10,10 +10,11 @@ from Tanque.Proyectil60 import *
 
 
 class Partida:
-    def __init__(self, id, pantalla, mapa):
+    def __init__(self, id, director, mapa):
         self.id = id
         self.estado = False
-        self.pantalla = pantalla  # pantalla que le pasa el director)
+        self.director=director
+        self.pantalla = director.pantalla  # pantalla que le pasa el director)
         self.jugadorGanador = None
         self.jugadoresActivos = []
         self.contadorJugador = 0
@@ -35,7 +36,7 @@ class Partida:
     def terminar(self, listaJugadores):
         empate = False
         ganadorActual = None
-        print(f'--> OPONENTES DESTRUIDO PARTIDA {self.id} <--')
+        print(f'\n---------------\n--> OPONENTES DESTRUIDO PARTIDA {self.id} <--')
         # se recorre la lista de jugadores, contando sus oponentes destruidos
         for jugador in listaJugadores:
             print(f'jugador: {jugador.nombre} ==> op dest: { jugador.oponentesDestruidos}')
@@ -58,14 +59,59 @@ class Partida:
         self.jugadoresActivos.remove(jugadorEliminado)
 
     def generarPosicionesJug(self):
-        cantDivisiones=2*len(self.jugadoresActivos)-1
-        espacios=int(len(self.mapa.posPosiblesJug)/cantDivisiones)
+        """
+        Ejemplo para 6 jugadores
+        ------------------------
+
+        j1 |----| j2 |---| j3 |---| j4 |---| j5 |---| j6
+
+        |-----------------------------------------------|
+            5 separaciones, 6 espacios utilizados por 6 jugadores
+
+        (cantColumnas-cantJugadores)//(cantJugadores-1)= cantidad Bloques Separacion
+        (cantColumnas-cantJugadores)%(cantJugadores-1)= margen de aleatoridad
+
+        por ejemplo, 800x800 con bloques de 40, tiene 20 columnas de donde
+        - 6 usarán jugadores (en caso de que juegen 6)
+        - (20-6)/5 = 16/5 espacios, es decir, 3 bloques de espacio
+        - 16%5 = 1 =>bloques aleatoridad
+
+        es decir
+
+        | | |<--->j2<--->j3<--->j4<--->j5<--->j6
+        |---|
+        aleatoridad
+        jugador 1
+
+        si sale c2 como pos inicial del jugador 1, se tiene:
+
+        c2<--->c6<--->c10<--->c14<--->c18 <---> c22
+        (j1)  (j2)    (j3)   (j4)     (j5)     (j6)
+        """
+        cantidadColumnas=self.director.ancho/40
+        cantidadJugadores=len(self.jugadoresActivos)
+        columnasSeparacion=int((cantidadColumnas-cantidadJugadores)/(cantidadJugadores-1))
+        margenAleatorio=(cantidadColumnas-cantidadJugadores)%(cantidadJugadores-1)
+        separacion=0
         contador=0
-        for jugador in self.jugadoresActivos:
-            posAleatoria=self.mapa.posPosiblesJug[random.randint(contador,contador+espacios)]
-            # ahora pos aleatoria es un par ordenado (x,y), por tanto:
-            jugador.tanque.construirBloques(posAleatoria[0],posAleatoria[1])
-            contador+=espacios*2
+        while(contador<len(self.jugadoresActivos)):
+              # para el primer jugador
+              if(contador==0):
+                columnaAleatoria=random.randint(0,margenAleatorio)
+                # debug
+                #print(f'Margen aleatorio: 0-{margenAleatorio}') # < debug aleatoridad
+                #print(f'columnas separacion: {columnasSeparacion}') # < debug aleatoridad
+                #print(f'contador {contador} => col al: {columnaAleatoria}') # < debug aleatoridad
+
+                posAleatoria=self.mapa.posPosiblesJug[columnaAleatoria]
+                self.jugadoresActivos[contador].tanque.construirBloques(posAleatoria[0],posAleatoria[1])
+              else:
+                separacion+=columnasSeparacion+1
+                #print(f'contador {contador} => col al: {columnaAleatoria+separacion+1}') # < debug aleatoridad
+                posAleatoria=self.mapa.posPosiblesJug[columnaAleatoria+separacion]
+                self.jugadoresActivos[contador].tanque.construirBloques(posAleatoria[0],posAleatoria[1])
+              # print(f'  separacion: {separacion}') # < debug aleatoridad
+              contador+=1
 
     def equiparArmasIniciales(self, municionPerforante, municion105, municion60):
         for jugador in self.jugadoresActivos:

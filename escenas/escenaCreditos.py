@@ -14,6 +14,7 @@ class EscenaCreditos(plantillaEscena.Escena):
         
 
     def on_update(self):
+        pygame.display.set_mode((1280, 720))
         pygame.display.set_caption("Creditos")  # no cambies esto aun... es para debuggueo
         
 
@@ -21,6 +22,7 @@ class EscenaCreditos(plantillaEscena.Escena):
         if evento.type == pygame.MOUSEBUTTONDOWN:
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_salir):
+                print('(escenaCreditos) PRESIONA BOTON: presionaste el boton volver, te llevará a escenaJuego')
                 self.vuelveJuego()
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
