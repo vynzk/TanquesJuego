@@ -321,8 +321,11 @@ class EscenaConfig(plantillaEscena.Escena):
         if self.cajaGravedad_valor > 50 or self.cajaGravedad_valor < 1:
             self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
             return False
-        if self.cajaDimensionX_valor > 2000 or self.cajaDimensionY_valor > 2000: #ejemplo de resolucion
-            self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
+        if self.cajaDimensionX_valor<=600 or self.cajaDimensionX_valor>=1600 or self.cajaDimensionX_valor%40!=0: #ejemplo de resolucion
+            self.textoEnPantalla("Valores ingresados en ancho no son correctos",15,AZUL,(500,610),True)
+            return False
+        if self.cajaDimensionY_valor<=600 or self.cajaDimensionY_valor>=1600 or self.cajaDimensionY_valor%40!=0: 
+            self.textoEnPantalla("Valores ingresados en alto no son correctos",15,AZUL,(500,610),True)
             return False
         if self.cajaPerforante_valor > 100 or self.cajaPerforante_valor < 10:
             self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
@@ -333,6 +336,7 @@ class EscenaConfig(plantillaEscena.Escena):
         if self.caja60mm_valor > 30 or self.caja60mm_valor < 10:
             self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
             return False
+        
         else:
             return True
 
