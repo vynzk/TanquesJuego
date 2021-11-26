@@ -16,7 +16,7 @@ class EscenaRegistro(plantillaEscena.Escena):
 
         self.boton_agregar = None  # botón para agregar jugadores
         self.boton_ia = None  # Requisito 2 y Requisito 4: boton de ia
-        self.fondo = pygame.image.load("imagenes/fondoRegistro.png")
+        self.fondo = pygame.image.load("imagenes/fondoDefault.png")
 
         """ Requisito 2 y 4: lista que almacenará el par (nombreJugador,esIa) para posteriormente registrar
         los jugadores en el juego"""
@@ -102,6 +102,8 @@ class EscenaRegistro(plantillaEscena.Escena):
                       (self.cuadroTexto.x + 10, self.cuadroTexto.y + 10))  # se ajusta el texto en el cuadrado
 
         self.cuadroTexto.w = superficie.get_width() + 10  # esto hace que el cuadrado se alargue dependiendo de lo que escriba el usuario
+        self.textoEnPantalla("REGISTRO DE JUGADORES", 25, BLANCO, (self.director.ancho / 4, 20),
+                             True)
 
     def cambioEscenaJuego(self):
         # define las posiciones aleatorias de los jugadores dentro de cada partida

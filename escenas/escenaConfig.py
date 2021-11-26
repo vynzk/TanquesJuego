@@ -10,7 +10,7 @@ class EscenaConfig(plantillaEscena.Escena):
     def __init__(self, director):
         plantillaEscena.Escena.__init__(self, director)
         self.director = director
-        self.fondo= pygame.image.load("imagenes/fondoHome.png")
+        self.fondo= pygame.image.load("imagenes/fondoDefault.png")
 
         # cajas: corresponden a las cajas de introduccion de texto
         cajaImagen = pygame.image.load("imagenes/botones/botonVacio.png")
@@ -18,11 +18,11 @@ class EscenaConfig(plantillaEscena.Escena):
         self.cajaDimensionX_valor = 1280
         self.cajaDimensionY = CajaTexto(self.director.pantalla,"caja",150,250, cajaImagen, 60,40)
         self.cajaDimensionY_valor = 720
-        self.cajaPerforante = CajaTexto(self.director.pantalla,"caja",900,150, cajaImagen, 40,40)
+        self.cajaPerforante = CajaTexto(self.director.pantalla,"caja",self.director.ancho-380,150, cajaImagen, 40,40)
         self.cajaPerforante_valor = 10
-        self.caja100mm = CajaTexto(self.director.pantalla,"caja",900,200, cajaImagen, 40,40)
+        self.caja100mm = CajaTexto(self.director.pantalla,"caja",self.director.ancho-380,200, cajaImagen, 40,40)
         self.caja100mm_valor = 10
-        self.caja60mm = CajaTexto(self.director.pantalla,"caja",900,250, cajaImagen, 40,40)
+        self.caja60mm = CajaTexto(self.director.pantalla,"caja",self.director.ancho-380,250, cajaImagen, 40,40)
         self.caja60mm_valor = 10
         self.cajaGravedad = CajaTexto(self.director.pantalla, "caja", 60,300, cajaImagen, 60,40)
         self.cajaGravedad_valor = 9.8
@@ -50,7 +50,7 @@ class EscenaConfig(plantillaEscena.Escena):
 
     
     def on_update(self):
-        pygame.display.set_mode((1280,720))
+        pygame.display.set_mode(self.director.listaEscenas["escenaHome"].dimensionPantalla)
         self.director.pantalla.blit(self.fondo, (0, 0))
         pygame.display.set_caption("configuraciones")
 
@@ -190,16 +190,16 @@ class EscenaConfig(plantillaEscena.Escena):
 
     def on_draw(self, pantalla):
 
-        self.textoEnPantalla(f'         click derecho: ++/escribir', 15, ROJO, (500, 650), False)
-        self.textoEnPantalla(f'----------------------------------------------------------------------------------------------------------------------', 15, BLANCO, (15, 470), False)
-        self.textoEnPantalla(f'  INFORMACION LIMITES DEL JUEGO', 13, ROJO, (300, 490), False)
-        self.textoEnPantalla(f'- Dimensión de la pantalla: Maxima[1600, 1600], Minina[800, 800], Multiplos de 40', 13, BLANCO, (20, 526), False)
-        self.textoEnPantalla(f'- Cantidad de jugadores:', 13, BLANCO, (20, 563), False)
-        self.textoEnPantalla(f'- Gravedad: Maxima = 50, Minima = 1', 13, BLANCO, (20, 598), False)
-        self.textoEnPantalla(f'- Proyectil perforante: MaxBalas = 100, MinBalas = 10', 13, BLANCO, (600, 526), False)
-        self.textoEnPantalla(f'- Proyectil 100mm: MaxBalas = 30, MinBalas = 10', 13, BLANCO, (600, 563), False)
-        self.textoEnPantalla(f'- Proyectil 60mm: MaxBalas = 30, MinBalas = 10', 13, BLANCO, (600, 598), False)
-        self.textoEnPantalla(f'----------------------------------------------------------------------------------------------------------------------', 15, BLANCO, (15, 620), False)
+        self.textoEnPantalla(f'         click izquierdo: ++/escribir', 15, ROJO, (self.director.ancho/3, self.director.alto-30), False)
+        self.textoEnPantalla(f'----------------------------------------------------------------------------------------------------------------------', 15, BLANCO, (15, 480), False)
+        self.textoEnPantalla(f'  INFORMACION LIMITES DEL JUEGO', 13, ROJO, (self.director.ancho/5, 500), False)
+        self.textoEnPantalla(f'- Dimensión de la pantalla: Maxima[1600, 1600], Minina[800, 800], Multiplos de 40', 13, BLANCO, (20, 540), False)
+        self.textoEnPantalla(f'- Cantidad de jugadores: 6 max', 13, BLANCO, (20, 560), False)
+        self.textoEnPantalla(f'- Gravedad: Maxima = 50, Minima = 1', 13, BLANCO, (20, 580), False)
+        self.textoEnPantalla(f'- Proyectil perforante: MaxBalas = 100, MinBalas = 10', 13, BLANCO, (20, 600), False)
+        self.textoEnPantalla(f'- Proyectil 100mm: MaxBalas = 30, MinBalas = 10', 13, BLANCO, (20, 620), False)
+        self.textoEnPantalla(f'- Proyectil 60mm: MaxBalas = 30, MinBalas = 10', 13, BLANCO, (20, 640), False)
+        self.textoEnPantalla(f'----------------------------------------------------------------------------------------------------------------------', 15, BLANCO, (15, 660), False)
 
         self.cajaDimensionX.dibujaBoton()
         self.textoEnPantalla(f'{self.cajaDimensionX.texto}', 15, NEGRO, (self.cajaDimensionX.posX+5, self.cajaDimensionX.posY+5), False)
@@ -211,15 +211,15 @@ class EscenaConfig(plantillaEscena.Escena):
 
         self.cajaPerforante.dibujaBoton()
         self.textoEnPantalla(f'{self.cajaPerforante.texto}', 15, NEGRO, (self.cajaPerforante.posX+5, self.cajaPerforante.posY+5), False)
-        self.textoEnPantalla(f' Proyectil Perforante', 15, BLANCO, (950, 150), False)
+        self.textoEnPantalla(f' Proyectil Perforante', 15, BLANCO, (self.director.ancho-330, 150), False)
 
         self.caja100mm.dibujaBoton()
         self.textoEnPantalla(f'{self.caja100mm.texto}', 15, NEGRO, (self.caja100mm.posX+5, self.caja100mm.posY+5), False)
-        self.textoEnPantalla(f' Proyectil 100mm', 15, BLANCO, (950, 200), False)
+        self.textoEnPantalla(f' Proyectil 100mm', 15, BLANCO, (self.director.ancho-330, 200), False)
 
         self.caja60mm.dibujaBoton()
         self.textoEnPantalla(f'{self.caja60mm.texto}', 15, NEGRO, (self.caja60mm.posX+5, self.caja60mm.posY+5), False)
-        self.textoEnPantalla(f' Proyectil 60mm', 15, BLANCO, (950, 250), False)
+        self.textoEnPantalla(f' Proyectil 60mm', 15, BLANCO, (self.director.ancho-330, 250), False)
 
         self.cajaGravedad.dibujaBoton()
         self.textoEnPantalla(f'{self.cajaGravedad.texto}', 15, NEGRO, (self.cajaGravedad.posX+5, self.cajaGravedad.posY+5), False)
@@ -234,7 +234,7 @@ class EscenaConfig(plantillaEscena.Escena):
         self.boton_aplicar = Boton(pantalla, "play", 64, 420,botonRegistrar,127,40)
         self.boton_aplicar.dibujaBoton()
 
-        self.boton_restablecer = Boton(pantalla, "play", 1200, 420,botonRestablecer,40,40)
+        self.boton_restablecer = Boton(pantalla, "play", self.director.ancho-80, self.director.alto-380,botonRestablecer,40,40)
         self.boton_restablecer.dibujaBoton()
 
         self.textoEnPantalla(f' cantidad de jugadores',15,BLANCO,(114,150),False)
@@ -319,16 +319,16 @@ class EscenaConfig(plantillaEscena.Escena):
     def compruebaValores(self):
         #sirve para verificar si los datos ingresados estan correctos
         if self.cajaGravedad_valor > 50 or self.cajaGravedad_valor < 1:
-            self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
+            self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(self.director.ancho/4,20),True)
             return False
-        if self.cajaDimensionX_valor<=600 or self.cajaDimensionX_valor>=1600 or self.cajaDimensionX_valor%40!=0: #ejemplo de resolucion
-            self.textoEnPantalla("Valores ingresados en ancho no son correctos",15,AZUL,(500,610),True)
+        if self.cajaDimensionX_valor<=600 or self.cajaDimensionX_valor>1600 or self.cajaDimensionX_valor%40!=0: #ejemplo de resolucion
+            self.textoEnPantalla("Valores ingresados en ancho no son correctos",15,AZUL,(self.director.ancho/4,20),True)
             return False
-        if self.cajaDimensionY_valor<=600 or self.cajaDimensionY_valor>=1600 or self.cajaDimensionY_valor%40!=0: 
-            self.textoEnPantalla("Valores ingresados en alto no son correctos",15,AZUL,(500,610),True)
+        if self.cajaDimensionY_valor<=600 or self.cajaDimensionY_valor>1600 or self.cajaDimensionY_valor%40!=0:
+            self.textoEnPantalla("Valores ingresados en alto no son correctos",15,AZUL,(self.director.ancho/4,20),True)
             return False
         if self.cajaPerforante_valor > 100 or self.cajaPerforante_valor < 10:
-            self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
+            self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(self.director.ancho/4,20),True)
             return False
         if self.caja100mm_valor > 30 or self.caja100mm_valor < 10:
             self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
