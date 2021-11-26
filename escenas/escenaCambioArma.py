@@ -28,10 +28,12 @@ class EscenaCambioArma(plantillaEscena.Escena):
         if evento.type == pygame.MOUSEBUTTONDOWN:
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.botonVolver):
+                print('(escenaCambioArma) PRESION BOTON: presionaste el boton volver, te llevará de vuelta a escenaJuego')
                 self.vuelveJuego()
 
             for i in range(len(self.jugadorActual.tanque.listaProyectiles)):
                 if self.director.checaBoton(self.director.mousePos, self.listaPanelArmas[i]):
+                    print('CAMBIO ARMA: cambiaste arma exitosamente')
                     self.jugadorActual.tanque.cambiarArma(i)
                     self.cambioArmaFlag= True
                     

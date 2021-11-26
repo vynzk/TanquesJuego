@@ -50,11 +50,13 @@ class EscenaRegistro(plantillaEscena.Escena):
             self.director.mousePos = pygame.mouse.get_pos()
             """Si se presiona el boton agregar, se agrega el jugador al atributo lista"""
             if self.director.checaBoton(self.director.mousePos, self.boton_agregar):
+                print('(escenaRegistro) PRESION BOTON: presionaste boton agregar, jugador humano registrado correctamente')
                 self.guardarNombreJug(False)
 
             """Requisito 2 y Requisito 4: Accion del boton IA, este registra como nombre IA n° y
             presiona el boton agregar automaticamente para que este se registre sin tanto trabajo del usuario"""
             if self.director.checaBoton(self.director.mousePos, self.boton_ia):
+                print('(escenaRegistro) PRESION BOTON: presionaste boton IA, IA registrada correctamente')
                 self.contadorIA += 1
                 self.texto_usuario = f'IA {self.contadorIA}'
                 self.guardarNombreJug(True)  # << se registra como jugador
@@ -68,7 +70,6 @@ class EscenaRegistro(plantillaEscena.Escena):
                 self.cambioEscenaJuego()
 
     def registrar(self):
-        print(f'DEBUG: Objeto juego: {self.director.game}\n- - - - -')
         # se registran los jugadores
         if self.director.game.registroJugadores(self.director, self.datosJugadores):
             # se registran las partidas
@@ -125,7 +126,6 @@ class EscenaRegistro(plantillaEscena.Escena):
     def guardarNombreJug(self, esIA):
         self.contadorJug = self.contadorJug + 1
         self.datosJugadores.append((self.texto_usuario, esIA))
-        print("Nombre del jugador", self.contadorJug, "=", self.texto_usuario)
         self.texto_usuario = ''
 
     def mostrarTexto(self):

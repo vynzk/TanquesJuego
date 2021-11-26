@@ -32,6 +32,21 @@ class EscenaHome(plantillaEscena.Escena):
         self.gravedad = 9.8
         self.viento_o_no = False
 
+        self.mostrarInformacionTerminal()
+
+    def mostrarInformacionTerminal(self):
+        print("INFORMACIÓN ACTUAL DE LA CONFIGURACIÓN")
+        print("----------------------------------------------------------")
+        print(f'Cantidad de jugadores: {self.numJugadores}')
+        print(f'Afectos del entorno: {self.afectosEntorno}')
+        print(f'Dimensión de la pantalla: {self.dimensionPantalla}')
+        print(f'Cantidad de Balas Perforante: {self.perforante}')
+        print(f'Cantidad de Balas P105mm: {self.p105mm}')
+        print(f'Cantidad de Balas P60mm: {self.p60mm}')
+        print(f'Viento: {self.viento}')
+        print(f'Gravedad: {self.gravedad}')
+        print(f'Viento o no: {self.viento_o_no}')
+        print("----------------------------------------------------------")
 
     def on_update(self):
         pygame.display.set_caption("Home")  # no cambies esto aun... es para debuggueo
@@ -41,9 +56,11 @@ class EscenaHome(plantillaEscena.Escena):
         if evento.type == pygame.MOUSEBUTTONDOWN:
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_play):
+                print('(escenaHome) PRESION BOTON: presionaste el boton play, te llevará a la escenaRegistro')
                 self.cambiaDePartida()
             # verifica si el boton de configuración fue seleccionado
             if self.director.checaBoton(self.director.mousePos, self.boton_config): 
+                print('(escenaHome) PRESION BOTON: presionaste el boton de configuraciones, te llevará a escenaConfig')
                 self.cambiaConfiguracion() 
 
 

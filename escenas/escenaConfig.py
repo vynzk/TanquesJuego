@@ -63,10 +63,10 @@ class EscenaConfig(plantillaEscena.Escena):
                 if self.compruebaValores():
                     self.registrar()
                     self.cambiarEscenaHome()
-                    print('presiona aplicado')
+                    print('(escenaConfig) PRESION BOTON: presionó el botón aplicado')
             if self.director.checaBoton(self.director.mousePos, self.boton_restablecer):
                 self.restablecer()
-                print('presiona restablecer predeterminado')
+                print('(escenaConfig) PRESION BOTON: presionó restablecer predeterminado')
             if self.director.checaBoton(self.director.mousePos, self.boton_numJugadores):
                 if(self.numJugadores >= 6 or self.numJugadores <=1):
                     self.numJugadores = 2
@@ -191,6 +191,15 @@ class EscenaConfig(plantillaEscena.Escena):
     def on_draw(self, pantalla):
 
         self.textoEnPantalla(f'         click derecho: ++/escribir', 15, ROJO, (500, 650), False)
+        self.textoEnPantalla(f'----------------------------------------------------------------------------------------------------------------------', 15, BLANCO, (15, 470), False)
+        self.textoEnPantalla(f'  INFORMACION LIMITES DEL JUEGO', 13, ROJO, (300, 490), False)
+        self.textoEnPantalla(f'- Dimensión de la pantalla: Maxima[1600, 1600], Minina[800, 800], Multiplos de 40', 13, BLANCO, (20, 526), False)
+        self.textoEnPantalla(f'- Cantidad de jugadores:', 13, BLANCO, (20, 563), False)
+        self.textoEnPantalla(f'- Gravedad: Maxima = 50, Minima = 1', 13, BLANCO, (20, 598), False)
+        self.textoEnPantalla(f'- Proyectil perforante: MaxBalas = 100, MinBalas = 10', 13, BLANCO, (600, 526), False)
+        self.textoEnPantalla(f'- Proyectil 100mm: MaxBalas = 30, MinBalas = 10', 13, BLANCO, (600, 563), False)
+        self.textoEnPantalla(f'- Proyectil 60mm: MaxBalas = 30, MinBalas = 10', 13, BLANCO, (600, 598), False)
+        self.textoEnPantalla(f'----------------------------------------------------------------------------------------------------------------------', 15, BLANCO, (15, 620), False)
 
         self.cajaDimensionX.dibujaBoton()
         self.textoEnPantalla(f'{self.cajaDimensionX.texto}', 15, NEGRO, (self.cajaDimensionX.posX+5, self.cajaDimensionX.posY+5), False)
@@ -261,6 +270,8 @@ class EscenaConfig(plantillaEscena.Escena):
 
         self.director.cambiarResolucion(self.dimensionPantalla[0],self.dimensionPantalla[1])
 
+        self.director.listaEscenas["escenaHome"].mostrarInformacionTerminal()
+
     def redefinirViento(self):
         if self.viento_o_no == False:
             self.viento = random.randint(-10,10)
@@ -310,8 +321,11 @@ class EscenaConfig(plantillaEscena.Escena):
         if self.cajaGravedad_valor > 50 or self.cajaGravedad_valor < 1:
             self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
             return False
-        if self.cajaDimensionX_valor > 2000 or self.cajaDimensionY_valor > 2000: #ejemplo de resolucion
-            self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
+        if self.cajaDimensionX_valor<=600 or self.cajaDimensionX_valor>=1600 or self.cajaDimensionX_valor%40!=0: #ejemplo de resolucion
+            self.textoEnPantalla("Valores ingresados en ancho no son correctos",15,AZUL,(500,610),True)
+            return False
+        if self.cajaDimensionY_valor<=600 or self.cajaDimensionY_valor>=1600 or self.cajaDimensionY_valor%40!=0: 
+            self.textoEnPantalla("Valores ingresados en alto no son correctos",15,AZUL,(500,610),True)
             return False
         if self.cajaPerforante_valor > 100 or self.cajaPerforante_valor < 10:
             self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
@@ -322,6 +336,7 @@ class EscenaConfig(plantillaEscena.Escena):
         if self.caja60mm_valor > 30 or self.caja60mm_valor < 10:
             self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
             return False
+        
         else:
             return True
 
