@@ -50,7 +50,7 @@ class EscenaConfig(plantillaEscena.Escena):
 
     
     def on_update(self):
-        pygame.display.set_mode((1280,720))
+        pygame.display.set_mode(self.director.listaEscenas["escenaHome"].dimensionPantalla)
         self.director.pantalla.blit(self.fondo, (0, 0))
         pygame.display.set_caption("configuraciones")
 
@@ -234,7 +234,7 @@ class EscenaConfig(plantillaEscena.Escena):
         self.boton_aplicar = Boton(pantalla, "play", 64, 420,botonRegistrar,127,40)
         self.boton_aplicar.dibujaBoton()
 
-        self.boton_restablecer = Boton(pantalla, "play", 1200, 420,botonRestablecer,40,40)
+        self.boton_restablecer = Boton(pantalla, "play", self.director.ancho-80, self.director.alto-380,botonRestablecer,40,40)
         self.boton_restablecer.dibujaBoton()
 
         self.textoEnPantalla(f' cantidad de jugadores',15,BLANCO,(114,150),False)
