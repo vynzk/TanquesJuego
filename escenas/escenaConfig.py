@@ -15,9 +15,9 @@ class EscenaConfig(plantillaEscena.Escena):
         # cajas: corresponden a las cajas de introduccion de texto
         cajaImagen = pygame.image.load("imagenes/botones/botonVacio.png")
         self.cajaDimensionX = CajaTexto(self.director.pantalla,"caja",60,250, cajaImagen, 60,40)
-        self.cajaDimensionX_valor = 1280
+        self.cajaDimensionX_valor = 800
         self.cajaDimensionY = CajaTexto(self.director.pantalla,"caja",150,250, cajaImagen, 60,40)
-        self.cajaDimensionY_valor = 720
+        self.cajaDimensionY_valor = 800
         self.cajaPerforante = CajaTexto(self.director.pantalla,"caja",self.director.ancho-380,150, cajaImagen, 40,40)
         self.cajaPerforante_valor = 10
         self.caja100mm = CajaTexto(self.director.pantalla,"caja",self.director.ancho-380,200, cajaImagen, 40,40)
