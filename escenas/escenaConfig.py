@@ -190,7 +190,7 @@ class EscenaConfig(plantillaEscena.Escena):
 
     def on_draw(self, pantalla):
 
-        self.textoEnPantalla(f'         click izquierdo: ++/escribir', 15, ROJO, (self.director.ancho/3, self.director.alto-50), False)
+        self.textoEnPantalla(f'         click izquierdo: ++/escribir', 15, ROJO, (self.director.ancho/3, self.director.alto-30), False)
         self.textoEnPantalla(f'----------------------------------------------------------------------------------------------------------------------', 15, BLANCO, (15, 480), False)
         self.textoEnPantalla(f'  INFORMACION LIMITES DEL JUEGO', 13, ROJO, (self.director.ancho/5, 500), False)
         self.textoEnPantalla(f'- Dimensión de la pantalla: Maxima[1600, 1600], Minina[800, 800], Multiplos de 40', 13, BLANCO, (20, 540), False)
@@ -199,7 +199,7 @@ class EscenaConfig(plantillaEscena.Escena):
         self.textoEnPantalla(f'- Proyectil perforante: MaxBalas = 100, MinBalas = 10', 13, BLANCO, (20, 600), False)
         self.textoEnPantalla(f'- Proyectil 100mm: MaxBalas = 30, MinBalas = 10', 13, BLANCO, (20, 620), False)
         self.textoEnPantalla(f'- Proyectil 60mm: MaxBalas = 30, MinBalas = 10', 13, BLANCO, (20, 640), False)
-        self.textoEnPantalla(f'----------------------------------------------------------------------------------------------------------------------', 15, BLANCO, (15, 680), False)
+        self.textoEnPantalla(f'----------------------------------------------------------------------------------------------------------------------', 15, BLANCO, (15, 660), False)
 
         self.cajaDimensionX.dibujaBoton()
         self.textoEnPantalla(f'{self.cajaDimensionX.texto}', 15, NEGRO, (self.cajaDimensionX.posX+5, self.cajaDimensionX.posY+5), False)
