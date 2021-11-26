@@ -17,7 +17,7 @@ class EscenaHome(plantillaEscena.Escena):
 
         self.boton_play = None
         self.boton_config = None
-        self.fondo = pygame.image.load("imagenes/fondoHome.png")
+        self.fondo = pygame.image.load("imagenes/fondoDefault.png")
 
         # valores predeterminados
         self.numJugadores= 2

@@ -10,7 +10,7 @@ class EscenaConfig(plantillaEscena.Escena):
     def __init__(self, director):
         plantillaEscena.Escena.__init__(self, director)
         self.director = director
-        self.fondo= pygame.image.load("imagenes/fondoHome.png")
+        self.fondo= pygame.image.load("imagenes/fondoDefault.png")
 
         # cajas: corresponden a las cajas de introduccion de texto
         cajaImagen = pygame.image.load("imagenes/botones/botonVacio.png")
@@ -319,16 +319,16 @@ class EscenaConfig(plantillaEscena.Escena):
     def compruebaValores(self):
         #sirve para verificar si los datos ingresados estan correctos
         if self.cajaGravedad_valor > 50 or self.cajaGravedad_valor < 1:
-            self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
+            self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(self.director.ancho/4,20),True)
             return False
-        if self.cajaDimensionX_valor<=600 or self.cajaDimensionX_valor>=1600 or self.cajaDimensionX_valor%40!=0: #ejemplo de resolucion
-            self.textoEnPantalla("Valores ingresados en ancho no son correctos",15,AZUL,(500,610),True)
+        if self.cajaDimensionX_valor<=600 or self.cajaDimensionX_valor>1600 or self.cajaDimensionX_valor%40!=0: #ejemplo de resolucion
+            self.textoEnPantalla("Valores ingresados en ancho no son correctos",15,AZUL,(self.director.ancho/4,20),True)
             return False
-        if self.cajaDimensionY_valor<=600 or self.cajaDimensionY_valor>=1600 or self.cajaDimensionY_valor%40!=0: 
-            self.textoEnPantalla("Valores ingresados en alto no son correctos",15,AZUL,(500,610),True)
+        if self.cajaDimensionY_valor<=600 or self.cajaDimensionY_valor>1600 or self.cajaDimensionY_valor%40!=0:
+            self.textoEnPantalla("Valores ingresados en alto no son correctos",15,AZUL,(self.director.ancho/4,20),True)
             return False
         if self.cajaPerforante_valor > 100 or self.cajaPerforante_valor < 10:
-            self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)
+            self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(self.director.ancho/4,20),True)
             return False
         if self.caja100mm_valor > 30 or self.caja100mm_valor < 10:
             self.textoEnPantalla("Valores ingresados no son correctos",15,AZUL,(500,610),True)

@@ -16,7 +16,7 @@ class EscenaRegistro(plantillaEscena.Escena):
 
         self.boton_agregar = None  # botón para agregar jugadores
         self.boton_ia = None  # Requisito 2 y Requisito 4: boton de ia
-        self.fondo = pygame.image.load("imagenes/fondoRegistro.png")
+        self.fondo = pygame.image.load("imagenes/fondoDefault.png")
 
         """ Requisito 2 y 4: lista que almacenará el par (nombreJugador,esIa) para posteriormente registrar
         los jugadores en el juego"""
