@@ -17,7 +17,7 @@ class EscenaHome(plantillaEscena.Escena):
 
         self.boton_play = None
         self.boton_config = None
-        self.fondo = pygame.image.load("imagenes/fondoHome.png")
+        self.fondo = pygame.image.load("imagenes/fondoDefault.png")
 
         # valores predeterminados
         self.numJugadores= 2
@@ -73,7 +73,9 @@ class EscenaHome(plantillaEscena.Escena):
         self.boton_play = Boton(pantalla, "play", self.director.ancho/2, self.director.alto/2, botonJugar, 127, 40)
         self.boton_play.dibujaBoton()
         self.boton_config = Boton(pantalla, "configuracion", self.director.ancho/2, self.director.alto/2+50,botonAjustes,127,40)
-        self.boton_config.dibujaBoton() 
+        self.boton_config.dibujaBoton()
+        self.textoEnPantalla("NORTHKROREA WARS SIMULATOR", 25, BLANCO, (self.director.ancho/4, 20),
+                             True)
 
     def cambiaDePartida(self):
         game=Juego(self.numJugadores,1)

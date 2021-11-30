@@ -533,7 +533,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
         
         self.director.listaEscenas["escenaHome"].viento = 0
-        self.director.listaEscenas["escenaHome"].gravedad = 10
+        self.director.listaEscenas["escenaHome"].gravedad = 9.8
         self.director.listaEscenas["escenaHome"].viento_o_no = False
         #hacer
 
