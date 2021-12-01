@@ -384,6 +384,7 @@ class EscenaJuego(plantillaEscena.Escena):
         return None
 
     def buscarTanque(self, x, y):
+        
         for jugador in self.partidaActual.jugadoresActivos:
             if jugador.tanque.bloque.x == x and jugador.tanque.bloque.y == y:
                 return jugador.tanque.bloque
@@ -422,6 +423,35 @@ class EscenaJuego(plantillaEscena.Escena):
             listaColumna.reverse()
             for i in range(0, len(listaColumna) - 1):
                 listaColumna[i].y = listaColumna[i + 1].y
+    
+    def danoPorCaidaTanque(self):
+        i:int = 0
+        altura = 40
+        for self.jugador in self.partidaActual.jugadoresActivos:
+            tanque = self.jugador.tanque
+            #buscamos el bloque el cual actualmente es un tanque
+            bloque = self.buscarBloque(tanque.x, tanque.y)
+            #i tiene que ser -1 ya que el bloque 0 es el que esta debajo del tanque
+            i:int = -1
+            #iremos bajando buscando bloques hasta que no queden mas bloques
+            while(bloque!=None):
+                bloque = self.buscarBloque(tanque.x, tanque.y+altura)
+                i += 1
+            #el contador de i seria el valor total de los bloques bajo el tanque
+            if(tanque.bloquesDebajo > i):
+                bloques = tanque.bloquesDebajo-i
+                dañoEfectuado = 10*bloques
+                if dañoEfectuado >= self.jugadorImpactado.tanque.vida:
+                    """ Requisito 3 U3: Si se suicida, no cuenta como un oponente destruido, por el contrario,
+                    si un jugador destruye a otro lo será """
+                    if self.jugadorActual is not self.jugadorImpactado:
+                        self.jugadorActual.oponentesDestruidos += 1
+                    self.partidaActual.eliminarJugador(self.jugadorImpactado)  # elimina al jugador
+
+                else:
+                    # se le resta la vida de la caida
+                    self.jugador.tanque.vida -= dañoEfectuado
+            self.jugador.tanque.cambiarBloquesDebajo(i)
 
     """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""
     def danoColateralTanque(self,posX,posY,danoArma):
@@ -450,6 +480,7 @@ class EscenaJuego(plantillaEscena.Escena):
             self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
                                     (self.bloqueImpactado.x, self.bloqueImpactado.y))
             self.destruir(bloqueImpactado)  # todos rompen el bloque de impacto
+            self.danoPorCaidaTanque()
 
         if nombreArma == "Proyectil Perforante":
             self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
@@ -467,6 +498,8 @@ class EscenaJuego(plantillaEscena.Escena):
             # destrucción de los bloques
             self.destruir(bloqueIzquierda)
             self.destruir(bloqueDerecha)
+            #luego de destruir bloques
+            self.danoPorCaidaTanque()
 
         if nombreArma == "Proyectil 105":
             ejeY = self.bloqueImpactado.y - 40
@@ -499,6 +532,7 @@ class EscenaJuego(plantillaEscena.Escena):
                 self.destruir(bloqueCentral)
                 self.destruir(bloqueDerecha)
                 ejeY += 40
+            self.danoPorCaidaTanque()
 
         pygame.time.wait(400)  # <-- necesario para que se vean las graficas
 

@@ -20,6 +20,29 @@ class Partida:
         self.contadorJugador = 0
         self.mapa = mapa
 
+    #funcion para encontrar un bloque
+    def buscarBloque(self, x, y):
+        for bloque in self.mapa.listaBloques:
+            if bloque.x == x and bloque.y == y:
+                return bloque
+        return None
+
+    #funcion para definir cuantos bloques hay debajo de un tanque
+    def setBloquesATanque(self):
+        #por cada jugador se le setearan los bloques debajo de cada tanque
+        for jugador in self.jugadoresActivos:
+            tanque = jugador.tanque
+            #buscamos el bloque el cual actualmente es un tanque
+            bloque = self.buscarBloque(tanque.x, tanque.y)
+            #i tiene que ser -1 ya que el bloque 0 es el que esta debajo del tanque
+            i:int = -1
+            #iremos bajando buscando bloques hasta que no queden mas bloques
+            while(bloque!=None):
+                bloque = buscarBloque(tanque.x, tanque.y+40)
+                i += 1
+            #el contador de i seria el valor total de los bloques bajo el tanque
+            jugador.tanque.cambiarBloquesDebajo(i)
+
     # funcion que agrega jugadores a su lista de jugadores activos
     def agregarJugadores(self, jugador):
         self.jugadoresActivos.append(jugador)

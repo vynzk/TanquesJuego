@@ -14,6 +14,7 @@ class Tanque:
         self.vida = 100
         self.proyectilActual = None
         self.listaProyectiles = []
+        self.bloquesDebajo = 0
 
     # funcion que definirá las posiciones x e y del tanque y construirá su bloque
     def construirBloques(self, x, y):
@@ -27,3 +28,7 @@ class Tanque:
 
     def cambiarArma(self, numArma):
         self.proyectilActual = self.listaProyectiles[numArma]
+    
+    #funcoin para cambiar los bloques bajo un tanque
+    def cambiarBloquesDebajo(self, n:int):
+        self.bloquesDebajo = n

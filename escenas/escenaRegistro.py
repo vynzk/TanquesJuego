@@ -110,7 +110,7 @@ class EscenaRegistro(plantillaEscena.Escena):
         for partida in self.director.game.listaPartidas:
             partida.generarPosicionesJug()
             partida.equiparArmasIniciales(self.municionPerforante,self.municion105,self.municion60)
-
+            partida.setBloquesATanque()
         self.director.cambiarEscena(EscenaJuego(self.director))
 
     def eliminarElementosLista(self):  # se eliminan los elementos de la lista para un futuro uso

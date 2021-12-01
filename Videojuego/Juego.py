@@ -23,6 +23,7 @@ class Juego:
 
     def agregarJugador(self, i, pantalla, imagenTanqueAleatoria, datosJugador):
         # ahora el nombre no se define aquí, ya que se le pasa el arreglo que contiene los nombres
+        
         tanque = Tanque(pantalla, imagenTanqueAleatoria)
         # datosJugador = (nombre,esIa)
         self.listaJugadores.append(Jugador(datosJugador[0], tanque, datosJugador[1]))
