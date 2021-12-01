@@ -38,7 +38,7 @@ class Partida:
             i:int = -1
             #iremos bajando buscando bloques hasta que no queden mas bloques
             while(bloque!=None):
-                bloque = buscarBloque(tanque.x, tanque.y+40)
+                bloque = self.buscarBloque(tanque.x, tanque.y+40)
                 i += 1
             #el contador de i seria el valor total de los bloques bajo el tanque
             jugador.tanque.cambiarBloquesDebajo(i)
