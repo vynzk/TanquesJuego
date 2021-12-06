@@ -1,3 +1,4 @@
+from escenas.director import Director
 import pygame
 from escenas import plantillaEscena
 from utilidades.Boton import Boton
@@ -6,7 +7,7 @@ class EscenaAyuda:
 	def __init__(self,director):
 		plantillaEscena.Escena.__init__(self, director)
 		self.director.listaEscenas["escenaAyuda"]=self;
-
+		self.director=director
 		self.botonVolver = None
 		self.panel= pygame.image.load("imagenes/fondoControles.png")
 		self.redimensionarPanel(500,500)
@@ -19,7 +20,8 @@ class EscenaAyuda:
 		if evento.type == pygame.MOUSEBUTTONDOWN:
 			self.director.mousePos = pygame.mouse.get_pos()	
 			if self.director.checaBoton(self.director.mousePos, self.botonVolver):
-				print('(escenaAyuda) PRESION BOTON: presiono el boton volver, vuelve a la escenaJuego')
+				if(self.director.debug):
+					print('(escenaAyuda) PRESION BOTON: presiono el boton volver, vuelve a la escenaJuego')
 				self.vuelveJuego()
 
 	def on_draw(self, pantalla):

@@ -22,7 +22,8 @@ class EscenaCreditos(plantillaEscena.Escena):
         if evento.type == pygame.MOUSEBUTTONDOWN:
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_salir):
-                print('(escenaCreditos) PRESIONA BOTON: presionaste el boton volver, te llevará a escenaJuego')
+                if(self.director.debug):
+                    print('(escenaCreditos) PRESIONA BOTON: presionaste el boton volver, te llevará a escenaJuego')
                 self.vuelveJuego()
 
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
