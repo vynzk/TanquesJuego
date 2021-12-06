@@ -63,10 +63,12 @@ class EscenaConfig(plantillaEscena.Escena):
                 if self.compruebaValores():
                     self.registrar()
                     self.cambiarEscenaHome()
-                    print('(escenaConfig) PRESION BOTON: presionó el botón aplicado')
+                    if(self.director.debug):
+                        print('(escenaConfig) PRESION BOTON: presionó el botón aplicado')
             if self.director.checaBoton(self.director.mousePos, self.boton_restablecer):
                 self.restablecer()
-                print('(escenaConfig) PRESION BOTON: presionó restablecer predeterminado')
+                if(self.director.debug):
+                    print('(escenaConfig) PRESION BOTON: presionó restablecer predeterminado')
             if self.director.checaBoton(self.director.mousePos, self.boton_numJugadores):
                 if(self.numJugadores >= 6 or self.numJugadores <=1):
                     self.numJugadores = 2
@@ -270,7 +272,8 @@ class EscenaConfig(plantillaEscena.Escena):
 
         self.director.cambiarResolucion(self.dimensionPantalla[0],self.dimensionPantalla[1])
 
-        self.director.listaEscenas["escenaHome"].mostrarInformacionTerminal()
+        if(self.director.debug):
+            self.director.listaEscenas["escenaHome"].mostrarInformacionTerminal()
 
     def redefinirViento(self):
         if self.viento_o_no == False:

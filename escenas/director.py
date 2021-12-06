@@ -8,7 +8,7 @@ class Director:
 
     """ adaptar pantalla: para ello, el director se crea con un determinado ancho y alto
     respectivamente para su pantalla"""
-    def __init__(self,ancho,alto):  # constructor
+    def __init__(self,ancho,alto,debug):  # constructor
         self.ancho=ancho
         self.alto=alto
         self.pantalla = pygame.display.set_mode((self.ancho,self.alto))
@@ -16,13 +16,15 @@ class Director:
         self.running = True
         self.game = None
         self.listaEscenas = dict()
+        self.debug=debug
         
 
     def gameLoop(self):  # bucle del juego
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    print('(escenaJuego) PRESION BOTON VENTANA: juego terminado por presionar X')
+                    if(self.debug):
+                        print('(escenaJuego) PRESION BOTON VENTANA: juego terminado por presionar X')
                     self.running = False
                 self.escena.on_event(event)  # no mover
 
@@ -31,7 +33,8 @@ class Director:
             # Dibujo escena actual
             self.escena.on_draw(self.pantalla)
             pygame.display.update()
-        print("\nJUEGO: fin del juego")
+        if(self.debug):
+            print("\nJUEGO: fin del juego")
 
     # ---------- funciones kernel (avisar si la tocan) ----------#
     # función que cambia la escena actual a una nueva

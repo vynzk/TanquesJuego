@@ -39,7 +39,9 @@ class Partida:
         print(f'\n---------------\n--> OPONENTES DESTRUIDO PARTIDA {self.id} <--')
         # se recorre la lista de jugadores, contando sus oponentes destruidos
         for jugador in listaJugadores:
-            print(f'jugador: {jugador.nombre} ==> op dest: { jugador.oponentesDestruidos}')
+            if(self.director.debug):
+                if(self.director.debug):
+                    print(f'jugador: {jugador.nombre} ==> op dest: { jugador.oponentesDestruidos}')
             if ganadorActual is None:
                 ganadorActual = jugador
             else:
