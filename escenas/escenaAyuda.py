@@ -19,18 +19,19 @@ class EscenaAyuda:
 		if evento.type == pygame.MOUSEBUTTONDOWN:
 			self.director.mousePos = pygame.mouse.get_pos()	
 			if self.director.checaBoton(self.director.mousePos, self.botonVolver):
+				print('(escenaAyuda) PRESION BOTON: presiono el boton volver, vuelve a la escenaJuego')
 				self.vuelveJuego()
 
 	def on_draw(self, pantalla):
 		pantalla.blit(self.fondoTransparente, (0,0))
-		pantalla.blit(self.panel, (390, 80))
+		pantalla.blit(self.panel, (self.director.ancho/5, 80))
 
 
 		# imagenes -- botones
 		volver= pygame.image.load("imagenes/botones/botonVolver.png")
 		panelArma= pygame.image.load("imagenes/panelSeleccionArmas.png")
 
-		self.botonVolver = Boton(pantalla, "volver", 580,500,volver,127,40)
+		self.botonVolver = Boton(pantalla, "volver", self.director.ancho/5+80,500,volver,127,40)
 		self.botonVolver.dibujaBoton()
 
 
