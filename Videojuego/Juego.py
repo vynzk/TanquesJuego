@@ -3,7 +3,7 @@ from Videojuego.Jugador import *
 from Videojuego.Partida import *
 from Tanque.Tanque import *
 from Mapa.Mapa import *
-from Mapa.listaMapas import *
+
 
 
 class Juego:
