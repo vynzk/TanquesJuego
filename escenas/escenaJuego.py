@@ -60,7 +60,7 @@ class EscenaJuego(plantillaEscena.Escena):
     def on_event(self, event):
         self.director.mousePos = pygame.mouse.get_pos()
         """Requisito 4: Se bloquea presionar botones por parte del usuario en turnos de IA (para evitar bugs)"""
-        if event.type == pygame.MOUSEBUTTONDOWN and self.jugadorActual.esIA is not True:
+        if event.type == pygame.MOUSEBUTTONDOWN:
             if self.director.checaBoton(self.director.mousePos, self.boton_salir):
                 print('(escenaJuego) PRESION BOTON: presionaste el boton salir')
                 self.director.running = False  # rompe el ciclo gameLoop y sale del juego
