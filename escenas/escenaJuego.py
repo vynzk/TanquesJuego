@@ -383,11 +383,12 @@ class EscenaJuego(plantillaEscena.Escena):
                 return bloque
         return None
 
-    def buscarTanque(self, x, y):
+    def buscarJugador(self, x, y):
         for jugador in self.partidaActual.jugadoresActivos:
             if jugador.tanque.bloque.x == x and jugador.tanque.bloque.y == y:
-                return jugador.tanque.bloque
+                return jugador
         return None
+
 
     def destruir(self, bloque):
         # si existe dentro de la lista de bloques
@@ -406,12 +407,13 @@ class EscenaJuego(plantillaEscena.Escena):
                 else:
                     break
 
-            bloqueTanque = self.buscarTanque(bloque.x, bloque.y - altura)
+            jugadorImpactado = self.buscarJugador(bloque.x, bloque.y-altura)
             # si arriba del último bloque de tierra existe un tanque
-            if bloqueTanque is not None:
+            if jugadorImpactado is not None:
+                print("Jugador impactado:",jugadorImpactado.nombre)
                 print('        (escenaJuego) CAIDA: tanque cae un bloque por gravedad de bloques')
-                print(f'           (DEBUG) posTanque: ({bloqueTanque.x},{bloqueTanque.y})')
-                listaColumna.append(bloqueTanque)
+                listaColumna.append(jugadorImpactado.tanque.bloque)
+                
 
 
             """
@@ -419,9 +421,23 @@ class EscenaJuego(plantillaEscena.Escena):
             del que esta abajo, así sucesivamente hasta llegar que el bloque superior al bloque 
             impactado ocupe su posición
             """
-            listaColumna.reverse()
+            listaColumna.reverse()    
+
             for i in range(0, len(listaColumna) - 1):
                 listaColumna[i].y = listaColumna[i + 1].y
+
+            
+            # quiere decir que sufre el daño impactado, porque el cae un bloque
+            if(jugadorImpactado != None):
+                cantidadBloquesCaida=len(listaColumna)-1 # no se cuenta el
+                danoCaida=cantidadBloquesCaida*10
+                if(jugadorImpactado.tanque.vida<=danoCaida):
+                    if(self.jugadorActual != jugadorImpactado): # si no es un suicido
+                        self.jugadorActual.oponentesDestruidos+=1 # suma una win
+                    self.partidaActual.eliminarJugador(jugadorImpactado) # elimina el jugador
+                else: # si es mayor, sobrevive
+                    jugadorImpactado.tanque.vida-=danoCaida
+            
 
     """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""
     def danoColateralTanque(self,posX,posY,danoArma):
