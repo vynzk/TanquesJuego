@@ -8,13 +8,14 @@ class Director:
 
     """ adaptar pantalla: para ello, el director se crea con un determinado ancho y alto
     respectivamente para su pantalla"""
-    def __init__(self,ancho,alto):  # constructor
+    def __init__(self,ancho,alto,debug):  # constructor
         self.ancho=ancho
         self.alto=alto
         self.pantalla = pygame.display.set_mode((self.ancho,self.alto))
         self.escena = None
         self.running = True
         self.game = None
+        self.debug=debug
         self.listaEscenas = dict()
         
 
