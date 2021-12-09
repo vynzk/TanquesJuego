@@ -1,3 +1,4 @@
+from os import pipe
 import pygame
 import math
 import time
@@ -255,7 +256,11 @@ class EscenaJuego(plantillaEscena.Escena):
 
     # verifica si un borde del mapa fue impactado, si lo fue retorna true, en caso contrario false
     def tocaBordes(self, xDisparo, yDisparo):
-        if xDisparo >= self.director.ancho or yDisparo >= self.director.alto-120 or xDisparo <= 0 or yDisparo <= 0:
+        """
+        Antes, para que toque el borde superior y explote: yDisparo <=0 
+        Ahora, si quieres aumentar el "techo", y<=-200 o otra cifra
+        """
+        if xDisparo >= self.director.ancho or yDisparo >= self.director.alto-120 or xDisparo <= 0 or yDisparo <= -200:
             return True  # sale del rango
         return False  # dentro del rango
 
@@ -427,16 +432,18 @@ class EscenaJuego(plantillaEscena.Escena):
                 listaColumna[i].y = listaColumna[i + 1].y
 
             
-            # quiere decir que sufre el daño impactado, porque el cae un bloque
-            if(jugadorImpactado != None):
-                cantidadBloquesCaida=len(listaColumna)-1 # no se cuenta el
+            # si el jugador impactado existe
+            if jugadorImpactado is not None:
+                cantidadBloquesCaida=len(listaColumna)-1 # cant bloques que cae (no se cuenta a si mismo)
                 danoCaida=cantidadBloquesCaida*10
                 if(jugadorImpactado.tanque.vida<=danoCaida):
                     if(self.jugadorActual != jugadorImpactado): # si no es un suicido
                         self.jugadorActual.oponentesDestruidos+=1 # suma una win
+                    print(f'(danoCaida) El jugador {jugadorImpactado.nombre} cayó {cantidadBloquesCaida} bloques, dañandosé {danoCaida} lo que lo destruye')
                     self.partidaActual.eliminarJugador(jugadorImpactado) # elimina el jugador
                 else: # si es mayor, sobrevive
                     jugadorImpactado.tanque.vida-=danoCaida
+                    print(f'(danoCaida) El jugador {jugadorImpactado.nombre} cayó {cantidadBloquesCaida} bloques, dañandosé {danoCaida}')
             
 
     """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""
