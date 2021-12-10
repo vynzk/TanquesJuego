@@ -68,15 +68,18 @@ class EscenaCambioArma(plantillaEscena.Escena):
             self.listaPanelArmas[i].dibujaBoton()
             balaImagen = self.jugadorActual.tanque.listaProyectiles[i].imagen
 
-            balasCantidad = 'Daño: ' + str(self.jugadorActual.tanque.listaProyectiles[i].daño)
+            balasCantidad = 'Cantidad: ' + str(self.jugadorActual.tanque.listaProyectiles[i].municion)
+            balasDaño='Daño: '+str(self.jugadorActual.tanque.listaProyectiles[i].daño)
             balaNombre = self.jugadorActual.tanque.listaProyectiles[i].nombre
 
             balaNombreRender = self.textoRender(balaNombre, NEGRO)
             balasCantidadRender = self.textoRender(balasCantidad, NEGRO)
+            balasDañoRender = self.textoRender(balasDaño, NEGRO)
 
             pantalla.blit(balaImagen, ((self.director.ancho/5)+20, posPanel + 5))
             pantalla.blit(balaNombreRender, ((self.director.ancho/5)+90, posPanel + 10))
-            pantalla.blit(balasCantidadRender, ((self.director.ancho/5)+300, posPanel + 10))
+            pantalla.blit(balasCantidadRender, ((self.director.ancho/5)+300, posPanel ))
+            pantalla.blit(balasDañoRender, ((self.director.ancho/5)+300, posPanel + 20))
 
             posPanel += yPanel + 10
             i += 1
