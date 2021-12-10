@@ -498,8 +498,9 @@ class EscenaJuego(plantillaEscena.Escena):
                                     (self.bloqueImpactado.x - 40, self.bloqueImpactado.y))
             self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
                                     (self.bloqueImpactado.x + 40, self.bloqueImpactado.y))
+            
             # pygame.display.update()
-            # time.sleep(3) #<-- debug para notar con mas claridad la gravedad
+            #time.sleep(3) # mostrar gravedad bloques
             bloqueIzquierda = self.buscarBloque(bloqueImpactado.x - 40, bloqueImpactado.y)
             bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, bloqueImpactado.y)
             
@@ -534,8 +535,10 @@ class EscenaJuego(plantillaEscena.Escena):
                 self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40), (self.bloqueImpactado.x, ejeY))
                 self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
                                         (self.bloqueImpactado.x + 40, ejeY))
+
+                #time.sleep(3) # mostrar gravedad bloques
                 # pygame.display.update()
-                # time.sleep(3) #<-- debug para notar con mas claridad la gravedad
+                
                 bloqueIzquierda = self.buscarBloque(bloqueImpactado.x - 40, ejeY)
                 bloqueCentral = self.buscarBloque(bloqueImpactado.x, ejeY)
                 bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, ejeY)

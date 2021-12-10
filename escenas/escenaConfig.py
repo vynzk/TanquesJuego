@@ -89,6 +89,7 @@ class EscenaConfig(plantillaEscena.Escena):
                     self.redefinirViento()
                     self.afectosEntorno = 'si'
                 else:
+                    self.redefinirViento()
                     self.afectosEntorno = 'no'
             if self.director.checaBoton(self.director.mousePos, self.cajaDimensionX):
                 self.cajaDimensionY.flag = False
