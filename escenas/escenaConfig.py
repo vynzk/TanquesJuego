@@ -304,7 +304,15 @@ class EscenaConfig(plantillaEscena.Escena):
         self.indicarClima = "Desactivado"
 
         # valores predeterminados
-        
+        self.numJugadores= 2
+        self.afectosEntorno = 'no'
+        self.cajaDimensionY.texto = "800"
+        self.cajaDimensionX.texto = "800"
+        self.cajaPerforante.texto = "10"
+        self.caja100mm.texto= "10"
+        self.caja60mm.texto= "10"
+        self.cajaGravedad.texto= "9.8"
+
 
         self.cajaDimensionY_valor = 800
         self.cajaDimensionX_valor = 800
