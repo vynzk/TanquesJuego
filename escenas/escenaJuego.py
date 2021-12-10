@@ -513,6 +513,9 @@ class EscenaJuego(plantillaEscena.Escena):
         if nombreArma == "Proyectil 105":
             ejeY = self.bloqueImpactado.y - 40
 
+            """ dano colateral, no puede estar dentro del ciclo while
+            dado que, primero debe ver la zona de daño colateral y después
+            se van viendo cómo los bloques caen"""
             self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y) #1
             self.danoColateralTanque(bloqueImpactado.x,bloqueImpactado.y) #2
             self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y) #3
@@ -538,14 +541,6 @@ class EscenaJuego(plantillaEscena.Escena):
                 bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, ejeY)
                 """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""
                 
-                """Ajuste para no causar daño demás al objeto impactado, recordar que:
-                C C C
-                C I C
-                C C C
-                
-                C: dano colateral
-                I: dano impactado <-- no debe quitar daño colateral, sólo dano impacto
-                """
 
                 self.destruir(bloqueIzquierda)
                 self.destruir(bloqueCentral)
