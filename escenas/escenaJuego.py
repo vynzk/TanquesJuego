@@ -483,6 +483,7 @@ class EscenaJuego(plantillaEscena.Escena):
                     if(self.director.debug):
                         print(f'        (escenaJuego) DAÑO COLATERAL: a causa del impacto, el tanque del jugador {jugador.nombre} sufrio daño de {danoColateral}')
                     tanqueJugador.vida-=danoColateral
+                    return True
                 
 
     def destruirZonaImpacto(self, bloqueImpactado, nombreArma):
@@ -511,6 +512,19 @@ class EscenaJuego(plantillaEscena.Escena):
 
         if nombreArma == "Proyectil 105":
             ejeY = self.bloqueImpactado.y - 40
+
+            self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y) #1
+            self.danoColateralTanque(bloqueImpactado.x,bloqueImpactado.y) #2
+            self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y) #3
+            
+            self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y-40)
+            self.danoColateralTanque(bloqueImpactado.x,bloqueImpactado.y-40)
+            self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y-40)
+
+            self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y+40)
+            self.danoColateralTanque(bloqueImpactado.x,bloqueImpactado.y+40)
+            self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y+40)
+            
             while ejeY < self.bloqueImpactado.y + 80:
                 self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
                                         (self.bloqueImpactado.x - 40, ejeY))
@@ -523,7 +537,7 @@ class EscenaJuego(plantillaEscena.Escena):
                 bloqueCentral = self.buscarBloque(bloqueImpactado.x, ejeY)
                 bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, ejeY)
                 """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""
-                self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y)
+                
                 """Ajuste para no causar daño demás al objeto impactado, recordar que:
                 C C C
                 C I C
@@ -532,13 +546,11 @@ class EscenaJuego(plantillaEscena.Escena):
                 C: dano colateral
                 I: dano impactado <-- no debe quitar daño colateral, sólo dano impacto
                 """
-                if(ejeY!=bloqueImpactado.y):
-                    self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y)
-                self.danoColateralTanque(bloqueImpactado.x,bloqueImpactado.y)
 
                 self.destruir(bloqueIzquierda)
                 self.destruir(bloqueCentral)
                 self.destruir(bloqueDerecha)
+
                 ejeY += 40
 
         pygame.time.wait(400)  # <-- necesario para que se vean las graficas

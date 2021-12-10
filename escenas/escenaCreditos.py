@@ -30,7 +30,7 @@ class EscenaCreditos(plantillaEscena.Escena):
     def on_draw(self, pantalla):
         pantalla.blit(self.fondo, (0,0))
         botonSalir= pygame.image.load("imagenes/botones/botonVolver.png")
-        self.boton_salir = Boton(pantalla, "volver", 1150, 670,botonSalir,127,40)
+        self.boton_salir = Boton(pantalla, "volver", self.director.ancho/2 -50, self.director.alto/2+300,botonSalir,127,40)
         self.boton_salir.dibujaBoton()
 
 
