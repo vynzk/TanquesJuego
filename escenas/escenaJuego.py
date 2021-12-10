@@ -21,7 +21,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.director.listaEscenas["escenaJuego"]=self
         
         self.fondo = fondosLista[random.randint(0, len(fondosLista) - 1)]
-        self.fondo = pygame.transform.scale(self.fondo, (1280, 720))
+        self.fondo = pygame.transform.scale(self.fondo, (self.director.ancho,self.director.ancho))
         self.partidas = self.director.game.listaPartidas
         # para esta entrega hay solo una partida y 2 jugadores, por tanto:
         # la partida inicial será la primera partida (De momento es la única)
