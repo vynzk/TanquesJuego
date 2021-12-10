@@ -7,22 +7,23 @@
 &lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;20;70;20&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;1118&lt;/x&gt;&lt;y&gt;1338&lt;/y&gt;&lt;w&gt;100&lt;/w&gt;&lt;h&gt;100&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=&amp;lt;&amp;lt;&amp;lt;-
 &lt;/panel_attributes&gt;&lt;additional_attributes&gt;80;10;10;80&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;958&lt;/x&gt;&lt;y&gt;1347&lt;/y&gt;&lt;w&gt;30&lt;/w&gt;&lt;h&gt;90&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=&amp;lt;&amp;lt;&amp;lt;-
 &lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;10;10;70&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;718&lt;/x&gt;&lt;y&gt;1327&lt;/y&gt;&lt;w&gt;100&lt;/w&gt;&lt;h&gt;110&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=&amp;lt;&amp;lt;-&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;10;80;90&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;10&lt;/x&gt;&lt;y&gt;240&lt;/y&gt;&lt;w&gt;190&lt;/w&gt;&lt;h&gt;30&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=&amp;lt;&amp;lt;-&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;10;170;10&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;10&lt;/x&gt;&lt;y&gt;240&lt;/y&gt;&lt;w&gt;190&lt;/w&gt;&lt;h&gt;30&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=&amp;lt;&amp;lt;-&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;10;170;10&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;558&lt;/x&gt;&lt;y&gt;527&lt;/y&gt;&lt;w&gt;260&lt;/w&gt;&lt;h&gt;80&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=&amp;lt;&amp;lt;-&lt;/panel_attributes&gt;&lt;additional_attributes&gt;240;10;10;60&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;1118&lt;/x&gt;&lt;y&gt;527&lt;/y&gt;&lt;w&gt;210&lt;/w&gt;&lt;h&gt;80&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=&amp;lt;&amp;lt;-&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;10;190;60&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;958&lt;/x&gt;&lt;y&gt;527&lt;/y&gt;&lt;w&gt;30&lt;/w&gt;&lt;h&gt;90&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=&amp;lt;&amp;lt;-&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;10;10;70&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;958&lt;/x&gt;&lt;y&gt;527&lt;/y&gt;&lt;w&gt;30&lt;/w&gt;&lt;h&gt;90&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=&amp;lt;&amp;lt;-&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;10;10;70&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;10&lt;/x&gt;&lt;y&gt;240&lt;/y&gt;&lt;w&gt;190&lt;/w&gt;&lt;h&gt;30&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=&amp;lt;&amp;lt;-&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;10;170;10&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;</help_text><element><id>UMLClass</id><coordinates><x>2410</x><y>0</y><w>140</w><h>20</h></coordinates><panel_attributes>Main
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2320</x><y>420</y><w>330</w><h>240</h></coordinates><panel_attributes>Partida
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2320</x><y>390</y><w>380</w><h>250</h></coordinates><panel_attributes>Partida
 --
 __init__(id,pantalla,mapa):
   self.id=id
-  self.estado=False
-  self.pantalla= pantalla
+  self.estado= False
+  self.director= director
+  self.pantalla= director.pantalla
   self.jugadorGanador= None
   self.jugadoresActivos= []
   self.contadorJugador= 0
   self.mapa=mapa
 
 agregarJugadores(self.jugador)
-terminar()
+terminar(listaJugadores)
 eliminarJugador(jugadorEliminado)
 generarPosicionesJug()
-equiparArmasIniciales()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2320</x><y>700</y><w>330</w><h>140</h></coordinates><panel_attributes>Jugador
+equiparArmasIniciales(municionPerforante, municion105, municion60)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2320</x><y>700</y><w>330</w><h>140</h></coordinates><panel_attributes>Jugador
 --
 __init__(self,nombre,tanque):
   self.nombre=nombre
@@ -44,9 +45,9 @@ __init__(pantalla,imagen):
   self.proyectilActual=None
   self.listaProyectiles= []
 
-construirBloques(x,y,color)
+construirBloques(x,y)
 restablecerVelAng()
-cambiarArma(numArma)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2320</x><y>1220</y><w>330</w><h>150</h></coordinates><panel_attributes>Proyectil
+cambiarArma(numArma)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2320</x><y>1220</y><w>330</w><h>170</h></coordinates><panel_attributes>Proyectil
 --
 __init__(daño,stock):
   self.nombre=nombre
@@ -80,13 +81,13 @@ __init__(mapa):
 
 dibujarMapa(pantalla)
 generarAlturasColumnas(cantColumnas, cantBloquesColumna)
-generarMapa(pantalla, ancho, alto)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1072</x><y>644</y><w>450</w><h>840</h></coordinates><panel_attributes>EscenaJuego
+generarMapa(pantalla, ancho, alto)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1022</x><y>644</y><w>500</w><h>840</h></coordinates><panel_attributes>EscenaJuego
 --
 __init__(director):
         plantillaEscena.Escena.__init__( director)
         self.director.listaEscenas["escenaJuego"]=()
         self.fondo = fondosLista[random.randint(0, len(fondosLista) - 1)]
-        self.fondo = pygame.transform.scale(self.fondo, (1280, 720))
+        self.fondo = pygame.transform.scale(self.fondo, (self.director.ancho,self.director.ancho))
         self.partidas = self.director.game.listaPartidas
         self.partidaActual = self.partidas[0]
         self.jugadorActual = random.choice(self.partidaActual.jugadoresActivos)
@@ -114,13 +115,14 @@ efectuarDisparo()
 cambiarJugador()
 colisionTierra(xDisparo,yDisparo)
 tocaBordes(xDisparo,yDisparo)
-dibujarTanques()
+colisionTanques(xDisparo,yDisparo)
+dibujarTanque()
 dibujarBala()
 mostrarCañon()
 muestreoVidaTanques()
 contenidoBarraInferior()
 buscarBloque(x,y)
-buscarTanque(x,y)
+buscarJugador(x,y)
 destruir(bloque)
 danoColateralTanque=(posX, posY, danoArma)
 destruirZonaImpacto(bloqueImpactado,normbreArma)
@@ -135,7 +137,7 @@ pisoEsLava()
 mostrarLineas()
 decisionIA
 mostrarGravedadViento()
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>492</x><y>650</y><w>490</w><h>410</h></coordinates><panel_attributes>EscenaRegistro
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>492</x><y>660</y><w>490</w><h>410</h></coordinates><panel_attributes>EscenaRegistro
 --
 __init__(director):
         plantillaEscena.Escena.__init__(self, director)
@@ -160,7 +162,7 @@ on_draw(pantalla)
 registrar()
 cambioEscenaJuego()
 eliminarElementosLista()
-agregarJugador()
+guardarNombreJug()
 mostrarTexto()
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>42</x><y>650</y><w>370</w><h>350</h></coordinates><panel_attributes>EscenaHome
 --
@@ -184,7 +186,7 @@ on_update()
 on_event(evento)
 on_draw(pantalla)
 cambioDePartida()
-cambiaConfiguracion()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1572</x><y>630</y><w>440</w><h>310</h></coordinates><panel_attributes>EscenaCambioArma
+cambiaConfiguracion()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1552</x><y>630</y><w>440</w><h>320</h></coordinates><panel_attributes>EscenaCambioArma
 --
 __init__(director):
      plantillaEscena.Escena.__init__(director)
@@ -204,7 +206,8 @@ on_event(evento)
 on_draw(pantalla)
 redimensionarPanel(x, y)
 vuelveJuego()
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2052</x><y>680</y><w>230</w><h>170</h></coordinates><panel_attributes>EscenaCreditos
+textoRender(frase,color)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1922</x><y>1000</y><w>350</w><h>180</h></coordinates><panel_attributes>EscenaCreditos
 --
 __init__(director):
   plantillaEscena.Escena__init__(director)
@@ -215,7 +218,8 @@ __init__(director):
 on_update()
 on_event(evento)
 on_draw(pantalla)
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1112</x><y>1660</y><w>330</w><h>210</h></coordinates><panel_attributes>Boton
+vuelveJuego()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1112</x><y>1660</y><w>330</w><h>220</h></coordinates><panel_attributes>Boton
 --
 __init__(pantalla,texto,posX,posY,imagenBoton,x,y):
   self.pantalla=pantalla
@@ -225,7 +229,7 @@ __init__(pantalla,texto,posX,posY,imagenBoton,x,y):
   self.y=y
   self.posX=posX
   self.posY=posY
-  self.rect=pygame.Rect(0,0,self.x,self.y)
+  self.rect=pygame.Rect(self.posX,self.posY,0,self.x,self.y)
   self.color=ROJO
 
 redimensionarBoton()
@@ -242,7 +246,7 @@ on_update()
 on_event(event)
 on_draw(screen)
 textoEnPantalla(texto,tamañoLetra,color,posicion,deseaPausa)
-mostrarImagenes()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1112</x><y>133</y><w>330</w><h>190</h></coordinates><panel_attributes>Director
+mostrarImagenEnPos(pathImagen,Tamaño,Posicion)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1112</x><y>53</y><w>330</w><h>240</h></coordinates><panel_attributes>Director
 --
 __init__(game):
   self.ancho=ancho
@@ -251,25 +255,26 @@ __init__(game):
   self.escena=None
   self.running=True
   self.game=game
+  self.debug=debug
   listaEscenas = []
 
 gameLoop()
 cambiarEscena(escenaNueva)
 checaBoton(mousePos,botonNombre)
-cambiarResolucion(nuevaX, nuevaY)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1250</x><y>587</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>12;10;12;60</additional_attributes></element><element><id>Relation</id><coordinates><x>480</x><y>557</y><w>610</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>592;10;12;90</additional_attributes></element><element><id>Relation</id><coordinates><x>1440</x><y>587</y><w>150</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>12;10;132;40</additional_attributes></element><element><id>Relation</id><coordinates><x>1440</x><y>457</y><w>780</w><h>240</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;16;760;220</additional_attributes></element><element><id>Relation</id><coordinates><x>400</x><y>467</y><w>690</w><h>200</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>670;16;12;180</additional_attributes></element><element><id>Relation</id><coordinates><x>1220</x><y>1477</y><w>80</w><h>200</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
-</panel_attributes><additional_attributes>12;10;60;180</additional_attributes></element><element><id>Relation</id><coordinates><x>190</x><y>987</y><w>940</w><h>810</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
-</panel_attributes><additional_attributes>12;10;920;790</additional_attributes></element><element><id>Relation</id><coordinates><x>1430</x><y>928</y><w>400</w><h>780</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
-</panel_attributes><additional_attributes>372;10;120;610;10;760</additional_attributes></element><element><id>Relation</id><coordinates><x>1430</x><y>838</y><w>770</w><h>1050</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
-</panel_attributes><additional_attributes>750;10;10;1030</additional_attributes></element><element><id>Relation</id><coordinates><x>402</x><y>730</y><w>110</w><h>50</h></coordinates><panel_attributes>lt=-
+cambiarResolucion(nuevaX, nuevaY)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1250</x><y>587</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>12;10;12;60</additional_attributes></element><element><id>Relation</id><coordinates><x>710</x><y>567</y><w>390</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>362;10;10;10;12;90</additional_attributes></element><element><id>Relation</id><coordinates><x>1440</x><y>527</y><w>350</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>12;10;330;10;332;103</additional_attributes></element><element><id>Relation</id><coordinates><x>1440</x><y>447</y><w>740</w><h>580</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;16;710;10;712;553</additional_attributes></element><element><id>Relation</id><coordinates><x>210</x><y>467</y><w>880</w><h>200</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>860;16;10;10;12;180</additional_attributes></element><element><id>Relation</id><coordinates><x>1270</x><y>1477</y><w>40</w><h>200</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>12;10;10;180</additional_attributes></element><element><id>Relation</id><coordinates><x>190</x><y>987</y><w>940</w><h>800</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>12;10;920;773</additional_attributes></element><element><id>Relation</id><coordinates><x>1430</x><y>938</y><w>380</w><h>800</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>352;10;350;770;10;772</additional_attributes></element><element><id>Relation</id><coordinates><x>1430</x><y>1168</y><w>710</w><h>630</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>682;10;680;610;10;602</additional_attributes></element><element><id>Relation</id><coordinates><x>402</x><y>730</y><w>110</w><h>50</h></coordinates><panel_attributes>lt=-
 
-</panel_attributes><additional_attributes>10;20;90;20</additional_attributes></element><element><id>Relation</id><coordinates><x>829</x><y>623</y><w>270</w><h>50</h></coordinates><panel_attributes>lt=-
+</panel_attributes><additional_attributes>10;20;90;30</additional_attributes></element><element><id>Relation</id><coordinates><x>969</x><y>683</y><w>80</w><h>50</h></coordinates><panel_attributes>lt=-
 
-</panel_attributes><additional_attributes>10;27;243;21</additional_attributes></element><element><id>Relation</id><coordinates><x>1509</x><y>693</y><w>90</w><h>60</h></coordinates><panel_attributes>lt=-
+</panel_attributes><additional_attributes>10;27;53;21</additional_attributes></element><element><id>Relation</id><coordinates><x>1509</x><y>693</y><w>70</w><h>50</h></coordinates><panel_attributes>lt=-
 
-</panel_attributes><additional_attributes>10;31;63;17</additional_attributes></element><element><id>Relation</id><coordinates><x>1509</x><y>843</y><w>660</w><h>440</h></coordinates><panel_attributes>lt=-
+</panel_attributes><additional_attributes>10;21;43;17</additional_attributes></element><element><id>Relation</id><coordinates><x>1509</x><y>1073</y><w>440</w><h>50</h></coordinates><panel_attributes>lt=-
 
-</panel_attributes><additional_attributes>10;411;640;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1259</x><y>313</y><w>30</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>2469</x><y>1143</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>2469</x><y>833</y><w>30</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>2469</x><y>643</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>2469</x><y>343</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>2642</x><y>502</y><w>150</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;130;10</additional_attributes></element><element><id>Relation</id><coordinates><x>2902</x><y>650</y><w>30</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;120</additional_attributes></element><element><id>Relation</id><coordinates><x>2642</x><y>852</y><w>170</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;50;150;10</additional_attributes></element><element><id>Relation</id><coordinates><x>2472</x><y>12</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>Relation</id><coordinates><x>1272</x><y>2</y><w>1160</w><h>150</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>1140;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>1432</x><y>52</y><w>910</w><h>200</h></coordinates><panel_attributes>lt=-
-</panel_attributes><additional_attributes>10;180;890;18</additional_attributes></element><element><id>UMLClass</id><coordinates><x>640</x><y>1107</y><w>370</w><h>220</h></coordinates><panel_attributes>escenaAyuda
+</panel_attributes><additional_attributes>10;21;413;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1259</x><y>283</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>2469</x><y>1143</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>2469</x><y>833</y><w>30</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>2469</x><y>633</y><w>40</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>11;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>2469</x><y>283</y><w>40</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;11;110</additional_attributes></element><element><id>Relation</id><coordinates><x>2682</x><y>492</y><w>110</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;18;90;20</additional_attributes></element><element><id>Relation</id><coordinates><x>2902</x><y>650</y><w>30</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;120</additional_attributes></element><element><id>Relation</id><coordinates><x>2642</x><y>892</y><w>170</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;150;10</additional_attributes></element><element><id>Relation</id><coordinates><x>2472</x><y>12</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>Relation</id><coordinates><x>1432</x><y>2</y><w>1000</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>980;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>1432</x><y>112</y><w>910</w><h>60</h></coordinates><panel_attributes>lt=-
+</panel_attributes><additional_attributes>10;40;890;18</additional_attributes></element><element><id>UMLClass</id><coordinates><x>610</x><y>1107</y><w>370</w><h>220</h></coordinates><panel_attributes>escenaAyuda
 --
 __init__(director)
 		plantillaEscena.Escena.__init__(self, director)
@@ -282,7 +287,7 @@ on_update()
 on_event(evento)
 on_draw(pantalla)
 redimensionarPantalla(x, y)
-vuelveJuego()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>1317</y><w>530</w><h>640</h></coordinates><panel_attributes>escenaConfig
+vuelveJuego()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>1337</y><w>530</w><h>640</h></coordinates><panel_attributes>escenaConfig
 --
 __init__(director)
         plantillaEscena.Escena.__init__(director)
@@ -322,12 +327,13 @@ on_draw(pantalla)
 registrat()
 definirViento()
 restablecer()
-cambiarEscena()
-compruebaValores()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>636</x><y>1755</y><w>320</w><h>100</h></coordinates><panel_attributes>cajaTexto
+cambiarEscenaHome()
+compruebaValores()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>656</x><y>1815</y><w>370</w><h>100</h></coordinates><panel_attributes>cajaTexto
 --
 __init__(pantalla, texto, posX, posY, imagenBoton, x, y)
+  Boton.__init__(self,pantalla, texto, posX, posY,imagenBoton, x,y)
   self.flag = False
-  self.texto = " "</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2330</x><y>60</y><w>330</w><h>290</h></coordinates><panel_attributes>Juego
+  self.texto = " "</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2330</x><y>60</y><w>330</w><h>230</h></coordinates><panel_attributes>Juego
 --
 __init__(cantidadJugadores, cantidadPartidas):
   self.cantidadJugadores=cantidadJugadores
@@ -336,12 +342,9 @@ __init__(cantidadJugadores, cantidadPartidas):
   self.listaPartidas=[]
   self.jugadorGanador=None
   self.juegoTerminado=False
-  self.aceleracionVertical=10
-  self.aceleracionHorizontal=0
 
 agregarJugador(i,pantalla,imagenTanqueAleatoria,nombre)
 registroJugadores(director,nombre)
 agregarPartida(i,director)
 registroPartida(director)
-definirGanador()
-redefinirGravedad()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>170</x><y>990</y><w>50</w><h>350</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;30;330</additional_attributes></element><element><id>Relation</id><coordinates><x>1000</x><y>1110</y><w>90</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>70;10;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>1570</y><w>270</w><h>200</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;250;180</additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>1060</y><w>280</w><h>710</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;260;690</additional_attributes></element></diagram>
+definirGanador()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>170</x><y>990</y><w>30</w><h>370</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;350</additional_attributes></element><element><id>Relation</id><coordinates><x>970</x><y>1210</y><w>80</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>60;14;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>1840</y><w>160</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;136;10</additional_attributes></element><element><id>Relation</id><coordinates><x>570</x><y>1060</y><w>290</w><h>770</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;620;270;620;266;750</additional_attributes></element></diagram>

@@ -14,9 +14,6 @@ class Juego:
         self.listaPartidas = []
         self.jugadorGanador = None
         self.juegoTerminado = False
-        self.aceleracionVertical = 10
-        self.aceleracionHorizontal = 0
-        self.redefinirGravedad()
 
     """Requisito 4: Se adapta para esta unidad de modo que al invocar la funcion agregarJugador, se 
     pasa el booleano de acuerdo al boton seleccionada al menu (es o no ia)."""
@@ -74,7 +71,3 @@ class Juego:
             contador += 1
         self.jugadorGanador = ganadorActual  # << se guarda en el atributo ganador
         self.juegoTerminado = True
-
-    def redefinirGravedad(self):
-        self.aceleracionVertical = random.randint(5,20)
-    
