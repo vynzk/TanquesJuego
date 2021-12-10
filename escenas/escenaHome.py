@@ -32,7 +32,8 @@ class EscenaHome(plantillaEscena.Escena):
         self.gravedad = 9.8
         self.viento_o_no = False
 
-        self.mostrarInformacionTerminal()
+        if(self.director.debug):
+            self.mostrarInformacionTerminal()
 
     def mostrarInformacionTerminal(self):
         print("INFORMACIÓN ACTUAL DE LA CONFIGURACIÓN")
@@ -56,11 +57,13 @@ class EscenaHome(plantillaEscena.Escena):
         if evento.type == pygame.MOUSEBUTTONDOWN:
             self.director.mousePos = pygame.mouse.get_pos()
             if self.director.checaBoton(self.director.mousePos, self.boton_play):
-                print('(escenaHome) PRESION BOTON: presionaste el boton play, te llevará a la escenaRegistro')
+                if(self.director.debug):
+                    print('(escenaHome) PRESION BOTON: presionaste el boton play, te llevará a la escenaRegistro')
                 self.cambiaDePartida()
             # verifica si el boton de configuración fue seleccionado
             if self.director.checaBoton(self.director.mousePos, self.boton_config): 
-                print('(escenaHome) PRESION BOTON: presionaste el boton de configuraciones, te llevará a escenaConfig')
+                if(self.director.debug):
+                    print('(escenaHome) PRESION BOTON: presionaste el boton de configuraciones, te llevará a escenaConfig')
                 self.cambiaConfiguracion() 
 
 
@@ -72,9 +75,9 @@ class EscenaHome(plantillaEscena.Escena):
         botonAjustes = pygame.image.load("imagenes/botones/botonAjustes.png")
         self.boton_play = Boton(pantalla, "play", self.director.ancho/2, self.director.alto/2, botonJugar, 127, 40)
         self.boton_play.dibujaBoton()
-        self.boton_config = Boton(pantalla, "configuracion", self.director.ancho/2, self.director.alto/2+50,botonAjustes,127,40)
+        self.boton_config = Boton(pantalla, "configuracion", self.director.ancho/2, self.director.alto/2+150,botonAjustes,127,40)
         self.boton_config.dibujaBoton()
-        self.textoEnPantalla("NORTHKROREA WARS SIMULATOR", 25, BLANCO, (self.director.ancho/4, 20),
+        self.textoEnPantalla("NORTHKROREA WARS SIMULATOR", 20, BLANCO, (self.director.ancho/2 -130, 20),
                              True)
 
     def cambiaDePartida(self):

@@ -19,6 +19,7 @@ class EscenaConfig(plantillaEscena.Escena):
         self.cajaDimensionY = CajaTexto(self.director.pantalla,"caja",150,250, cajaImagen, 60,40)
         self.cajaDimensionY_valor = 800
         self.cajaPerforante = CajaTexto(self.director.pantalla,"caja",self.director.ancho-380,150, cajaImagen, 40,40)
+        # cambiar stock balas
         self.cajaPerforante_valor = 10
         self.caja100mm = CajaTexto(self.director.pantalla,"caja",self.director.ancho-380,200, cajaImagen, 40,40)
         self.caja100mm_valor = 10
@@ -42,6 +43,15 @@ class EscenaConfig(plantillaEscena.Escena):
         self.p60mm= self.caja60mm_valor
         self.gravedad= self.cajaGravedad_valor
 
+        """
+        self.cajaDimensionY.texto = "800"
+        self.cajaDimensionX.texto = "800"
+        self.cajaPerforante.texto = "10"
+        self.caja100mm.texto= "10"
+        self.caja60mm.texto= "10"
+        self.cajaGravedad.texto= "9.8"
+        """
+
         #parametros que almacenan los efectos de entorno
         
         self.viento = 0
@@ -63,10 +73,12 @@ class EscenaConfig(plantillaEscena.Escena):
                 if self.compruebaValores():
                     self.registrar()
                     self.cambiarEscenaHome()
-                    print('(escenaConfig) PRESION BOTON: presionó el botón aplicado')
+                    if(self.director.debug):
+                        print('(escenaConfig) PRESION BOTON: presionó el botón aplicado')
             if self.director.checaBoton(self.director.mousePos, self.boton_restablecer):
                 self.restablecer()
-                print('(escenaConfig) PRESION BOTON: presionó restablecer predeterminado')
+                if(self.director.debug):
+                    print('(escenaConfig) PRESION BOTON: presionó restablecer predeterminado')
             if self.director.checaBoton(self.director.mousePos, self.boton_numJugadores):
                 if(self.numJugadores >= 6 or self.numJugadores <=1):
                     self.numJugadores = 2
@@ -77,6 +89,7 @@ class EscenaConfig(plantillaEscena.Escena):
                     self.redefinirViento()
                     self.afectosEntorno = 'si'
                 else:
+                    self.redefinirViento()
                     self.afectosEntorno = 'no'
             if self.director.checaBoton(self.director.mousePos, self.cajaDimensionX):
                 self.cajaDimensionY.flag = False
@@ -153,7 +166,7 @@ class EscenaConfig(plantillaEscena.Escena):
                         self.cajaPerforante.texto += event.unicode
                         self.cajaPerforante_valor = int(self.cajaPerforante.texto)
             except:
-                self.cajaDimensionY.texto = self.cajaDimensionY.texto[:-1]
+                self.cajaPerforante.texto = self.cajaDimensionY.texto[:-1]
         if self.caja100mm.flag:
             try:
                 if event.type == pygame.KEYDOWN:
@@ -270,7 +283,8 @@ class EscenaConfig(plantillaEscena.Escena):
 
         self.director.cambiarResolucion(self.dimensionPantalla[0],self.dimensionPantalla[1])
 
-        self.director.listaEscenas["escenaHome"].mostrarInformacionTerminal()
+        if(self.director.debug):
+            self.director.listaEscenas["escenaHome"].mostrarInformacionTerminal()
 
     def redefinirViento(self):
         if self.viento_o_no == False:
@@ -290,14 +304,7 @@ class EscenaConfig(plantillaEscena.Escena):
         self.indicarClima = "Desactivado"
 
         # valores predeterminados
-        self.numJugadores= 2
-        self.afectosEntorno = 'no'
-        self.cajaDimensionY.texto = "800"
-        self.cajaDimensionX.texto = "800"
-        self.cajaPerforante.texto = "10"
-        self.caja100mm.texto= "10"
-        self.caja60mm.texto= "10"
-        self.cajaGravedad.texto= "9.8"
+        
 
         self.cajaDimensionY_valor = 800
         self.cajaDimensionX_valor = 800

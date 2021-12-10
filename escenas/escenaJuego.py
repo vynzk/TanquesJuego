@@ -1,3 +1,4 @@
+from os import pipe
 import pygame
 import math
 import time
@@ -20,7 +21,7 @@ class EscenaJuego(plantillaEscena.Escena):
         self.director.listaEscenas["escenaJuego"]=self
         
         self.fondo = fondosLista[random.randint(0, len(fondosLista) - 1)]
-        self.fondo = pygame.transform.scale(self.fondo, (1280, 720))
+        self.fondo = pygame.transform.scale(self.fondo, (self.director.ancho,self.director.ancho))
         self.partidas = self.director.game.listaPartidas
         # para esta entrega hay solo una partida y 2 jugadores, por tanto:
         # la partida inicial será la primera partida (De momento es la única)
@@ -60,22 +61,27 @@ class EscenaJuego(plantillaEscena.Escena):
     def on_event(self, event):
         self.director.mousePos = pygame.mouse.get_pos()
         """Requisito 4: Se bloquea presionar botones por parte del usuario en turnos de IA (para evitar bugs)"""
-        if event.type == pygame.MOUSEBUTTONDOWN and self.jugadorActual.esIA is not True:
+        if event.type == pygame.MOUSEBUTTONDOWN:
             if self.director.checaBoton(self.director.mousePos, self.boton_salir):
-                print('(escenaJuego) PRESION BOTON: presionaste el boton salir')
+                if(self.director.debug):
+                    print('(escenaJuego) PRESION BOTON: presionaste el boton salir')
                 self.director.running = False  # rompe el ciclo gameLoop y sale del juego
             if self.director.checaBoton(self.director.mousePos, self.boton_reiniciar):
-                print('(escenaJuego) PRESION BOTON: presionaste el boton reiniciar, se reiniciará la partida, te llevará de vuelta a escenaHome')
+                if(self.director.debug):
+                    print('(escenaJuego) PRESION BOTON: presionaste el boton reiniciar, se reiniciará la partida, te llevará de vuelta a escenaHome')
                 self.cambiarEscenaHome()
                 # self.reiniciarPartida()
             if self.director.checaBoton(self.director.mousePos, self.boton_cambioArmas):
-                print('(escenaJuego) PRESION BOTON: presionaste el boton Balas, te llevará a la escenaCambioArmas')
+                if(self.director.debug):
+                    print('(escenaJuego) PRESION BOTON: presionaste el boton Balas, te llevará a la escenaCambioArmas')
                 self.cambiarEscenaArmas()
             if self.director.checaBoton(self.director.mousePos, self.boton_ayuda):
-                print('(escenaJuego) PRESION BOTON: presionaste el boton ayuda, te llevará a escenaAyudas')
+                if(self.director.debug):
+                    print('(escenaJuego) PRESION BOTON: presionaste el boton ayuda, te llevará a escenaAyudas')
                 self.cambiarEscenaAyuda()
             if self.director.checaBoton(self.director.mousePos, self.boton_creditos):
-                print('(escenaJuego) PRESIONA BOTON: presionaste el boton creditos, te llevará a escenaCreditos ')
+                if(self.director.debug):
+                    print('(escenaJuego) PRESIONA BOTON: presionaste el boton creditos, te llevará a escenaCreditos ')
                 self.cambiarEscenaCreditos()
 
         if event.type == pygame.KEYDOWN and self.flag is False:
@@ -117,15 +123,18 @@ class EscenaJuego(plantillaEscena.Escena):
                 if self.flag:
                     # si al comenzar un turno, ningun jugador tiene balas, empatan
                     if self.empate() is True:
-                        self.textoEnPantalla("EMPATE POR NO TENER BALAS", 30, BLANCO, (400, 300), True)
-                        print('JUEGO: Los jugadores no poseen balas para terminar el juego, EMPATE!')
+                        self.textoEnPantalla("EMPATE POR NO TENER BALAS", 30, BLANCO, (self.director.ancho/2 -200,self.director.alto/2), True)
+                        if(self.director.debug):
+                            print('JUEGO: Los jugadores no poseen balas para terminar el juego, EMPATE!')
                         time.sleep(5)
                         self.director.running = False
                     if self.trayectoria == []:
                         if(self.jugadorActual.esIA is True):
-                            print(f'\n(escenaJuego) ACCION: Tanque del jugador {self.jugadorActual.nombre} disparó automaticacamente')
+                            if(self.director.debug):
+                                print(f'\n(escenaJuego) ACCION: Tanque del jugador {self.jugadorActual.nombre} disparó automaticacamente')
                         else:
-                            print(f'\n(escenaJuego) ACCION: Tanque del jugador {self.jugadorActual.nombre} disparó manualmente')
+                            if(self.director.debug):
+                                print(f'\n(escenaJuego) ACCION: Tanque del jugador {self.jugadorActual.nombre} disparó manualmente')
                         self.efectuarDisparo()
                     else:
                         if self.contador < len(self.trayectoria):
@@ -144,19 +153,19 @@ class EscenaJuego(plantillaEscena.Escena):
                 """ si no empatan es porque existe ganador de la partida, por ende, también lo habrá
                 del juego (se construyó con la visión de que el juego podría tener múltiples partidas)"""
                 if self.partidaActual.jugadorGanador is not None:
-                    self.textoEnPantalla(f'FIN DE PARTIDA, GANADOR: {self.partidaActual.jugadorGanador.nombre}', 30,
+                    self.textoEnPantalla(f'FIN DE PARTIDA, GANADOR: {self.partidaActual.jugadorGanador.nombre}', 20,
                                          BLANCO,
-                                         (400, 200), True)
+                                         (self.director.ancho/2 -150,self.director.alto/2), True)
                     self.director.game.definirGanador()  # << invocamos que defina un ganador del juego
-                    self.textoEnPantalla(f'FIN DEL JUEGO, GANADOR: {self.director.game.jugadorGanador.nombre}', 30, BLANCO,
-                                 (400, 300), True)
-                    time.sleep(2)
+                    self.textoEnPantalla(f'FIN DEL JUEGO, GANADOR: {self.director.game.jugadorGanador.nombre}', 20, BLANCO,
+                                 (self.director.ancho/2 -150,self.director.alto/2+50), True)
+                    time.sleep(5)
                 else:  # si es none es porque hubo empate
-                    self.textoEnPantalla(f'EMPATE POR CANTIDAD DE DESTRUIDOS', 30,
+                    self.textoEnPantalla(f'EMPATE POR CANTIDAD DE DESTRUIDOS', 20,
                                          BLANCO,
-                                         (400, 200), True)
-                    self.textoEnPantalla(f'Ganador Juego: Ninguno debido empate',30,BLANCO,(self.director.ancho/2,self.director.alto/2),True)
-                    time.sleep(2)
+                                         (self.director.ancho/2 -200,self.director.ancho/2-200), True)
+                    self.textoEnPantalla(f'Ganador Juego: Ninguno debido empate',20,BLANCO,(self.director.ancho/2-300,self.director.alto/2),True)
+                    time.sleep(5)
                     self.director.game.juegoTerminado=True
         else:
             self.director.running = False  # rompe el gameloop para terminar el juego
@@ -202,16 +211,19 @@ class EscenaJuego(plantillaEscena.Escena):
 
             if jugadorImpactado is not None:  # si impacta con un tanque, se detiene la parabola (bala)
                 self.jugadorImpactado = jugadorImpactado
-                print(f'        (escenaJuego) IMPACTO: la bala impactó al tanque del jugador {self.jugadorImpactado.nombre} quitandole {self.jugadorActual.tanque.proyectilActual.daño}')
+                if(self.director.debug):
+                    print(f'        (escenaJuego) IMPACTO: la bala impactó al tanque del jugador {self.jugadorImpactado.nombre} quitandole {self.jugadorActual.tanque.proyectilActual.daño}')
                 break
 
             elif self.colisionTierra(xDisparo, yDisparo):
-                print(f'        (escenaJuego) IMPACTO: la bala impactó un bloque de tierra')
+                if(self.director.debug):
+                    print(f'        (escenaJuego) IMPACTO: la bala impactó un bloque de tierra')
                 self.bloqueImpactado = bloqueImpactado
                 break
 
             elif self.tocaBordes(xDisparo, yDisparo):  # si impacta con un borde, se detiene la parabola (bala)
-                print(f'        (escenaJuego) IMPACTO: la bala impactó un limite de mapa')
+                if(self.director.debug):
+                    print(f'        (escenaJuego) IMPACTO: la bala impactó un limite de mapa')
                 break
 
     """
@@ -233,14 +245,15 @@ class EscenaJuego(plantillaEscena.Escena):
             #en el caso de que se activaran los efectos de entorno, se revaloriza el clima por cada ronda
             if self.director.listaEscenas["escenaHome"].viento_o_no == True:
                 self.aceleracionHorizontal = random.randint(-10, 10)
-            self.textoEnPantalla("SE HA COMPLETADO UNA RONDA DE TURNOS", 30, BLANCO, (280, 300), True)
-            print("- - - - - - - - - - - - ")  # << debug terminal
+            self.textoEnPantalla("SE HA COMPLETADO UNA RONDA DE TURNOS", 20, BLANCO, (self.director.ancho/2 - 200,self.director.alto/2), True)
+            if(self.director.debug):
+                print("- - - - - - - - - - - - ")  # << debug terminal
             time.sleep(2)
             # se reinicia la particion de cada jugador activo en la partida a False
             for jugador in self.partidaActual.jugadoresActivos:
                 jugador.participoTurno = False
         else:
-            self.textoEnPantalla("CAMBIO DE TURNO", 30, BLANCO, (500, 300), True)
+            self.textoEnPantalla("CAMBIO DE TURNO", 20, BLANCO, (self.director.ancho/2 -200, self.director.alto/2), True)
             # elige un jugador que no ha participado para cederle el turno
             self.jugadorActual = random.choice(jugadoresSinParticipar)
 
@@ -255,7 +268,11 @@ class EscenaJuego(plantillaEscena.Escena):
 
     # verifica si un borde del mapa fue impactado, si lo fue retorna true, en caso contrario false
     def tocaBordes(self, xDisparo, yDisparo):
-        if xDisparo >= self.director.ancho or yDisparo >= self.director.alto-120 or xDisparo <= 0 or yDisparo <= 0:
+        """
+        Antes, para que toque el borde superior y explote: yDisparo <=0 
+        Ahora, si quieres aumentar el "techo", y<=-200 o otra cifra
+        """
+        if xDisparo >= self.director.ancho or yDisparo >= self.director.alto-120 or xDisparo <= 0 or yDisparo <= -200:
             return True  # sale del rango
         return False  # dentro del rango
 
@@ -338,7 +355,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
         """ Requisito 2 y 4: Si el jugador del turno es una IA, se muestra un robot en la barra inferior"""
         if self.jugadorActual.esIA is True:
-            self.mostrarImagenEnPos("imagenes/IA.png", (50, 50), (1000, 640))
+            self.mostrarImagenEnPos("imagenes/IA.png", (50, 50), (self.director.ancho-200, self.director.alto-100))
 
 
         self.textoEnPantalla(f'Desplazamiento maximo: {self.xMaxDisparo} [cm]', 15, BLANCO, (150, self.director.alto-75), False)
@@ -383,11 +400,12 @@ class EscenaJuego(plantillaEscena.Escena):
                 return bloque
         return None
 
-    def buscarTanque(self, x, y):
+    def buscarJugador(self, x, y):
         for jugador in self.partidaActual.jugadoresActivos:
             if jugador.tanque.bloque.x == x and jugador.tanque.bloque.y == y:
-                return jugador.tanque.bloque
+                return jugador
         return None
+
 
     def destruir(self, bloque):
         # si existe dentro de la lista de bloques
@@ -406,12 +424,13 @@ class EscenaJuego(plantillaEscena.Escena):
                 else:
                     break
 
-            bloqueTanque = self.buscarTanque(bloque.x, bloque.y - altura)
+            jugadorImpactado = self.buscarJugador(bloque.x, bloque.y-altura)
             # si arriba del último bloque de tierra existe un tanque
-            if bloqueTanque is not None:
-                print('        (escenaJuego) CAIDA: tanque cae un bloque por gravedad de bloques')
-                print(f'           (DEBUG) posTanque: ({bloqueTanque.x},{bloqueTanque.y})')
-                listaColumna.append(bloqueTanque)
+            if jugadorImpactado is not None:
+                if(self.director.debug):  
+                    print('        (escenaJuego) CAIDA: tanque cae un bloque por gravedad de bloques')
+                listaColumna.append(jugadorImpactado.tanque.bloque)
+                
 
 
             """
@@ -419,13 +438,33 @@ class EscenaJuego(plantillaEscena.Escena):
             del que esta abajo, así sucesivamente hasta llegar que el bloque superior al bloque 
             impactado ocupe su posición
             """
-            listaColumna.reverse()
+            listaColumna.reverse()    
+
             for i in range(0, len(listaColumna) - 1):
                 listaColumna[i].y = listaColumna[i + 1].y
 
+            
+            # si el jugador impactado existe
+            if jugadorImpactado is not None:
+                #cantidadBloquesCaida=len(listaColumna)-1 # cant bloques que cae (no se cuenta a si mismo)
+                # cambiar daño caida
+                danoCaida=10
+                if(jugadorImpactado.tanque.vida<=danoCaida):
+                    if(self.jugadorActual != jugadorImpactado): # si no es un suicido
+                        self.jugadorActual.oponentesDestruidos+=1 # suma una win
+                    if(self.director.debug):
+                        print(f'        (danoCaida) El jugador {jugadorImpactado.nombre} cayó 1 bloque, dañandosé {danoCaida} lo que lo destruye')
+                    self.partidaActual.eliminarJugador(jugadorImpactado) # elimina el jugador
+                else: # si es mayor, sobrevive
+                    jugadorImpactado.tanque.vida-=danoCaida
+                    if(self.director.debug):
+                        print(f'        (danoCaida) El jugador {jugadorImpactado.nombre} cayó 1 bloque, dañandosé {danoCaida}')
+            
+
     """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""
-    def danoColateralTanque(self,posX,posY,danoArma):
-        danoColateral=danoArma/2
+    def danoColateralTanque(self,posX,posY):
+        danoArmaEquipada=self.jugadorActual.tanque.proyectilActual.daño
+        danoColateral=danoArmaEquipada/2
         for jugador in self.partidaActual.jugadoresActivos:
             tanqueJugador=jugador.tanque
             bloqueTanqueJugador=jugador.tanque.bloque
@@ -433,15 +472,18 @@ class EscenaJuego(plantillaEscena.Escena):
             if(bloqueTanqueJugador.x==posX and bloqueTanqueJugador.y==posY):
                 # si el dano mata al tanque
                 if danoColateral>=tanqueJugador.vida:
-                    print(f'        (escenaJuego) DAÑO COLATERAL: a causa del impacto, el jugador {jugador.nombre} murió (le quitó {danoColateral})')
+                    if(self.director.debug):
+                        print(f'        (escenaJuego) DAÑO COLATERAL: a causa del impacto, el jugador {jugador.nombre} murió (le quitó {danoColateral})')
                     """ Requisito 3 U3: Si se suicida, no cuenta como oponente destruido"""
                     if(self.jugadorActual is not jugador):
                         self.jugadorActual.oponentesDestruidos+=1
                     self.partidaActual.eliminarJugador(jugador) # lo elimina
                 # si el dano no quita toda la vida del tanque
                 else:
-                    print(f'        (escenaJuego) DAÑO COLATERAL: a causa del impacto, el tanque del jugador {jugador.nombre} sufrio daño de {danoColateral}')
+                    if(self.director.debug):
+                        print(f'        (escenaJuego) DAÑO COLATERAL: a causa del impacto, el tanque del jugador {jugador.nombre} sufrio daño de {danoColateral}')
                     tanqueJugador.vida-=danoColateral
+                    return True
                 
 
     def destruirZonaImpacto(self, bloqueImpactado, nombreArma):
@@ -456,48 +498,57 @@ class EscenaJuego(plantillaEscena.Escena):
                                     (self.bloqueImpactado.x - 40, self.bloqueImpactado.y))
             self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
                                     (self.bloqueImpactado.x + 40, self.bloqueImpactado.y))
+            
             # pygame.display.update()
-            # time.sleep(3) #<-- debug para notar con mas claridad la gravedad
+            #time.sleep(3) # mostrar gravedad bloques
             bloqueIzquierda = self.buscarBloque(bloqueImpactado.x - 40, bloqueImpactado.y)
             bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, bloqueImpactado.y)
             
             """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""
-            self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y,40)
-            self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y,40)
+            self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y)
+            self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y)
             # destrucción de los bloques
             self.destruir(bloqueIzquierda)
             self.destruir(bloqueDerecha)
 
         if nombreArma == "Proyectil 105":
             ejeY = self.bloqueImpactado.y - 40
+
+            """ dano colateral, no puede estar dentro del ciclo while
+            dado que, primero debe ver la zona de daño colateral y después
+            se van viendo cómo los bloques caen"""
+            self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y) #1
+            self.danoColateralTanque(bloqueImpactado.x,bloqueImpactado.y) #2
+            self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y) #3
+            
+            self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y-40)
+            self.danoColateralTanque(bloqueImpactado.x,bloqueImpactado.y-40)
+            self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y-40)
+
+            self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y+40)
+            self.danoColateralTanque(bloqueImpactado.x,bloqueImpactado.y+40)
+            self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y+40)
+            
             while ejeY < self.bloqueImpactado.y + 80:
                 self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
                                         (self.bloqueImpactado.x - 40, ejeY))
                 self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40), (self.bloqueImpactado.x, ejeY))
                 self.mostrarImagenEnPos("imagenes/bloque/fondoExplosion.png", (40, 40),
                                         (self.bloqueImpactado.x + 40, ejeY))
+
+                #time.sleep(3) # mostrar gravedad bloques
                 # pygame.display.update()
-                # time.sleep(3) #<-- debug para notar con mas claridad la gravedad
+                
                 bloqueIzquierda = self.buscarBloque(bloqueImpactado.x - 40, ejeY)
                 bloqueCentral = self.buscarBloque(bloqueImpactado.x, ejeY)
                 bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, ejeY)
                 """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""
-                self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y,50)
-                """Ajuste para no causar daño demás al objeto impactado, recordar que:
-                C C C
-                C I C
-                C C C
                 
-                C: dano colateral
-                I: dano impactado <-- no debe quitar daño colateral, sólo dano impacto
-                """
-                if(ejeY!=bloqueImpactado.y):
-                    self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y,50)
-                self.danoColateralTanque(bloqueImpactado.x,bloqueImpactado.y,50)
 
                 self.destruir(bloqueIzquierda)
                 self.destruir(bloqueCentral)
                 self.destruir(bloqueDerecha)
+
                 ejeY += 40
 
         pygame.time.wait(400)  # <-- necesario para que se vean las graficas
@@ -533,7 +584,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
         
         self.director.listaEscenas["escenaHome"].viento = 0
-        self.director.listaEscenas["escenaHome"].gravedad = 10
+        self.director.listaEscenas["escenaHome"].gravedad = 9.8
         self.director.listaEscenas["escenaHome"].viento_o_no = False
         #hacer
 
@@ -592,8 +643,9 @@ class EscenaJuego(plantillaEscena.Escena):
             if jugador.tanque.bloque.y == self.director.alto-160:
                 self.mostrarImagenEnPos("imagenes/bloque/flama.png", (40, 40),
                                         (jugador.tanque.bloque.x, jugador.tanque.bloque.y))
-                self.textoEnPantalla("EL PISO ES LAVA", 30, ROJO, (500, 300), True)
-                print(f'(escenaJuego) JUEGO: Tanque de jugador {jugador.nombre} se destruyó por la lava')
+                self.textoEnPantalla("EL PISO ES LAVA", 20, ROJO, (self.director.ancho/2, self.director.alto/2 -100), True)
+                if(self.director.debug):
+                    print(f'(escenaJuego) JUEGO: Tanque de jugador {jugador.nombre} se destruyó por la lava')
                 self.partidaActual.eliminarJugador(jugador)
 
     """

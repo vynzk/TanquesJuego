@@ -36,10 +36,12 @@ class Partida:
     def terminar(self, listaJugadores):
         empate = False
         ganadorActual = None
-        print(f'\n---------------\n--> OPONENTES DESTRUIDO PARTIDA {self.id} <--')
+        if(self.director.debug):
+            print(f'\n---------------\n--> OPONENTES DESTRUIDO PARTIDA {self.id} <--')
         # se recorre la lista de jugadores, contando sus oponentes destruidos
         for jugador in listaJugadores:
-            print(f'jugador: {jugador.nombre} ==> op dest: { jugador.oponentesDestruidos}')
+            if(self.director.debug):
+                print(f'jugador: {jugador.nombre} ==> op dest: { jugador.oponentesDestruidos}')
             if ganadorActual is None:
                 ganadorActual = jugador
             else:
@@ -88,16 +90,22 @@ class Partida:
         c2<--->c6<--->c10<--->c14<--->c18 <---> c22
         (j1)  (j2)    (j3)   (j4)     (j5)     (j6)
         """
+        # posicion aleatoria
         cantidadColumnas=self.director.ancho/40
         cantidadJugadores=len(self.jugadoresActivos)
         columnasSeparacion=int((cantidadColumnas-cantidadJugadores)/(cantidadJugadores-1))
+        
         margenAleatorio=(cantidadColumnas-cantidadJugadores)%(cantidadJugadores-1)
         separacion=0
         contador=0
         while(contador<len(self.jugadoresActivos)):
               # para el primer jugador
               if(contador==0):
-                columnaAleatoria=random.randint(0,margenAleatorio)
+                if(cantidadJugadores!=2):
+                    columnaAleatoria=random.randint(0,margenAleatorio)
+                else:
+                    limite=int(cantidadColumnas/2-1)
+                    columnaAleatoria=random.randint(0,limite)
                 # debug
                 #print(f'Margen aleatorio: 0-{margenAleatorio}') # < debug aleatoridad
                 #print(f'columnas separacion: {columnasSeparacion}') # < debug aleatoridad
@@ -106,7 +114,10 @@ class Partida:
                 posAleatoria=self.mapa.posPosiblesJug[columnaAleatoria]
                 self.jugadoresActivos[contador].tanque.construirBloques(posAleatoria[0],posAleatoria[1])
               else:
-                separacion+=columnasSeparacion+1
+                if(cantidadJugadores!=2):
+                    separacion+=columnasSeparacion+1
+                else:
+                    separacion+=(columnasSeparacion+1)-limite
                 #print(f'contador {contador} => col al: {columnaAleatoria+separacion+1}') # < debug aleatoridad
                 posAleatoria=self.mapa.posPosiblesJug[columnaAleatoria+separacion]
                 self.jugadoresActivos[contador].tanque.construirBloques(posAleatoria[0],posAleatoria[1])
@@ -115,6 +126,13 @@ class Partida:
 
     def equiparArmasIniciales(self, municionPerforante, municion105, municion60):
         for jugador in self.jugadoresActivos:
+            """
+            cambiar daño armas
+            en este orden:
+            50
+            40
+            30
+            """
             proyectil105 = Proyectil("Proyectil 105", municion105, 50, "imagenes/armas/proyectil105.png", ROJO)
             proyectilPerforante = Proyectil("Proyectil Perforante", municionPerforante, 40, "imagenes/armas/proyectilPerforante.png",
                                             NARANJA)

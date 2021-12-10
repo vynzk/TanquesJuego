@@ -36,12 +36,14 @@ class Mapa:
                     contador+=1
                 elif caso==1:
                     listaVariante.append(-1)
-                    caso=2
+                    caso=0
                     contador+=1
+                """
                 elif caso==2:
                     listaVariante.append(0)
                     caso=0
                     contador+=1
+                """
         elif(variante==2):
             while(contador<cantColumnas//3):
                 if caso==0:
@@ -50,12 +52,14 @@ class Mapa:
                     contador+=1
                 elif caso==1:
                     listaVariante.append(1)
-                    caso=2
+                    caso=0
                     contador+=1
+                """
                 elif caso==2:
                     listaVariante.append(0)
                     caso=0
                     contador+=1
+                """
         elif(variante==3):
             while(contador<cantColumnas//3):
                 if caso==0:
