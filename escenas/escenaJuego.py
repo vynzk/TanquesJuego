@@ -447,6 +447,7 @@ class EscenaJuego(plantillaEscena.Escena):
             # si el jugador impactado existe
             if jugadorImpactado is not None:
                 #cantidadBloquesCaida=len(listaColumna)-1 # cant bloques que cae (no se cuenta a si mismo)
+                # cambiar daño caida
                 danoCaida=10
                 if(jugadorImpactado.tanque.vida<=danoCaida):
                     if(self.jugadorActual != jugadorImpactado): # si no es un suicido
@@ -461,8 +462,9 @@ class EscenaJuego(plantillaEscena.Escena):
             
 
     """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""
-    def danoColateralTanque(self,posX,posY,danoArma):
-        danoColateral=danoArma/2
+    def danoColateralTanque(self,posX,posY):
+        danoArmaEquipada=self.jugadorActual.tanque.proyectilActual.daño
+        danoColateral=danoArmaEquipada/2
         for jugador in self.partidaActual.jugadoresActivos:
             tanqueJugador=jugador.tanque
             bloqueTanqueJugador=jugador.tanque.bloque
@@ -501,8 +503,8 @@ class EscenaJuego(plantillaEscena.Escena):
             bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, bloqueImpactado.y)
             
             """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""
-            self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y,40)
-            self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y,40)
+            self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y)
+            self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y)
             # destrucción de los bloques
             self.destruir(bloqueIzquierda)
             self.destruir(bloqueDerecha)
@@ -521,7 +523,7 @@ class EscenaJuego(plantillaEscena.Escena):
                 bloqueCentral = self.buscarBloque(bloqueImpactado.x, ejeY)
                 bloqueDerecha = self.buscarBloque(bloqueImpactado.x + 40, ejeY)
                 """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""
-                self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y,50)
+                self.danoColateralTanque(bloqueImpactado.x - 40,bloqueImpactado.y)
                 """Ajuste para no causar daño demás al objeto impactado, recordar que:
                 C C C
                 C I C
@@ -531,8 +533,8 @@ class EscenaJuego(plantillaEscena.Escena):
                 I: dano impactado <-- no debe quitar daño colateral, sólo dano impacto
                 """
                 if(ejeY!=bloqueImpactado.y):
-                    self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y,50)
-                self.danoColateralTanque(bloqueImpactado.x,bloqueImpactado.y,50)
+                    self.danoColateralTanque(bloqueImpactado.x+40,bloqueImpactado.y)
+                self.danoColateralTanque(bloqueImpactado.x,bloqueImpactado.y)
 
                 self.destruir(bloqueIzquierda)
                 self.destruir(bloqueCentral)
