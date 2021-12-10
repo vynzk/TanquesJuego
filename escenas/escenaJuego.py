@@ -155,17 +155,17 @@ class EscenaJuego(plantillaEscena.Escena):
                 if self.partidaActual.jugadorGanador is not None:
                     self.textoEnPantalla(f'FIN DE PARTIDA, GANADOR: {self.partidaActual.jugadorGanador.nombre}', 20,
                                          BLANCO,
-                                         (self.director.ancho/2 -150,self.director.alto/2-300), True)
+                                         (self.director.ancho/2 -150,self.director.alto/2), True)
                     self.director.game.definirGanador()  # << invocamos que defina un ganador del juego
                     self.textoEnPantalla(f'FIN DEL JUEGO, GANADOR: {self.director.game.jugadorGanador.nombre}', 20, BLANCO,
-                                 (self.director.ancho/2 -200,self.director.alto/2-200), True)
-                    time.sleep(2)
+                                 (self.director.ancho/2 -150,self.director.alto/2+50), True)
+                    time.sleep(5)
                 else:  # si es none es porque hubo empate
                     self.textoEnPantalla(f'EMPATE POR CANTIDAD DE DESTRUIDOS', 20,
                                          BLANCO,
                                          (self.director.ancho/2 -200,self.director.ancho/2-200), True)
                     self.textoEnPantalla(f'Ganador Juego: Ninguno debido empate',20,BLANCO,(self.director.ancho/2-300,self.director.alto/2),True)
-                    time.sleep(2)
+                    time.sleep(5)
                     self.director.game.juegoTerminado=True
         else:
             self.director.running = False  # rompe el gameloop para terminar el juego
