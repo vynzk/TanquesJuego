@@ -93,18 +93,19 @@ class Partida:
         # posicion aleatoria
         cantidadColumnas=self.director.ancho/40
         cantidadJugadores=len(self.jugadoresActivos)
-        delta=random.randint(0,int(cantidadColumnas/2 -1))
-        if(cantidadJugadores != 2):
-            columnasSeparacion=int((cantidadColumnas-cantidadJugadores)/(cantidadJugadores-1))
-        else:
-            columnasSeparacion=int((cantidadColumnas-cantidadJugadores)/(cantidadJugadores-1))-delta
+        columnasSeparacion=int((cantidadColumnas-cantidadJugadores)/(cantidadJugadores-1))
+        
         margenAleatorio=(cantidadColumnas-cantidadJugadores)%(cantidadJugadores-1)
         separacion=0
         contador=0
         while(contador<len(self.jugadoresActivos)):
               # para el primer jugador
               if(contador==0):
-                columnaAleatoria=random.randint(0,margenAleatorio)
+                if(cantidadJugadores!=2):
+                    columnaAleatoria=random.randint(0,margenAleatorio)
+                else:
+                    limite=int(cantidadColumnas/2-1)
+                    columnaAleatoria=random.randint(0,limite)
                 # debug
                 #print(f'Margen aleatorio: 0-{margenAleatorio}') # < debug aleatoridad
                 #print(f'columnas separacion: {columnasSeparacion}') # < debug aleatoridad
@@ -113,7 +114,10 @@ class Partida:
                 posAleatoria=self.mapa.posPosiblesJug[columnaAleatoria]
                 self.jugadoresActivos[contador].tanque.construirBloques(posAleatoria[0],posAleatoria[1])
               else:
-                separacion+=columnasSeparacion+1
+                if(cantidadJugadores!=2):
+                    separacion+=columnasSeparacion+1
+                else:
+                    separacion+=(columnasSeparacion+1)-limite
                 #print(f'contador {contador} => col al: {columnaAleatoria+separacion+1}') # < debug aleatoridad
                 posAleatoria=self.mapa.posPosiblesJug[columnaAleatoria+separacion]
                 self.jugadoresActivos[contador].tanque.construirBloques(posAleatoria[0],posAleatoria[1])

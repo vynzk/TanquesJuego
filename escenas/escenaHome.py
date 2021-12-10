@@ -75,9 +75,9 @@ class EscenaHome(plantillaEscena.Escena):
         botonAjustes = pygame.image.load("imagenes/botones/botonAjustes.png")
         self.boton_play = Boton(pantalla, "play", self.director.ancho/2, self.director.alto/2, botonJugar, 127, 40)
         self.boton_play.dibujaBoton()
-        self.boton_config = Boton(pantalla, "configuracion", self.director.ancho/2, self.director.alto/2+50,botonAjustes,127,40)
+        self.boton_config = Boton(pantalla, "configuracion", self.director.ancho/2, self.director.alto/2+150,botonAjustes,127,40)
         self.boton_config.dibujaBoton()
-        self.textoEnPantalla("NORTHKROREA WARS SIMULATOR", 25, BLANCO, (self.director.ancho/4, 20),
+        self.textoEnPantalla("NORTHKROREA WARS SIMULATOR", 20, BLANCO, (self.director.ancho/2 -130, 20),
                              True)
 
     def cambiaDePartida(self):
