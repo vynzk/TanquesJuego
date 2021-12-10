@@ -123,7 +123,7 @@ class EscenaJuego(plantillaEscena.Escena):
                 if self.flag:
                     # si al comenzar un turno, ningun jugador tiene balas, empatan
                     if self.empate() is True:
-                        self.textoEnPantalla("EMPATE POR NO TENER BALAS", 30, BLANCO, (400, 300), True)
+                        self.textoEnPantalla("EMPATE POR NO TENER BALAS", 30, BLANCO, (self.director.ancho/2 -200,self.director.alto/2), True)
                         if(self.director.debug):
                             print('JUEGO: Los jugadores no poseen balas para terminar el juego, EMPATE!')
                         time.sleep(5)
@@ -153,18 +153,18 @@ class EscenaJuego(plantillaEscena.Escena):
                 """ si no empatan es porque existe ganador de la partida, por ende, también lo habrá
                 del juego (se construyó con la visión de que el juego podría tener múltiples partidas)"""
                 if self.partidaActual.jugadorGanador is not None:
-                    self.textoEnPantalla(f'FIN DE PARTIDA, GANADOR: {self.partidaActual.jugadorGanador.nombre}', 30,
+                    self.textoEnPantalla(f'FIN DE PARTIDA, GANADOR: {self.partidaActual.jugadorGanador.nombre}', 20,
                                          BLANCO,
-                                         (400, 200), True)
+                                         (self.director.ancho/2 -150,self.director.alto/2-300), True)
                     self.director.game.definirGanador()  # << invocamos que defina un ganador del juego
-                    self.textoEnPantalla(f'FIN DEL JUEGO, GANADOR: {self.director.game.jugadorGanador.nombre}', 30, BLANCO,
-                                 (400, 300), True)
+                    self.textoEnPantalla(f'FIN DEL JUEGO, GANADOR: {self.director.game.jugadorGanador.nombre}', 20, BLANCO,
+                                 (self.director.ancho/2 -200,self.director.alto/2-200), True)
                     time.sleep(2)
                 else:  # si es none es porque hubo empate
-                    self.textoEnPantalla(f'EMPATE POR CANTIDAD DE DESTRUIDOS', 30,
+                    self.textoEnPantalla(f'EMPATE POR CANTIDAD DE DESTRUIDOS', 20,
                                          BLANCO,
-                                         (400, 200), True)
-                    self.textoEnPantalla(f'Ganador Juego: Ninguno debido empate',30,BLANCO,(self.director.ancho/2,self.director.alto/2),True)
+                                         (self.director.ancho/2 -200,self.director.ancho/2-200), True)
+                    self.textoEnPantalla(f'Ganador Juego: Ninguno debido empate',20,BLANCO,(self.director.ancho/2-300,self.director.alto/2),True)
                     time.sleep(2)
                     self.director.game.juegoTerminado=True
         else:
@@ -245,7 +245,7 @@ class EscenaJuego(plantillaEscena.Escena):
             #en el caso de que se activaran los efectos de entorno, se revaloriza el clima por cada ronda
             if self.director.listaEscenas["escenaHome"].viento_o_no == True:
                 self.aceleracionHorizontal = random.randint(-10, 10)
-            self.textoEnPantalla("SE HA COMPLETADO UNA RONDA DE TURNOS", 30, BLANCO, (280, 300), True)
+            self.textoEnPantalla("SE HA COMPLETADO UNA RONDA DE TURNOS", 20, BLANCO, (self.director.ancho/2 - 200,self.director.alto/2), True)
             if(self.director.debug):
                 print("- - - - - - - - - - - - ")  # << debug terminal
             time.sleep(2)
@@ -253,7 +253,7 @@ class EscenaJuego(plantillaEscena.Escena):
             for jugador in self.partidaActual.jugadoresActivos:
                 jugador.participoTurno = False
         else:
-            self.textoEnPantalla("CAMBIO DE TURNO", 30, BLANCO, (500, 300), True)
+            self.textoEnPantalla("CAMBIO DE TURNO", 20, BLANCO, (self.director.ancho/2 -200, self.director.alto/2), True)
             # elige un jugador que no ha participado para cederle el turno
             self.jugadorActual = random.choice(jugadoresSinParticipar)
 
@@ -633,7 +633,7 @@ class EscenaJuego(plantillaEscena.Escena):
             if jugador.tanque.bloque.y == self.director.alto-160:
                 self.mostrarImagenEnPos("imagenes/bloque/flama.png", (40, 40),
                                         (jugador.tanque.bloque.x, jugador.tanque.bloque.y))
-                self.textoEnPantalla("EL PISO ES LAVA", 30, ROJO, (500, 300), True)
+                self.textoEnPantalla("EL PISO ES LAVA", 20, ROJO, (self.director.ancho/2, self.director.alto/2 -100), True)
                 if(self.director.debug):
                     print(f'(escenaJuego) JUEGO: Tanque de jugador {jugador.nombre} se destruyó por la lava')
                 self.partidaActual.eliminarJugador(jugador)

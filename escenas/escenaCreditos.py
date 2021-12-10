@@ -10,11 +10,11 @@ class EscenaCreditos(plantillaEscena.Escena):
         self.director.listaEscenas["escenaCreditos"]=self;
 
         self.boton_salir = None
-        self.fondo= pygame.image.load("imagenes/fondoCreditos.png")
+        self.fondo=  pygame.transform.scale(pygame.image.load("imagenes/fondoCreditos.png"),(self.director.ancho,self.director.alto))
         
 
     def on_update(self):
-        pygame.display.set_mode((1280, 720))
+        pygame.display.set_mode((self.director.ancho,self.director.alto))
         pygame.display.set_caption("Creditos")  # no cambies esto aun... es para debuggueo
         
 

@@ -117,7 +117,13 @@ class Partida:
 
     def equiparArmasIniciales(self, municionPerforante, municion105, municion60):
         for jugador in self.jugadoresActivos:
-            # cambiar daño armas
+            """
+            cambiar daño armas
+            en este orden:
+            50
+            40
+            30
+            """
             proyectil105 = Proyectil("Proyectil 105", municion105, 50, "imagenes/armas/proyectil105.png", ROJO)
             proyectilPerforante = Proyectil("Proyectil Perforante", municionPerforante, 40, "imagenes/armas/proyectilPerforante.png",
                                             NARANJA)
