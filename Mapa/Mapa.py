@@ -26,6 +26,7 @@ class Mapa:
 
         listaVariante=[]
         variante=random.randint(1,3)
+        #variante=3
         contador=0
         caso=0;
         if(variante==1):
@@ -36,12 +37,14 @@ class Mapa:
                     contador+=1
                 elif caso==1:
                     listaVariante.append(-1)
-                    caso=2
+                    caso=0
                     contador+=1
+                """
                 elif caso==2:
                     listaVariante.append(0)
                     caso=0
                     contador+=1
+                """
         elif(variante==2):
             while(contador<cantColumnas//3):
                 if caso==0:
@@ -50,12 +53,14 @@ class Mapa:
                     contador+=1
                 elif caso==1:
                     listaVariante.append(1)
-                    caso=2
+                    caso=0
                     contador+=1
+                """
                 elif caso==2:
                     listaVariante.append(0)
                     caso=0
                     contador+=1
+                """
         elif(variante==3):
             while(contador<cantColumnas//3):
                 if caso==0:
