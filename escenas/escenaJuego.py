@@ -428,7 +428,6 @@ class EscenaJuego(plantillaEscena.Escena):
             # si arriba del último bloque de tierra existe un tanque
             if jugadorImpactado is not None:
                 if(self.director.debug):  
-                    print("Jugador impactado:",jugadorImpactado.nombre)
                     print('        (escenaJuego) CAIDA: tanque cae un bloque por gravedad de bloques')
                 listaColumna.append(jugadorImpactado.tanque.bloque)
                 
@@ -447,18 +446,18 @@ class EscenaJuego(plantillaEscena.Escena):
             
             # si el jugador impactado existe
             if jugadorImpactado is not None:
-                cantidadBloquesCaida=len(listaColumna)-1 # cant bloques que cae (no se cuenta a si mismo)
-                danoCaida=cantidadBloquesCaida*10
+                #cantidadBloquesCaida=len(listaColumna)-1 # cant bloques que cae (no se cuenta a si mismo)
+                danoCaida=10
                 if(jugadorImpactado.tanque.vida<=danoCaida):
                     if(self.jugadorActual != jugadorImpactado): # si no es un suicido
                         self.jugadorActual.oponentesDestruidos+=1 # suma una win
                     if(self.director.debug):
-                        print(f'(danoCaida) El jugador {jugadorImpactado.nombre} cayó {cantidadBloquesCaida} bloques, dañandosé {danoCaida} lo que lo destruye')
+                        print(f'        (danoCaida) El jugador {jugadorImpactado.nombre} cayó 1 bloque, dañandosé {danoCaida} lo que lo destruye')
                     self.partidaActual.eliminarJugador(jugadorImpactado) # elimina el jugador
                 else: # si es mayor, sobrevive
                     jugadorImpactado.tanque.vida-=danoCaida
                     if(self.director.debug):
-                        print(f'(danoCaida) El jugador {jugadorImpactado.nombre} cayó {cantidadBloquesCaida} bloques, dañandosé {danoCaida}')
+                        print(f'        (danoCaida) El jugador {jugadorImpactado.nombre} cayó 1 bloque, dañandosé {danoCaida}')
             
 
     """ Requisito 1 U3: Dano colateral a los tanques cuando son impactados"""

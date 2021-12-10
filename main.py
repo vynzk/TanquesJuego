@@ -3,7 +3,7 @@ from escenas.escenaConfig import EscenaConfig
 from escenas.director import *
 
 def main():
-    debug = False
+    debug = True
     director = Director(800,800,debug)
     home = EscenaHome(director)  
     director.cambiarEscena(home)
