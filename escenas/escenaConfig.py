@@ -166,7 +166,7 @@ class EscenaConfig(plantillaEscena.Escena):
                         self.cajaPerforante.texto += event.unicode
                         self.cajaPerforante_valor = int(self.cajaPerforante.texto)
             except:
-                self.cajaPerforante.texto = self.cajaDimensionY.texto[:-1]
+                self.cajaPerforante.texto = self.cajaPerforante.texto[:-1]
         if self.caja100mm.flag:
             try:
                 if event.type == pygame.KEYDOWN:
