@@ -90,9 +90,14 @@ class Partida:
         c2<--->c6<--->c10<--->c14<--->c18 <---> c22
         (j1)  (j2)    (j3)   (j4)     (j5)     (j6)
         """
+        # posicion aleatoria
         cantidadColumnas=self.director.ancho/40
         cantidadJugadores=len(self.jugadoresActivos)
-        columnasSeparacion=int((cantidadColumnas-cantidadJugadores)/(cantidadJugadores-1))
+        delta=random.randint(0,int(cantidadColumnas/2 -1))
+        if(cantidadJugadores != 2):
+            columnasSeparacion=int((cantidadColumnas-cantidadJugadores)/(cantidadJugadores-1))
+        else:
+            columnasSeparacion=int((cantidadColumnas-cantidadJugadores)/(cantidadJugadores-1))-delta
         margenAleatorio=(cantidadColumnas-cantidadJugadores)%(cantidadJugadores-1)
         separacion=0
         contador=0
