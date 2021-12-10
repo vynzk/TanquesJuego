@@ -10,12 +10,12 @@ class EscenaCreditos(plantillaEscena.Escena):
         self.director.listaEscenas["escenaCreditos"]=self;
 
         self.boton_salir = None
-        self.fondo=  pygame.transform.scale(pygame.image.load("imagenes/fondoCreditos.png"),(self.director.ancho,self.director.alto))
+        self.fondo=  pygame.image.load("imagenes/fondoCreditos.png")
         
 
     def on_update(self):
-        pygame.display.set_mode((self.director.ancho,self.director.alto))
-        pygame.display.set_caption("Creditos")  # no cambies esto aun... es para debuggueo
+        pygame.display.set_mode((1280, 720))
+        pygame.display.set_caption("Creditos")
         
 
     def on_event(self, evento):
@@ -28,9 +28,10 @@ class EscenaCreditos(plantillaEscena.Escena):
     """Esta función corresponde a lo mostrado en pantalla: usada en director.py"""
 
     def on_draw(self, pantalla):
+
         pantalla.blit(self.fondo, (0,0))
         botonSalir= pygame.image.load("imagenes/botones/botonVolver.png")
-        self.boton_salir = Boton(pantalla, "volver", self.director.ancho/2 -50, self.director.alto/2+300,botonSalir,127,40)
+        self.boton_salir = Boton(pantalla, "volver", 1000, 620,botonSalir,127,40)
         self.boton_salir.dibujaBoton()
 
 
