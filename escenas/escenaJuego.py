@@ -355,7 +355,7 @@ class EscenaJuego(plantillaEscena.Escena):
 
         """ Requisito 2 y 4: Si el jugador del turno es una IA, se muestra un robot en la barra inferior"""
         if self.jugadorActual.esIA is True:
-            self.mostrarImagenEnPos("imagenes/IA.png", (50, 50), (1000, 640))
+            self.mostrarImagenEnPos("imagenes/IA.png", (50, 50), (self.director.ancho-200, self.director.alto-100))
 
 
         self.textoEnPantalla(f'Desplazamiento maximo: {self.xMaxDisparo} [cm]', 15, BLANCO, (150, self.director.alto-75), False)

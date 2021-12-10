@@ -26,7 +26,6 @@ class Mapa:
 
         listaVariante=[]
         variante=random.randint(1,3)
-        #variante=3
         contador=0
         caso=0;
         if(variante==1):
